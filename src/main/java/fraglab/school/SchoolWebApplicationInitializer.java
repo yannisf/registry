@@ -1,4 +1,4 @@
-package fraglab.school.school;
+package fraglab.school;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.DispatcherServlet;

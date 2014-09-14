@@ -1,6 +1,8 @@
 package fraglab.school.child;
 
-import fraglab.school.model.Child;
+import fraglab.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,8 @@ import java.util.List;
 
 @Service
 public class ChildServiceImpl implements ChildService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ChildServiceImpl.class);
 
     @Autowired
     ChildDao childDao;
@@ -18,18 +22,27 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public void delete(Long id) {
-        childDao.delete(id);
+    public void delete(Long id) throws NotFoundException {
+        Child child = fetch(id);
+        childDao.delete(child);
     }
 
     @Override
-    public void update(Child child) {
-        childDao.update(child);
+    public void update(Long id, Child child) throws NotFoundException {
+        fetch(id);
+        Child childCopy = child.copy();
+        childCopy.setId(id);
+        childDao.update(childCopy);
     }
 
     @Override
-    public Child fetch(Long id) {
-        return childDao.fetch(id);
+    public Child fetch(Long id) throws NotFoundException {
+        Child child = childDao.fetch(id);
+        if (child == null) {
+            throw new NotFoundException("Child not found");
+        }
+
+        return child;
     }
 
     @Override

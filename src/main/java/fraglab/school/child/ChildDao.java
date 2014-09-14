@@ -1,18 +1,11 @@
 package fraglab.school.child;
 
-import fraglab.school.model.Child;
+import fraglab.GenericDao;
 
 import java.util.List;
 
-public interface ChildDao {
-
-    Child fetch(Long id);
+public interface ChildDao extends GenericDao<Child, Long> {
 
     List<Child> fetchAll();
 
-    void create(Child child);
-
-    void delete(Long id);
-
-    void update(Child child);
 }

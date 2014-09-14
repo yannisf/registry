@@ -1,6 +1,8 @@
-package fraglab.school.model;
+package fraglab.school.child;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -8,6 +10,7 @@ import java.io.Serializable;
 public class Child implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String firstName;
@@ -48,6 +51,15 @@ public class Child implements Serializable {
         this.callName = callName;
     }
 
+    public Child copy() {
+        Child child = new Child();
+        child.setFirstName(getFirstName());
+        child.setLastName(getLastName());
+        child.setCallName(getCallName());
+
+        return child;
+    }
+
     @Override
     public String toString() {
         return "Child{" +
@@ -58,34 +70,4 @@ public class Child implements Serializable {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Child)) {
-            return false;
-        }
-
-        Child child = (Child) o;
-
-        if (!id.equals(child.id)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    public static Child defaultChildFactory() {
-        Child child = new Child();
-        child.setFirstName("Georgios");
-        child.setLastName("Papadopoulos");
-        child.setCallName("Giorgakis");
-        return child;
-    }
 }
