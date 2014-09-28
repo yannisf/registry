@@ -57,12 +57,12 @@ public class Person implements Serializable {
 
     @JsonSerialize(using = LocalDateSerializer.class)
     public Date getDateOfBirth() {
-        return new Date(dateOfBirth.getTime());
+        return dateOfBirth;
     }
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = new Date(dateOfBirth.getTime());
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getNationality() {

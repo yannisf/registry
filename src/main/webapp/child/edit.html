@@ -1,0 +1,37 @@
+<input type="hidden" ng-model="data.child.id"/>
+<table>
+    <tr>
+        <td>First name:</td>
+        <td><input type="text" ng-model="data.child.firstName"/></td>
+    </tr>
+    <tr>
+        <td>Last name:</td>
+        <td><input type="text" ng-model="data.child.lastName"/></td>
+    </tr>
+    <tr>
+        <td>Call name:</td>
+        <td><input type="text" ng-model="data.child.callName"/></td>
+    </tr>
+    <tr>
+        <td>Date of birth (dd-MM-yyyy):</td>
+        <td><input type="text" ng-model="data.child.dateOfBirth"/></td>
+    </tr>
+    <tr>
+        <td> Sex:</td>
+        <td>
+            <select ng-model="data.child.sex">
+                <option value="">--</option>
+                <option value="MALE">male</option>
+                <option value="FEMALE">female</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Nationality:</td>
+        <td><input type="text" ng-model="data.child.nationality"/></td>
+    </tr>
+</table>
+
+<button ng-click="submit()">Submit</button>
+<button ng-click="remove()">Delete</button>
+<button ng-click="cancel()">Cancel</button>

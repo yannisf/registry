@@ -8,15 +8,15 @@
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="fraglab.school" />
-        <tx:annotation-driven/>
+    <context:component-scan base-package="fraglab.school"/>
+    <tx:annotation-driven/>
     <mvc:annotation-driven/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:13306/SCHOOL_REGISTRY"/>
-        <property name="username" value="yannis"/>
-        <property name="password" value="yannis"/>
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:hsqldb:hsql://localhost/school"/>
+        <property name="username" value="SA"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

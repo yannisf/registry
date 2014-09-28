@@ -1,0 +1,13 @@
+<table>
+    <tr ng-repeat="child in children">
+        <td>
+            {{child.firstName}} {{child.lastName}}
+        </td>
+        <td>
+            <a href="#/child/view?id={{child.id}}">View</a>
+            <a href="#/child/update?id={{child.id}}">Edit</a>
+        </td>
+    </tr>
+</table>
+
+<a href="#/child/create">Add Child</a>
