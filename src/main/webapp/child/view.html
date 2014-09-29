@@ -21,7 +21,7 @@
     </tr>
     <tr>
         <td>Sex:</td>
-        <td>{{data.child.sex}}</td>
+        <td>{{data.child.sex | lowercase}}</td>
     </tr>
     <tr>
         <td>Nationality:</td>
@@ -29,5 +29,5 @@
     </tr>
 </table>
 
-<button ng-click="delete()">Delete</button>
-<button ng-click="cancel()">Cancel</button>
+<button class="btn btn-default" ng-click="delete()">Delete</button>
+<button class="btn btn-default" ng-click="cancel()">Cancel</button>

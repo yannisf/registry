@@ -1,37 +1,65 @@
-<input type="hidden" ng-model="data.child.id"/>
-<table>
-    <tr>
-        <td>First name:</td>
-        <td><input type="text" ng-model="data.child.firstName"/></td>
-    </tr>
-    <tr>
-        <td>Last name:</td>
-        <td><input type="text" ng-model="data.child.lastName"/></td>
-    </tr>
-    <tr>
-        <td>Call name:</td>
-        <td><input type="text" ng-model="data.child.callName"/></td>
-    </tr>
-    <tr>
-        <td>Date of birth (dd-MM-yyyy):</td>
-        <td><input type="text" ng-model="data.child.dateOfBirth"/></td>
-    </tr>
-    <tr>
-        <td> Sex:</td>
-        <td>
-            <select ng-model="data.child.sex">
-                <option value="">--</option>
+<form class="form-horizontal" role="form">
+    <div class="form-group">
+        <label for="firstName" class="col-sm-2 control-label">First name</label>
+
+        <div class="col-sm-10 col-lg-3">
+            <input type="text" class="form-control" id="firstName" ng-model="data.child.firstName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="lastName" class="col-sm-2 control-label">Last name</label>
+
+        <div class="col-sm-10 col-lg-3">
+            <input type="text" class="form-control" id="lastName" ng-model="data.child.lastName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="callName" class="col-sm-2 control-label">Call name</label>
+
+        <div class="col-sm-10 col-lg-3">
+            <input type="text" class="form-control" id="callName" ng-model="data.child.callName">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="dateOfBirth" class="col-sm-2 control-label">Date of birth (dd-MM-yyyy)</label>
+
+        <div class="col-sm-10 col-lg-3">
+            <div class="input-group">
+                <input type="text" class="form-control" datepicker-popup="dd-MM-yyyy"
+                       id="dateOfBirth" ng-model="data.child.dateOfBirth"
+                       is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open($event)">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+              </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="sex" class="col-sm-2 control-label">Sex</label>
+
+        <div class="col-sm-10 col-lg-3">
+            <select class="form-control" id="sex" ng-model="data.child.sex">
+            <option value="">--</option>
                 <option value="MALE">male</option>
                 <option value="FEMALE">female</option>
             </select>
-        </td>
-    </tr>
-    <tr>
-        <td>Nationality:</td>
-        <td><input type="text" ng-model="data.child.nationality"/></td>
-    </tr>
-</table>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="nationality" class="col-sm-2 control-label">Nationality</label>
 
-<button ng-click="submit()">Submit</button>
-<button ng-click="remove()">Delete</button>
-<button ng-click="cancel()">Cancel</button>
+        <div class="col-sm-10 col-lg-3">
+            <input type="text" class="form-control" id="nationality" ng-model="data.child.nationality">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-default" ng-click="submit()">{{viewData.submitLabel}}</button>
+            <button class="btn btn-default" ng-click="remove()" ng-if="viewData.allowDelete">Delete</button>
+            <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+        </div>
+    </div>
+</form>
