@@ -1,10 +1,10 @@
 package fraglab.school.child;
 
 import fraglab.NotFoundException;
-import fraglab.school.affinity.AffinityDto;
-import fraglab.school.affinity.AffinityMetadata;
-import fraglab.school.affinity.ChildGrownUpAffinity;
-import fraglab.school.grownup.GrownupDao;
+import fraglab.school.guardian.GuardianDao;
+import fraglab.school.relationship.ChildGuardianRelationship;
+import fraglab.school.relationship.RelationshipDto;
+import fraglab.school.relationship.RelationshipMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class ChildServiceImpl implements ChildService {
     private ChildDao childDao;
 
     @Autowired
-    private GrownupDao grownupDao;
+    private GuardianDao guardianDao;
 
     @Override
     public void create(Child child) {
@@ -57,26 +57,26 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public ChildGrownUpAffinity fetchAffinity(Long childId, Long grownupId) {
-        return childDao.fetch(childId, grownupId);
+    public ChildGuardianRelationship fetchRelationship(Long childId, Long guardianId) {
+        return childDao.fetch(childId, guardianId);
     }
 
     @Override
-    public void deleteAffinity(Long childId, Long grownupId) {
-        childDao.delete(childId, grownupId);
+    public void deleteRelationship(Long childId, Long guardianId) {
+        childDao.delete(childId, guardianId);
     }
 
     @Override
-    public void createAffinity(Long childId, Long grownupId, AffinityMetadata affinityMetadata) {
-        ChildGrownUpAffinity childGrownUpAffinity = new ChildGrownUpAffinity();
-        childGrownUpAffinity.setChildId(childId);
-        childGrownUpAffinity.setGrownupId(grownupId);
-        childGrownUpAffinity.setAffinityMetadata(affinityMetadata);
-        childDao.create(childGrownUpAffinity);
+    public void createRelationship(Long childId, Long guardianId, RelationshipMetadata relationshipMetadata) {
+        ChildGuardianRelationship childGuardianRelationship = new ChildGuardianRelationship();
+        childGuardianRelationship.setChildId(childId);
+        childGuardianRelationship.setGuardianId(guardianId);
+        childGuardianRelationship.setRelationshipMetadata(relationshipMetadata);
+        childDao.create(childGuardianRelationship);
     }
 
     @Override
-    public List<AffinityDto> fetchAffinities(Long childId) {
+    public List<RelationshipDto> fetchRelationship(Long childId) {
         return childDao.fetchAffinities(childId);
     }
 }

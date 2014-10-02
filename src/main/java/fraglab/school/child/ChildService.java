@@ -1,9 +1,9 @@
 package fraglab.school.child;
 
 import fraglab.NotFoundException;
-import fraglab.school.affinity.AffinityDto;
-import fraglab.school.affinity.AffinityMetadata;
-import fraglab.school.affinity.ChildGrownUpAffinity;
+import fraglab.school.relationship.ChildGuardianRelationship;
+import fraglab.school.relationship.RelationshipDto;
+import fraglab.school.relationship.RelationshipMetadata;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ public interface ChildService {
 
     List<Child> fetchAll();
 
-    ChildGrownUpAffinity fetchAffinity(Long childId, Long grownupId);
+    ChildGuardianRelationship fetchRelationship(Long childId, Long guardianId);
 
-    void deleteAffinity(Long childId, Long grownupId);
+    void deleteRelationship(Long childId, Long guardianId);
 
-    void createAffinity(Long childId, Long grownupId, AffinityMetadata affinityMetadata);
+    void createRelationship(Long childId, Long guardianId, RelationshipMetadata relationshipMetadata);
 
-    List<AffinityDto> fetchAffinities(Long childId);
+    List<RelationshipDto> fetchRelationship(Long childId);
 }

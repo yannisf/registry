@@ -1,8 +1,8 @@
 package fraglab.school.child;
 
 import fraglab.GenericDao;
-import fraglab.school.affinity.AffinityDto;
-import fraglab.school.affinity.ChildGrownUpAffinity;
+import fraglab.school.relationship.ChildGuardianRelationship;
+import fraglab.school.relationship.RelationshipDto;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ public interface ChildDao extends GenericDao<Child, Long> {
 
     List<Child> fetchAll();
 
-    ChildGrownUpAffinity fetch(Long childId, Long grownupId);
+    ChildGuardianRelationship fetch(Long childId, Long guardianId);
 
-    void delete(Long childId, Long grownupId);
+    void delete(Long childId, Long guardianId);
 
-    void create(ChildGrownUpAffinity childGrownUpAffinity);
+    void create(ChildGuardianRelationship childGuardianRelationship);
 
-    List<AffinityDto> fetchAffinities(Long childId);
+    List<RelationshipDto> fetchAffinities(Long childId);
 }

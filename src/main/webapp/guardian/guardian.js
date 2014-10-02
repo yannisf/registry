@@ -12,15 +12,15 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
 
     .service('guardianService', ['$http', function ($http) {
         return {
-            affinityTypes: function () {
-                return $http.get('api/affinity/types').then(
+            relationshipTypes: function () {
+                return $http.get('api/relationship/types').then(
                     function (response) {
                         return response.data;
                     }
                 );
             },
             create: function (guardian) {
-                return $http.post('api/grownup', guardian).then(
+                return $http.post('api/guardian', guardian).then(
                     function (response) {
                         return response.data;
                     }
@@ -37,14 +37,14 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                     guardian: null
                 },
                 viewData: {
-                    affinityTypes: [],
+                    relationshipTypes: [],
                     submitLabel: 'Create'
                 }
             });
 
-            guardianService.affinityTypes().then(function (data) {
-                $scope.viewData.affinityTypes = data;
-                console.log('Affinities are: ', $scope.viewData.affinityTypes);
+            guardianService.relationship().then(function (data) {
+                $scope.viewData.relationshipTypes = data;
+                console.log('Relationship are: ', $scope.viewData.relationshipTypes);
             });
 
             $scope.submit = function () {

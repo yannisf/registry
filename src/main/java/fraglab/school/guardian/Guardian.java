@@ -1,4 +1,4 @@
-package fraglab.school.grownup;
+package fraglab.school.guardian;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fraglab.school.Person;
@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("GROWN_UP")
+@DiscriminatorValue("GUARDIAN")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Grownup extends Person implements Serializable {
+public class Guardian extends Person implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telephone> telephones;

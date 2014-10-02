@@ -1,4 +1,4 @@
-package fraglab.school.affinity;
+package fraglab.school.relationship;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -6,18 +6,18 @@ import javax.persistence.Enumerated;
 import java.io.Serializable;
 
 @Embeddable
-public class AffinityMetadata implements Serializable {
+public class RelationshipMetadata implements Serializable {
 
     @Enumerated(EnumType.STRING)
-    private ChildGrownUpAffinity.Type type;
+    private ChildGuardianRelationship.Type type;
 
     private Boolean pickup;
 
-    public ChildGrownUpAffinity.Type getType() {
+    public ChildGuardianRelationship.Type getType() {
         return type;
     }
 
-    public void setType(ChildGrownUpAffinity.Type type) {
+    public void setType(ChildGuardianRelationship.Type type) {
         this.type = type;
     }
 

@@ -1,4 +1,4 @@
-package fraglab.school.grownup;
+package fraglab.school.guardian;
 
 import fraglab.NotFoundException;
 import fraglab.school.ControllerErrorWrapper;
@@ -11,40 +11,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/grownup")
-public class GrownupController {
+@RequestMapping("/guardian")
+public class GuardianController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GrownupController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GuardianController.class);
 
     @Autowired
-    GrownupService grownupService;
+    GuardianService guardianService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Grownup grownup) {
-        grownupService.create(grownup);
+    public void create(@RequestBody Guardian guardian) {
+        guardianService.create(guardian);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void update(@PathVariable Long id, @RequestBody Grownup grownup) throws NotFoundException {
-        grownupService.update(id, grownup);
+    public void update(@PathVariable Long id, @RequestBody Guardian guardian) throws NotFoundException {
+        guardianService.update(id, guardian);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable Long id) throws NotFoundException {
-        grownupService.delete(id);
+        guardianService.delete(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Grownup fetch(@PathVariable Long id) throws NotFoundException {
-        return grownupService.fetch(id);
+    public Guardian fetch(@PathVariable Long id) throws NotFoundException {
+        return guardianService.fetch(id);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Grownup> fetchAll() {
-        return grownupService.fetchAll();
+    public List<Guardian> fetchAll() {
+        return guardianService.fetchAll();
     }
 
     @ExceptionHandler(NotFoundException.class)

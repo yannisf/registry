@@ -1,10 +1,10 @@
 package fraglab.school.child;
 
 import fraglab.GenericDaoImpl;
-import fraglab.school.affinity.AffinityDto;
-import fraglab.school.affinity.ChildGrownUpAffinity;
-import fraglab.school.grownup.Grownup;
-import fraglab.school.grownup.GrownupDao;
+import fraglab.school.guardian.Guardian;
+import fraglab.school.guardian.GuardianDao;
+import fraglab.school.relationship.ChildGuardianRelationship;
+import fraglab.school.relationship.RelationshipDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, Long> implements ChildDa
     private static final Logger LOG = LoggerFactory.getLogger(ChildDaoImpl.class);
 
     @Autowired
-    private GrownupDao grownupDao;
+    private GuardianDao guardianDao;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -33,42 +33,42 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, Long> implements ChildDa
     }
 
     @Override
-    public ChildGrownUpAffinity fetch(Long childId, Long grownupId) {
-        LOG.debug("Fetching affinity for Child[{}]:Grownup[{}]", childId, grownupId);
-        Query query = entityManager.createQuery("select a from ChildGrownUpAffinity a where a.childId=:childId and a.grownupId=:grownupId");
+    public ChildGuardianRelationship fetch(Long childId, Long guardianId) {
+        LOG.debug("Fetching relationship for Child[{}]:Guardian[{}]", childId, guardianId);
+        Query query = entityManager.createQuery("select a from ChildGuardianRelationship a where a.childId=:childId and a.guardianId=:guardianId");
         query.setParameter("childId", childId);
-        query.setParameter("grownupId", grownupId);
-        return (ChildGrownUpAffinity) query.getSingleResult();
+        query.setParameter("guardianId", guardianId);
+        return (ChildGuardianRelationship) query.getSingleResult();
     }
 
     @Override
-    public void delete(Long childId, Long grownupId) {
-        ChildGrownUpAffinity affinity = fetch(childId, grownupId);
-        entityManager.remove(affinity);
+    public void delete(Long childId, Long guardianId) {
+        ChildGuardianRelationship relationship = fetch(childId, guardianId);
+        entityManager.remove(relationship);
     }
 
     @Override
-    public void create(ChildGrownUpAffinity childGrownUpAffinity) {
-        entityManager.persist(childGrownUpAffinity);
+    public void create(ChildGuardianRelationship childGuardianRelationship) {
+        entityManager.persist(childGuardianRelationship);
     }
 
     @Override
-    public List<AffinityDto> fetchAffinities(Long childId) {
-        Query query = entityManager.createQuery("select a from ChildGrownUpAffinity a where a.childId=:childId");
+    public List<RelationshipDto> fetchAffinities(Long childId) {
+        Query query = entityManager.createQuery("select a from ChildGuardianRelationship a where a.childId=:childId");
         query.setParameter("childId", childId);
-        List<ChildGrownUpAffinity> affinities = query.getResultList();
-        List<AffinityDto> affinityDtos = getAffinityDtos(affinities);
-        return affinityDtos;
+        List<ChildGuardianRelationship> affinities = query.getResultList();
+        List<RelationshipDto> relationshipDtos = getRelationshipDtos(affinities);
+        return relationshipDtos;
     }
 
-    private List<AffinityDto> getAffinityDtos(List<ChildGrownUpAffinity> affinities) {
-        List<AffinityDto> affinityDtos = new ArrayList<>();
-        for (ChildGrownUpAffinity childGrownUpAffinity : affinities) {
-            Grownup grownup = grownupDao.fetch(childGrownUpAffinity.getGrownupId());
-            AffinityDto affinityDto = new AffinityDto(grownup.getId(), grownup.getFirstName(), grownup.getLastName(),
-                    childGrownUpAffinity.getAffinityMetadata().getType());
-            affinityDtos.add(affinityDto);
+    private List<RelationshipDto> getRelationshipDtos(List<ChildGuardianRelationship> affinities) {
+        List<RelationshipDto> relationshipDtos = new ArrayList<>();
+        for (ChildGuardianRelationship childGuardianRelationship : affinities) {
+            Guardian guardian = guardianDao.fetch(childGuardianRelationship.getGuardianId());
+            RelationshipDto relationshipDto = new RelationshipDto(guardian.getId(), guardian.getFirstName(), guardian.getLastName(),
+                    childGuardianRelationship.getRelationshipMetadata().getType());
+            relationshipDtos.add(relationshipDto);
         }
-        return affinityDtos;
+        return relationshipDtos;
     }
 }

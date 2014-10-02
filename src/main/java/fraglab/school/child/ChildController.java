@@ -2,9 +2,9 @@ package fraglab.school.child;
 
 import fraglab.NotFoundException;
 import fraglab.school.ControllerErrorWrapper;
-import fraglab.school.affinity.AffinityDto;
-import fraglab.school.affinity.AffinityMetadata;
-import fraglab.school.affinity.ChildGrownUpAffinity;
+import fraglab.school.relationship.ChildGuardianRelationship;
+import fraglab.school.relationship.RelationshipDto;
+import fraglab.school.relationship.RelationshipMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +34,13 @@ public class ChildController {
         childService.update(id, child);
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable Long id) throws NotFoundException {
         childService.delete(id);
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Child fetch(@PathVariable Long id) throws NotFoundException {
         return childService.fetch(id);
     }
@@ -50,27 +50,27 @@ public class ChildController {
         return childService.fetchAll();
     }
 
-    @RequestMapping(value = "/{childId}/grownup/{grownupId}", method = RequestMethod.GET)
-    public ChildGrownUpAffinity fetchAffinity(@PathVariable() Long childId, @PathVariable() Long grownupId) throws NotFoundException {
-        return childService.fetchAffinity(childId, grownupId);
+    @RequestMapping(value = "/{childId}/guardian/{guardianId}", method = RequestMethod.GET)
+    public ChildGuardianRelationship fetchRelationship(@PathVariable() Long childId, @PathVariable() Long guardianId) throws NotFoundException {
+        return childService.fetchRelationship(childId, guardianId);
     }
 
-    @RequestMapping(value = "/{childId}/grownup", method = RequestMethod.GET)
-    public List<AffinityDto> fetchAffinity(@PathVariable() Long childId) throws NotFoundException {
-        return childService.fetchAffinities(childId);
+    @RequestMapping(value = "/{childId}/guardian", method = RequestMethod.GET)
+    public List<RelationshipDto> fetchRelationship(@PathVariable() Long childId) throws NotFoundException {
+        return childService.fetchRelationship(childId);
     }
 
-    @RequestMapping(value = "/{childId}/grownup/{grownupId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{childId}/guardian/{guardianId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createAffinity(@PathVariable() Long childId, @PathVariable() Long grownupId,
-                               @RequestBody AffinityMetadata affinityMetadata) throws NotFoundException {
-        childService.createAffinity(childId, grownupId, affinityMetadata);
+    public void createRelationship(@PathVariable() Long childId, @PathVariable() Long guardianId,
+                                   @RequestBody RelationshipMetadata relationshipMetadata) throws NotFoundException {
+        childService.createRelationship(childId, guardianId, relationshipMetadata);
     }
 
-    @RequestMapping(value = "/{childId}/grownup/{grownupId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{childId}/guardian/{guardianId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteAffinity(@PathVariable() Long childId, @PathVariable() Long grownupId) throws NotFoundException {
-        childService.deleteAffinity(childId, grownupId);
+    public void deleteRelationship(@PathVariable() Long childId, @PathVariable() Long guardianId) throws NotFoundException {
+        childService.deleteRelationship(childId, guardianId);
     }
 
     @ExceptionHandler(NotFoundException.class)
