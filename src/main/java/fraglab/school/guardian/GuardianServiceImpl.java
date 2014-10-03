@@ -1,11 +1,14 @@
 package fraglab.school.guardian;
 
 import fraglab.NotFoundException;
+import fraglab.school.relationship.ChildGuardianRelationship;
+import fraglab.school.relationship.RelationshipDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -15,6 +18,9 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Autowired
     GuardianDao guardianDao;
+
+    @Autowired
+    RelationshipDao relationshipDao;
 
     @Override
     public void create(Guardian guardian) {
@@ -47,6 +53,16 @@ public class GuardianServiceImpl implements GuardianService {
     @Override
     public List<Guardian> fetchAll() {
         return guardianDao.fetchAll();
+    }
+
+    @Override
+    @Transactional
+    public void establishRelationship(Guardian guardian, ChildGuardianRelationship relationship) {
+        if (guardian.getId() == null) {
+            guardianDao.create(guardian);
+        }
+        relationship.setGuardianId(guardian.getId());
+        relationshipDao.create(relationship);
     }
 
 }

@@ -25,7 +25,15 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                         return response.data;
                     }
                 );
+            },
+            createAndAssociate: function (guardianRelationship) {
+                return $http.post('api/guardian/relationship', guardianRelationship).then(
+                    function (response) {
+                        return response.data;
+                    }
+                );
             }
+
         };
     }])
 
@@ -34,7 +42,12 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
             console.log('Add guardian controller. Scoped child: ', statefulChildService.getScopedChildId());
             angular.extend($scope, {
                 data: {
-                    guardian: null
+                    guardian: null,
+                    relationship: {
+                        relationshipMetadata: {
+                            type: null
+                        }
+                    }
                 },
                 viewData: {
                     relationshipTypes: [],
@@ -42,13 +55,25 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                 }
             });
 
-            guardianService.relationship().then(function (data) {
+            guardianService.relationshipTypes().then(function (data) {
                 $scope.viewData.relationshipTypes = data;
                 console.log('Relationship are: ', $scope.viewData.relationshipTypes);
             });
 
             $scope.submit = function () {
-                guardianService.create($scope.data.guardian).then(
+                console.log('childId: ', statefulChildService.getScopedChildId());
+                console.log('guardian: ', $scope.data.guardian);
+                console.log('relationship: ', $scope.data.relationship.relationshipMetadata.type);
+
+                var guardianRelationship = {
+                    child: {
+                        id: statefulChildService.getScopedChildId()
+                    },
+                    guardian: $scope.data.guardian,
+                    relationship: $scope.data.relationship
+                }
+
+                guardianService.createAndAssociate(guardianRelationship).then(
                     function (response) {
                         $scope.toScopedChild();
                     }

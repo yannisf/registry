@@ -25,5 +25,5 @@ public interface ChildService {
 
     void createRelationship(Long childId, Long guardianId, RelationshipMetadata relationshipMetadata);
 
-    List<RelationshipDto> fetchRelationship(Long childId);
+    List<RelationshipDto> fetchRelationships(Long childId);
 }

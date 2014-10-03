@@ -2,6 +2,8 @@ package fraglab.school.guardian;
 
 import fraglab.NotFoundException;
 import fraglab.school.ControllerErrorWrapper;
+import fraglab.school.relationship.ChildGuardianRelationship;
+import fraglab.school.relationship.RelationshipDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,16 @@ public class GuardianController {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody Guardian guardian) {
         guardianService.create(guardian);
+    }
+
+    @RequestMapping(value = "/relationship", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create(@RequestBody RelationshipDto guardianRelationship) {
+        Guardian guardian = guardianRelationship.getGuardian();
+        ChildGuardianRelationship relationship = guardianRelationship.getRelationship();
+        relationship.setChildId(guardianRelationship.getChild().getId());
+
+        guardianService.establishRelationship(guardian, relationship);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)

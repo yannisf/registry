@@ -13,7 +13,7 @@ public class RelationshipController {
     private static final Logger LOG = LoggerFactory.getLogger(RelationshipController.class);
 
     @RequestMapping(value = "/types", method = RequestMethod.GET)
-    public ChildGuardianRelationship.Type[] getAllAffinities() {
+    public ChildGuardianRelationship.Type[] getRelationshipTypes() {
         return ChildGuardianRelationship.Type.values();
     }
 

@@ -76,7 +76,7 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public List<RelationshipDto> fetchRelationship(Long childId) {
-        return childDao.fetchAffinities(childId);
+    public List<RelationshipDto> fetchRelationships(Long childId) {
+        return childDao.fetchRelationship(childId);
     }
 }

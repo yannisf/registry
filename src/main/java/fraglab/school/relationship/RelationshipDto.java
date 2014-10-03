@@ -1,41 +1,47 @@
 package fraglab.school.relationship;
 
+import fraglab.school.child.Child;
+import fraglab.school.guardian.Guardian;
+
 import java.io.Serializable;
 
 public class RelationshipDto implements Serializable {
 
-    private Long guardianId;
-
-    private String guardianFirstName;
-
-    private String guardianLastName;
-
-    private ChildGuardianRelationship.Type relationshipType;
+    private Child child;
+    private Guardian guardian;
+    private ChildGuardianRelationship relationship;
 
     public RelationshipDto() {
     }
 
-    public RelationshipDto(Long guardianId, String guardianFirstName, String guardianLastName, ChildGuardianRelationship.Type relationshipType) {
-        this.guardianId = guardianId;
-        this.guardianFirstName = guardianFirstName;
-        this.guardianLastName = guardianLastName;
-        this.relationshipType = relationshipType;
+    public RelationshipDto(Child child, Guardian guardian, ChildGuardianRelationship relationship) {
+        this.child = child;
+        this.guardian = guardian;
+        this.relationship = relationship;
     }
 
-    public Long getGuardianId() {
-        return guardianId;
+    public Child getChild() {
+        return child;
     }
 
-    public String getGuardianFirstName() {
-        return guardianFirstName;
+    public void setChild(Child child) {
+        this.child = child;
     }
 
-    public String getGuardianLastName() {
-        return guardianLastName;
+    public Guardian getGuardian() {
+        return guardian;
     }
 
-    public ChildGuardianRelationship.Type getRelationshipType() {
-        return relationshipType;
+    public void setGuardian(Guardian guardian) {
+        this.guardian = guardian;
+    }
+
+    public ChildGuardianRelationship getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(ChildGuardianRelationship relationship) {
+        this.relationship = relationship;
     }
 
 }

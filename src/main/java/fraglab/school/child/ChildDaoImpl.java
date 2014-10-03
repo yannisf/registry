@@ -53,20 +53,20 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, Long> implements ChildDa
     }
 
     @Override
-    public List<RelationshipDto> fetchAffinities(Long childId) {
+    public List<RelationshipDto> fetchRelationship(Long childId) {
         Query query = entityManager.createQuery("select a from ChildGuardianRelationship a where a.childId=:childId");
         query.setParameter("childId", childId);
-        List<ChildGuardianRelationship> affinities = query.getResultList();
-        List<RelationshipDto> relationshipDtos = getRelationshipDtos(affinities);
+        List<ChildGuardianRelationship> relationships = query.getResultList();
+        List<RelationshipDto> relationshipDtos = getRelationshipDtos(relationships);
         return relationshipDtos;
     }
 
-    private List<RelationshipDto> getRelationshipDtos(List<ChildGuardianRelationship> affinities) {
+    private List<RelationshipDto> getRelationshipDtos(List<ChildGuardianRelationship> relationships) {
         List<RelationshipDto> relationshipDtos = new ArrayList<>();
-        for (ChildGuardianRelationship childGuardianRelationship : affinities) {
+        for (ChildGuardianRelationship childGuardianRelationship : relationships) {
             Guardian guardian = guardianDao.fetch(childGuardianRelationship.getGuardianId());
-            RelationshipDto relationshipDto = new RelationshipDto(guardian.getId(), guardian.getFirstName(), guardian.getLastName(),
-                    childGuardianRelationship.getRelationshipMetadata().getType());
+            //TODO: Fetch child properly
+            RelationshipDto relationshipDto = new RelationshipDto(new Child(), guardian, childGuardianRelationship);
             relationshipDtos.add(relationshipDto);
         }
         return relationshipDtos;

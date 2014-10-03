@@ -1,3 +1,4 @@
+<h3>Child</h3>
 <table>
     <tr>
         <td>ID:</td>
@@ -26,6 +27,14 @@
     <tr>
         <td>Nationality:</td>
         <td>{{data.child.nationality}}</td>
+    </tr>
+</table>
+
+<h4>Guardians</h4>
+<table>
+    <tr ng-repeat="relationship in data.relationships">
+        <td>{{relationship.guardian.firstName}} {{relationship.guardian.lastName}}</td>
+        <td>{{relationship.relationship.relationshipMetadata.type}}</td>
     </tr>
 </table>
 

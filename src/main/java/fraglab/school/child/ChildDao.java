@@ -16,5 +16,5 @@ public interface ChildDao extends GenericDao<Child, Long> {
 
     void create(ChildGuardianRelationship childGuardianRelationship);
 
-    List<RelationshipDto> fetchAffinities(Long childId);
+    List<RelationshipDto> fetchRelationship(Long childId);
 }

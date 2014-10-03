@@ -12,7 +12,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                 templateUrl: 'child/edit.html',
                 controller: 'updateChildController'
             })
-            .when('/child/view', {
+            .when('/child/:childId/view', {
                 templateUrl: 'child/view.html',
                 controller: 'updateChildController'
             })
@@ -53,7 +53,14 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                     function (response) {
                         return response.data;
                     });
-            }
+            },
+            fetchRelationships: function (childId) {
+                return $http.get('api/child/' + childId + '/guardian').then(
+                    function (response) {
+                        return response.data;
+                    });
+            },
+
         };
     }])
 
@@ -62,14 +69,14 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
 
         return {
             getScopedChildId: function() {
-                if ($routeParams.id) {
-                    this.childId = $routeParams.id;
+                if ($routeParams.childId) {
+                    childId = $routeParams.childId;
                 }
 
-                return this.childId;
+                return childId;
             },
-            setScopedChildId: function(childId) {
-                this.childId = childId;
+            setScopedChildId: function(value) {
+                childId = value;
             }
         }
     }])
@@ -107,7 +114,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
         function ($scope, $location, childService, statefulChildService) {
             angular.extend($scope, {
                 data: {
-                    child: null
+                    child: null,
+                    relationships: []
                 },
                 viewData: {
                     childId: statefulChildService.getScopedChildId(),
@@ -119,6 +127,12 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             childService.fetch($scope.viewData.childId).then(
                 function (response) {
                     $scope.data.child = response;
+                }
+            );
+
+            childService.fetchRelationships($scope.viewData.childId).then(
+                function (response) {
+                    $scope.data.relationships = response;
                 }
             );
 
