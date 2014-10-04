@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
+angular.module('guardian', ['ngRoute', 'child', 'commonSchoolServices'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -10,32 +10,14 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
             })
             .when('/guardian/:guardianId/edit', {
                 templateUrl: 'guardian/edit.html',
-                controller: 'guardianController'
+                controller: 'updateGuardianController'
             })
             .when('/guardian/:guardianId/view', {
                 templateUrl: 'guardian/view.html',
-                controller: 'guardianController'
+                controller: 'updateGuardianController'
             });
     }])
 
-    .service('ListService', ['$http', function ($http) {
-        return {
-            relationshipTypes: function () {
-                return $http.get('api/relationship/types').then(
-                    function (response) {
-                        return response.data;
-                    }
-                );
-            },
-            telephoneTypes: function () {
-                return $http.get('api/guardian/telephone/types').then(
-                    function (response) {
-                        return response.data;
-                    });
-                }
-            };
-        }
-    ])
 
     .service('guardianService', ['$http', function ($http) {
         return {
@@ -46,9 +28,21 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                     }
                 );
             },
-            createAndAssociate: function (guardianRelationship) {
-                return $http.post('api/guardian/relationship', guardianRelationship).then(
-                    function (response) {
+            fetchRelationship: function (childId, guardianId) {
+                return $http.get('api/child/' + childId + '/guardian/' + guardianId).then( function (response) {
+                        return response.data;
+                    }
+                );
+            },
+            createGuardianAndRelationship: function (guardianRelationship) {
+                return $http.post('api/guardian/relationship', guardianRelationship).then( function (response) {
+                        return response.data;
+                    }
+                );
+            },
+            updateGuardianAndRelationship: function (guardianRelationship) {
+                //TODO: Implement this properly
+                return $http.post('api/guardian/relationship', guardianRelationship).then( function (response) {
                         return response.data;
                     }
                 );
@@ -56,30 +50,54 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
         };
     }])
 
-    .controller('guardianController', ['$scope', '$routeParams', 'statefulChildService', 'guardianService', 'ListService',
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService', 'guardianService', 'ListService',
         function ($scope, $routeParams, statefulChildService, guardianService, ListService) {
             angular.extend($scope, {
                 data: {
                     guardian: null,
+                    relationship: null
                 },
                 viewData: {
                     guardianId: $routeParams.guardianId,
-                    submitLabel: 'Ανανέωση'
+                    relationshipTypes: [],
+                    telephoneTypes: [],
+                    submitLabel: "Ανανέωση"
                 }
 
             });
 
-            guardianService.fetch($routeParams.guardianId).then(
-                function (response) {
+            ListService.relationshipTypes().then(function (data) {
+                $scope.viewData.relationshipTypes = data;
+            });
+
+            ListService.telephoneTypes().then(function (data) {
+                $scope.viewData.telephoneTypes = data;
+            });
+
+            $scope.addTelephone = function() {
+                $scope.data.guardian.telephones.push({});
+            }
+
+            $scope.removeTelephone = function(telephoneIndex) {
+                $scope.data.guardian.telephones.splice(telephoneIndex, 1);
+            }
+
+            guardianService.fetch($routeParams.guardianId).then( function (response) {
                     $scope.data.guardian = response;
                 }
             );
+
+            guardianService.fetchRelationship(statefulChildService.getScopedChildId(), $routeParams.guardianId).then(
+                function (response) {
+                    $scope.data.relationship = response;
+                }
+            );
+
         }
     ])
 
     .controller('createGuardianController', ['$scope', 'statefulChildService', 'guardianService', 'ListService',
         function ($scope, statefulChildService, guardianService, ListService) {
-            console.log('Add guardian controller. Scoped child: ', statefulChildService.getScopedChildId());
             angular.extend($scope, {
                 data: {
                     guardian: {
@@ -94,7 +112,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                 viewData: {
                     relationshipTypes: [],
                     telephoneTypes: [],
-                    submitLabel: 'Εισαγωγή'
+                    submitLabel: "Εισαγωγή"
                 }
             });
 
@@ -107,11 +125,11 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
             });
 
             $scope.addTelephone = function() {
-                $scope.data.guardian.telephones.push({number:null, type: null});
+                $scope.data.guardian.telephones.push({});
             }
 
             $scope.removeTelephone = function(telephoneIndex) {
-                $scope.data.guardian.telephones.splice(telephoneIndex,1);
+                $scope.data.guardian.telephones.splice(telephoneIndex, 1);
             }
 
             $scope.submit = function () {
@@ -123,8 +141,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                     relationship: $scope.data.relationship
                 }
 
-                guardianService.createAndAssociate(guardianRelationship).then(
-                    function (response) {
+                guardianService.createGuardianAndRelationship(guardianRelationship).then(function (response) {
                         $scope.toScopedChild();
                     }
                 );

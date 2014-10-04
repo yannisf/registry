@@ -51,7 +51,8 @@ public class ChildController {
     }
 
     @RequestMapping(value = "/{childId}/guardian/{guardianId}", method = RequestMethod.GET)
-    public ChildGuardianRelationship fetchRelationship(@PathVariable() Long childId, @PathVariable() Long guardianId) throws NotFoundException {
+    public ChildGuardianRelationship fetchRelationship(@PathVariable() Long childId, @PathVariable() Long guardianId)
+            throws NotFoundException {
         return childService.fetchRelationship(childId, guardianId);
     }
 

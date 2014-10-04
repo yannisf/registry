@@ -92,9 +92,21 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
     })
 
     .controller('ChildController', ['$scope', 'childService', function ($scope, childService) {
+        angular.extend($scope, {
+            data: {
+                children: []
+            },
+            viewData: {
+                noChildren: true
+            }
+        });
+
         childService.fetchAll().then(
             function (data) {
-                $scope.children = data;
+                if (data.length > 0) {
+                    $scope.data.children = data;
+                    $scope.viewData.noChildren = false;
+                }
             }
         );
     }])
