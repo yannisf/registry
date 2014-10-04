@@ -43,4 +43,12 @@ public class Telephone implements Serializable {
         HOME, WORK, MOBILE, OTHER;
     }
 
+    @Override
+    public String toString() {
+        return "Telephone{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

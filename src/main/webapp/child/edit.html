@@ -1,56 +1,110 @@
-<form class="form-horizontal" role="form">
-    <div class="form-group">
-        <label for="firstName" class="col-sm-2 control-label">First name</label>
+<div class="page-header">
+    <h2>{{viewData.submitLabel}} παιδιού</h2>
+</div>
 
-        <div class="col-sm-10 col-lg-3">
-            <input type="text" class="form-control" id="firstName" ng-model="data.child.firstName">
+<div>
+
+    <form class="form-horizontal" role="form">
+
+        <div class="form-group">
+            <label for="firstName" class="col-md-2 control-label">Όνομα</label>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="firstName" ng-model="data.child.firstName">
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="lastName" class="col-sm-2 control-label">Last name</label>
 
-        <div class="col-sm-10 col-lg-3">
-            <input type="text" class="form-control" id="lastName" ng-model="data.child.lastName">
+        <div class="form-group">
+            <label for="lastName" class="col-md-2 control-label">Επώνυμο</label>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="lastName" ng-model="data.child.lastName">
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="callName" class="col-sm-2 control-label">Call name</label>
 
-        <div class="col-sm-10 col-lg-3">
-            <input type="text" class="form-control" id="callName" ng-model="data.child.callName">
+        <div class="form-group">
+            <label for="callName" class="col-md-2 control-label">Χαϊδευτικό</label>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="callName" ng-model="data.child.callName">
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="dateOfBirth" class="col-sm-2 control-label">Date of birth (dd-MM-yyyy)</label>
 
-        <div class="col-sm-10 col-lg-3">
-            <input type="text" class="form-control" id="dateOfBirth" ng-model="data.child.dateOfBirth">
+        <div class="form-group">
+            <label for="dateOfBirth" class="col-md-2 control-label">Ημ/νία γεν. (dd-MM-yyyy)</label>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="dateOfBirth" ng-model="data.child.dateOfBirth">
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label for="sex" class="col-sm-2 control-label">Sex</label>
+        <div class="form-group">
+            <label for="sex" class="col-md-2 control-label">Φύλο</label>
 
-        <div class="col-sm-10 col-lg-3">
-            <select class="form-control" id="sex" ng-model="data.child.sex">
-                <option value="MALE">male</option>
-                <option value="FEMALE">female</option>
-            </select>
+            <div class="col-md-3">
+                <select class="form-control" id="sex" ng-model="data.child.sex">
+                    <option value="MALE">Αγόρι</option>
+                    <option value="FEMALE">Κορίτσι</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="nationality" class="col-sm-2 control-label">Nationality</label>
 
-        <div class="col-sm-10 col-lg-3">
-            <input type="text" class="form-control" id="nationality" ng-model="data.child.nationality">
-        </div>
-    </div>
+        <div class="form-group">
+            <label for="nationality" class="col-md-2 control-label">Υπηκοότητα</label>
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-default" ng-click="submit()">{{viewData.submitLabel}}</button>
-            <button class="btn btn-default" ng-click="remove()" ng-if="viewData.allowDelete">Delete</button>
-            <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="nationality" ng-model="data.child.nationality">
+            </div>
         </div>
-    </div>
-</form>
+
+        <fieldset>
+            <legend>Διεύθυνση</legend>
+            <div class="form-group">
+                <label for="address.streetName" class="col-md-2 control-label">Οδός</label>
+
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="address.streetName"
+                           ng-model="data.child.address.streetName">
+                </div>
+                <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
+
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="address.streetNumber"
+                           ng-model="data.child.address.streetNumber">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="address.neighbourhood" class="col-md-2 control-label">Περιοχή</label>
+
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="address.neighbourhood"
+                           ng-model="data.child.address.neighbourhood">
+                </div>
+                <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
+
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="address.postalCode"
+                           ng-model="data.child.address.postalCode">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="address.city" class="col-md-2 control-label">Πόλη</label>
+
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="address.city" ng-model="data.child.address.city">
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary" ng-click="submit()">{{viewData.submitLabel}}</button>
+                <button class="btn btn-default" ng-click="cancel()">Ακύρωση</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

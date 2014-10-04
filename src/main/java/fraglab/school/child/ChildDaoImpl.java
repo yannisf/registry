@@ -66,6 +66,8 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, Long> implements ChildDa
         for (ChildGuardianRelationship childGuardianRelationship : relationships) {
             Guardian guardian = guardianDao.fetch(childGuardianRelationship.getGuardianId());
             //TODO: Fetch child properly
+            //TODO: DAO should not rely on a view DTO
+            //TODO: Move this to a service
             RelationshipDto relationshipDto = new RelationshipDto(new Child(), guardian, childGuardianRelationship);
             relationshipDtos.add(relationshipDto);
         }

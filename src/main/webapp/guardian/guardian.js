@@ -6,11 +6,15 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
         $routeProvider
             .when('/guardian/edit', {
                 templateUrl: 'guardian/edit.html',
+                controller: 'createGuardianController'
+            })
+            .when('/guardian/:guardianId/view', {
+                templateUrl: 'guardian/view.html',
                 controller: 'guardianController'
             });
     }])
 
-    .service('guardianService', ['$http', function ($http) {
+    .service('ListService', ['$http', function ($http) {
         return {
             relationshipTypes: function () {
                 return $http.get('api/relationship/types').then(
@@ -19,8 +23,27 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                     }
                 );
             },
+            telephoneTypes: function () {
+                return $http.get('api/guardian/telephone/types').then(
+                    function (response) {
+                        return response.data;
+                    });
+                }
+            };
+        }
+    ])
+
+    .service('guardianService', ['$http', function ($http) {
+        return {
             create: function (guardian) {
                 return $http.post('api/guardian', guardian).then(
+                    function (response) {
+                        return response.data;
+                    }
+                );
+            },
+            fetch: function (guardianId) {
+                return $http.get('api/guardian/' + guardianId).then(
                     function (response) {
                         return response.data;
                     }
@@ -33,16 +56,34 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                     }
                 );
             }
-
         };
     }])
 
-    .controller('guardianController', ['$scope', 'statefulChildService', 'guardianService',
-        function ($scope, statefulChildService, guardianService) {
-            console.log('Add guardian controller. Scoped child: ', statefulChildService.getScopedChildId());
+    .controller('guardianController', ['$scope', '$routeParams', 'statefulChildService', 'guardianService', 'ListService',
+        function ($scope, $routeParams, statefulChildService, guardianService, ListService) {
+            console.log('Loaded guardian ', $routeParams.guardianId);
             angular.extend($scope, {
                 data: {
                     guardian: null,
+                }
+            });
+
+            guardianService.fetch($routeParams.guardianId).then(
+                function (response) {
+                    $scope.data.guardian = response;
+                }
+            );
+        }
+    ])
+
+    .controller('createGuardianController', ['$scope', 'statefulChildService', 'guardianService', 'ListService',
+        function ($scope, statefulChildService, guardianService, ListService) {
+            console.log('Add guardian controller. Scoped child: ', statefulChildService.getScopedChildId());
+            angular.extend($scope, {
+                data: {
+                    guardian: {
+                        telephones: []
+                    },
                     relationship: {
                         relationshipMetadata: {
                             type: null
@@ -51,14 +92,26 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                 },
                 viewData: {
                     relationshipTypes: [],
+                    telephoneTypes: [],
                     submitLabel: 'Create'
                 }
             });
 
-            guardianService.relationshipTypes().then(function (data) {
+            ListService.relationshipTypes().then(function (data) {
                 $scope.viewData.relationshipTypes = data;
-                console.log('Relationship are: ', $scope.viewData.relationshipTypes);
             });
+
+            ListService.telephoneTypes().then(function (data) {
+                $scope.viewData.telephoneTypes = data;
+            });
+
+            $scope.addTelephone = function() {
+                $scope.data.guardian.telephones.push({number:null, type: null});
+            }
+
+            $scope.removeTelephone = function(telephoneIndex) {
+                $scope.data.guardian.telephones.splice(telephoneIndex,1);
+            }
 
             $scope.submit = function () {
                 console.log('childId: ', statefulChildService.getScopedChildId());

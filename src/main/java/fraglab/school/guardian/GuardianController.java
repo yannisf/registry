@@ -2,6 +2,7 @@ package fraglab.school.guardian;
 
 import fraglab.NotFoundException;
 import fraglab.school.ControllerErrorWrapper;
+import fraglab.school.Telephone;
 import fraglab.school.relationship.ChildGuardianRelationship;
 import fraglab.school.relationship.RelationshipDto;
 import org.slf4j.Logger;
@@ -57,6 +58,11 @@ public class GuardianController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Guardian> fetchAll() {
         return guardianService.fetchAll();
+    }
+
+    @RequestMapping(value = "/telephone/types", method = RequestMethod.GET)
+    public Telephone.Type[] getRelationshipTypes() {
+        return Telephone.Type.values();
     }
 
     @ExceptionHandler(NotFoundException.class)

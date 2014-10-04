@@ -8,7 +8,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                 templateUrl: 'child/edit.html',
                 controller: 'createChildController'
             })
-            .when('/child/update', {
+            .when('/child/:childId/update', {
                 templateUrl: 'child/edit.html',
                 controller: 'updateChildController'
             })
@@ -81,6 +81,12 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
         }
     }])
 
+    .directive('child', function() {
+        return {
+          template: 'Name: {{customer.name}} Address: {{customer.address}}'
+        };
+    })
+
     .controller('ChildController', ['$scope', 'childService', function ($scope, childService) {
         childService.fetchAll().then(
             function (data) {
@@ -96,8 +102,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                     child: null
                 },
                 viewData: {
-                    allowDelete: false,
-                    submitLabel: 'Create'
+                    submitLabel: 'Εισαγωγή'
                 }
             });
 
@@ -119,8 +124,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                 },
                 viewData: {
                     childId: statefulChildService.getScopedChildId(),
-                    allowDelete: true,
-                    submitLabel: 'Update'
+                    submitLabel: 'Ανανέωση'
                 }
             });
 

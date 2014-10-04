@@ -9,14 +9,18 @@ public class RelationshipDto implements Serializable {
 
     private Child child;
     private Guardian guardian;
+    //    private List<Telephone> telephones;
     private ChildGuardianRelationship relationship;
 
     public RelationshipDto() {
     }
 
-    public RelationshipDto(Child child, Guardian guardian, ChildGuardianRelationship relationship) {
+    public RelationshipDto(Child child, Guardian guardian,
+//                           List<Telephone> telephones,
+                           ChildGuardianRelationship relationship) {
         this.child = child;
         this.guardian = guardian;
+//        this.telephones = telephones;
         this.relationship = relationship;
     }
 
@@ -31,6 +35,14 @@ public class RelationshipDto implements Serializable {
     public Guardian getGuardian() {
         return guardian;
     }
+
+//    public List<Telephone> getTelephones() {
+//        return telephones;
+//    }
+
+//    public void setTelephones(List<Telephone> telephones) {
+//        this.telephones = telephones;
+//    }
 
     public void setGuardian(Guardian guardian) {
         this.guardian = guardian;

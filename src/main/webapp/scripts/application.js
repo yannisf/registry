@@ -9,6 +9,50 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             });
     }])
 
+    .value('relationshipMap', {
+        PARENT: "Γονιός",
+        FATHER: "Πατέρας",
+        MOTHER: "Μητέρα",
+        GRANDFATHER: "Παππούς",
+        GRANDMOTHER: "Γιαγιά",
+        GRANDPARENT: "Παππούς/Γιαγία",
+        SIBLING: "Αδελφός/Αδελφή",
+        BROTHER: "Αδελφός",
+        SISTER: "Αδελφή",
+        OTHER: "Άλλο"
+    })
+
+    .value('telephoneTypeMap', {
+        HOME: "Σπίτι",
+        WORK: "Δουλειά",
+        MOBILE: "Κινητό",
+        OTHER: "Άλλο"
+    })
+
+    .value('sexTypeMap', {
+        MALE: "Αγόρι",
+        FEMALE: "Κορίτσι",
+        OTHER: "Άλλο"
+    })
+
+    .filter('relationshipFilter', ['relationshipMap', function(relationshipMap) {
+        return function(value) {
+            return relationshipMap[value];
+        }
+    }])
+
+    .filter('telephoneTypeFilter', ['telephoneTypeMap', function(telephoneTypeMap) {
+        return function(value) {
+            return telephoneTypeMap[value];
+        }
+    }])
+
+    .filter('sexTypeFilter', ['sexTypeMap', function(sexTypeMap) {
+        return function(value) {
+            return sexTypeMap[value];
+        }
+    }])
+
     .run(['$rootScope', '$location', 'statefulChildService', function ($rootScope, $location, statefulChildService) {
         angular.extend($rootScope, {
             cancel: function () { //rename this: toChildList
@@ -16,6 +60,10 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             },
             toScopedChild: function() {
                 $location.url('/child/' + statefulChildService.getScopedChildId() + '/view');
+            },
+            go: function(path) {
+                console.log('Requested ', path);
+              $location.path(path);
             }
         });
     }]);

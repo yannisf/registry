@@ -58,16 +58,34 @@
 
         <div class="col-sm-10 col-lg-3">
             <select class="form-control" id="relationship" ng-model="data.relationship.relationshipMetadata.type"
-                    ng-options="relationship for relationship in viewData.relationshipTypes">
+                    ng-options="relationship|relationshipFilter for relationship in viewData.relationshipTypes">
                 <option value="">--</option>
             </select>
         </div>
     </div>
 
+    <div ng-repeat="telephone in data.guardian.telephones">
+        <div class="form-group">
+            <label for="telephoneNumber" class="col-sm-2 control-label">Τηλέφωνο {{$index + 1}}</label>
+
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number">
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="telephoneType" ng-model="telephone.type"
+                        ng-options="type|telephoneTypeFilter for type in viewData.telephoneTypes">
+                    <option value="">--</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-default" ng-click="submit()">{{viewData.submitLabel}}</button>
-            <button class="btn btn-default" ng-click="toScopedChild()">Cancel</button>
+            <button class="btn btn-default" ng-click="addTelephone()">Προσθήκη τηλεφώνου</button>
+            <button class="btn btn-default" ng-click="submit()">Εισαγωγή κηδεμόνα</button>
+            <button class="btn btn-default" ng-click="toScopedChild()">Πίσω στο παιδί</button>
         </div>
     </div>
 

@@ -1,0 +1,37 @@
+<div class="page-header">
+    <h2>Κηδεμόνας</h2>
+</div>
+
+
+<div class="row">
+    <span class="col-sm-3 text-right clabel">Όνομα</span>
+    <span class="col-sm-3">{{data.guardian.firstName}}</span>
+</div>
+<div class="row">
+    <span class="col-sm-3 text-right clabel">Επώνυμο</span>
+    <span class="col-sm-3">{{data.guardian.lastName}}</span>
+</div>
+<div class="row">
+    <span class="col-sm-3 text-right clabel">Ημ/νία γέν. (dd-MM-yyyy)</span>
+    <span class="col-sm-3">{{data.guardian.dateOfBirth}}</span>
+</div>
+<div class="row">
+    <span class="col-sm-3 text-right clabel">Φύλο</span>
+    <span class="col-sm-3">{{data.guardian.sex | sexTypeFilter}}</span>
+</div>
+<div class="row">
+    <span class="col-sm-3 text-right clabel">Επάγγελμα</span>
+    <span class="col-sm-3">{{data.guardian.profession}}</span>
+</div>
+<div class="row">
+    <span class="col-sm-3 text-right clabel">Υπηκοότητα</span>
+    <span class="col-sm-3">{{data.guardian.nationality}}</span>
+</div>
+<div class="row" ng-repeat="telephone in data.guardian.telephones">
+    <span class="col-sm-3 text-right clabel">Τηλέφωνο</span>
+    <span class="col-sm-3">{{telephone.number}} ({{telephone.type|telephoneTypeFilter}})</span>
+</div>
+
+
+<button class="btn btn-default" ng-click="delete()">Διαφραφή</button>
+<button class="btn btn-default" ng-click="cancel()">Κατάλογος</button>

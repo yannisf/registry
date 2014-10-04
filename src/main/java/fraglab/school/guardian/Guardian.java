@@ -1,14 +1,10 @@
 package fraglab.school.guardian;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fraglab.school.Person;
 import fraglab.school.Telephone;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Guardian extends Person implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-
-    @JsonIgnore()
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Telephone> telephones;
 
     private String profession;
