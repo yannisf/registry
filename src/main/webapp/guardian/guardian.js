@@ -8,6 +8,10 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                 templateUrl: 'guardian/edit.html',
                 controller: 'createGuardianController'
             })
+            .when('/guardian/:guardianId/edit', {
+                templateUrl: 'guardian/edit.html',
+                controller: 'guardianController'
+            })
             .when('/guardian/:guardianId/view', {
                 templateUrl: 'guardian/view.html',
                 controller: 'guardianController'
@@ -35,13 +39,6 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
 
     .service('guardianService', ['$http', function ($http) {
         return {
-            create: function (guardian) {
-                return $http.post('api/guardian', guardian).then(
-                    function (response) {
-                        return response.data;
-                    }
-                );
-            },
             fetch: function (guardianId) {
                 return $http.get('api/guardian/' + guardianId).then(
                     function (response) {
@@ -61,11 +58,15 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
 
     .controller('guardianController', ['$scope', '$routeParams', 'statefulChildService', 'guardianService', 'ListService',
         function ($scope, $routeParams, statefulChildService, guardianService, ListService) {
-            console.log('Loaded guardian ', $routeParams.guardianId);
             angular.extend($scope, {
                 data: {
                     guardian: null,
+                },
+                viewData: {
+                    guardianId: $routeParams.guardianId,
+                    submitLabel: 'Ανανέωση'
                 }
+
             });
 
             guardianService.fetch($routeParams.guardianId).then(
@@ -93,7 +94,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
                 viewData: {
                     relationshipTypes: [],
                     telephoneTypes: [],
-                    submitLabel: 'Create'
+                    submitLabel: 'Εισαγωγή'
                 }
             });
 
@@ -114,10 +115,6 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'child'])
             }
 
             $scope.submit = function () {
-                console.log('childId: ', statefulChildService.getScopedChildId());
-                console.log('guardian: ', $scope.data.guardian);
-                console.log('relationship: ', $scope.data.relationship.relationshipMetadata.type);
-
                 var guardianRelationship = {
                     child: {
                         id: statefulChildService.getScopedChildId()

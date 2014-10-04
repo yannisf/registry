@@ -10,13 +10,10 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
     }])
 
     .value('relationshipMap', {
-        PARENT: "Γονιός",
         FATHER: "Πατέρας",
         MOTHER: "Μητέρα",
         GRANDFATHER: "Παππούς",
         GRANDMOTHER: "Γιαγιά",
-        GRANDPARENT: "Παππούς/Γιαγία",
-        SIBLING: "Αδελφός/Αδελφή",
         BROTHER: "Αδελφός",
         SISTER: "Αδελφή",
         OTHER: "Άλλο"
@@ -53,9 +50,22 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         }
     }])
 
+    .directive('inputAddress', function() {
+        return {
+          restrict: 'E',
+          scope: {
+            address: "=address"
+          },
+          templateUrl: "templates/input-address.html"
+        };
+    })
+
     .run(['$rootScope', '$location', 'statefulChildService', function ($rootScope, $location, statefulChildService) {
         angular.extend($rootScope, {
             cancel: function () { //rename this: toChildList
+                $location.url('/child/list');
+            },
+            toChildList: function () {
                 $location.url('/child/list');
             },
             toScopedChild: function() {

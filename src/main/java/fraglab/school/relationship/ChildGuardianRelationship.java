@@ -56,13 +56,10 @@ public class ChildGuardianRelationship implements Serializable {
     }
 
     public enum Type {
-        PARENT,
         FATHER,
         MOTHER,
-        GRANDPARENT,
         GRANDFATHER,
         GRANDMOTHER,
-        SIBLING,
         BROTHER,
         SISTER,
         OTHER;

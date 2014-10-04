@@ -81,9 +81,13 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
         }
     }])
 
-    .directive('child', function() {
+    .directive('displayChild', function() {
         return {
-          template: 'Name: {{customer.name}} Address: {{customer.address}}'
+          restrict: 'E',
+          scope: {
+            child: "=child"
+          },
+          templateUrl: "child/display-tpl.html"
         };
     })
 

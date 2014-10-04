@@ -2,42 +2,11 @@
     <h2>Παιδί</h2>
 </div>
 
-<div class="row">
-    <span class="col-md-2 text-right clabel">Όνομα</span>
-    <span class="col-md-3">{{data.child.firstName}}</span>
-</div>
-<div class="row">
-    <span class="col-md-2 text-right clabel">Επώνυμο</span>
-    <span class="col-md-3">{{data.child.lastName}}</span>
-</div>
-<div class="row" ng-if="data.child.callName">
-    <span class="col-md-2 text-right clabel">Χαϊδευτικό</span>
-    <span class="col-md-3">{{data.child.callName}}</span>
-</div>
-<div class="row">
-    <span class="col-md-2 text-right clabel">Ημ/νία γέν.</span>
-    <span class="col-md-3">{{data.child.dateOfBirth}}</span>
-</div>
-<div class="row">
-    <span class="col-md-2 text-right clabel">Φύλο</span>
-    <span class="col-md-3">{{data.child.sex | sexTypeFilter}}</span>
-</div>
-<div class="row">
-    <span class="col-md-2 text-right clabel">Υπηκοότητα</span>
-    <span class="col-md-3">{{data.child.nationality}}</span>
-</div>
-<div class="row">
-    <span class="col-md-2 text-right clabel">Διεύθυνση</span>
-    <span class="col-md-3">{{data.child.address.streetName}} {{data.child.address.streetNumber}}, {{data.child.address.neighbourhood}}</span>
-</div>
-<div class="row">
-    <span class="col-md-2 text-right clabel">&nbsp;</span>
-    <span class="col-md-3">{{data.child.address.city}}, {{data.child.address.postalCode}}</span>
-</div>
+<display-child child="data.child"></display-child>
 
 <div class="row">
-    <div class="col-md-5">
-        <button class="btn btn-default" ng-click="cancel()">Κατάλογος παιδιών</button>
+    <div class="col-md-5" style="padding-top: 1em">
+        <button class="btn btn-default" ng-click="toChildList()">Κατάλογος παιδιών</button>
         <button class="btn btn-danger" ng-click="delete()">Διαγραφή</button>
     </div>
 </div>
@@ -65,15 +34,16 @@
         <td>{{relationship.relationship.relationshipMetadata.type | relationshipFilter}}</td>
         <td class="text-right">
             <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/view')">Προβολή</button>
-            <button class="btn btn-xs">Επεξεργασία</button>
+            <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit')">Ανανέωση
+            </button>
             <button class="btn btn-xs">Διαγραφή</button>
         </td>
     </tr>
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="3">
-            <button class="btn btn-default" ng-click="addGuardian()">Προσθήκη νέου κηδεμόνα</button>
+        <td colspan="3" style="padding-top: 1em">
+        <button class="btn btn-default" ng-click="addGuardian()">Προσθήκη νέου κηδεμόνα</button>
         </td>
     </tr>
     </tfoot>

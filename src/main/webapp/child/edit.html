@@ -57,46 +57,7 @@
             </div>
         </div>
 
-        <fieldset>
-            <legend>Διεύθυνση</legend>
-            <div class="form-group">
-                <label for="address.streetName" class="col-md-2 control-label">Οδός</label>
-
-                <div class="col-md-3">
-                    <input type="text" class="form-control" id="address.streetName"
-                           ng-model="data.child.address.streetName">
-                </div>
-                <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
-
-                <div class="col-md-2">
-                    <input type="text" class="form-control" id="address.streetNumber"
-                           ng-model="data.child.address.streetNumber">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="address.neighbourhood" class="col-md-2 control-label">Περιοχή</label>
-
-                <div class="col-md-3">
-                    <input type="text" class="form-control" id="address.neighbourhood"
-                           ng-model="data.child.address.neighbourhood">
-                </div>
-                <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
-
-                <div class="col-md-2">
-                    <input type="text" class="form-control" id="address.postalCode"
-                           ng-model="data.child.address.postalCode">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="address.city" class="col-md-2 control-label">Πόλη</label>
-
-                <div class="col-md-3">
-                    <input type="text" class="form-control" id="address.city" ng-model="data.child.address.city">
-                </div>
-            </div>
-        </fieldset>
+        <input-address address="data.child.address"></input-address>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

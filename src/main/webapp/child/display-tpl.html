@@ -1,32 +1,32 @@
 <div class="row">
     <span class="col-md-2 text-right clabel">Όνομα</span>
-    <span class="col-md-3">{{data.child.firstName}}</span>
+    <span class="col-md-3">{{child.firstName}}</span>
 </div>
 <div class="row">
     <span class="col-md-2 text-right clabel">Επώνυμο</span>
-    <span class="col-md-3">{{data.child.lastName}}</span>
+    <span class="col-md-3">{{child.lastName}}</span>
 </div>
 <div class="row" ng-if="data.child.callName">
     <span class="col-md-2 text-right clabel">Χαϊδευτικό</span>
-    <span class="col-md-3">{{data.child.callName}}</span>
+    <span class="col-md-3">{{child.callName}}</span>
 </div>
 <div class="row">
     <span class="col-md-2 text-right clabel">Ημ/νία γέν.</span>
-    <span class="col-md-3">{{data.child.dateOfBirth}}</span>
+    <span class="col-md-3">{{child.dateOfBirth}}</span>
 </div>
 <div class="row">
     <span class="col-md-2 text-right clabel">Φύλο</span>
-    <span class="col-md-3">{{data.child.sex | sexTypeFilter}}</span>
+    <span class="col-md-3">{{child.sex | sexTypeFilter}}</span>
 </div>
 <div class="row">
     <span class="col-md-2 text-right clabel">Υπηκοότητα</span>
-    <span class="col-md-3">{{data.child.nationality}}</span>
+    <span class="col-md-3">{{child.nationality}}</span>
 </div>
 <div class="row">
     <span class="col-md-2 text-right clabel">Διεύθυνση</span>
-    <span class="col-md-3">{{data.child.address.streetName}} {{data.child.address.streetNumber}}, {{data.child.address.neighbourhood}}</span>
+    <span class="col-md-3">{{child.address.streetName}} {{child.address.streetNumber}}, {{child.address.neighbourhood}}</span>
 </div>
 <div class="row">
     <span class="col-md-2 text-right clabel">&nbsp;</span>
-    <span class="col-md-3">{{data.child.address.city}}, {{data.child.address.postalCode}}</span>
+    <span class="col-md-3">{{child.address.city}}, {{child.address.postalCode}}</span>
 </div>
