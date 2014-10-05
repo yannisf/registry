@@ -1,5 +1,9 @@
 <div class="page-header">
-    <h2>{{viewData.submitLabel}} κηδεμόνα</h2>
+    <h2>{{viewData.submitLabel}} κηδεμόνα
+        <small>
+            <person-name person="data.guardian"></person-name>
+        </small>
+    </h2>
 </div>
 
 <div>
@@ -25,10 +29,11 @@
         </div>
 
         <div class="form-group">
-            <label for="dateOfBirth" class="col-md-2 control-label">Ημ/νία γεν. (dd-MM-yyyy)</label>
+            <label for="dateOfBirth" class="col-md-2 control-label">Ημ/νία γεν.</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="dateOfBirth" ng-model="data.guardian.dateOfBirth">
+                <input type="text" class="form-control" id="dateOfBirth" ng-model="data.guardian.dateOfBirth"
+                       placeholder="ΗΗ-ΜΜ-ΧΧΧΧ">
             </div>
         </div>
 

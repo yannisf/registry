@@ -54,6 +54,38 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         }
     }])
 
+    .directive('displayGuardian', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                guardian: "=guardian"
+            },
+            templateUrl: "templates/display-guardian.html"
+        };
+    })
+
+    .directive('displayChild', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                child: "=child"
+            },
+            templateUrl: "templates/display-child.html"
+        };
+    })
+
+    .directive('displayAddress', function() {
+        return {
+            restrict: 'E',
+            scope: {
+                address: "=address"
+            },
+            templateUrl: "templates/display-address.html"
+        };
+    })
+
     .directive('inputAddress', function() {
         return {
           restrict: 'E',
@@ -61,6 +93,16 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             address: "=address"
           },
           templateUrl: "templates/input-address.html"
+        };
+    })
+
+    .directive('personName', function() {
+        return {
+            restrict: 'E',
+            scope: {
+                person: "=person"
+            },
+            template: '{{person.firstName}} {{person.lastName}} <span ng-if="person.callName">({{person.callName}})</span>'
         };
     })
 
@@ -90,7 +132,11 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
                     $location.url('/child/list');
                 },
                 toScopedChild: function() {
-                    $location.url('/child/' + statefulChildService.getScopedChildId() + '/view');
+                    if (statefulChildService.getScopedChildId()) {
+                        $location.url('/child/' + statefulChildService.getScopedChildId() + '/view');
+                    } else {
+                        this.toChildList();
+                    }
                 },
                 go: function(path) {
                     console.log('Requested ', path);

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ChildService {
 
-    void create(Child child);
+    Child create(Child child);
 
     void delete(Long id) throws NotFoundException;
 

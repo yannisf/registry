@@ -17,8 +17,9 @@ public class ChildServiceImpl implements ChildService {
     private ChildDao childDao;
 
     @Override
-    public void create(Child child) {
+    public Child create(Child child) {
         childDao.create(child);
+        return child;
     }
 
     @Override

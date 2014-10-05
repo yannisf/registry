@@ -86,16 +86,6 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
         }
     }])
 
-    .directive('displayChild', function() {
-        return {
-          restrict: 'E',
-          scope: {
-            child: "=child"
-          },
-          templateUrl: "child/display-tpl.html"
-        };
-    })
-
     .controller('ChildController', ['$scope', 'childService', function ($scope, childService) {
         angular.extend($scope, {
             data: {
@@ -116,8 +106,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
         );
     }])
 
-    .controller('createChildController', ['$scope', 'childService',
-        function ($scope, childService) {
+    .controller('createChildController', ['$scope', 'childService', 'statefulChildService',
+        function ($scope, childService, statefulChildService) {
             angular.extend($scope, {
                 data: {
                     child: null
@@ -130,7 +120,9 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             $scope.submit = function () {
                 childService.create($scope.data.child).then(
                     function (response) {
-                        $scope.toChildList();
+                        var childId = response.id;
+                        statefulChildService.setScopedChildId(childId);
+                        $scope.toScopedChild();
                     }
                 );
             }

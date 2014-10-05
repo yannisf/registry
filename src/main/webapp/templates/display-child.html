@@ -1,0 +1,30 @@
+<div style="font-size: larger; line-height: 150%">
+    <div class="row">
+        <span class="col-md-2 text-right clabel">Όνομα</span>
+        <span class="col-md-4">{{child.firstName}}</span>
+    </div>
+    <div class="row">
+        <span class="col-md-2 text-right clabel">Επώνυμο</span>
+        <span class="col-md-4">{{child.lastName}}</span>
+    </div>
+    <div class="row" ng-if="data.child.callName">
+        <span class="col-md-2 text-right clabel">Χαϊδευτικό</span>
+        <span class="col-md-4">{{child.callName}}</span>
+    </div>
+    <div class="row">
+        <span class="col-md-2 text-right clabel">Ημ/νία γέν.</span>
+        <span class="col-md-4">{{child.dateOfBirth}}</span>
+    </div>
+    <div class="row">
+        <span class="col-md-2 text-right clabel">Φύλο</span>
+        <span class="col-md-4">{{child.sex | sexTypeFilter}}</span>
+    </div>
+    <div class="row">
+        <span class="col-md-2 text-right clabel">Υπηκοότητα</span>
+        <span class="col-md-4">{{child.nationality}}</span>
+    </div>
+    <div class="row">
+        <span class="col-md-2 text-right clabel">Διεύθυνση</span>
+        <span class="col-md-4"><display-address address="child.address"></display-address></span>
+    </div>
+</div>

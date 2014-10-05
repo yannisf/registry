@@ -23,4 +23,13 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, Long> implements ChildDa
         return query.getResultList();
     }
 
+    @Override
+    public void delete(Child child) {
+        Query deleteChildRelationships = entityManager.createQuery("delete from ChildGuardianRelationship r where r.childId=:childId");
+        deleteChildRelationships.setParameter("childId", child.getId());
+        int relationshipsToDelete = deleteChildRelationships.executeUpdate();
+        LOG.debug("While deleting Child[{}], [{}] relationships with Guardians will be deleted as well. ",
+                child.getId(), relationshipsToDelete);
+        super.delete(child);
+    }
 }

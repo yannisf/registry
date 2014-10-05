@@ -1,28 +1,21 @@
 <div class="page-header">
     <h2>Παιδί
-        <small>{{data.child.firstName}} {{data.child.lastName}} <span ng-if="data.child.callName">({{data.child.callName}})</span>
+        <small>
+            <person-name person="data.child"></person-name>
         </small>
+        <button class="btn btn-xs btn-danger" ng-click="confirmRemoveChild()">Διαγραφή</button>
     </h2>
 </div>
 
 <display-child child="data.child"></display-child>
 
-<div class="row">
-    <div class="col-md-5" style="padding-top: 1em">
-        <button class="btn btn-default" ng-click="toChildList()">Κατάλογος παιδιών</button>
-        <button class="btn btn-danger" ng-click="confirmRemoveChild()">Διαγραφή</button>
-    </div>
-</div>
+<h3>Κηδεμόνες <span class="badge" ng-if="data.relationships.length > 0">{{data.relationships.length}}</span>
+    <button class="btn btn-primary btn-xs" ng-click="addGuardian()">Εισαγωγή νέου κηδεμόνα</button>
+</h3>
 
-<h3>Κηδεμόνες</h3>
-
-<div ng-if="data.relationships.length == 0">
-    Δεν έχει εισαχθεί κανείς κηδεμόνας ακόμα.
-    <button class="btn btn-xs" ng-click="addGuardian()">Εισαγωγή νέου κηδεμόνα</button>
-</div>
+<div ng-if="data.relationships.length == 0"> Δεν έχει εισαχθεί κανείς κηδεμόνας ακόμα</div>
 
 <table class="table table-striped table-hover" ng-if="data.relationships.length > 0">
-
     <thead>
     <tr>
         <th>Όνομα</th>
@@ -43,14 +36,14 @@
         </td>
     </tr>
     </tbody>
-    <tfoot>
-    <tr>
-        <td colspan="3" style="padding-top: 1em">
-            <button class="btn btn-default" ng-click="addGuardian()">Προσθήκη νέου κηδεμόνα</button>
-        </td>
-    </tr>
-    </tfoot>
 </table>
+
+<div class="row">
+    <div class="col-md-5" style="padding-top: 1em">
+        <button class="btn btn-default" ng-click="toChildList()">Πίσω</button>
+    </div>
+</div>
+
 
 <script type="text/ng-template" id="removeChildModal">
     <div class="modal-header">

@@ -16,8 +16,8 @@ public class ChildController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Child child) {
-        childService.create(child);
+    public Child create(@RequestBody Child child) {
+        return childService.create(child);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
