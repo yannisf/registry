@@ -1,10 +1,6 @@
 package fraglab.school.child;
 
 import fraglab.NotFoundException;
-import fraglab.school.guardian.GuardianDao;
-import fraglab.school.relationship.ChildGuardianRelationship;
-import fraglab.school.relationship.RelationshipDto;
-import fraglab.school.relationship.RelationshipMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +15,6 @@ public class ChildServiceImpl implements ChildService {
 
     @Autowired
     private ChildDao childDao;
-
-    @Autowired
-    private GuardianDao guardianDao;
 
     @Override
     public void create(Child child) {
@@ -56,27 +49,5 @@ public class ChildServiceImpl implements ChildService {
         return childDao.fetchAll();
     }
 
-    @Override
-    public ChildGuardianRelationship fetchRelationship(Long childId, Long guardianId) {
-        return childDao.fetch(childId, guardianId);
-    }
 
-    @Override
-    public void deleteRelationship(Long childId, Long guardianId) {
-        childDao.delete(childId, guardianId);
-    }
-
-    @Override
-    public void createRelationship(Long childId, Long guardianId, RelationshipMetadata relationshipMetadata) {
-        ChildGuardianRelationship childGuardianRelationship = new ChildGuardianRelationship();
-        childGuardianRelationship.setChildId(childId);
-        childGuardianRelationship.setGuardianId(guardianId);
-        childGuardianRelationship.setRelationshipMetadata(relationshipMetadata);
-        childDao.create(childGuardianRelationship);
-    }
-
-    @Override
-    public List<RelationshipDto> fetchRelationships(Long childId) {
-        return childDao.fetchRelationship(childId);
-    }
 }

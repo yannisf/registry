@@ -16,6 +16,10 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         GRANDMOTHER: "Γιαγιά",
         BROTHER: "Αδελφός",
         SISTER: "Αδελφή",
+        UNCLE: "Θείος",
+        AUNT: "Θεία",
+        GODFATHER: "Νονός",
+        GODMOTHER: "Νονά",
         OTHER: "Άλλο"
     })
 
@@ -60,21 +64,49 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         };
     })
 
-    .run(['$rootScope', '$location', 'statefulChildService', function ($rootScope, $location, statefulChildService) {
-        angular.extend($rootScope, {
-            cancel: function () { //rename this: toChildList
-                $location.url('/child/list');
+    .service('ListService', ['$http', function ($http) {
+        return {
+            relationshipTypes: function () {
+                return $http.get('api/types/relationship').then(
+                    function (response) {
+                        return response.data;
+                    }
+                );
             },
-            toChildList: function () {
-                $location.url('/child/list');
-            },
-            toScopedChild: function() {
-                $location.url('/child/' + statefulChildService.getScopedChildId() + '/view');
-            },
-            go: function(path) {
-                console.log('Requested ', path);
-              $location.path(path);
-            }
-        });
+            telephoneTypes: function () {
+                return $http.get('api/types/telephone').then(
+                    function (response) {
+                        return response.data;
+                    });
+                }
+            };
+        }
+    ])
+
+    .run(['$rootScope', '$location', 'statefulChildService', 'ListService',
+        function ($rootScope, $location, statefulChildService, ListService) {
+            angular.extend($rootScope, {
+                toChildList: function () {
+                    $location.url('/child/list');
+                },
+                toScopedChild: function() {
+                    $location.url('/child/' + statefulChildService.getScopedChildId() + '/view');
+                },
+                go: function(path) {
+                    console.log('Requested ', path);
+                  $location.path(path);
+                },
+                relationshipTypes: [],
+                telephoneTypes: []
+            });
+
+            ListService.relationshipTypes().then(function (data) {
+                $rootScope.relationshipTypes = data;
+            });
+
+            ListService.telephoneTypes().then(function (data) {
+                $rootScope.telephoneTypes = data;
+            });
+
     }]);
 

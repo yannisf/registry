@@ -62,6 +62,10 @@ public class ChildGuardianRelationship implements Serializable {
         GRANDMOTHER,
         BROTHER,
         SISTER,
+        UNCLE,
+        AUNT,
+        GODFATHER,
+        GODMOTHER,
         OTHER;
     }
 

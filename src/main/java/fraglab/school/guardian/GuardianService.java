@@ -1,7 +1,6 @@
 package fraglab.school.guardian;
 
 import fraglab.NotFoundException;
-import fraglab.school.relationship.ChildGuardianRelationship;
 
 import java.util.List;
 
@@ -17,5 +16,4 @@ public interface GuardianService {
 
     List<Guardian> fetchAll();
 
-    void establishRelationship(Guardian guardian, ChildGuardianRelationship relationship);
 }

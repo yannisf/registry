@@ -55,12 +55,17 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                     });
             },
             fetchRelationships: function (childId) {
-                return $http.get('api/child/' + childId + '/guardian').then(
+                return $http.get('api/relationship/child/' + childId + '/guardian').then(
                     function (response) {
                         return response.data;
                     });
             },
-
+            removeRelationship: function (relationshipId) {
+                return $http({method: 'DELETE', url: 'api/relationship/' + relationshipId}).then(
+                    function (response) {
+                        return response.data;
+                    });
+            }
         };
     }])
 
@@ -125,14 +130,14 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             $scope.submit = function () {
                 childService.create($scope.data.child).then(
                     function (response) {
-                        $scope.cancel();
+                        $scope.toChildList();
                     }
                 );
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$location', 'childService', 'statefulChildService',
-        function ($scope, $location, childService, statefulChildService) {
+    .controller('updateChildController', ['$scope', '$location', '$modal', 'childService', 'statefulChildService',
+        function ($scope, $location, $modal, childService, statefulChildService) {
             angular.extend($scope, {
                 data: {
                     child: null,
@@ -159,21 +164,55 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             $scope.submit = function () {
                 childService.update($scope.viewData.childId, $scope.data.child).then(
                     function (response) {
-                        $scope.cancel();
-                    }
-                );
-            };
-
-            $scope.remove = function () {
-                childService.remove($scope.viewData.childId).then(
-                    function (response) {
-                        $scope.cancel();
+                        $scope.toChildList();
                     }
                 );
             };
 
             $scope.addGuardian = function () {
                 $location.url('/guardian/edit');
+            };
+
+            $scope.removeRelationship = function(relationshipId) {
+                childService.removeRelationship(relationshipId).then(
+                    function(response) {
+                        console.log('Removed relationship');
+                        childService.fetchRelationships($scope.viewData.childId).then(
+                            function (response) {
+                                $scope.data.relationships = response;
+                            }
+                        );
+                    }
+                )
+            };
+
+            $scope.confirmRemoveChild = function () {
+                $modal.open({
+                    templateUrl: 'removeChildModal',
+                    controller: 'removeChildModalController',
+                    resolve: {
+                        childId: function () {
+                            return $scope.viewData.childId;
+                        }
+                    }
+                });
+            };
+
+        }])
+
+    .controller('removeChildModalController', ['$scope', '$modalInstance', 'childService', 'childId',
+        function($scope, $modalInstance, childService, childId) {
+            $scope.removeChild = function () {
+                childService.remove(childId).then(
+                    function (response) {
+                        $scope.dismiss();
+                        $scope.toChildList();
+                    }
+                );
+            };
+
+            $scope.dismiss = function () {
+                $modalInstance.dismiss();
             };
 
         }]);

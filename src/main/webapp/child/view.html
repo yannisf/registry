@@ -1,5 +1,8 @@
 <div class="page-header">
-    <h2>Παιδί</h2>
+    <h2>Παιδί
+        <small>{{data.child.firstName}} {{data.child.lastName}} <span ng-if="data.child.callName">({{data.child.callName}})</span>
+        </small>
+    </h2>
 </div>
 
 <display-child child="data.child"></display-child>
@@ -7,7 +10,7 @@
 <div class="row">
     <div class="col-md-5" style="padding-top: 1em">
         <button class="btn btn-default" ng-click="toChildList()">Κατάλογος παιδιών</button>
-        <button class="btn btn-danger" ng-click="delete()">Διαγραφή</button>
+        <button class="btn btn-danger" ng-click="confirmRemoveChild()">Διαγραφή</button>
     </div>
 </div>
 
@@ -36,15 +39,46 @@
             <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/view')">Προβολή</button>
             <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit')">Ανανέωση
             </button>
-            <button class="btn btn-xs">Διαγραφή</button>
+            <button class="btn btn-xs" ng-click="removeRelationship(relationship.relationship.id)">Διαγραφή</button>
         </td>
     </tr>
     </tbody>
     <tfoot>
     <tr>
         <td colspan="3" style="padding-top: 1em">
-        <button class="btn btn-default" ng-click="addGuardian()">Προσθήκη νέου κηδεμόνα</button>
+            <button class="btn btn-default" ng-click="addGuardian()">Προσθήκη νέου κηδεμόνα</button>
         </td>
     </tr>
     </tfoot>
 </table>
+
+<script type="text/ng-template" id="removeChildModal">
+    <div class="modal-header">
+        <h3 class="modal-title">Διαγραφή παιδιού</h3>
+    </div>
+
+    <div class="modal-body">
+        Επιθυμείτε τη διαγραφή του παιδιού από το κατάλογο;
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-danger" ng-click="removeChild()">Ναι</button>
+        <button class="btn btn-default" ng-click="dismiss()">Όχι</button>
+    </div>
+</script>
+
+<!--Implementation pending-->
+<script type="text/ng-template" id="removeRelationshipModal">
+    <div class="modal-header">
+        <h3 class="modal-title">Διαγραφή σχέσης</h3>
+    </div>
+
+    <div class="modal-body">
+        Επιθυμείτε τη διαγραφή αυτής της σχέσης;
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-danger" ng-click="removeChild()">Ναι</button>
+        <button class="btn btn-default" ng-click="dismiss()">Όχι</button>
+    </div>
+</script>

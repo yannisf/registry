@@ -64,8 +64,8 @@
 
             <div class="col-md-3">
                 <select class="form-control" id="relationship" ng-model="data.relationship.relationshipMetadata.type"
-                        ng-options="relationship|relationshipFilter for relationship in viewData.relationshipTypes">
-                <option value="">--</option>
+                        ng-options="relationship|relationshipFilter for relationship in relationshipTypes">
+                    <option value="">--</option>
                 </select>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="col-md-2">
                         <select class="form-control" id="telephoneType" ng-model="telephone.type"
-                                ng-options="type|telephoneTypeFilter for type in viewData.telephoneTypes">
+                                ng-options="type|telephoneTypeFilter for type in telephoneTypes">
                             <option value="">--</option>
                         </select>
                     </div>
