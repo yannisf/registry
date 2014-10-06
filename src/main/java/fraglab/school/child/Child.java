@@ -4,13 +4,17 @@ import fraglab.school.Person;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import java.io.Serializable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
 @DiscriminatorValue("CHILD")
-public class Child extends Person implements Serializable {
+public class Child extends Person {
 
     private String callName;
+
+    @Enumerated(EnumType.STRING)
+    private PreSchoolLevel level;
 
     public String getCallName() {
         return callName;
@@ -18,6 +22,14 @@ public class Child extends Person implements Serializable {
 
     public void setCallName(String callName) {
         this.callName = callName;
+    }
+
+    public PreSchoolLevel getLevel() {
+        return level;
+    }
+
+    public void setLevel(PreSchoolLevel level) {
+        this.level = level;
     }
 
     @Override
@@ -28,6 +40,11 @@ public class Child extends Person implements Serializable {
                 ", lastName='" + getLastName() + '\'' +
                 ", callName='" + getCallName() + '\'' +
                 '}';
+    }
+
+    public enum PreSchoolLevel {
+        PRE_SCHOOL_LEVEL_A,
+        PRE_SCHOOL_LEVEL_B
     }
 
 }

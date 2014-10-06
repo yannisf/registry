@@ -1,18 +1,15 @@
 
 package fraglab.school.relationship;
 
+import fraglab.school.BaseEntity;
+
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "CHILD_GUARDIAN", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"CHILD_ID", "GUARDIAN_ID"})
 })
-public class ChildGuardianRelationship implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class ChildGuardianRelationship extends BaseEntity {
 
     @Column(name = "CHILD_ID")
     private Long childId;
@@ -23,13 +20,7 @@ public class ChildGuardianRelationship implements Serializable {
     @Embedded
     private RelationshipMetadata relationshipMetadata;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String notes;
 
     public Long getChildId() {
         return childId;
@@ -53,6 +44,14 @@ public class ChildGuardianRelationship implements Serializable {
 
     public void setRelationshipMetadata(RelationshipMetadata relationshipMetadata) {
         this.relationshipMetadata = relationshipMetadata;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public enum Type {

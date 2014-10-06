@@ -1,6 +1,7 @@
 package fraglab.school.types;
 
 import fraglab.school.Telephone;
+import fraglab.school.child.Child;
 import fraglab.school.relationship.ChildGuardianRelationship;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,11 @@ public class TypesController {
     @RequestMapping(value = "/telephone", method = RequestMethod.GET)
     public Telephone.Type[] getTelephoneTypes() {
         return Telephone.Type.values();
+    }
+
+    @RequestMapping(value = "/preschool", method = RequestMethod.GET)
+    public Child.PreSchoolLevel[] getPreSchoolLevels() {
+        return Child.PreSchoolLevel.values();
     }
 
 }

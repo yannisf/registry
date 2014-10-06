@@ -1,27 +1,16 @@
 package fraglab.school;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
-public class Telephone implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Telephone extends BaseEntity {
 
     private String number;
 
     @Enumerated(EnumType.STRING)
     private Type type;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNumber() {
         return number;
@@ -46,7 +35,7 @@ public class Telephone implements Serializable {
     @Override
     public String toString() {
         return "Telephone{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", number='" + number + '\'' +
                 ", type=" + type +
                 '}';

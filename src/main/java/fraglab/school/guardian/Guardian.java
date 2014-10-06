@@ -4,13 +4,12 @@ import fraglab.school.Person;
 import fraglab.school.Telephone;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("GUARDIAN")
-public class Guardian extends Person implements Serializable {
+public class Guardian extends Person {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Telephone> telephones;

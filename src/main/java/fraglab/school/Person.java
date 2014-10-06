@@ -6,16 +6,11 @@ import fraglab.json.LocalDateDeserializer;
 import fraglab.json.LocalDateSerializer;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Person implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Person extends BaseEntity {
 
     private String firstName;
 
@@ -31,13 +26,7 @@ public class Person implements Serializable {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String notes;
 
     public String getFirstName() {
         return firstName;
@@ -87,6 +76,14 @@ public class Person implements Serializable {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public enum Sex {

@@ -36,6 +36,17 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         OTHER: "Άλλο"
     })
 
+    .value('guardianSexTypeMap', {
+        MALE: "Άρρεν",
+        FEMALE: "Θύλη",
+        OTHER: "Άλλο"
+    })
+
+    .value('preSchoolLevelMap', {
+        PRE_SCHOOL_LEVEL_A: "Προνήπιο",
+        PRE_SCHOOL_LEVEL_B: "Νήπιο"
+    })
+
     .filter('relationshipFilter', ['relationshipMap', function(relationshipMap) {
         return function(value) {
             return relationshipMap[value];
@@ -51,6 +62,18 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
     .filter('sexTypeFilter', ['sexTypeMap', function(sexTypeMap) {
         return function(value) {
             return sexTypeMap[value];
+        }
+    }])
+
+    .filter('guardianSexTypeFilter', ['guardianSexTypeMap', function(guardianSexTypeMap) {
+        return function(value) {
+            return guardianSexTypeMap[value];
+        }
+    }])
+
+    .filter('preSchoolLevelFilter', ['preSchoolLevelMap', function(preSchoolLevelMap) {
+        return function(value) {
+            return preSchoolLevelMap[value];
         }
     }])
 
@@ -102,7 +125,7 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             scope: {
                 person: "=person"
             },
-            template: '{{person.firstName}} {{person.lastName}} <span ng-if="person.callName">({{person.callName}})</span>'
+            template: '{{::person.firstName}} {{::person.lastName}} <span ng-if="person.callName">({{::person.callName}})</span>'
         };
     })
 

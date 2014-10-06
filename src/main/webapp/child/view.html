@@ -32,7 +32,8 @@
             <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/view')">Προβολή</button>
             <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit')">Ανανέωση
             </button>
-            <button class="btn btn-xs" ng-click="removeRelationship(relationship.relationship.id)">Διαγραφή</button>
+            <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id)">Διαγραφή
+            </button>
         </td>
     </tr>
     </tbody>
@@ -60,7 +61,6 @@
     </div>
 </script>
 
-<!--Implementation pending-->
 <script type="text/ng-template" id="removeRelationshipModal">
     <div class="modal-header">
         <h3 class="modal-title">Διαγραφή σχέσης</h3>
@@ -71,7 +71,7 @@
     </div>
 
     <div class="modal-footer">
-        <button class="btn btn-danger" ng-click="removeChild()">Ναι</button>
+        <button class="btn btn-danger" ng-click="removeRelationship(relationshipId)">Ναι</button>
         <button class="btn btn-default" ng-click="dismiss()">Όχι</button>
     </div>
 </script>

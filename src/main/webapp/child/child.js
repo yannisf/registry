@@ -165,19 +165,6 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                 $location.url('/guardian/edit');
             };
 
-            $scope.removeRelationship = function(relationshipId) {
-                childService.removeRelationship(relationshipId).then(
-                    function(response) {
-                        console.log('Removed relationship');
-                        childService.fetchRelationships($scope.viewData.childId).then(
-                            function (response) {
-                                $scope.data.relationships = response;
-                            }
-                        );
-                    }
-                )
-            };
-
             $scope.confirmRemoveChild = function () {
                 $modal.open({
                     templateUrl: 'removeChildModal',
@@ -185,6 +172,20 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                     resolve: {
                         childId: function () {
                             return $scope.viewData.childId;
+                        }
+                    }
+                });
+            };
+
+            $scope.confirmRemoveRelationship = function (relationshipId) {
+                console.log("Relationship ID: ", relationshipId);
+                $modal.open({
+                    templateUrl: 'removeRelationshipModal',
+                    controller: 'removeRelationshipModalController',
+                    scope: $scope,
+                    resolve: {
+                        relationshipId: function () {
+                            return relationshipId;
                         }
                     }
                 });
@@ -201,6 +202,24 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                         $scope.toChildList();
                     }
                 );
+            };
+
+            $scope.dismiss = function () {
+                $modalInstance.dismiss();
+            };
+
+        }])
+
+    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'childService', 'relationshipId',
+        function($scope, $modalInstance, childService, relationshipId) {
+            console.log("Modal Relationship ID: ", relationshipId);
+            $scope.removeRelationship = function() {
+                childService.removeRelationship(relationshipId).then(function (response) {
+                    return childService.fetchRelationships($scope.viewData.childId);
+                }).then(function (response) {
+                    $scope.data.relationships = response;
+                    $scope.dismiss();
+                });
             };
 
             $scope.dismiss = function () {
