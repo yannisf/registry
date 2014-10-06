@@ -11,6 +11,8 @@ public class RelationshipMetadata implements Serializable {
     @Enumerated(EnumType.STRING)
     private ChildGuardianRelationship.Type type;
 
+    private String notes;
+
     private Boolean pickup;
 
     public ChildGuardianRelationship.Type getType() {
@@ -29,4 +31,11 @@ public class RelationshipMetadata implements Serializable {
         this.pickup = pickup;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }

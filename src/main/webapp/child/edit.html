@@ -1,5 +1,10 @@
 <div class="page-header">
-    <h2>{{viewData.submitLabel}} παιδιού</h2>
+    <h2>
+        {{viewData.submitLabel}} παιδιού
+        <small>
+            <person-name person="data.child"></person-name>
+        </small>
+    </h2>
 </div>
 
 <div>
@@ -69,6 +74,14 @@
 
             <div class="col-md-3">
                 <input type="text" class="form-control" id="nationality" ng-model="data.child.nationality">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="notes" class="col-md-2 control-label">Σημειώσεις</label>
+
+            <div class="col-md-3">
+                <textarea rows="3" class="form-control" id="notes" ng-model="data.child.notes"></textarea>
             </div>
         </div>
 

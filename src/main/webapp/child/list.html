@@ -23,8 +23,12 @@
         <td> {{child.firstName}} {{child.lastName}}</td>
         <td> {{child.level|preSchoolLevelFilter}}</td>
         <td class="text-right">
-            <button class="btn btn-xs" ng-click="go('/child/' + child.id + '/view')">Προβολή</button>
-            <button class="btn btn-xs" ng-click="go('/child/' + child.id + '/update')">Ανανέωση</button>
+            <button class="btn btn-xs" ng-click="go('/child/' + child.id + '/view')">
+                <span class="glyphicon glyphicon-eye-open"></span> Προβολή
+            </button>
+            <button class="btn btn-xs" ng-click="go('/child/' + child.id + '/update')">
+                <span class="glyphicon glyphicon-pencil"></span> Ανανέωση
+            </button>
         </td>
     </tr>
     </tbody>

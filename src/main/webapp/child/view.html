@@ -29,10 +29,14 @@
         <td>{{relationship.guardian.firstName}} {{relationship.guardian.lastName}}</td>
         <td>{{relationship.relationship.relationshipMetadata.type | relationshipFilter}}</td>
         <td class="text-right">
-            <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/view')">Προβολή</button>
-            <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit')">Ανανέωση
+            <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
+                <span class="glyphicon glyphicon-eye-open"></span> Προβολή
             </button>
-            <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id)">Διαγραφή
+            <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit')">
+                <span class="glyphicon glyphicon-pencil"></span> Ανανέωση
+            </button>
+            <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id)">
+                <span class="glyphicon glyphicon-remove"></span> Διαγραφή
             </button>
         </td>
     </tr>

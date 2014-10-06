@@ -20,8 +20,6 @@ public class ChildGuardianRelationship extends BaseEntity {
     @Embedded
     private RelationshipMetadata relationshipMetadata;
 
-    private String notes;
-
     public Long getChildId() {
         return childId;
     }
@@ -44,14 +42,6 @@ public class ChildGuardianRelationship extends BaseEntity {
 
     public void setRelationshipMetadata(RelationshipMetadata relationshipMetadata) {
         this.relationshipMetadata = relationshipMetadata;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 
     public enum Type {
