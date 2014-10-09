@@ -1,6 +1,7 @@
 package fraglab.school.child;
 
 import fraglab.NotFoundException;
+import fraglab.school.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/child")
-public class ChildController {
+public class ChildController extends BaseRestController {
 
     @Autowired
     ChildService childService;

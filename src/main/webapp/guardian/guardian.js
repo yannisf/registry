@@ -50,8 +50,9 @@ angular.module('guardian', ['ngRoute', 'child'])
         };
     }])
 
-    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService', 'guardianService',
-        function ($scope, $routeParams, statefulChildService, guardianService) {
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService',
+        'guardianService', 'childService', 'addressService',
+        function ($scope, $routeParams, statefulChildService, guardianService, childService, addressService) {
             angular.extend($scope, {
                 data: {
                     guardian: null,
@@ -81,6 +82,17 @@ angular.module('guardian', ['ngRoute', 'child'])
 
             $scope.removeTelephone = function(telephoneIndex) {
                 $scope.data.guardian.telephones.splice(telephoneIndex, 1);
+            };
+
+            $scope.useChildAddress = function() {
+                console.log('Into controller')
+                var childId = statefulChildService.getScopedChildId();
+                childService.fetch(childId).then(function(response) {
+                    var addressId = response.address.id;
+                    return addressService.fetch(addressId);
+                }).then(function(response) {
+                    $scope.guardian.address = response;
+                });
             };
 
             $scope.submit = function() {

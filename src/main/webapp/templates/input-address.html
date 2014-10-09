@@ -1,17 +1,23 @@
 <fieldset>
-    <legend>Διεύθυνση</legend>
+    <legend>Διεύθυνση
+        <button class="btn btn-xs" ng-click="useChildAddress()">
+            <span class="glyphicon glyphicon-share"></span> Ίδια με του παιδιού
+        </button>
+    </legend>
+    <input type="hidden" ng-model="address.id"/>
+
     <div class="form-group">
         <label for="address.streetName" class="col-md-2 control-label">Οδός</label>
 
         <div class="col-md-3">
             <input type="text" class="form-control" id="address.streetName"
-                   ng-model="address.streetName">
+                   ng-model="address.streetName"/>
         </div>
         <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
 
         <div class="col-md-2">
             <input type="text" class="form-control" id="address.streetNumber"
-                   ng-model="address.streetNumber">
+                   ng-model="address.streetNumber"/>
         </div>
     </div>
 
@@ -20,13 +26,13 @@
 
         <div class="col-md-3">
             <input type="text" class="form-control" id="address.neighbourhood"
-                   ng-model="address.neighbourhood">
+                   ng-model="address.neighbourhood"/>
         </div>
         <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
 
         <div class="col-md-2">
             <input type="text" class="form-control" id="address.postalCode"
-                   ng-model="address.postalCode">
+                   ng-model="address.postalCode"/>
         </div>
     </div>
 
@@ -34,7 +40,7 @@
         <label for="address.city" class="col-md-2 control-label">Πόλη</label>
 
         <div class="col-md-3">
-            <input type="text" class="form-control" id="address.city" ng-model="address.city">
+            <input type="text" class="form-control" id="address.city" ng-model="address.city"/>
         </div>
     </div>
 </fieldset>

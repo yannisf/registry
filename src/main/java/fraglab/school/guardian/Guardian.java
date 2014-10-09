@@ -14,6 +14,8 @@ public class Guardian extends Person {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Telephone> telephones;
 
+    private String email;
+
     private String profession;
 
     public List<Telephone> getTelephones() {
@@ -37,6 +39,14 @@ public class Guardian extends Person {
 
     public void setProfession(String profession) {
         this.profession = profession;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

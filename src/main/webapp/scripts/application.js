@@ -93,7 +93,7 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             restrict: 'E',
             replace: true,
             scope: {
-                child: "=child"
+                child: "="
             },
             templateUrl: "templates/display-child.html"
         };
@@ -103,21 +103,35 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         return {
             restrict: 'E',
             scope: {
-                address: "=address"
+                address: "="
             },
             templateUrl: "templates/display-address.html"
         };
     })
 
-    .directive('inputAddress', function() {
-        return {
-          restrict: 'E',
-          scope: {
-            address: "=address"
-          },
-          templateUrl: "templates/input-address.html"
-        };
-    })
+    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService',
+        function(statefulChildService,childService, addressService) {
+            return {
+                restrict: 'E',
+                scope: {
+                    address: "="
+                },
+                templateUrl: "templates/input-address.html",
+                link: function(scope) {
+                    scope.useChildAddress = function() {
+                        console.log('Into link');
+                        var childId = statefulChildService.getScopedChildId();
+                        childService.fetch(childId).then(function(response) {
+                            var addressId = response.address.id;
+                            return addressService.fetch(addressId);
+                        }).then(function(response) {
+                            console.log('Address is: ', response);
+                            scope.address = response;
+                        });
+                    };
+                }
+            };
+        }])
 
     .directive('personName', function() {
         return {
@@ -147,6 +161,19 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             };
         }
     ])
+
+    .service('addressService', ['$http', function($http) {
+        return {
+            fetch: function(addressId) {
+                $http.get('api/address/' + addressId).then(
+                    function(response) {
+                        console.log('Into address service: ', response);
+                        return response.data;
+                    }
+                )
+            }
+        }
+    }])
 
     .run(['$rootScope', '$location', 'statefulChildService', 'ListService',
         function ($rootScope, $location, statefulChildService, ListService) {
