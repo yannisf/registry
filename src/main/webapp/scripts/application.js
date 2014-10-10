@@ -114,7 +114,8 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             return {
                 restrict: 'E',
                 scope: {
-                    address: "="
+                    address: "=",
+                    shareOption: "@"
                 },
                 templateUrl: "templates/input-address.html",
                 link: function(scope) {
@@ -165,7 +166,7 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
     .service('addressService', ['$http', function($http) {
         return {
             fetch: function(addressId) {
-                $http.get('api/address/' + addressId).then(
+                return $http.get('api/address/' + addressId).then(
                     function(response) {
                         console.log('Into address service: ', response);
                         return response.data;
