@@ -197,6 +197,16 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian', 'uu
         };
     })
 
+    .directive('telephone', function () {
+        return {
+            restrict: 'E',
+            scope: {
+                telephone: "=model"
+            },
+            template: '{{telephone.number}} <span class="label label-info">{{telephone.type|telephoneTypeFilter}}</span>'
+        };
+    })
+
     .service('ListService', ['$http', function ($http) {
         return {
             relationshipTypes: function () {
@@ -252,6 +262,26 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian', 'uu
                 go: function (path) {
                     console.log('Requested ', path);
                     $location.path(path);
+                },
+                nextChild: function() {
+                    var numberOfChildren = statefulChildService.getChildIds().length;
+                    var currentChildId = parseInt(statefulChildService.getScopedChildId());
+                    var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId)
+                    if (currentChildIdIndex + 1 < numberOfChildren) {
+                        var nextChildIdIndex = currentChildIdIndex + 1;
+                        var nextChildId = statefulChildService.getChildIds()[nextChildIdIndex];
+                        $location.url('/child/' + nextChildId + '/view');
+                    }
+                },
+                previousChild: function() {
+                    var numberOfChildren = statefulChildService.getChildIds().length;
+                    var currentChildId = parseInt(statefulChildService.getScopedChildId());
+                    var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId)
+                    if (currentChildIdIndex != 0) {
+                        var previousChildIdIndex = currentChildIdIndex - 1;
+                        var previousChildId = statefulChildService.getChildIds()[previousChildIdIndex];
+                        $location.url('/child/' + previousChildId + '/view');
+                    }
                 },
                 relationshipTypes: [],
                 telephoneTypes: []

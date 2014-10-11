@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class ChildGuardianServiceImpl implements ChildGuardianService {
@@ -60,9 +61,9 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
     }
 
     @Override
-    public List<GuardianRelationshipDto> fetchRelationshipDtos(Long childId) {
+    public Set<GuardianRelationshipDto> fetchRelationshipDtos(Long childId) {
         List<ChildGuardianRelationship> childGuardianRelationships = childGuardianRelationshipDao.fetchAllForChild(childId);
-        List<GuardianRelationshipDto> guardianRelationshipDtos = new ArrayList<>();
+        Set<GuardianRelationshipDto> guardianRelationshipDtos = new TreeSet<>();
         for (ChildGuardianRelationship childGuardianRelationship : childGuardianRelationships) {
             GuardianRelationshipDto dto = new GuardianRelationshipDto();
             dto.setRelationship(childGuardianRelationship);

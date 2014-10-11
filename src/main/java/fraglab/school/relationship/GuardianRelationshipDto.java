@@ -4,7 +4,7 @@ import fraglab.school.guardian.Guardian;
 
 import java.io.Serializable;
 
-public class GuardianRelationshipDto implements Serializable {
+public class GuardianRelationshipDto implements Serializable, Comparable<GuardianRelationshipDto> {
 
     private Guardian guardian;
     private ChildGuardianRelationship relationship;
@@ -33,4 +33,8 @@ public class GuardianRelationshipDto implements Serializable {
         this.relationship = relationship;
     }
 
+    @Override
+    public int compareTo(GuardianRelationshipDto other) {
+        return relationship.getRelationshipMetadata().getType().compareTo(other.getRelationship().getRelationshipMetadata().getType());
+    }
 }

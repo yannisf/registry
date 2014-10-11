@@ -29,7 +29,10 @@ public class Telephone extends GeneratedIdBaseEntity {
     }
 
     public enum Type {
-        HOME, WORK, MOBILE, OTHER;
+        MOBILE,
+        WORK,
+        HOME,
+        OTHER;
     }
 
     @Override

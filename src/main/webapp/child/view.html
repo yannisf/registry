@@ -1,8 +1,14 @@
 <div class="page-header">
-    <h2>Παιδί
-        <small>
-            <person-name person="data.child"></person-name>
-        </small>
+    <h2>
+        <person-name person="data.child"></person-name>
+        <div class="pull-right">
+            <button class="btn btn-primary btn-sm" ng-click="previousChild()" title="Προηγούμενο παιδί">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </button>
+            <button class="btn btn-primary btn-sm" ng-click="nextChild()" title="Επόμενο παιδί">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </button>
+        </div>
     </h2>
 </div>
 
@@ -19,17 +25,21 @@
         <tr>
             <th>Όνομα</th>
             <th>Ιδιότητα</th>
+            <th>Τηλέφωνο</th>
             <th>&nbsp;</th>
         </tr>
         </thead>
 
         <tbody>
         <tr ng-repeat="relationship in data.relationships" class="clickable">
-            <td ng-click="go('/guardian/' + relationship.guardian.id + '/view')">{{relationship.guardian.firstName}}
-                {{relationship.guardian.lastName}}
+            <td ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
+                {{relationship.guardian.firstName}} {{relationship.guardian.lastName}}
             </td>
             <td ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
                 {{relationship.relationship.relationshipMetadata.type | relationshipFilter}}
+            </td>
+            <td ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
+                <telephone model="relationship.guardian.telephones[0]"></telephone>
             </td>
             <td class="text-right">
                 <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit')">
@@ -44,8 +54,8 @@
     </table>
 </fieldset>
 
-<div style="padding: 1em">
-    <button class="btn btn-default" ng-click="toChildList()">
+<div style="padding-top: 1em">
+<button class="btn btn-default" ng-click="toChildList()">
         <span class="glyphicon glyphicon-arrow-left"></span> Πίσω
     </button>
     <button class="btn btn-primary btn-md" ng-click="addGuardian()">

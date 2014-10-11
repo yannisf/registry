@@ -7,24 +7,24 @@
         <span class="col-md-3 text-right clabel">Επώνυμο</span>
         <span class="col-md-4">{{child.lastName}}</span>
     </div>
-    <div class="row" ng-if="data.child.callName">
-        <span class="col-md-3 text-right clabel">Χαϊδευτικό</span>
+    <div class="row" ng-if="child.callName">
+    <span class="col-md-3 text-right clabel">Χαϊδευτικό</span>
         <span class="col-md-4">{{child.callName}}</span>
     </div>
     <div class="row">
         <span class="col-md-3 text-right clabel">Τάξη</span>
         <span class="col-md-4">{{child.level|preSchoolLevelFilter}}</span>
     </div>
-    <div class="row">
-        <span class="col-md-3 text-right clabel">Ημ/νία γέν.</span>
+    <div class="row" ng-if="child.dateOfBirth">
+    <span class="col-md-3 text-right clabel">Ημ/νία γέν.</span>
         <span class="col-md-4">{{child.dateOfBirth}}</span>
     </div>
     <div class="row">
         <span class="col-md-3 text-right clabel">Φύλο</span>
         <span class="col-md-4">{{child.genre | childGenreTypeFilter}}</span>
     </div>
-    <div class="row">
-        <span class="col-md-3 text-right clabel">Υπηκοότητα</span>
+    <div class="row" ng-if="child.nationality">
+    <span class="col-md-3 text-right clabel">Υπηκοότητα</span>
         <span class="col-md-4">{{child.nationality}}</span>
     </div>
     <div class="row">

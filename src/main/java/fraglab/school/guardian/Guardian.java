@@ -12,6 +12,7 @@ import java.util.List;
 public class Guardian extends Person {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OrderBy("type")
     private List<Telephone> telephones;
 
     private String email;

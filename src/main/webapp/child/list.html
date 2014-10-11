@@ -6,20 +6,26 @@
     Δεν έχει εισαχθεί κανένα παιδί ακόμα.
 </div>
 
-<table class="table table-striped table-hover" ng-if="!viewData.noChildren">
+<table class="table table-striped table-hover table-condensed" ng-if="!viewData.noChildren">
     <thead>
     <tr>
-        <th>Ονοματεπώνυμο</th>
+        <th>Όνομα</th>
+        <th>Επώνυμο</th>
+        <th>Φύλο</th>
         <th>Τάξη</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="child in data.children" ng-click="go('/child/' + child.id + '/view')" class="clickable">
-        <td> {{child.firstName}} {{child.lastName}}</td>
+        <td> {{child.firstName}}</td>
+        <td> {{child.lastName}}</td>
+        <td> {{child.genre|childGenreTypeFilter}}</td>
         <td> {{child.level|preSchoolLevelFilter}}</td>
     </tr>
     </tbody>
 </table>
+
+<div ng-grid="gridOptions"></div>
 
 <div class="row">
     <button class="btn btn-primary btn-md" ng-click="go('/child/create')">

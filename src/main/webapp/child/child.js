@@ -65,6 +65,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
     .service('statefulChildService', ['$routeParams', function ($routeParams) {
         var childId;
         var childAddressId;
+        var childIds;
 
         return {
             getScopedChildId: function () {
@@ -82,11 +83,17 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             },
             setScopedChildAddressId: function (value) {
                 childAddressId = value;
+            },
+            getChildIds: function() {
+                return childIds;
+            },
+            setChildIds: function(value) {
+                childIds = value;
             }
         }
     }])
 
-    .controller('ChildController', ['$scope', 'childService', function ($scope, childService) {
+    .controller('ChildController', ['$scope', 'childService', 'statefulChildService', function ($scope, childService, statefulChildService) {
         angular.extend($scope, {
             data: {
                 children: []
@@ -100,6 +107,11 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             function (data) {
                 if (data.length > 0) {
                     $scope.data.children = data;
+                    var childIds = $scope.data.children.map(function(child) {
+                        return child.id;
+                    });
+                    statefulChildService.setChildIds(childIds);
+                    console.log("Got ", data, " and mapped them to ", childIds);
                     $scope.viewData.noChildren = false;
                 }
             }

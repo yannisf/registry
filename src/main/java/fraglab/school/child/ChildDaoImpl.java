@@ -19,7 +19,7 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, Long> implements ChildDa
     @SuppressWarnings("unchecked")
     public List<Child> fetchAll() {
         LOG.debug("Fetching all Child(ren)");
-        Query query = entityManager.createQuery("select c from Child c");
+        Query query = entityManager.createQuery("select c from Child c order by c.level desc, c.genre desc, c.lastName");
         return query.getResultList();
     }
 
