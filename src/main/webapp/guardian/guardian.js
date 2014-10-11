@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('guardian', ['ngRoute', 'child', 'uuid4', 'ui.bootstrap'])
+angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -94,8 +94,8 @@ angular.module('guardian', ['ngRoute', 'child', 'uuid4', 'ui.bootstrap'])
         }])
 
     .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService',
-        'guardianService', 'childService', 'addressService',
-        function ($scope, $routeParams, statefulChildService, guardianService, childService, addressService) {
+        'guardianService', 'addressService',
+        function ($scope, $routeParams, statefulChildService, guardianService, addressService) {
             angular.extend($scope, {
                 data: {
                     guardian: null,

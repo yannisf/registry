@@ -1,12 +1,11 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian', 'uuid4'])
+angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guardian'])
 
     .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider
-            .otherwise({
-                redirectTo: '/child/list'
-            });
+        $routeProvider.otherwise({
+            redirectTo: '/child/list'
+        });
     }])
 
     .value('relationshipMap', {
@@ -264,28 +263,36 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian', 'uu
                     $location.path(path);
                 },
                 nextChild: function() {
-                    var numberOfChildren = statefulChildService.getChildIds().length;
-                    var currentChildId = parseInt(statefulChildService.getScopedChildId());
-                    var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId)
-                    if (currentChildIdIndex + 1 < numberOfChildren) {
-                        var nextChildIdIndex = currentChildIdIndex + 1;
-                        var nextChildId = statefulChildService.getChildIds()[nextChildIdIndex];
+                    var nextChildId = calculatePreviousAndNextChildId().next;
+                    if (nextChildId) {
                         $location.url('/child/' + nextChildId + '/view');
                     }
                 },
                 previousChild: function() {
-                    var numberOfChildren = statefulChildService.getChildIds().length;
-                    var currentChildId = parseInt(statefulChildService.getScopedChildId());
-                    var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId)
-                    if (currentChildIdIndex != 0) {
-                        var previousChildIdIndex = currentChildIdIndex - 1;
-                        var previousChildId = statefulChildService.getChildIds()[previousChildIdIndex];
+                    var previousChildId = calculatePreviousAndNextChildId().previous;
+                    if (previousChildId) {
                         $location.url('/child/' + previousChildId + '/view');
                     }
                 },
                 relationshipTypes: [],
                 telephoneTypes: []
             });
+
+            function calculatePreviousAndNextChildId() {
+                var nextAndPrevious = {};
+                var numberOfChildren = statefulChildService.getChildIds().length;
+                var currentChildId = statefulChildService.getScopedChildId();
+                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId)
+                if (currentChildIdIndex + 1 < numberOfChildren) {
+                    var nextChildIdIndex = currentChildIdIndex + 1;
+                    nextAndPrevious.next = statefulChildService.getChildIds()[nextChildIdIndex];
+                }
+                if (currentChildIdIndex != 0) {
+                    var previousChildIdIndex = currentChildIdIndex - 1;
+                    nextAndPrevious.previous = statefulChildService.getChildIds()[previousChildIdIndex];
+                }
+                return nextAndPrevious;
+            }
 
             ListService.relationshipTypes().then(function (data) {
                 $rootScope.relationshipTypes = data;
