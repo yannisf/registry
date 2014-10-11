@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Person extends BaseEntity {
+public class Person extends GeneratedIdBaseEntity {
 
     private String firstName;
 
@@ -18,13 +18,12 @@ public class Person extends BaseEntity {
 
     private Date dateOfBirth;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Address address;
+    private String addressId;
 
     private String nationality;
 
     @Enumerated(EnumType.STRING)
-    private Sex sex;
+    private Genre genre;
 
     private String notes;
 
@@ -62,20 +61,20 @@ public class Person extends BaseEntity {
         this.nationality = nationality;
     }
 
-    public Sex getSex() {
-        return sex;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getAddressId() {
+        return addressId;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 
     public String getNotes() {
@@ -86,7 +85,7 @@ public class Person extends BaseEntity {
         this.notes = notes;
     }
 
-    public enum Sex {
+    public enum Genre {
         MALE, FEMALE, OTHER;
     }
 

@@ -8,5 +8,5 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-public class AddressDaoImpl extends GenericDaoImpl<Address, Long> implements AddressDao {
+public class AddressDaoImpl extends GenericDaoImpl<Address, String> implements AddressDao {
 }

@@ -1,40 +1,42 @@
 <div style="font-size: larger; line-height: 150%">
     <div class="row">
-        <span class="col-md-2 text-right clabel">Όνομα</span>
+        <span class="col-md-3 text-right clabel">Όνομα</span>
         <span class="col-md-4">{{guardian.firstName}}</span>
     </div>
     <div class="row">
-        <span class="col-md-2 text-right clabel">Επώνυμο</span>
+        <span class="col-md-3 text-right clabel">Επώνυμο</span>
         <span class="col-md-4">{{guardian.lastName}}</span>
     </div>
     <div class="row" ng-if="data.guardian.callName">
-        <span class="col-md-2 text-right clabel">Χαϊδευτικό</span>
+        <span class="col-md-3 text-right clabel">Χαϊδευτικό</span>
         <span class="col-md-4">{{guardian.callName}}</span>
     </div>
     <div class="row">
-        <span class="col-md-2 text-right clabel">Ημ/νία γέν.</span>
+        <span class="col-md-3 text-right clabel">Ημ/νία γέν.</span>
         <span class="col-md-4">{{guardian.dateOfBirth}}</span>
     </div>
     <div class="row">
-        <span class="col-md-2 text-right clabel">Φύλο</span>
-        <span class="col-md-4">{{guardian.sex | guardianSexTypeFilter}}</span>
+        <span class="col-md-3 text-right clabel">Φύλο</span>
+        <span class="col-md-4">{{guardian.genre | guardianGenreTypeFilter}}</span>
     </div>
     <div class="row">
-        <span class="col-md-2 text-right clabel">Υπηκοότητα</span>
+        <span class="col-md-3 text-right clabel">Υπηκοότητα</span>
         <span class="col-md-4">{{guardian.nationality}}</span>
     </div>
     <div class="row">
-        <span class="col-sm-2 text-right clabel">Επάγγελμα</span>
-        <span class="col-sm-4">{{guardian.profession}}</span>
+        <span class="col-md-3 text-right clabel">Επάγγελμα</span>
+        <span class="col-md-4">{{guardian.profession}}</span>
     </div>
 
     <div class="row" ng-repeat="telephone in guardian.telephones">
-        <span class="col-sm-2 text-right clabel">Τηλέφωνο</span>
-        <span class="col-sm-4">{{telephone.number}} <span class="label label-info">{{telephone.type|telephoneTypeFilter}}</span></span>
+        <span class="col-md-3 text-right clabel">Τηλέφωνο</span>
+        <span class="col-md-4">{{telephone.number}}
+            <span class="label label-info">{{telephone.type|telephoneTypeFilter}}</span>
+        </span>
     </div>
 
     <div class="row">
-        <span class="col-md-2 text-right clabel">Διεύθυνση</span>
-        <span class="col-md-4"><display-address address="guardian.address"></display-address></span>
+        <span class="col-md-3 text-right clabel">Διεύθυνση</span>
+        <span class="col-md-4"><display-address address="address"></display-address></span>
     </div>
 </div>

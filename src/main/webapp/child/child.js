@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('child', ['ngRoute', 'ui.bootstrap'])
+angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -25,63 +25,63 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
     .service('childService', ['$http', function ($http) {
         return {
             fetch: function (childId) {
-                return $http.get('api/child/' + childId).then(
-                    function (response) {
-                        return response.data;
-                    });
+                return $http.get('api/child/' + childId).then(function (response) {
+                    return response.data;
+                });
             },
             fetchAll: function () {
-                return $http.get('api/child/all').then(
-                    function (response) {
-                        return response.data;
-                    });
+                return $http.get('api/child/all').then(function (response) {
+                    return response.data;
+                });
             },
             create: function (child) {
-                return $http.post('api/child', child).then(
-                    function (response) {
-                        return response.data;
-                    });
+                return $http.post('api/child', child).then(function (response) {
+                    return response.data;
+                });
             },
             update: function (childId, child) {
-                return $http.post('api/child/' + childId, child).then(
-                    function (response) {
-                        return response.data;
-                    });
+                return $http.post('api/child/' + childId, child).then(function (response) {
+                    return response.data;
+                });
             },
             remove: function (childId) {
-                return $http({method: 'DELETE', url: 'api/child/' + childId}).then(
-                    function (response) {
-                        return response.data;
-                    });
+                return $http({method: 'DELETE', url: 'api/child/' + childId}).then(function (response) {
+                    return response.data;
+                });
             },
             fetchRelationships: function (childId) {
-                return $http.get('api/relationship/child/' + childId + '/guardian').then(
-                    function (response) {
-                        return response.data;
-                    });
+                return $http.get('api/relationship/child/' + childId + '/guardian').then(function (response) {
+                    return response.data;
+                });
             },
             removeRelationship: function (relationshipId) {
-                return $http({method: 'DELETE', url: 'api/relationship/' + relationshipId}).then(
-                    function (response) {
-                        return response.data;
-                    });
+                return $http({method: 'DELETE', url: 'api/relationship/' + relationshipId}).then(function (response) {
+                    return response.data;
+                });
             }
         };
     }])
 
-    .service('statefulChildService', ['$routeParams', function($routeParams) {
+    .service('statefulChildService', ['$routeParams', function ($routeParams) {
         var childId;
+        var childAddressId;
 
         return {
-            getScopedChildId: function() {
+            getScopedChildId: function () {
                 if ($routeParams.childId) {
                     childId = $routeParams.childId;
                 }
 
                 return childId;
             },
-            setScopedChildId: function(value) {
+            setScopedChildId: function (value) {
                 childId = value;
+            },
+            getScopedChildAddressId: function () {
+                return childAddressId;
+            },
+            setScopedChildAddressId: function (value) {
+                childAddressId = value;
             }
         }
     }])
@@ -106,11 +106,14 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
         );
     }])
 
-    .controller('createChildController', ['$scope', 'childService', 'statefulChildService',
-        function ($scope, childService, statefulChildService) {
+    .controller('createChildController', ['$scope', 'childService', 'statefulChildService', 'addressService', 'uuid4',
+        function ($scope, childService, statefulChildService, addressService, uuid4) {
             angular.extend($scope, {
                 data: {
-                    child: null
+                    child: null,
+                    address: {
+                        id: uuid4.generate()
+                    }
                 },
                 viewData: {
                     submitLabel: 'Εισαγωγή'
@@ -118,21 +121,24 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             });
 
             $scope.submit = function () {
-                childService.create($scope.data.child).then(
-                    function (response) {
-                        var childId = response.id;
-                        statefulChildService.setScopedChildId(childId);
-                        $scope.toScopedChild();
-                    }
-                );
+                addressService.update($scope.data.address).then(function (response) {
+                    $scope.data.child.addressId = $scope.data.address.id;
+                    return childService.create($scope.data.child);
+                }).then(function (response) {
+                    var childId = response.id;
+                    statefulChildService.setScopedChildId(childId);
+                    statefulChildService.setScopedChildAddressId($scope.data.child.addressId)
+                    $scope.toScopedChild();
+                });
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$location', '$modal', 'childService', 'statefulChildService',
-        function ($scope, $location, $modal, childService, statefulChildService) {
+    .controller('updateChildController', ['$scope', '$location', '$modal', 'childService', 'statefulChildService', 'addressService',
+        function ($scope, $location, $modal, childService, statefulChildService, addressService) {
             angular.extend($scope, {
                 data: {
                     child: null,
+                    address: null,
                     relationships: []
                 },
                 viewData: {
@@ -144,8 +150,11 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             childService.fetch($scope.viewData.childId).then(
                 function (response) {
                     $scope.data.child = response;
-                }
-            );
+                    return addressService.fetch($scope.data.child.addressId);
+                }).then(function (response) {
+                    $scope.data.address = response;
+                    statefulChildService.setScopedChildAddressId($scope.data.address.id);
+                });
 
             childService.fetchRelationships($scope.viewData.childId).then(
                 function (response) {
@@ -154,11 +163,11 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             );
 
             $scope.submit = function () {
-                childService.update($scope.viewData.childId, $scope.data.child).then(
-                    function (response) {
-                        $scope.toChildList();
-                    }
-                );
+                addressService.update($scope.data.address).then(function (response) {
+                    return childService.update($scope.viewData.childId, $scope.data.child);
+                }).then(function (response) {
+                    $scope.toScopedChild();
+                });
             };
 
             $scope.addGuardian = function () {
@@ -178,7 +187,6 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             };
 
             $scope.confirmRemoveRelationship = function (relationshipId) {
-                console.log("Relationship ID: ", relationshipId);
                 $modal.open({
                     templateUrl: 'child/remove-guardian.tpl.html',
                     controller: 'removeRelationshipModalController',
@@ -190,11 +198,10 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
                     }
                 });
             };
-
         }])
 
     .controller('removeChildModalController', ['$scope', '$modalInstance', 'childService', 'childId',
-        function($scope, $modalInstance, childService, childId) {
+        function ($scope, $modalInstance, childService, childId) {
             $scope.removeChild = function () {
                 childService.remove(childId).then(
                     function (response) {
@@ -207,13 +214,11 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             $scope.dismiss = function () {
                 $modalInstance.dismiss();
             };
-
         }])
 
     .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'childService', 'relationshipId',
-        function($scope, $modalInstance, childService, relationshipId) {
-            console.log("Modal Relationship ID: ", relationshipId);
-            $scope.removeRelationship = function() {
+        function ($scope, $modalInstance, childService, relationshipId) {
+            $scope.removeRelationship = function () {
                 childService.removeRelationship(relationshipId).then(function (response) {
                     return childService.fetchRelationships($scope.viewData.childId);
                 }).then(function (response) {
@@ -225,5 +230,4 @@ angular.module('child', ['ngRoute', 'ui.bootstrap'])
             $scope.dismiss = function () {
                 $modalInstance.dismiss();
             };
-
         }]);

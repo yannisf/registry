@@ -3,7 +3,7 @@ package fraglab.school;
 import javax.persistence.Entity;
 
 @Entity
-public class Address extends BaseEntity {
+public class Address extends UuidBaseEntity {
 
     private String streetName;
 

@@ -4,5 +4,9 @@ import fraglab.school.Address;
 
 public interface AddressService {
 
-    Address fetch(Long id);
+    Address fetch(String id);
+
+    void update(Address address);
+
+    void delete(String id);
 }

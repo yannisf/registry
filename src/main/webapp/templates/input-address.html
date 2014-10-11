@@ -1,6 +1,7 @@
 <fieldset>
     <legend>Διεύθυνση
-        <button class="btn btn-xs" ng-click="useChildAddress()" ng-if="shareOption">
+        <button class="btn btn-xs btn-success" ng-if="shareOption" ng-model="viewData.commonAddress"
+                btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
             <span class="glyphicon glyphicon-share"></span> Ίδια με του παιδιού
         </button>
     </legend>
@@ -10,14 +11,14 @@
         <label for="address.streetName" class="col-md-2 control-label">Οδός</label>
 
         <div class="col-md-3">
-            <input type="text" class="form-control" id="address.streetName"
-                   ng-model="address.streetName"/>
+            <input type="text" class="form-control" id="address.streetName" ng-model="address.streetName"
+                   ng-readonly="viewData.commonAddress"/>
         </div>
         <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
 
         <div class="col-md-2">
-            <input type="text" class="form-control" id="address.streetNumber"
-                   ng-model="address.streetNumber"/>
+            <input type="text" class="form-control" id="address.streetNumber" ng-model="address.streetNumber"
+                   ng-readonly="viewData.commonAddress"/>
         </div>
     </div>
 
@@ -25,14 +26,14 @@
         <label for="address.neighbourhood" class="col-md-2 control-label">Περιοχή</label>
 
         <div class="col-md-3">
-            <input type="text" class="form-control" id="address.neighbourhood"
-                   ng-model="address.neighbourhood"/>
+            <input type="text" class="form-control" id="address.neighbourhood" ng-model="address.neighbourhood"
+                   ng-readonly="viewData.commonAddress"/>
         </div>
         <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
 
         <div class="col-md-2">
-            <input type="text" class="form-control" id="address.postalCode"
-                   ng-model="address.postalCode"/>
+            <input type="text" class="form-control" id="address.postalCode" ng-model="address.postalCode"
+                   ng-readonly="viewData.commonAddress"/>
         </div>
     </div>
 
@@ -40,7 +41,8 @@
         <label for="address.city" class="col-md-2 control-label">Πόλη</label>
 
         <div class="col-md-3">
-            <input type="text" class="form-control" id="address.city" ng-model="address.city"/>
+            <input type="text" class="form-control" id="address.city" ng-model="address.city"
+                   ng-readonly="viewData.commonAddress"/>
         </div>
     </div>
 </fieldset>

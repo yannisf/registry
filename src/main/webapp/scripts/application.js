@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
+angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian', 'uuid4'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -30,13 +30,13 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         OTHER: "Άλλο"
     })
 
-    .value('sexTypeMap', {
+    .value('childGenreTypeMap', {
         MALE: "Αγόρι",
         FEMALE: "Κορίτσι",
         OTHER: "Άλλο"
     })
 
-    .value('guardianSexTypeMap', {
+    .value('guardianGenreTypeMap', {
         MALE: "Άρρεν",
         FEMALE: "Θύλη",
         OTHER: "Άλλο"
@@ -47,86 +47,139 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
         PRE_SCHOOL_LEVEL_B: "Νήπιο"
     })
 
-    .filter('relationshipFilter', ['relationshipMap', function(relationshipMap) {
-        return function(value) {
+    .filter('relationshipFilter', ['relationshipMap', function (relationshipMap) {
+        return function (value) {
             return relationshipMap[value];
         }
     }])
 
-    .filter('telephoneTypeFilter', ['telephoneTypeMap', function(telephoneTypeMap) {
-        return function(value) {
+    .filter('telephoneTypeFilter', ['telephoneTypeMap', function (telephoneTypeMap) {
+        return function (value) {
             return telephoneTypeMap[value];
         }
     }])
 
-    .filter('sexTypeFilter', ['sexTypeMap', function(sexTypeMap) {
-        return function(value) {
-            return sexTypeMap[value];
+    .filter('childGenreTypeFilter', ['childGenreTypeMap', function (childGenreTypeMap) {
+        return function (value) {
+            return childGenreTypeMap[value];
         }
     }])
 
-    .filter('guardianSexTypeFilter', ['guardianSexTypeMap', function(guardianSexTypeMap) {
-        return function(value) {
-            return guardianSexTypeMap[value];
+    .filter('guardianGenreTypeFilter', ['guardianGenreTypeMap', function (guardianGenreTypeMap) {
+        return function (value) {
+            return guardianGenreTypeMap[value];
         }
     }])
 
-    .filter('preSchoolLevelFilter', ['preSchoolLevelMap', function(preSchoolLevelMap) {
-        return function(value) {
+    .filter('preSchoolLevelFilter', ['preSchoolLevelMap', function (preSchoolLevelMap) {
+        return function (value) {
             return preSchoolLevelMap[value];
         }
     }])
 
-    .directive('displayGuardian', function() {
+    .directive('displayGuardian', function () {
         return {
             restrict: 'E',
             replace: true,
             scope: {
-                guardian: "=guardian"
+                guardian: "=",
+                address: "="
             },
             templateUrl: "templates/display-guardian.html"
         };
     })
 
-    .directive('displayChild', function() {
+    .directive('displayChild', function () {
         return {
             restrict: 'E',
             replace: true,
             scope: {
-                child: "="
+                child: "=",
+                address: "="
             },
             templateUrl: "templates/display-child.html"
         };
     })
 
-    .directive('displayAddress', function() {
+    .directive('displayAddress', function () {
         return {
             restrict: 'E',
             scope: {
                 address: "="
             },
-            templateUrl: "templates/display-address.html"
+            link: function (scope, element) {
+                scope.$watch('address', function (newval) {
+                    if (newval && element) {
+                        var addressString = "";
+                        if (newval.streetName) {
+                            addressString = newval.streetName;
+                            if (newval.streetNumber) {
+                                addressString += " " + newval.streetNumber;
+                            }
+                        }
+                        if (newval.neighbourhood) {
+                            if (addressString.length > 0) {
+                                addressString += ", " + newval.neighbourhood;
+                            } else {
+                                addressString += newval.neighbourhood;
+                            }
+                        }
+                        if (newval.postalCode) {
+                            if (addressString.length > 0) {
+                                addressString += ", " + newval.postalCode;
+                            } else {
+                                addressString += newval.postalCode;
+                            }
+                        }
+                        if (newval.city) {
+                            if (addressString.length > 0) {
+                                addressString += ", " + newval.city;
+                            } else {
+                                addressString += newval.city;
+                            }
+                        }
+                        element.html(addressString);
+                    }
+                })
+            }
         };
     })
 
-    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService',
-        function(statefulChildService,childService, addressService) {
+    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService', 'uuid4',
+        function (statefulChildService, childService, addressService, uuid4) {
             return {
                 restrict: 'E',
                 scope: {
                     address: "=",
-                    shareOption: "@"
+                    shareOption: "="
                 },
                 templateUrl: "templates/input-address.html",
-                link: function(scope) {
-                    scope.useChildAddress = function() {
-                        console.log('Into link');
+                link: function (scope) {
+                    scope.viewData = {
+                        commonAddress: false
+                    };
+
+                    if (scope.shareOption) {
+                        scope.$watch('address.id', function (newval) {
+                            scope.viewData.commonAddress = (newval == statefulChildService.getScopedChildAddressId());
+                        });
+
+                        scope.$watch('viewData.commonAddress', function (newval) {
+                            if (newval) {
+                                useChildAddress();
+                            } else {
+                                scope.address = {
+                                    id: uuid4.generate()
+                                };
+                            }
+                        });
+                    }
+
+                    function useChildAddress() {
                         var childId = statefulChildService.getScopedChildId();
-                        childService.fetch(childId).then(function(response) {
-                            var addressId = response.address.id;
-                            return addressService.fetch(addressId);
-                        }).then(function(response) {
-                            console.log('Address is: ', response);
+                        childService.fetch(childId).then(function (response) {
+                            return addressService.fetch(response.addressId);
+                        }).then(function (response) {
                             scope.address = response;
                         });
                     };
@@ -134,13 +187,13 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
             };
         }])
 
-    .directive('personName', function() {
+    .directive('personName', function () {
         return {
             restrict: 'E',
             scope: {
-                person: "=person"
+                person: "="
             },
-            template: '{{::person.firstName}} {{::person.lastName}} <span ng-if="person.callName">({{::person.callName}})</span>'
+            template: '{{::person.firstName}} {{::person.lastName}} <span ng-if="::person.callName">({{::person.callName}})</span>'
         };
     })
 
@@ -158,20 +211,27 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
                     function (response) {
                         return response.data;
                     });
-                }
-            };
-        }
+            }
+        };
+    }
     ])
 
-    .service('addressService', ['$http', function($http) {
+    .service('addressService', ['$http', function ($http) {
         return {
-            fetch: function(addressId) {
-                return $http.get('api/address/' + addressId).then(
-                    function(response) {
-                        console.log('Into address service: ', response);
-                        return response.data;
-                    }
-                )
+            fetch: function (addressId) {
+                return $http.get('api/address/' + addressId).then( function (response) {
+                    return response.data;
+                })
+            },
+            remove: function (addressId) {
+                return $http.delete('api/address/' + addressId).then( function (response) {
+                    return response.data;
+                })
+            },
+            update: function (address) {
+                return $http.put('api/address', address).then(function (response) {
+                    return response.data;
+                })
             }
         }
     }])
@@ -182,16 +242,16 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
                 toChildList: function () {
                     $location.url('/child/list');
                 },
-                toScopedChild: function() {
+                toScopedChild: function () {
                     if (statefulChildService.getScopedChildId()) {
                         $location.url('/child/' + statefulChildService.getScopedChildId() + '/view');
                     } else {
                         this.toChildList();
                     }
                 },
-                go: function(path) {
+                go: function (path) {
                     console.log('Requested ', path);
-                  $location.path(path);
+                    $location.path(path);
                 },
                 relationshipTypes: [],
                 telephoneTypes: []
@@ -205,5 +265,5 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'child', 'guardian'])
                 $rootScope.telephoneTypes = data;
             });
 
-    }]);
+        }]);
 

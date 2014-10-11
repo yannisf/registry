@@ -1,12 +1,11 @@
 package fraglab.school.address;
 
+import fraglab.NotFoundException;
 import fraglab.school.Address;
 import fraglab.school.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/address")
@@ -16,8 +15,21 @@ public class AddressController extends BaseRestController {
     AddressService addressService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Address fetch(@PathVariable Long id) {
+    public Address fetch(@PathVariable String id) {
         return addressService.fetch(id);
     }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@RequestBody Address address) {
+        addressService.update(address);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable String id) throws NotFoundException {
+        addressService.delete(id);
+    }
+
 
 }

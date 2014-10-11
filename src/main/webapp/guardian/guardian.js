@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('guardian', ['ngRoute', 'child'])
+angular.module('guardian', ['ngRoute', 'child', 'uuid4', 'ui.bootstrap'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -18,31 +18,28 @@ angular.module('guardian', ['ngRoute', 'child'])
             });
     }])
 
-
     .service('guardianService', ['$http', function ($http) {
         return {
             fetch: function (guardianId) {
-                return $http.get('api/guardian/' + guardianId).then(
-                    function (response) {
+                return $http.get('api/guardian/' + guardianId).then(function (response) {
                         return response.data;
                     }
                 );
             },
             fetchRelationship: function (childId, guardianId) {
-                return $http.get('api/relationship/child/' + childId + '/guardian/' + guardianId).then( function (response) {
+                return $http.get('api/relationship/child/' + childId + '/guardian/' + guardianId).then(function (response) {
                         return response.data;
                     }
                 );
             },
             createGuardianAndRelationship: function (childId, guardianRelationship) {
-                return $http.post('api/relationship/child/' + childId + '/guardian', guardianRelationship).then(
-                    function (response) {
+                return $http.post('api/relationship/child/' + childId + '/guardian', guardianRelationship).then(function (response) {
                         return response.data;
                     }
                 );
             },
             updateGuardianAndRelationship: function (childId, guardianId, guardianRelationship) {
-                return $http.put('api/relationship/child/' + childId + '/guardian/' + guardianId, guardianRelationship).then( function (response) {
+                return $http.put('api/relationship/child/' + childId + '/guardian/' + guardianId, guardianRelationship).then(function (response) {
                         return response.data;
                     }
                 );
@@ -50,72 +47,17 @@ angular.module('guardian', ['ngRoute', 'child'])
         };
     }])
 
-    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService',
-        'guardianService', 'childService', 'addressService',
-        function ($scope, $routeParams, statefulChildService, guardianService, childService, addressService) {
-            angular.extend($scope, {
-                data: {
-                    guardian: null,
-                    relationship: null
-                },
-                viewData: {
-                    guardianId: $routeParams.guardianId,
-                    submitLabel: "Ανανέωση"
-                }
-
-            });
-
-            guardianService.fetch($routeParams.guardianId).then( function (response) {
-                    $scope.data.guardian = response;
-                }
-            );
-
-            guardianService.fetchRelationship(statefulChildService.getScopedChildId(), $routeParams.guardianId).then(
-                function (response) {
-                    $scope.data.relationship = response;
-                }
-            );
-
-            $scope.addTelephone = function() {
-                $scope.data.guardian.telephones.push({});
-            };
-
-            $scope.removeTelephone = function(telephoneIndex) {
-                $scope.data.guardian.telephones.splice(telephoneIndex, 1);
-            };
-
-            $scope.useChildAddress = function() {
-                console.log('Into controller')
-                var childId = statefulChildService.getScopedChildId();
-                childService.fetch(childId).then(function(response) {
-                    var addressId = response.address.id;
-                    return addressService.fetch(addressId);
-                }).then(function(response) {
-                    $scope.guardian.address = response;
-                });
-            };
-
-            $scope.submit = function() {
-                var guardianRelationship = {
-                    guardian: $scope.data.guardian,
-                    relationship: $scope.data.relationship
-                };
-
-                guardianService.updateGuardianAndRelationship(statefulChildService.getScopedChildId(),
-                    $scope.data.guardian.id, guardianRelationship).then(function(respons){
-                        $scope.toScopedChild();
-                    })
-            };
-
-        }
-    ])
-
-    .controller('createGuardianController', ['$scope', 'statefulChildService', 'guardianService',
-        function ($scope, statefulChildService, guardianService) {
+    .controller('createGuardianController', ['$scope', 'statefulChildService', 'guardianService', 'uuid4', 'addressService',
+        function ($scope, statefulChildService, guardianService, uuid4, addressService) {
             angular.extend($scope, {
                 data: {
                     guardian: {
-                        telephones: [{}]
+                        telephones: [
+                            {}
+                        ]
+                    },
+                    address: {
+                        id: uuid4.generate()
                     },
                     relationship: {
                         relationshipMetadata: {
@@ -128,24 +70,77 @@ angular.module('guardian', ['ngRoute', 'child'])
                 }
             });
 
-            $scope.addTelephone = function() {
+            $scope.addTelephone = function () {
                 $scope.data.guardian.telephones.push({});
             };
 
-            $scope.removeTelephone = function(telephoneIndex) {
+            $scope.removeTelephone = function (telephoneIndex) {
                 $scope.data.guardian.telephones.splice(telephoneIndex, 1);
             };
 
             $scope.submit = function () {
+                $scope.data.guardian.addressId = $scope.data.address.id;
                 var guardianRelationship = {
                     guardian: $scope.data.guardian,
                     relationship: $scope.data.relationship
                 };
 
-                guardianService.createGuardianAndRelationship(statefulChildService.getScopedChildId(), guardianRelationship).then(
-                    function (response) {
-                        $scope.toScopedChild();
-                    }
-                );
+                addressService.update($scope.data.address).then(function (response) {
+                    return guardianService.createGuardianAndRelationship(statefulChildService.getScopedChildId(), guardianRelationship);
+                }).then(function (response) {
+                    $scope.toScopedChild();
+                });
             };
-        }]);
+        }])
+
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService',
+        'guardianService', 'childService', 'addressService',
+        function ($scope, $routeParams, statefulChildService, guardianService, childService, addressService) {
+            angular.extend($scope, {
+                data: {
+                    guardian: null,
+                    address: null,
+                    relationship: null
+                },
+                viewData: {
+                    guardianId: $routeParams.guardianId,
+                    submitLabel: "Ανανέωση"
+                }
+
+            });
+
+            guardianService.fetch($routeParams.guardianId).then(function (response) {
+                $scope.data.guardian = response;
+                return addressService.fetch($scope.data.guardian.addressId).then(function (response) {
+                    $scope.data.address = response;
+                });
+            });
+
+            guardianService.fetchRelationship(statefulChildService.getScopedChildId(), $routeParams.guardianId).then(function (response) {
+                    $scope.data.relationship = response;
+                }
+            );
+
+            $scope.addTelephone = function () {
+                $scope.data.guardian.telephones.push({});
+            };
+
+            $scope.removeTelephone = function (telephoneIndex) {
+                $scope.data.guardian.telephones.splice(telephoneIndex, 1);
+            };
+
+            $scope.submit = function () {
+                $scope.data.guardian.addressId = $scope.data.address.id;
+                var guardianRelationship = {
+                    guardian: $scope.data.guardian,
+                    relationship: $scope.data.relationship
+                };
+
+                addressService.update($scope.data.address).then(function (response) {
+                    return guardianService.updateGuardianAndRelationship(statefulChildService.getScopedChildId(), $scope.data.guardian.id, guardianRelationship);
+                }).then(function (response) {
+                    $scope.toScopedChild();
+                });
+            }
+        }
+    ]);

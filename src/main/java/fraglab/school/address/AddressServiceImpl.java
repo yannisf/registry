@@ -14,7 +14,18 @@ public class AddressServiceImpl implements AddressService {
     private AddressDao addressDao;
 
     @Override
-    public Address fetch(Long id) {
+    public Address fetch(String id) {
         return addressDao.fetch(id);
+    }
+
+    @Override
+    public void update(Address address) {
+        addressDao.update(address);
+    }
+
+    @Override
+    public void delete(String id) {
+        Address address = fetch(id);
+        addressDao.delete(address);
     }
 }

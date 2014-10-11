@@ -1,7 +1,7 @@
 
 package fraglab.school.relationship;
 
-import fraglab.school.BaseEntity;
+import fraglab.school.GeneratedIdBaseEntity;
 
 import javax.persistence.*;
 
@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "CHILD_GUARDIAN", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"CHILD_ID", "GUARDIAN_ID"})
 })
-public class ChildGuardianRelationship extends BaseEntity {
+public class ChildGuardianRelationship extends GeneratedIdBaseEntity {
 
     @Column(name = "CHILD_ID")
     private Long childId;

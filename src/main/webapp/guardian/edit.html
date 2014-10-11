@@ -7,16 +7,14 @@
 </div>
 
 <div>
-
     <form class="form-horizontal" role="form">
-
         <input type="hidden" ng-model="data.guardian.id">
 
         <div class="form-group">
             <label for="firstName" class="col-md-2 control-label">Όνομα</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="firstName" ng-model="data.guardian.firstName">
+                <input type="text" class="form-control" id="firstName" ng-model="data.guardian.firstName"/>
             </div>
         </div>
 
@@ -24,7 +22,7 @@
             <label for="lastName" class="col-md-2 control-label">Επώνυμο</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="lastName" ng-model="data.guardian.lastName">
+                <input type="text" class="form-control" id="lastName" ng-model="data.guardian.lastName"/>
             </div>
         </div>
 
@@ -33,17 +31,17 @@
 
             <div class="col-md-3">
                 <input type="text" class="form-control" id="dateOfBirth" ng-model="data.guardian.dateOfBirth"
-                       placeholder="ΗΗ-ΜΜ-ΧΧΧΧ">
+                       placeholder="ΗΗ-ΜΜ-ΧΧΧΧ"/>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="sex" class="col-md-2 control-label">Φύλο</label>
+            <label for="genre" class="col-md-2 control-label">Φύλο</label>
 
             <div class="col-md-3">
-                <select class="form-control" id="sex" ng-model="data.guardian.sex">
-                    <option value="MALE">Άρρεν</option>
-                    <option value="FEMALE">Θύλη</option>
+                <select class="form-control" id="genre" ng-model="data.guardian.genre"/>
+                <option value="MALE">Άρρεν</option>
+                <option value="FEMALE">Θύλη</option>
                 </select>
             </div>
         </div>
@@ -52,7 +50,7 @@
             <label for="nationality" class="col-md-2 control-label">Υπηκοότητα</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="nationality" ng-model="data.guardian.nationality">
+                <input type="text" class="form-control" id="nationality" ng-model="data.guardian.nationality"/>
             </div>
         </div>
 
@@ -60,7 +58,7 @@
             <label for="profession" class="col-md-2 control-label">Επάγγελμα</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="profession" ng-model="data.guardian.profession">
+                <input type="text" class="form-control" id="profession" ng-model="data.guardian.profession"/>
             </div>
         </div>
 
@@ -68,7 +66,7 @@
             <label for="email" class="col-md-2 control-label">E-mail</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="email" ng-model="data.guardian.email">
+                <input type="text" class="form-control" id="email" ng-model="data.guardian.email"/>
             </div>
         </div>
 
@@ -77,8 +75,8 @@
 
             <div class="col-md-3">
                 <select class="form-control" id="relationship" ng-model="data.relationship.relationshipMetadata.type"
-                        ng-options="relationship|relationshipFilter for relationship in relationshipTypes">
-                    <option value="">--</option>
+                        ng-options="relationship|relationshipFilter for relationship in relationshipTypes"/>
+                <option value="">--</option>
                 </select>
             </div>
         </div>
@@ -94,15 +92,17 @@
 
         <fieldset>
             <legend>Τηλέφωνα
-                <button class="btn btn-xs" ng-click="addTelephone()"><span class="glyphicon glyphicon-plus"></span>
+                <button class="btn btn-xs" ng-click="addTelephone()">
+                    <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </legend>
+
             <div ng-repeat="telephone in data.guardian.telephones">
                 <div class="form-group">
                     <label for="telephoneNumber" class="col-md-2 control-label">Τηλέφωνο {{$index + 1}}</label>
 
                     <div class="col-md-3">
-                        <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number">
+                        <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number"/>
                     </div>
                     <div class="col-md-2">
                         <select class="form-control" id="telephoneType" ng-model="telephone.type"
@@ -111,8 +111,9 @@
                         </select>
                     </div>
                     <div class="col-md-1">
-                        <button class="btn btn-xs" ng-click="removeTelephone($index)"><span
-                                class="glyphicon glyphicon-remove"></span></button>
+                        <button class="btn btn-xs" ng-click="removeTelephone($index)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
                     </div>
 
                 </div>
@@ -120,7 +121,7 @@
             </div>
         </fieldset>
 
-        <input-address address="data.guardian.address" share-option="true"></input-address>
+        <input-address address="data.address" share-option="true"></input-address>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-md-5">
@@ -128,6 +129,5 @@
                 <button class="btn btn-default" ng-click="toScopedChild()">Άκυρωση</button>
             </div>
         </div>
-
     </form>
 </div>

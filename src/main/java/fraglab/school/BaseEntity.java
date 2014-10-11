@@ -9,10 +9,6 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore()
@@ -21,14 +17,6 @@ public class BaseEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore()
     private Date dateModified;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Date getDateCreated() {
         return dateCreated;

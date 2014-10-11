@@ -5,7 +5,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
-public class Telephone extends BaseEntity {
+public class Telephone extends GeneratedIdBaseEntity {
 
     private String number;
 
