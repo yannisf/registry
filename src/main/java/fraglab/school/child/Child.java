@@ -1,5 +1,6 @@
 package fraglab.school.child;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.school.Person;
 
 import javax.persistence.DiscriminatorValue;
@@ -30,6 +31,11 @@ public class Child extends Person {
 
     public void setLevel(PreSchoolLevel level) {
         this.level = level;
+    }
+
+    @JsonIgnore
+    public String getName() {
+        return getCallName() != null ? getCallName() : getFirstName();
     }
 
     @Override

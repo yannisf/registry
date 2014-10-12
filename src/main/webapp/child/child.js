@@ -187,7 +187,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
 
             $scope.confirmRemoveChild = function () {
                 $modal.open({
-                    templateUrl: 'child/remove-child.tpl.html',
+                    templateUrl: 'templates/remove-child.tpl.html',
                     controller: 'removeChildModalController',
                     resolve: {
                         childId: function () {
@@ -199,7 +199,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
 
             $scope.confirmRemoveRelationship = function (relationshipId) {
                 $modal.open({
-                    templateUrl: 'child/remove-guardian.tpl.html',
+                    templateUrl: 'templates/remove-guardian.tpl.html',
                     controller: 'removeRelationshipModalController',
                     scope: $scope,
                     resolve: {
