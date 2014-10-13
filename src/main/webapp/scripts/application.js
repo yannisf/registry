@@ -258,7 +258,10 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
                         this.toChildList();
                     }
                 },
-                go: function (path) {
+                go: function (path, $event) {
+                	if( $event ) {
+                		$event.stopPropagation();
+                	}
                     console.log('Requested ', path);
                     $location.path(path);
                 },

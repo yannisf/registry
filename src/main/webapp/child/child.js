@@ -182,7 +182,6 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             $scope.addGuardian = function () {
                 console.log("Adding guardian")
                 $location.path('/guardian/edit');
-                console.log("Going out")
             };
 
             $scope.confirmRemoveChild = function () {
@@ -197,7 +196,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 });
             };
 
-            $scope.confirmRemoveRelationship = function (relationshipId) {
+            $scope.confirmRemoveRelationship = function (relationshipId, $event) {
+            	$event.stopPropagation();
                 $modal.open({
                     templateUrl: 'templates/remove-guardian.tpl.html',
                     controller: 'removeRelationshipModalController',
@@ -225,8 +225,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             };
         }])
 
-    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'childService', 'relationshipId',
-        function ($scope, $modalInstance, childService, relationshipId) {
+    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'childService', 'statefulChildService', 'relationshipId',
+        function ($scope, $modalInstance, childService, statefulChildService, relationshipId) {
             $scope.removeRelationship = function () {
                 childService.removeRelationship(relationshipId).then(function (response) {
                     return childService.fetchRelationships(statefulChildService.getScopedChildId());

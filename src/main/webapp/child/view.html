@@ -31,21 +31,15 @@
         </thead>
 
         <tbody>
-        <tr ng-repeat="relationship in data.relationships" class="clickable">
-            <td ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
-                {{relationship.guardian.firstName}} {{relationship.guardian.lastName}}
-            </td>
-            <td ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
-                {{relationship.relationship.relationshipMetadata.type | relationshipFilter}}
-            </td>
-            <td ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
-                <telephone model="relationship.guardian.telephones[0]"></telephone>
-            </td>
+        <tr ng-repeat="relationship in data.relationships" class="clickable" ng-click="go('/guardian/' + relationship.guardian.id + '/view')">
+            <td>{{relationship.guardian.firstName}} {{relationship.guardian.lastName}}</td>
+            <td>{{relationship.relationship.relationshipMetadata.type | relationshipFilter}}</td>
+            <td><telephone model="relationship.guardian.telephones[0]"></telephone></td>
             <td class="text-right">
-                <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit')">
+                <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit', $event)">
                     <span class="glyphicon glyphicon-edit"></span> Ανανέωση
                 </button>
-                <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id)">
+                <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id, $event)">
                     <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
                 </button>
             </td>
