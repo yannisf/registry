@@ -125,8 +125,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
         }
     ])
 
-    .controller('createChildController', ['$scope', 'childService', 'statefulChildService', 'addressService', 'uuid4',
-        function ($scope, childService, statefulChildService, addressService, uuid4) {
+    .controller('createChildController', ['$scope', 'childService', 'statefulChildService', 'addressService', 'uuid4', '$http',
+        function ($scope, childService, statefulChildService, addressService, uuid4, $http) {
             angular.extend($scope, {
                 data: {
                     child: null,
@@ -138,6 +138,17 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                     submitLabel: 'Εισαγωγή'
                 }
             });
+
+            $scope.getNames = function(val) {
+                console.log('Requested names');
+                return $http.get('api/typeahead/firstnames', {
+                    params: {
+                        search: val
+                    }
+                }).then(function(response) {
+                  return response.data;
+              });
+            };
 
             $scope.submit = function () {
                 addressService.update($scope.data.address).then(function (response) {
