@@ -35,6 +35,14 @@ public class GuardianRelationshipDto implements Serializable, Comparable<Guardia
 
     @Override
     public int compareTo(GuardianRelationshipDto other) {
-        return relationship.getRelationshipMetadata().getType().compareTo(other.getRelationship().getRelationshipMetadata().getType());
+        RelationshipMetadata otherRelationshipMetadata = other.getRelationship().getRelationshipMetadata();
+        RelationshipMetadata thisRelationshipMetadata = relationship.getRelationshipMetadata();
+        if (otherRelationshipMetadata == null || otherRelationshipMetadata.getType() == null) {
+            return -1;
+        } else if (thisRelationshipMetadata == null || thisRelationshipMetadata.getType() == null) {
+            return 1;
+        } else {
+            return thisRelationshipMetadata.getType().compareTo(otherRelationshipMetadata.getType());
+        }
     }
 }
