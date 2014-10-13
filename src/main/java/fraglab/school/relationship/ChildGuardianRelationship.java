@@ -58,4 +58,13 @@ public class ChildGuardianRelationship extends GeneratedIdBaseEntity {
         OTHER;
     }
 
+    @Override
+    public String toString() {
+        return "ChildGuardianRelationship{" +
+                "childId=" + childId +
+                ", guardianId=" + guardianId +
+                ", relationshipMetadata=" + relationshipMetadata +
+                '}';
+    }
+
 }

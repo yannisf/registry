@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/relationship")
@@ -48,7 +48,7 @@ public class RelationshipController extends BaseRestController {
     }
 
     @RequestMapping(value = "/child/{childId}/guardian", method = RequestMethod.GET)
-    public Set<GuardianRelationshipDto> fetchRelationships(@PathVariable() Long childId) throws NotFoundException {
+    public List<GuardianRelationshipDto> fetchRelationships(@PathVariable() Long childId) throws NotFoundException {
         return childGuardianService.fetchRelationshipDtos(childId);
     }
 

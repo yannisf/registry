@@ -3,7 +3,7 @@ package fraglab.school.relationship;
 import fraglab.NotFoundException;
 import fraglab.school.guardian.Guardian;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ChildGuardianService {
 
@@ -17,7 +17,7 @@ public interface ChildGuardianService {
 
     void delete(Long id) throws NotFoundException;
 
-    Set<GuardianRelationshipDto> fetchRelationshipDtos(Long childId);
+    List<GuardianRelationshipDto> fetchRelationshipDtos(Long childId);
 
     void createGuardianAndRelationship(Guardian guardian, ChildGuardianRelationship relationship);
 
