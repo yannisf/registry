@@ -104,9 +104,15 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 }
             });
 
-            childService.fetchAll().then(function (data) {
-                $scope.data.children = data;
-            });
+			$scope.goToChild = function ($event) {
+				var clickedElement = angular.element($event.target);
+				var childId = clickedElement.scope().child.id;
+				$scope.go('/child/' + childId + '/view', $event);
+			}
+
+			childService.fetchAll().then(function (data) {
+				$scope.data.children = data;
+			});
 
             $scope.$watch('data.children', function(newval) {
                 var childIds = $scope.data.children.map(function(child) {
@@ -180,9 +186,14 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             };
 
             $scope.addGuardian = function () {
-                console.log("Adding guardian")
                 $location.path('/guardian/edit');
             };
+
+            $scope.goToGuardian = function ($event) {
+				var clickedElement = angular.element($event.target);
+				var guardianId = clickedElement.scope().relationship.guardian.id;
+				$scope.go('/guardian/' + guardianId + '/view', $event);
+            }
 
             $scope.confirmRemoveChild = function () {
                 $modal.open({

@@ -8,19 +8,19 @@
 
 <table class="table table-striped table-hover table-condensed" ng-if="!viewData.noChildren">
     <thead>
-    <tr>
-        <th>Όνομα</th>
-        <th>Επώνυμο</th>
-        <th>Φύλο</th>
-        <th>Τάξη</th>
-    </tr>
+        <tr>
+            <th>Όνομα</th>
+            <th>Επώνυμο</th>
+            <th>Φύλο</th>
+            <th>Τάξη</th>
+        </tr>
     </thead>
-    <tbody>
-    <tr ng-repeat="child in data.children" ng-click="go('/child/' + child.id + '/view')" class="clickable">
-        <td> {{child.firstName}}</td>
-        <td> {{child.lastName}}</td>
-        <td> {{child.genre|childGenreTypeFilter}}</td>
-        <td> {{child.level|preSchoolLevelFilter}}</td>
-    </tr>
+    <tbody ng-click="goToChild($event)">
+        <tr ng-repeat="child in data.children" class="clickable">
+            <td> {{child.firstName}}</td>
+            <td> {{child.lastName}}</td>
+            <td> {{child.genre|childGenreTypeFilter}}</td>
+            <td> {{child.level|preSchoolLevelFilter}}</td>
+        </tr>
     </tbody>
 </table>
