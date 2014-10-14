@@ -20,4 +20,19 @@ public class TypeAheadController {
         return typeAheadService.findMatchingFirstNames(startsWith);
     }
 
+    @RequestMapping(value = "/lastnames", method = RequestMethod.GET)
+    public List<String> getMatchingLastNames(@RequestParam(value = "search", required = true) String startsWith) {
+        return typeAheadService.findMatchingLastNames(startsWith);
+    }
+
+    @RequestMapping(value = "/professions", method = RequestMethod.GET)
+    public List<String> getMatchingProfessions(@RequestParam(value = "search", required = true) String startsWith) {
+        return typeAheadService.findMatchingProfessions(startsWith);
+    }
+
+    @RequestMapping(value = "/nationalities", method = RequestMethod.GET)
+    public List<String> getMatchingNationalities(@RequestParam(value = "search", required = true) String startsWith) {
+        return typeAheadService.findMatchingNationalities(startsWith);
+    }
+
 }

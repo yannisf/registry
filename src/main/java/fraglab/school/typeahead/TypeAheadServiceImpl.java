@@ -16,4 +16,19 @@ public class TypeAheadServiceImpl implements TypeAheadService {
         return typeAheadDao.findMatchingFirstNames(startsWith);
     }
 
+    @Override
+    public List<String> findMatchingLastNames(String startsWith) {
+        return typeAheadDao.findMatchingLastNames(startsWith);
+    }
+
+    @Override
+    public List<String> findMatchingProfessions(String startsWith) {
+        return typeAheadDao.findMatchingProfessions(startsWith);
+    }
+
+    @Override
+    public List<String> findMatchingNationalities(String startsWith) {
+        return typeAheadDao.findMatchingNationalities(startsWith);
+    }
+
 }

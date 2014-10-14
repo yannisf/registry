@@ -17,4 +17,26 @@ public class TypeAheadDaoImpl extends GenericDaoImpl<Person, Long> implements Ty
         return query.getResultList();
     }
 
+    @Override
+    public List<String> findMatchingLastNames(String startsWith) {
+        Query query = entityManager.createQuery("");
+        query.setParameter("", "");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<String> findMatchingProfessions(String startsWith) {
+        Query query = entityManager.createQuery("");
+        query.setParameter("", "");
+        return query.getResultList();
+
+    }
+
+    @Override
+    public List<String> findMatchingNationalities(String startsWith) {
+        Query query = entityManager.createQuery("");
+        query.setParameter("", "");
+        return query.getResultList();
+    }
+
 }
