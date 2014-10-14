@@ -101,7 +101,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 },
                 viewData: {
                     noChildren: true
-                }
+                    }
             });
 
 			$scope.goToChild = function ($event) {
@@ -115,11 +115,11 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
 			});
 
             $scope.$watch('data.children', function(newval) {
-                var childIds = $scope.data.children.map(function(child) {
+                var childIds = newval.map(function(child) {
                     return child.id.toString();
                 });
                 statefulChildService.setChildIds(childIds);
-                $scope.viewData.noChildren = $scope.data.children.length == 0;
+                $scope.viewData.noChildren = newval.length == 0;
             })
 
         }
