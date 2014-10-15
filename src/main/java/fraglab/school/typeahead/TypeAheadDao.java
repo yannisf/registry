@@ -11,4 +11,10 @@ public interface TypeAheadDao {
     List<String> findMatchingProfessions(String startsWith);
 
     List<String> findMatchingNationalities(String startsWith);
+
+    List<String> findMatchingStreetNames(String startsWith);
+
+    List<String> findMatchingNeighbourhoods(String startsWith);
+
+    List<String> findMatchingCities(String startsWith);
 }

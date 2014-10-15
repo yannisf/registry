@@ -31,4 +31,19 @@ public class TypeAheadServiceImpl implements TypeAheadService {
         return typeAheadDao.findMatchingNationalities(startsWith);
     }
 
+    @Override
+    public List<String> findMatchingStreetNames(String startsWith) {
+        return typeAheadDao.findMatchingStreetNames(startsWith);
+    }
+
+    @Override
+    public List<String> findMatchingNeighbourhoods(String startsWith) {
+        return typeAheadDao.findMatchingNeighbourhoods(startsWith);
+    }
+
+    @Override
+    public List<String> findMatchingCities(String startsWith) {
+        return typeAheadDao.findMatchingCities(startsWith);
+    }
+
 }
