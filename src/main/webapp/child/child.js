@@ -139,17 +139,6 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 }
             });
 
-            $scope.getNames = function(val) {
-                console.log('Requested names');
-                return $http.get('api/typeahead/firstnames', {
-                    params: {
-                        search: val
-                    }
-                }).then(function(response) {
-                  return response.data;
-              });
-            };
-
             $scope.submit = function () {
                 addressService.update($scope.data.address).then(function (response) {
                     $scope.data.child.addressId = $scope.data.address.id;

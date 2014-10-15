@@ -23,7 +23,7 @@ public class ChildReportFirstNamesPdfView extends AbstractPdfView {
                                     HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         Font font = FontFactory.getFont("/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 64.0f, Font.NORMAL);
-
+        @SuppressWarnings(value = "unchecked")
         List<Child> children = (List<Child>) stringObjectMap.get("children");
         for (Child child : children) {
             Paragraph paragraph = new Paragraph(child.getName(), font);

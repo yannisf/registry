@@ -13,6 +13,7 @@ import java.util.List;
 public class ChildGuardianRelationshipDaoImpl extends GenericDaoImpl<ChildGuardianRelationship, Long> implements ChildGuardianRelationshipDao {
 
     @Override
+    @SuppressWarnings(value = "unchecked")
     public List<ChildGuardianRelationship> fetchAllForChild(Long childId) {
         Query query = entityManager.createQuery("select r from ChildGuardianRelationship r where r.childId=:childId");
         query.setParameter("childId", childId);

@@ -1,7 +1,6 @@
 package fraglab.school.address;
 
 import fraglab.NotFoundException;
-import fraglab.school.Address;
 import fraglab.school.BaseRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,7 @@ public class AddressController extends BaseRestController {
     AddressService addressService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Address fetch(@PathVariable String id) {
+    public Address fetch(@PathVariable String id) throws NotFoundException {
         return addressService.fetch(id);
     }
 

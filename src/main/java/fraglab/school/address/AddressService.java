@@ -1,12 +1,13 @@
 package fraglab.school.address;
 
-import fraglab.school.Address;
+import fraglab.NotFoundException;
 
 public interface AddressService {
 
-    Address fetch(String id);
-
     void update(Address address);
 
-    void delete(String id);
+    void delete(String id) throws NotFoundException;
+
+    Address fetch(String id) throws NotFoundException;
+
 }

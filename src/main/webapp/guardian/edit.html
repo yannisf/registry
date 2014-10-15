@@ -14,7 +14,10 @@
             <label for="firstName" class="col-md-2 control-label">Όνομα</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="firstName" ng-model="data.guardian.firstName"/>
+                <input type="text" class="form-control" id="firstName" autocomplete="off"
+                       ng-model="data.guardian.firstName"
+                       typeahead="firstName for firstName in typeaheads.getFirstNames($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500"/>
             </div>
         </div>
 
@@ -22,7 +25,10 @@
             <label for="lastName" class="col-md-2 control-label">Επώνυμο</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="lastName" ng-model="data.guardian.lastName"/>
+                <input type="text" class="form-control" id="lastName" autocomplete="off"
+                       ng-model="data.guardian.lastName"
+                       typeahead="lastName for lastName in typeaheads.getLastNames($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500"/>
             </div>
         </div>
 
@@ -50,7 +56,10 @@
             <label for="nationality" class="col-md-2 control-label">Υπηκοότητα</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="nationality" ng-model="data.guardian.nationality"/>
+                <input type="text" class="form-control" id="nationality" autocomplete="off"
+                       ng-model="data.guardian.nationality"
+                       typeahead="nationality for nationality in typeaheads.getNationalities($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500"/>
             </div>
         </div>
 
@@ -58,7 +67,10 @@
             <label for="profession" class="col-md-2 control-label">Επάγγελμα</label>
 
             <div class="col-md-3">
-                <input type="text" class="form-control" id="profession" ng-model="data.guardian.profession"/>
+                <input type="text" class="form-control" id="profession" autocomplete="off"
+                       ng-model="data.guardian.profession"
+                       typeahead="profession for profession in typeaheads.getProfessions($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500"/>
             </div>
         </div>
 
@@ -121,7 +133,7 @@
             </div>
         </fieldset>
 
-        <input-address address="data.address" share-option="true"></input-address>
+        <input-address address="data.address" share-option="true" typeaheads="typeaheads"></input-address>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-md-5">

@@ -20,6 +20,7 @@ public class ChildReportSmallTagNamesPdfView extends AbstractPdfView {
                                     HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         Font font = FontFactory.getFont("/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 22.0f, Font.NORMAL);
+        @SuppressWarnings(value = "unchecked")
         List<Child> children = (List<Child>) stringObjectMap.get("children");
         Table table = new Table(2);
         table.setPadding(8.0f);

@@ -21,6 +21,7 @@ public class GenericDaoImpl<T extends Serializable, PK extends Serializable> imp
     @PersistenceContext
     protected EntityManager entityManager;
 
+    @SuppressWarnings(value = "unchecked")
     public GenericDaoImpl() {
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
         this.entityClass = (Class<T>) genericSuperclass.getActualTypeArguments()[0];

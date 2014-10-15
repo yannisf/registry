@@ -15,13 +15,10 @@
             <label for="firstName" class="col-sm-2 control-label">Όνομα</label>
 
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="firstName" ng-model="data.child.firstName"
-                       autocomplete="off"
-                       typeahead="name for name in getNames($viewValue)"
-                       typeahead-loading="loadingNames"
-                       typeahead-min-length="2"
-                       typeahead-wait-ms="300"/>
-                <i ng-show="loadingNames" class="glyphicon glyphicon-refresh"></i>
+                <input type="text" class="form-control" id="firstName" autocomplete="off"
+                       ng-model="data.child.firstName"
+                       typeahead="firstName for firstName in typeaheads.getFirstNames($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500"/>
             </div>
         </div>
 
@@ -29,7 +26,9 @@
             <label for="lastName" class="col-sm-2 control-label">Επώνυμο</label>
 
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="lastName" ng-model="data.child.lastName">
+                <input type="text" class="form-control" id="lastName" ng-model="data.child.lastName" autocomplete="off"
+                       typeahead="lastName for lastName in typeaheads.getLastNames($viewValue)" typeahead-min-length="1"
+                       typeahead-wait-ms="500">
             </div>
         </div>
 
@@ -79,7 +78,10 @@
             <label for="nationality" class="col-sm-2 control-label">Υπηκοότητα</label>
 
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="nationality" ng-model="data.child.nationality">
+                <input type="text" class="form-control" id="nationality" ng-model="data.child.nationality"
+                       autocomplete="off"
+                       typeahead="nationality for nationality in typeaheads.getNationalities($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500">
             </div>
         </div>
 
@@ -91,7 +93,7 @@
             </div>
         </div>
 
-        <input-address address="data.address" share-option="false"></input-address>
+        <input-address address="data.address" share-option="false" typeaheads="typeaheads"></input-address>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

@@ -1,4 +1,6 @@
-package fraglab.school;
+package fraglab.school.address;
+
+import fraglab.school.UuidBaseEntity;
 
 import javax.persistence.Entity;
 

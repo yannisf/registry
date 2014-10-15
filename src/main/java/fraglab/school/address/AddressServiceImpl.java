@@ -1,22 +1,14 @@
 package fraglab.school.address;
 
-import fraglab.school.Address;
+import fraglab.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-
 @Service
-@Transactional
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressDao addressDao;
-
-    @Override
-    public Address fetch(String id) {
-        return addressDao.fetch(id);
-    }
 
     @Override
     public void update(Address address) {
@@ -24,8 +16,19 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFoundException {
         Address address = fetch(id);
         addressDao.delete(address);
     }
+
+    @Override
+    public Address fetch(String id) throws NotFoundException {
+        Address address = addressDao.fetch(id);
+        if (address == null) {
+            throw new NotFoundException("Address not found");
+        }
+
+        return address;
+    }
+
 }

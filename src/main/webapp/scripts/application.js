@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guardian'])
+angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guardian', 'typeaheads'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({
@@ -144,13 +144,14 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
         };
     })
 
-    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService', 'uuid4',
-        function (statefulChildService, childService, addressService, uuid4) {
+    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService', 'uuid4', 'typeAheadService',
+        function (statefulChildService, childService, addressService, uuid4, typeAheadService) {
             return {
                 restrict: 'E',
                 scope: {
                     address: "=",
-                    shareOption: "="
+                    shareOption: "=",
+                    typeaheads: "="
                 },
                 templateUrl: "templates/input-address.html",
                 link: function (scope) {

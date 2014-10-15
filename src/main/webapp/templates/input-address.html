@@ -12,7 +12,10 @@
 
         <div class="col-md-3">
             <input type="text" class="form-control" id="address.streetName" ng-model="address.streetName"
-                   ng-readonly="viewData.commonAddress"/>
+                   autocomplete="off"
+                   ng-readonly="viewData.commonAddress"
+                   typeahead="streetName for streetName in typeaheads.getStreetNames($viewValue)"
+                   typeahead-min-length="1" typeahead-wait-ms="500"/>
         </div>
         <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
 
@@ -27,7 +30,10 @@
 
         <div class="col-md-3">
             <input type="text" class="form-control" id="address.neighbourhood" ng-model="address.neighbourhood"
-                   ng-readonly="viewData.commonAddress"/>
+                   autocomplete="off"
+                   ng-readonly="viewData.commonAddress"
+                   typeahead="neighbourhood for neighbourhood in typeaheads.getNeighbourhoods($viewValue)"
+                   typeahead-min-length="1" typeahead-wait-ms="500"/>
         </div>
         <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
 
@@ -41,8 +47,10 @@
         <label for="address.city" class="col-md-2 control-label">Πόλη</label>
 
         <div class="col-md-3">
-            <input type="text" class="form-control" id="address.city" ng-model="address.city"
-                   ng-readonly="viewData.commonAddress"/>
+            <input type="text" class="form-control" id="address.city" ng-model="address.city" autocomplete="off"
+                   ng-readonly="viewData.commonAddress"
+                   typeahead="city for city in typeaheads.getCities($viewValue)" typeahead-min-length="1"
+                   typeahead-wait-ms="500"/>
         </div>
     </div>
 </fieldset>
