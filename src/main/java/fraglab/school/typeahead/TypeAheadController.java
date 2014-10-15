@@ -1,5 +1,6 @@
 package fraglab.school.typeahead;
 
+import fraglab.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +18,8 @@ public class TypeAheadController {
 
     @RequestMapping(value = "/firstnames", method = RequestMethod.GET)
     public List<String> getMatchingFirstNames(@RequestParam(value = "search", required = true) String startsWith) {
-        return typeAheadService.findMatchingFirstNames(startsWith);
+        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
+        return typeAheadService.findMatchingFirstNames(reEncodedStartsWith);
     }
 
 }

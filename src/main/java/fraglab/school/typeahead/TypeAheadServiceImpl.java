@@ -13,7 +13,7 @@ public class TypeAheadServiceImpl implements TypeAheadService {
 
     @Override
     public List<String> findMatchingFirstNames(String startsWith) {
-        return typeAheadDao.findMatchingFirstNames(startsWith);
+        return typeAheadDao.findMatchingFirstNames(startsWith.toLowerCase());
     }
 
 }
