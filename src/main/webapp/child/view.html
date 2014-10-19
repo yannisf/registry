@@ -15,34 +15,37 @@
 <display-child child="data.child" address="data.address"></display-child>
 
 <fieldset>
-    <legend>Κηδεμόνες <span class="badge" ng-if="data.relationships.length > 0">{{data.relationships.length}}</span>
+    <legend>
+        Κηδεμόνες <span class="badge" ng-if="data.relationships.length > 0">{{data.relationships.length}}</span>
     </legend>
 
     <div ng-if="data.relationships.length == 0"> Δεν έχει εισαχθεί κανείς κηδεμόνας ακόμα</div>
 
     <table class="table table-striped table-hover" ng-if="data.relationships.length > 0">
         <thead>
-            <tr>
-                <th>Όνομα</th>
-                <th>Ιδιότητα</th>
-                <th>Τηλέφωνο</th>
-                <th>&nbsp;</th>
-            </tr>
+        <tr>
+            <th>Όνομα</th>
+            <th>Ιδιότητα</th>
+            <th>Τηλέφωνο</th>
+            <th>&nbsp;</th>
+        </tr>
         </thead>
         <tbody ng-click="goToGuardian($event)">
-            <tr ng-repeat="relationship in data.relationships" class="clickable">
-                <td>{{relationship.guardian.firstName}} {{relationship.guardian.lastName}}</td>
-                <td>{{relationship.relationship.relationshipMetadata.type | relationshipFilter}}</td>
-                <td><telephone model="relationship.guardian.telephones[0]"></telephone></td>
-                <td class="text-right">
-                    <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit', $event)">
-                        <span class="glyphicon glyphicon-edit"></span> Ανανέωση
-                    </button>
-                    <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id, $event)">
-                        <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
-                    </button>
-                </td>
-            </tr>
+        <tr ng-repeat="relationship in data.relationships" class="clickable">
+            <td>{{relationship.guardian.firstName}} {{relationship.guardian.lastName}}</td>
+            <td>{{relationship.relationship.relationshipMetadata.type | relationshipFilter}}</td>
+            <td>
+                <telephone model="relationship.guardian.telephones[0]"></telephone>
+            </td>
+            <td class="text-right">
+                <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit', $event)">
+                    <span class="glyphicon glyphicon-edit"></span> Ανανέωση
+                </button>
+                <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id, $event)">
+                    <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
+                </button>
+            </td>
+        </tr>
         </tbody>
     </table>
 </fieldset>

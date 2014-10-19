@@ -36,8 +36,8 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
     })
 
     .value('guardianGenreTypeMap', {
-        MALE: "Άρρεν",
-        FEMALE: "Θύλη",
+        MALE: "Άνδρας",
+        FEMALE: "Γυναίκα",
         OTHER: "Άλλο"
     })
 
@@ -193,7 +193,24 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
             scope: {
                 person: "="
             },
-            template: '{{::person.firstName}} {{::person.lastName}} <span ng-if="::person.callName">({{::person.callName}})</span>'
+            link: function (scope, element) {
+                var unwatch = scope.$watch('person', function(newval, oldval) {
+                        var name = '';
+                        if (newval) {
+                            if (scope.person.firstName) {
+                                name = scope.person.firstName + ' ';
+                            }
+                            if (scope.person.lastName) {
+                                name += scope.person.lastName + ' ';
+                            }
+                            if (scope.person.callName) {
+                                name += " (" + scope.person.callName + ") ";
+                            }
+                        element.html(name);
+//                        unwatch();
+                    }
+                }, true);
+            }
         };
     })
 
