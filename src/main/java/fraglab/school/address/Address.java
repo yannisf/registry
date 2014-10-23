@@ -1,11 +1,11 @@
 package fraglab.school.address;
 
-import fraglab.school.UuidBaseEntity;
+import fraglab.school.BaseEntity;
 
 import javax.persistence.Entity;
 
 @Entity
-public class Address extends UuidBaseEntity {
+public class Address extends BaseEntity {
 
     private String streetName;
 

@@ -9,14 +9,25 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
+    @Id
+    protected String id;
+
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore()
-    private Date dateCreated;
+    protected Date dateCreated;
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore()
-    private Date dateModified;
+    protected Date dateModified;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Date getDateCreated() {
         return dateCreated;

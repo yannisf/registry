@@ -5,7 +5,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
-public class Telephone extends GeneratedIdBaseEntity {
+public class Telephone extends BaseEntity {
 
     private String number;
 
@@ -28,13 +28,6 @@ public class Telephone extends GeneratedIdBaseEntity {
         this.type = type;
     }
 
-    public enum Type {
-        MOBILE,
-        WORK,
-        HOME,
-        OTHER;
-    }
-
     @Override
     public String toString() {
         return "Telephone{" +
@@ -42,5 +35,12 @@ public class Telephone extends GeneratedIdBaseEntity {
                 ", number='" + number + '\'' +
                 ", type=" + type +
                 '}';
+    }
+
+    public enum Type {
+        MOBILE,
+        WORK,
+        HOME,
+        OTHER;
     }
 }

@@ -32,12 +32,6 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
                     }
                 );
             },
-            createGuardianAndRelationship: function (childId, guardianRelationship) {
-                return $http.post('api/relationship/child/' + childId + '/guardian', guardianRelationship).then(function (response) {
-                        return response.data;
-                    }
-                );
-            },
             updateGuardianAndRelationship: function (childId, guardianId, guardianRelationship) {
                 return $http.put('api/relationship/child/' + childId + '/guardian/' + guardianId, guardianRelationship).then(function (response) {
                         return response.data;
@@ -52,17 +46,14 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             angular.extend($scope, {
                 data: {
                     guardian: {
-                        telephones: [
-                            {}
-                        ]
+                        id: uuid4.generate(),
+                        telephones: []
                     },
                     address: {
                         id: uuid4.generate()
                     },
-                    relationship: {
-                        relationshipMetadata: {
-                            type: null
-                        }
+                    relationshipMetadata: {
+                        type: null
                     }
                 },
                 viewData: {
@@ -86,7 +77,8 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
                 };
 
                 addressService.update($scope.data.address).then(function (response) {
-                    return guardianService.createGuardianAndRelationship(statefulChildService.getScopedChildId(), guardianRelationship);
+                    return guardianService.updateGuardianAndRelationship(statefulChildService.getScopedChildId(),
+                        $scope.data.guardian.id, $scope.data.relationshipMetadata);
                 }).then(function (response) {
                     $scope.toScopedChild();
                 });

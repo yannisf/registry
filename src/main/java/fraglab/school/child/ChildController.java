@@ -15,26 +15,20 @@ public class ChildController extends BaseRestController {
     @Autowired
     ChildService childService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public Child create(@RequestBody Child child) {
-        return childService.create(child);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void update(@PathVariable Long id, @RequestBody Child child) throws NotFoundException {
-        childService.update(id, child);
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@RequestBody Child child) throws NotFoundException {
+        childService.update(child);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable Long id) throws NotFoundException {
+    public void delete(@PathVariable String id) throws NotFoundException {
         childService.delete(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Child fetch(@PathVariable Long id) throws NotFoundException {
+    public Child fetch(@PathVariable String id) throws NotFoundException {
         return childService.fetch(id);
     }
 

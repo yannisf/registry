@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ChildGuardianRelationshipDaoImpl extends GenericDaoImpl<ChildGuardianRelationship, Long> implements ChildGuardianRelationshipDao {
+public class ChildGuardianRelationshipDaoImpl extends GenericDaoImpl<ChildGuardianRelationship, String> implements ChildGuardianRelationshipDao {
 
     @Override
     @SuppressWarnings(value = "unchecked")
-    public List<ChildGuardianRelationship> fetchAllForChild(Long childId) {
+    public List<ChildGuardianRelationship> fetchAllForChild(String childId) {
         Query query = entityManager.createQuery("select r from ChildGuardianRelationship r where r.childId=:childId");
         query.setParameter("childId", childId);
         return (List<ChildGuardianRelationship>) query.getResultList();
@@ -22,7 +22,7 @@ public class ChildGuardianRelationshipDaoImpl extends GenericDaoImpl<ChildGuardi
     }
 
     @Override
-    public ChildGuardianRelationship fetchForChildAndGuardian(Long childId, Long guardianId) throws NotFoundException {
+    public ChildGuardianRelationship fetchForChildAndGuardian(String childId, String guardianId) throws NotFoundException {
         Query query = entityManager.createQuery("select r from ChildGuardianRelationship r where r.childId=:childId and r.guardianId=:guardianId");
         query.setParameter("childId", childId);
         query.setParameter("guardianId", guardianId);

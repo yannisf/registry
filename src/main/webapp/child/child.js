@@ -34,13 +34,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                     return response.data;
                 });
             },
-            create: function (child) {
-                return $http.post('api/child', child).then(function (response) {
-                    return response.data;
-                });
-            },
-            update: function (childId, child) {
-                return $http.post('api/child/' + childId, child).then(function (response) {
+            update: function (child) {
+                return $http.put('api/child/', child).then(function (response) {
                     return response.data;
                 });
             },
@@ -64,8 +59,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
 
     .service('statefulChildService', ['$routeParams', function ($routeParams) {
         var childId;
-        var childAddressId;
         var childIds;
+        var childAddressId;
 
         return {
             getScopedChildId: function () {
@@ -129,7 +124,9 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
         function ($scope, childService, statefulChildService, addressService, uuid4, $http) {
             angular.extend($scope, {
                 data: {
-                    child: null,
+                    child: {
+                        id: uuid4.generate()
+                    },
                     address: {
                         id: uuid4.generate()
                     }
@@ -142,7 +139,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             $scope.submit = function () {
                 addressService.update($scope.data.address).then(function (response) {
                     $scope.data.child.addressId = $scope.data.address.id;
-                    return childService.create($scope.data.child);
+                    return childService.update($scope.data.child);
                 }).then(function (response) {
                     var childId = response.id;
                     statefulChildService.setScopedChildId(childId);
@@ -179,7 +176,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
 
             $scope.submit = function () {
                 addressService.update($scope.data.address).then(function (response) {
-                    return childService.update(statefulChildService.getScopedChildId(), $scope.data.child);
+                    return childService.update($scope.data.child);
                 }).then(function (response) {
                     $scope.toScopedChild();
                 });

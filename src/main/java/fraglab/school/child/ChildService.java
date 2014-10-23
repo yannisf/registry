@@ -6,13 +6,11 @@ import java.util.List;
 
 public interface ChildService {
 
-    Child create(Child child);
+    void delete(String id) throws NotFoundException;
 
-    void delete(Long id) throws NotFoundException;
+    void update(Child child) throws NotFoundException;
 
-    void update(Long id, Child child) throws NotFoundException;
-
-    Child fetch(Long id) throws NotFoundException;
+    Child fetch(String id) throws NotFoundException;
 
     List<Child> fetchAll();
 

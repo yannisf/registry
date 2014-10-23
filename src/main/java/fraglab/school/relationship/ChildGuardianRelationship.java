@@ -1,38 +1,42 @@
 
 package fraglab.school.relationship;
 
-import fraglab.school.GeneratedIdBaseEntity;
+import fraglab.school.BaseEntity;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "CHILD_GUARDIAN", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"CHILD_ID", "GUARDIAN_ID"})
 })
-public class ChildGuardianRelationship extends GeneratedIdBaseEntity {
+public class ChildGuardianRelationship extends BaseEntity {
 
     @Column(name = "CHILD_ID")
-    private Long childId;
+    private String childId;
 
     @Column(name = "GUARDIAN_ID")
-    private Long guardianId;
-
+    private String guardianId;
     @Embedded
     private RelationshipMetadata relationshipMetadata;
 
-    public Long getChildId() {
+    public ChildGuardianRelationship() {
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public String getChildId() {
         return childId;
     }
 
-    public void setChildId(Long childId) {
+    public void setChildId(String childId) {
         this.childId = childId;
     }
 
-    public Long getGuardianId() {
+    public String getGuardianId() {
         return guardianId;
     }
 
-    public void setGuardianId(Long guardianId) {
+    public void setGuardianId(String guardianId) {
         this.guardianId = guardianId;
     }
 
@@ -42,6 +46,15 @@ public class ChildGuardianRelationship extends GeneratedIdBaseEntity {
 
     public void setRelationshipMetadata(RelationshipMetadata relationshipMetadata) {
         this.relationshipMetadata = relationshipMetadata;
+    }
+
+    @Override
+    public String toString() {
+        return "ChildGuardianRelationship{" +
+                "childId=" + childId +
+                ", guardianId=" + guardianId +
+                ", relationshipMetadata=" + relationshipMetadata +
+                '}';
     }
 
     public enum Type {
@@ -56,15 +69,6 @@ public class ChildGuardianRelationship extends GeneratedIdBaseEntity {
         GODFATHER,
         GODMOTHER,
         OTHER;
-    }
-
-    @Override
-    public String toString() {
-        return "ChildGuardianRelationship{" +
-                "childId=" + childId +
-                ", guardianId=" + guardianId +
-                ", relationshipMetadata=" + relationshipMetadata +
-                '}';
     }
 
 }

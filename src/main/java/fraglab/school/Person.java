@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Person extends GeneratedIdBaseEntity {
+public class Person extends BaseEntity {
 
     private String firstName;
 

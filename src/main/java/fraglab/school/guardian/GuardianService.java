@@ -2,18 +2,12 @@ package fraglab.school.guardian;
 
 import fraglab.NotFoundException;
 
-import java.util.List;
-
 public interface GuardianService {
 
-    void create(Guardian guardian);
+    void delete(String id) throws NotFoundException;
 
-    void delete(Long id) throws NotFoundException;
+    void update(Guardian guardian) throws NotFoundException;
 
-    void update(Long id, Guardian guardian) throws NotFoundException;
-
-    Guardian fetch(Long id) throws NotFoundException;
-
-    List<Guardian> fetchAll();
+    Guardian fetch(String id) throws NotFoundException;
 
 }

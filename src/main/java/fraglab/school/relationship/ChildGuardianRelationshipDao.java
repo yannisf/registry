@@ -5,10 +5,10 @@ import fraglab.NotFoundException;
 
 import java.util.List;
 
-public interface ChildGuardianRelationshipDao extends GenericDao<ChildGuardianRelationship, Long> {
+public interface ChildGuardianRelationshipDao extends GenericDao<ChildGuardianRelationship, String> {
 
-    List<ChildGuardianRelationship> fetchAllForChild(Long childId);
+    List<ChildGuardianRelationship> fetchAllForChild(String childId);
 
-    ChildGuardianRelationship fetchForChildAndGuardian(Long childId, Long guardianId) throws NotFoundException;
+    ChildGuardianRelationship fetchForChildAndGuardian(String childId, String guardianId) throws NotFoundException;
 
 }

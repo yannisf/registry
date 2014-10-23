@@ -17,26 +17,18 @@ public class ChildServiceImpl implements ChildService {
     private ChildDao childDao;
 
     @Override
-    public Child create(Child child) {
-        childDao.create(child);
-        return child;
-    }
-
-    @Override
-    public void delete(Long id) throws NotFoundException {
+    public void delete(String id) throws NotFoundException {
         Child child = fetch(id);
         childDao.delete(child);
     }
 
     @Override
-    public void update(Long id, Child child) throws NotFoundException {
-        fetch(id);
-        child.setId(id);
+    public void update(Child child) throws NotFoundException {
         childDao.update(child);
     }
 
     @Override
-    public Child fetch(Long id) throws NotFoundException {
+    public Child fetch(String id) throws NotFoundException {
         Child child = childDao.fetch(id);
         if (child == null) {
             throw new NotFoundException("Child not found");

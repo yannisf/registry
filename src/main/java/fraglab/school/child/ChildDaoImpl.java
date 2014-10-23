@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ChildDaoImpl extends GenericDaoImpl<Child, Long> implements ChildDao {
+public class ChildDaoImpl extends GenericDaoImpl<Child, String> implements ChildDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChildDaoImpl.class);
 
