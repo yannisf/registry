@@ -41,9 +41,10 @@
                 <button class="btn btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit', $event)">
                     <span class="glyphicon glyphicon-edit"></span> Ανανέωση
                 </button>
-                <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationship.id, $event)">
+                <button class="btn btn-xs" ng-click="confirmRemoveRelationship(relationship.relationshipId, $event)">
                     <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
                 </button>
+                {{relationship | json}}
             </td>
         </tr>
         </tbody>

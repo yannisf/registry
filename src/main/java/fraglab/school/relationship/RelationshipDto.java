@@ -6,11 +6,19 @@ import java.io.Serializable;
 
 public class RelationshipDto implements Serializable {
 
+    private String relationshipId;
     private String childId;
     private Guardian guardian;
     private RelationshipMetadata relationshipMetadata;
 
-    public RelationshipDto() {
+    public RelationshipDto() { }
+
+    public String getRelationshipId() {
+        return relationshipId;
+    }
+
+    public void setRelationshipId(String relationshipId) {
+        this.relationshipId = relationshipId;
     }
 
     public String getChildId() {

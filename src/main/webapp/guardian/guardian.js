@@ -73,12 +73,13 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
                 $scope.data.guardian.addressId = $scope.data.address.id;
                 var guardianRelationship = {
                     guardian: $scope.data.guardian,
-                    relationship: $scope.data.relationship
+                    relationship: $scope.data.relationshipMetadata
                 };
 
+				console.log("Relationship DTO: ", guardianRelationship);
                 addressService.update($scope.data.address).then(function (response) {
                     return guardianService.updateGuardianAndRelationship(statefulChildService.getScopedChildId(),
-                        $scope.data.guardian.id, $scope.data.relationshipMetadata);
+                        guardianRelationship.guardian.id, guardianRelationship);
                 }).then(function (response) {
                     $scope.toScopedChild();
                 });

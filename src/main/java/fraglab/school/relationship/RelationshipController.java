@@ -33,7 +33,7 @@ public class RelationshipController extends BaseRestController {
     }
 
     @RequestMapping(value = "/child/{childId}/guardian", method = RequestMethod.GET)
-    public List<ChildGuardianRelationship> fetchRelationships(@PathVariable() String childId) throws NotFoundException {
+    public List<RelationshipDto> fetchRelationships(@PathVariable() String childId) throws NotFoundException {
         return childGuardianService.fetchRelationships(childId);
     }
 

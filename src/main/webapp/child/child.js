@@ -205,6 +205,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             };
 
             $scope.confirmRemoveRelationship = function (relationshipId, $event) {
+            	console.log(relationshipId)
             	$event.stopPropagation();
                 $modal.open({
                     templateUrl: 'templates/remove-guardian.tpl.html',

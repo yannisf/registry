@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,8 +37,21 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
     }
 
     @Override
-    public List<ChildGuardianRelationship> fetchRelationships(String childId) {
-        return childGuardianRelationshipDao.fetchAllForChild(childId);
+    public List<RelationshipDto> fetchRelationships(String childId) {
+        List<RelationshipDto> relationshipDtos = new ArrayList<>();
+        List<ChildGuardianRelationship> relationships = childGuardianRelationshipDao.fetchAllForChild(childId);
+        LOG.debug("Fetched {} relationships for child {}", relationships.size(), childId);
+
+        for (ChildGuardianRelationship relationship : relationships) {
+            RelationshipDto relationshipDto = new RelationshipDto();
+            relationshipDto.setRelationshipId(relationship.getId());
+            relationshipDto.setChildId(childId);
+            relationshipDto.setGuardian(guardianDao.fetch(relationship.getGuardianId()));
+            relationshipDto.setRelationshipMetadata(relationship.getRelationshipMetadata());
+            relationshipDtos.add(relationshipDto);
+        }
+
+        return relationshipDtos;
     }
 
     @Override
@@ -57,7 +71,14 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
     @Transactional
     public void updateGuardianAndRelationship(String childId, String guardianId, RelationshipDto relationshipDto) {
         guardianDao.update(relationshipDto.getGuardian());
-        ChildGuardianRelationship childGuardianRelationship = new ChildGuardianRelationship();
+
+        ChildGuardianRelationship childGuardianRelationship;
+        try {
+            childGuardianRelationship = childGuardianRelationshipDao.fetchForChildAndGuardian(childId, guardianId);
+        } catch (NotFoundException e) {
+            childGuardianRelationship = new ChildGuardianRelationship();
+        }
+
         childGuardianRelationship.setChildId(childId);
         childGuardianRelationship.setGuardianId(guardianId);
         childGuardianRelationship.setRelationshipMetadata(relationshipDto.getRelationshipMetadata());

@@ -9,6 +9,7 @@
 <div>
     <form class="form-horizontal" role="form">
         <input type="hidden" ng-model="data.guardian.id">
+        <input type="hidden" ng-model="data.guardian.id">
 
         <div class="form-group">
             <label for="firstName" class="col-sm-2 control-label">Όνομα</label>
@@ -86,7 +87,7 @@
             <label for="relationship" class="col-sm-2 control-label">Σχέση με το παιδί</label>
 
             <div class="col-sm-3">
-            <select class="form-control" id="relationship" ng-model="data.relationship.relationshipMetadata.type"
+            <select class="form-control" id="relationship" ng-model="data.relationshipMetadata.type"
                         ng-options="relationship|relationshipFilter for relationship in relationshipTypes"/>
                 <option value="">--</option>
                 </select>
@@ -98,7 +99,7 @@
 
             <div class="col-sm-3">
             <textarea rows="3" class="form-control" id="notes"
-                          ng-model="data.relationship.relationshipMetadata.notes"></textarea>
+                          ng-model="data.relationshipMetadata.notes"></textarea>
             </div>
         </div>
 

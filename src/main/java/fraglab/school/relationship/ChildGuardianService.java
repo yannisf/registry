@@ -10,7 +10,7 @@ public interface ChildGuardianService {
 
     ChildGuardianRelationship fetch(String childId, String guardianId) throws NotFoundException;
 
-    List<ChildGuardianRelationship> fetchRelationships(String childId);
+    List<RelationshipDto> fetchRelationships(String childId);
 
     void update(String relationshipId, RelationshipMetadata relationshipMetadata) throws NotFoundException;
 
