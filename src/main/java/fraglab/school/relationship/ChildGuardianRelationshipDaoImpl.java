@@ -18,7 +18,6 @@ public class ChildGuardianRelationshipDaoImpl extends GenericDaoImpl<ChildGuardi
         Query query = entityManager.createQuery("select r from ChildGuardianRelationship r where r.childId=:childId");
         query.setParameter("childId", childId);
         return (List<ChildGuardianRelationship>) query.getResultList();
-
     }
 
     @Override

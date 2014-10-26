@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,13 +17,13 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
     private static final Logger LOG = LoggerFactory.getLogger(ChildGuardianServiceImpl.class);
 
     @Autowired
-    ChildGuardianRelationshipDao childGuardianRelationshipDao;
+    ChildDao childDao;
 
     @Autowired
     GuardianDao guardianDao;
 
     @Autowired
-    ChildDao childDao;
+    ChildGuardianRelationshipDao childGuardianRelationshipDao;
 
     @Override
     public ChildGuardianRelationship fetch(String id) throws NotFoundException {
@@ -37,31 +36,19 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
     }
 
     @Override
-    public List<RelationshipDto> fetchRelationships(String childId) {
-        List<RelationshipDto> relationshipDtos = new ArrayList<>();
+    public List<ChildGuardianRelationship> fetchRelationships(String childId) {
         List<ChildGuardianRelationship> relationships = childGuardianRelationshipDao.fetchAllForChild(childId);
         LOG.debug("Fetched {} relationships for child {}", relationships.size(), childId);
 
         for (ChildGuardianRelationship relationship : relationships) {
-            RelationshipDto relationshipDto = new RelationshipDto();
-            relationshipDto.setRelationshipId(relationship.getId());
-            relationshipDto.setChildId(childId);
-            relationshipDto.setGuardian(guardianDao.fetch(relationship.getGuardianId()));
-            relationshipDto.setRelationshipMetadata(relationship.getRelationshipMetadata());
-            relationshipDtos.add(relationshipDto);
+            relationship.setGuardian(guardianDao.fetch(relationship.getGuardianId()));
         }
 
-        return relationshipDtos;
+        return relationships;
     }
 
     @Override
-    public void update(String id, RelationshipMetadata relationshipMetadata) throws NotFoundException {
-        ChildGuardianRelationship childGuardianRelationship = fetch(id);
-        childGuardianRelationship.setRelationshipMetadata(relationshipMetadata);
-        childGuardianRelationshipDao.update(childGuardianRelationship);
-    }
-
-    @Override
+    @Transactional
     public void delete(String id) throws NotFoundException {
         ChildGuardianRelationship childGuardianRelationship = fetch(id);
         childGuardianRelationshipDao.delete(childGuardianRelationship);
@@ -69,20 +56,9 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
 
     @Override
     @Transactional
-    public void updateGuardianAndRelationship(String childId, String guardianId, RelationshipDto relationshipDto) {
-        guardianDao.update(relationshipDto.getGuardian());
-
-        ChildGuardianRelationship childGuardianRelationship;
-        try {
-            childGuardianRelationship = childGuardianRelationshipDao.fetchForChildAndGuardian(childId, guardianId);
-        } catch (NotFoundException e) {
-            childGuardianRelationship = new ChildGuardianRelationship();
-        }
-
-        childGuardianRelationship.setChildId(childId);
-        childGuardianRelationship.setGuardianId(guardianId);
-        childGuardianRelationship.setRelationshipMetadata(relationshipDto.getRelationshipMetadata());
-        childGuardianRelationshipDao.update(childGuardianRelationship);
+    public void updateGuardianAndRelationship(ChildGuardianRelationship relationship) {
+        guardianDao.update(relationship.getGuardian());
+        childGuardianRelationshipDao.update(relationship);
     }
 
 }

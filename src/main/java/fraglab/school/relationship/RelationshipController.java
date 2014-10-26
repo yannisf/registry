@@ -21,9 +21,14 @@ public class RelationshipController extends BaseRestController {
     }
 
     @RequestMapping(value = "/child/{childId}/guardian/{guardianId}", method = RequestMethod.GET)
-    public RelationshipMetadata fetch(@PathVariable() String childId, @PathVariable() String guardianId)
+    public ChildGuardianRelationship fetch(@PathVariable() String childId, @PathVariable() String guardianId)
             throws NotFoundException {
-        return childGuardianService.fetch(childId, guardianId).getRelationshipMetadata();
+        return childGuardianService.fetch(childId, guardianId);
+    }
+
+    @RequestMapping(value = "/child/{childId}/guardian", method = RequestMethod.GET)
+    public List<ChildGuardianRelationship> fetchRelationships(@PathVariable() String childId) throws NotFoundException {
+        return childGuardianService.fetchRelationships(childId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -32,16 +37,13 @@ public class RelationshipController extends BaseRestController {
         childGuardianService.delete(id);
     }
 
-    @RequestMapping(value = "/child/{childId}/guardian", method = RequestMethod.GET)
-    public List<RelationshipDto> fetchRelationships(@PathVariable() String childId) throws NotFoundException {
-        return childGuardianService.fetchRelationships(childId);
-    }
-
     @RequestMapping(value = "/child/{childId}/guardian/{guardianId}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateGuardianAndRelationship(@PathVariable() String childId, @PathVariable() String guardianId,
-                                              @RequestBody RelationshipDto relationshipDto) {
-        childGuardianService.updateGuardianAndRelationship(childId, guardianId, relationshipDto);
+                                              @RequestBody ChildGuardianRelationship relationship) {
+        relationship.setChildId(childId);
+        relationship.setGuardianId(guardianId);
+        childGuardianService.updateGuardianAndRelationship(relationship);
     }
 
 }

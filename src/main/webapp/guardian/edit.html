@@ -9,7 +9,7 @@
 <div>
     <form class="form-horizontal" role="form">
         <input type="hidden" ng-model="data.guardian.id">
-        <input type="hidden" ng-model="data.guardian.id">
+        <input type="hidden" ng-model="data.relationship.id">
 
         <div class="form-group">
             <label for="firstName" class="col-sm-2 control-label">Όνομα</label>
@@ -83,11 +83,12 @@
             </div>
         </div>
 
+        <!-- Relationship section -->
         <div class="form-group">
             <label for="relationship" class="col-sm-2 control-label">Σχέση με το παιδί</label>
 
             <div class="col-sm-3">
-            <select class="form-control" id="relationship" ng-model="data.relationshipMetadata.type"
+                <select class="form-control" id="relationship" ng-model="data.relationship.metadata.type"
                         ng-options="relationship|relationshipFilter for relationship in relationshipTypes"/>
                 <option value="">--</option>
                 </select>
@@ -98,11 +99,12 @@
             <label for="notes" class="col-sm-2 control-label">Σημειώσεις</label>
 
             <div class="col-sm-3">
-            <textarea rows="3" class="form-control" id="notes"
-                          ng-model="data.relationshipMetadata.notes"></textarea>
+                <textarea rows="3" class="form-control" id="notes"
+                          ng-model="data.relationship.metadata.notes"></textarea>
             </div>
         </div>
 
+        <!-- Telephones section -->
         <fieldset>
             <legend>Τηλέφωνα
                 <button class="btn btn-xs" ng-click="addTelephone()">
@@ -111,6 +113,8 @@
             </legend>
 
             <div ng-repeat="telephone in data.guardian.telephones">
+                <input type="hidden" ng-model="telephone.id">
+
                 <div class="form-group">
                     <label for="telephoneNumber" class="col-sm-2 control-label">Τηλέφωνο {{$index + 1}}</label>
 
@@ -134,6 +138,7 @@
             </div>
         </fieldset>
 
+        <!-- Address section -->
         <input-address address="data.address" share-option="true" typeaheads="typeaheads"></input-address>
 
         <div class="form-group">

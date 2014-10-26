@@ -144,8 +144,8 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
         };
     })
 
-    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService', 'uuid4', 'typeAheadService',
-        function (statefulChildService, childService, addressService, uuid4, typeAheadService) {
+    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService', 'uuid4',
+        function (statefulChildService, childService, addressService, uuid4) {
             return {
                 restrict: 'E',
                 scope: {

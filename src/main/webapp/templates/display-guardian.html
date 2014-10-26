@@ -18,14 +18,15 @@
     <dt ng-if="guardian.profession">Επάγγελμα</dt>
     <dd ng-if="guardian.profession">{{guardian.profession}}&nbsp;</dd>
 
-    <dt>Διεύθυνση</dt>
-    <dd>
-        <display-address address="address"></display-address>
-        &nbsp;</dd>
-
     <dt ng-repeat-start="telephone in guardian.telephones">Τηλέφωνο</dt>
     <dd ng-repeat-end>{{telephone.number}}&nbsp;
         <span class="label label-info">{{telephone.type|telephoneTypeFilter}}</span>
+    </dd>
+
+    <dt>Διεύθυνση</dt>
+    <dd>
+        <display-address address="address"></display-address>
+        &nbsp;
     </dd>
 
 </dl>
