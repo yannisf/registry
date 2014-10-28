@@ -106,6 +106,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             guardianService.fetch($routeParams.guardianId).then(function (response) {
                 $scope.data.guardian = response;
                 return addressService.fetch($scope.data.guardian.addressId).then(function (response) {
+                    console.log('Setting address')
                     $scope.data.address = response;
                 });
             });
@@ -116,7 +117,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             );
 
             $scope.addTelephone = function () {
-                var telephone = { id: uuid4.generate() }
+                var telephone = { id: uuid4.generate() };
                 $scope.data.guardian.telephones.push(telephone);
             };
 

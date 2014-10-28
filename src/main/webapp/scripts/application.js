@@ -100,93 +100,6 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
         };
     })
 
-    .directive('displayAddress', function () {
-        return {
-            restrict: 'E',
-            scope: {
-                address: "="
-            },
-            link: function (scope, element) {
-                scope.$watch('address', function (newval) {
-                    if (newval && element) {
-                        var addressString = "";
-                        if (newval.streetName) {
-                            addressString = newval.streetName;
-                            if (newval.streetNumber) {
-                                addressString += " " + newval.streetNumber;
-                            }
-                        }
-                        if (newval.neighbourhood) {
-                            if (addressString.length > 0) {
-                                addressString += ", " + newval.neighbourhood;
-                            } else {
-                                addressString += newval.neighbourhood;
-                            }
-                        }
-                        if (newval.postalCode) {
-                            if (addressString.length > 0) {
-                                addressString += ", " + newval.postalCode;
-                            } else {
-                                addressString += newval.postalCode;
-                            }
-                        }
-                        if (newval.city) {
-                            if (addressString.length > 0) {
-                                addressString += ", " + newval.city;
-                            } else {
-                                addressString += newval.city;
-                            }
-                        }
-                        element.html(addressString);
-                    }
-                })
-            }
-        };
-    })
-
-    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService', 'uuid4',
-        function (statefulChildService, childService, addressService, uuid4) {
-            return {
-                restrict: 'E',
-                scope: {
-                    address: "=",
-                    shareOption: "=",
-                    typeaheads: "="
-                },
-                templateUrl: "templates/input-address.html",
-                link: function (scope) {
-                    scope.viewData = {
-                        commonAddress: false
-                    };
-
-                    if (scope.shareOption) {
-                        scope.$watch('address.id', function (newval) {
-                            scope.viewData.commonAddress = (newval == statefulChildService.getScopedChildAddressId());
-                        });
-
-                        scope.$watch('viewData.commonAddress', function (newval) {
-                            if (newval) {
-                                useChildAddress();
-                            } else {
-                                scope.address = {
-                                    id: uuid4.generate()
-                                };
-                            }
-                        });
-                    }
-
-                    function useChildAddress() {
-                        var childId = statefulChildService.getScopedChildId();
-                        childService.fetch(childId).then(function (response) {
-                            return addressService.fetch(response.addressId);
-                        }).then(function (response) {
-                            scope.address = response;
-                        });
-                    };
-                }
-            };
-        }])
-
     .directive('personName', function () {
         return {
             restrict: 'E',
@@ -194,20 +107,21 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
                 person: "="
             },
             link: function (scope, element) {
-                var unwatch = scope.$watch('person', function(newval, oldval) {
+                var unwatch = scope.$watch('person', function (newval) {
+                    if (newval) {
+                        var copiedPerson = angular.copy(newval);
                         var name = '';
-                        if (newval) {
-                            if (scope.person.firstName) {
-                                name = scope.person.firstName + ' ';
-                            }
-                            if (scope.person.lastName) {
-                                name += scope.person.lastName + ' ';
-                            }
-                            if (scope.person.callName) {
-                                name += " (" + scope.person.callName + ") ";
-                            }
+                        if (copiedPerson.firstName) {
+                            name = copiedPerson.firstName + ' ';
+                        }
+                        if (copiedPerson.lastName) {
+                            name += copiedPerson.lastName + ' ';
+                        }
+                        if (copiedPerson.callName) {
+                            name += " (" + copiedPerson.callName + ") ";
+                        }
                         element.html(name);
-//                        unwatch();
+                        unwatch();
                     }
                 }, true);
             }
@@ -243,26 +157,6 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
     }
     ])
 
-    .service('addressService', ['$http', function ($http) {
-        return {
-            fetch: function (addressId) {
-                return $http.get('api/address/' + addressId).then( function (response) {
-                    return response.data;
-                })
-            },
-            remove: function (addressId) {
-                return $http.delete('api/address/' + addressId).then( function (response) {
-                    return response.data;
-                })
-            },
-            update: function (address) {
-                return $http.put('api/address', address).then(function (response) {
-                    return response.data;
-                })
-            }
-        }
-    }])
-
     .run(['$rootScope', '$location', 'statefulChildService', 'ListService',
         function ($rootScope, $location, statefulChildService, ListService) {
             angular.extend($rootScope, {
@@ -278,18 +172,18 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
                 },
                 go: function (path, $event) {
                     console.log('Requested ', path);
-                	if( $event ) {
-                		$event.stopPropagation();
-                	}
+                    if ($event) {
+                        $event.stopPropagation();
+                    }
                     $location.path(path);
                 },
-                nextChild: function() {
+                nextChild: function () {
                     var nextChildId = calculatePreviousAndNextChildId().next;
                     if (nextChildId) {
                         $location.url('/child/' + nextChildId + '/view');
                     }
                 },
-                previousChild: function() {
+                previousChild: function () {
                     var previousChildId = calculatePreviousAndNextChildId().previous;
                     if (previousChildId) {
                         $location.url('/child/' + previousChildId + '/view');

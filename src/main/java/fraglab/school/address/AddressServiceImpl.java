@@ -31,4 +31,9 @@ public class AddressServiceImpl implements AddressService {
         return address;
     }
 
+    @Override
+    public boolean isSharedAddress(String addressId) {
+        return addressDao.countAddresses(addressId) > 1;
+    }
+
 }

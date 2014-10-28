@@ -5,13 +5,14 @@ import fraglab.school.Telephone;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("GUARDIAN")
 public class Guardian extends Person {
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy("type")
     private List<Telephone> telephones;
 
@@ -20,7 +21,8 @@ public class Guardian extends Person {
     private String profession;
 
     public List<Telephone> getTelephones() {
-        return telephones;
+        Collections.sort(telephones);
+        return Collections.unmodifiableList(telephones);
     }
 
     public void setTelephones(List<Telephone> telephones) {

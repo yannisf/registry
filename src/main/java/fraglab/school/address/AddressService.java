@@ -10,4 +10,5 @@ public interface AddressService {
 
     Address fetch(String id) throws NotFoundException;
 
+    boolean isSharedAddress(String addressId);
 }

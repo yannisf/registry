@@ -1,14 +1,20 @@
 package fraglab.school;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
 
 @Entity
-public class Telephone extends BaseEntity {
+public class Telephone extends BaseEntity implements Comparable<Telephone> {
 
+    @NotNull
+    @Column(nullable = false)
     private String number;
 
+    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
 
@@ -35,6 +41,11 @@ public class Telephone extends BaseEntity {
                 ", number='" + number + '\'' +
                 ", type=" + type +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Telephone o) {
+        return ((Integer) this.getType().ordinal()).compareTo(o.getType().ordinal());
     }
 
     public enum Type {

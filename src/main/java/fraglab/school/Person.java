@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fraglab.json.LocalDateDeserializer;
 import fraglab.json.LocalDateSerializer;
+import fraglab.school.address.Address;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +19,11 @@ public class Person extends BaseEntity {
 
     private Date dateOfBirth;
 
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ADDRESS_ID", updatable = false, insertable = false)
+    private Address address;
+
+    @Column(name = "ADDRESS_ID", updatable = true, insertable = true)
     private String addressId;
 
     private String nationality;
