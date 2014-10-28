@@ -50,6 +50,13 @@ angular.module('schoolApp')
                 }
 
                 return addressString;
+            },
+            isBlank: function (address) {
+                return ! (address.streetName
+                    || address.streetNumber
+                    || address.neighbourhood
+                    || address.postalCode
+                    || address.city);
             }
         }
     }])
@@ -90,42 +97,38 @@ angular.module('schoolApp')
 
                     if (scope.shareOption) {
                         var originalAddressId;
-                        scope.$watch('address.id', function (newval, oldval) {
-                            if (typeof originalAddressId === "undefined" && newval !== "undefined") {
+                        var originalCommonAddress = false;
+
+                        var unwatch = scope.$watch('address.id', function (newval) {
+                            if (newval) {
                                 originalAddressId = newval;
+                                originalCommonAddress = (newval == statefulChildService.getScopedChildAddressId());
+                                scope.viewData.commonAddress = originalCommonAddress;
+                                unwatch();
                             }
-                            console.log('Original Address ID: ', originalAddressId);
-                            console.log('New Address ID: ', newval);
-                            console.log('Old Address ID: ', oldval);
-                            scope.viewData.commonAddress = (newval == statefulChildService.getScopedChildAddressId());
                         });
 
                         scope.$watch('viewData.commonAddress', function (newval) {
-                            if (newval) {
-                                console.log("Using child address: ", newval);
-                                useChildAddress();
-                            }  else {
-                                console.log("NOT using child address: ", newval);
+                            if (newval && originalAddressId) {
+                                addressService.fetch(statefulChildService.getScopedChildAddressId()).then(
+                                    function (response) {
+                                        scope.address = response;
+                                    });
+                            } else if (originalCommonAddress) {
+                                scope.address = {
+                                    id: uuid4.generate()
+                                }
+                            } else if (originalAddressId) {
+                                if (addressService.isBlank(scope.address)) {
+                                    scope.address = {
+                                        id: originalAddressId
+                                    }
+                                } else {
+                                    addressService.fetch(originalAddressId).then(function (response) {
+                                        scope.address = response;
+                                    });
+                                }
                             }
-
-                            if (typeof originalAddressId !== "undefined") {
-                                console.log(' * Original Address ID: ', originalAddressId);
-                                addressService.fetch(originalAddressId).then(function(response) {
-                                    scope.address = response;
-                                }, function(error) {
-                                    console.log('Address does not exist (initial). ');
-                                    scope.address = { id: originalAddressId }
-                                });
-                            }
-                        });
-                    }
-
-                    function useChildAddress() {
-                        var childId = statefulChildService.getScopedChildId();
-                        childService.fetch(childId).then(function (response) {
-                            return addressService.fetch(response.addressId);
-                        }).then(function (response) {
-                            scope.address = response;
                         });
                     }
                 }

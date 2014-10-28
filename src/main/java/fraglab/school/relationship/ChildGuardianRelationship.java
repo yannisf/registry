@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "CHILD_GUARDIAN", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"CHILD_ID", "GUARDIAN_ID"})
 })
-public class ChildGuardianRelationship extends BaseEntity {
+public class ChildGuardianRelationship extends BaseEntity implements Comparable<ChildGuardianRelationship> {
 
     @Column(name = "CHILD_ID")
     private String childId;
@@ -72,6 +72,19 @@ public class ChildGuardianRelationship extends BaseEntity {
 
     public void setGuardian(Guardian guardian) {
         this.guardian = guardian;
+    }
+
+    @Override
+    public int compareTo(ChildGuardianRelationship o) {
+        if (metadata != null && metadata.getType() != null && o.metadata != null && o.metadata.getType() != null) {
+            return metadata.getType().compareTo(o.metadata.getType());
+        } else if (o.metadata == null || o.metadata.getType() == null) {
+            return 1;
+        } else if (metadata == null || metadata.getType() == null) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     @Override

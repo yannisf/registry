@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -50,6 +51,7 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
             relationship.setGuardian(guardianService.fetch(relationship.getGuardianId()));
         }
 
+        Collections.sort(relationships);
         return relationships;
     }
 
@@ -76,7 +78,8 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
             String retrievedGuardianAddressId = retrievedGuardian.getAddressId();
             String updatedGuardianAddressId = guardian.getAddressId();
             if (StringUtils.isNotBlank(retrievedGuardianAddressId)
-                    && !retrievedGuardianAddressId.equals(updatedGuardianAddressId)) {
+                    && !retrievedGuardianAddressId.equals(updatedGuardianAddressId)
+                    && !addressService.isSharedAddress(retrievedGuardianAddressId)) {
                 addressService.delete(retrievedGuardianAddressId);
             }
         } catch (NotFoundException e) {
