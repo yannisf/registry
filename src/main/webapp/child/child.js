@@ -79,10 +79,10 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             setScopedChildAddressId: function (value) {
                 childAddressId = value;
             },
-            getChildIds: function() {
+            getChildIds: function () {
                 return childIds;
             },
-            setChildIds: function(value) {
+            setChildIds: function (value) {
                 childIds = value;
             }
         }
@@ -96,21 +96,21 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 },
                 viewData: {
                     noChildren: true
-                    }
+                }
             });
 
-			$scope.goToChild = function ($event) {
-				var clickedElement = angular.element($event.target);
-				var childId = clickedElement.scope().child.id;
-				$scope.go('/child/' + childId + '/view', $event);
-			}
+            $scope.goToChild = function ($event) {
+                var clickedElement = angular.element($event.target);
+                var childId = clickedElement.scope().child.id;
+                $scope.go('/child/' + childId + '/view', $event);
+            };
 
-			childService.fetchAll().then(function (data) {
-				$scope.data.children = data;
-			});
+            childService.fetchAll().then(function (data) {
+                $scope.data.children = data;
+            });
 
-            $scope.$watch('data.children', function(newval) {
-                var childIds = newval.map(function(child) {
+            $scope.$watch('data.children', function (newval) {
+                var childIds = newval.map(function (child) {
                     return child.id.toString();
                 });
                 statefulChildService.setChildIds(childIds);
@@ -120,8 +120,8 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
         }
     ])
 
-    .controller('createChildController', ['$scope', 'childService', 'statefulChildService', 'addressService', 'uuid4', '$http',
-        function ($scope, childService, statefulChildService, addressService, uuid4, $http) {
+    .controller('createChildController', ['$scope', 'childService', 'statefulChildService', 'addressService', 'uuid4',
+        function ($scope, childService, statefulChildService, addressService, uuid4) {
             angular.extend($scope, {
                 data: {
                     child: {
@@ -143,7 +143,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 }).then(function (response) {
                     var childId = response.id;
                     statefulChildService.setScopedChildId(childId);
-                    statefulChildService.setScopedChildAddressId($scope.data.child.addressId)
+                    statefulChildService.setScopedChildAddressId($scope.data.child.addressId);
                     $scope.toScopedChild();
                 });
             }
@@ -187,10 +187,10 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             };
 
             $scope.goToGuardian = function ($event) {
-				var clickedElement = angular.element($event.target);
-				var guardianId = clickedElement.scope().relationship.guardian.id;
-				$scope.go('/guardian/' + guardianId + '/view', $event);
-            }
+                var clickedElement = angular.element($event.target);
+                var guardianId = clickedElement.scope().relationship.guardian.id;
+                $scope.go('/guardian/' + guardianId + '/view', $event);
+            };
 
             $scope.confirmRemoveChild = function () {
                 $modal.open({
@@ -205,8 +205,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             };
 
             $scope.confirmRemoveRelationship = function (relationshipId, $event) {
-            	console.log(relationshipId)
-            	$event.stopPropagation();
+                $event.stopPropagation();
                 $modal.open({
                     templateUrl: 'templates/remove-guardian.tpl.html',
                     controller: 'removeRelationshipModalController',

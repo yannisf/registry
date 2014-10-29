@@ -197,7 +197,7 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
                 var nextAndPrevious = {};
                 var numberOfChildren = statefulChildService.getChildIds().length;
                 var currentChildId = statefulChildService.getScopedChildId();
-                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId)
+                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId);
                 if (currentChildIdIndex + 1 < numberOfChildren) {
                     var nextChildIdIndex = currentChildIdIndex + 1;
                     nextAndPrevious.next = statefulChildService.getChildIds()[nextChildIdIndex];
