@@ -133,6 +133,10 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 },
                 viewData: {
                     submitLabel: 'Εισαγωγή'
+                },
+                invoke:  function($event, message) {
+                	console.log(message);
+                	$event.preventDefault();
                 }
             });
 

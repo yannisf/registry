@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guardian', 'typeaheads'])
+angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'ui.utils', 'uuid4', 'child', 'guardian', 'typeaheads'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({
@@ -75,6 +75,15 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'guard
             return preSchoolLevelMap[value];
         }
     }])
+
+	.directive('focus', function focus(){
+		return {
+			restrict: 'A',
+			link: function(scope, element) {
+				element[0].focus();
+			}
+		};
+	})
 
     .directive('displayGuardian', function () {
         return {
