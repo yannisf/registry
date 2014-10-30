@@ -7,7 +7,7 @@
     </h2>
 </div>
 
-<div>
+<div ui-keypress="{'enter':'invoke($event, \'Ha!\')'}">
 
     <form class="form-horizontal" role="form">
 
@@ -15,7 +15,7 @@
             <label for="firstName" class="col-sm-2 control-label">Όνομα</label>
 
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="firstName" autocomplete="off"
+                <input type="text" class="form-control" id="firstName" autocomplete="off" focus
                        ng-model="data.child.firstName"
                        typeahead="firstName for firstName in typeaheads.getFirstNames($viewValue)"
                        typeahead-min-length="1" typeahead-wait-ms="500"/>
