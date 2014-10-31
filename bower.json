@@ -9,6 +9,10 @@
     "angular-bootstrap": "0.11.2",
     "angular-ui-utils": "0.1.1",
     "angular-uuid4": "0.1.0",
+    "requirejs": "latest",
+    "requirejs-text": "latest",
+    "almond": "latest",
+    "require-lazy": "latest",
     "bootstrap": "3.1.1"
   }
 }

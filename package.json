@@ -1,0 +1,29 @@
+{
+	"name": "school",
+	"description": "school",
+	"version": "1.0.0-SNAPSHOT",
+	"private": true,
+	"dependencies": {
+		
+	},
+	"devDependencies": {
+		"require-lazy": "*",
+		"grunt": "~0.4",
+		"require-lazy-grunt": ">=0.2.0",
+		"grunt-contrib-clean": "*",
+		"grunt-contrib-copy": "*",
+		"grunt-contrib-less": "*",
+		"grunt-contrib-connect": "*",
+		"grunt-connect-proxy": "*",
+		"grunt-contrib-concat": "*",
+		"grunt-contrib-watch": "*",
+		"grunt-karma": "*",
+		"bower": "*",
+		"karma": "*",
+		"karma-jasmine": "~0.2.0",
+		"karma-requirejs": "*",
+		"karma-phantomjs-launcher": "*",
+		"istanbul": "*",
+		"dateformat": "~1.0.6"
+	}
+}

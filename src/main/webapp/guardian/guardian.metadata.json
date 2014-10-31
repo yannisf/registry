@@ -1,0 +1,17 @@
+{
+	"angular-routes": [
+		{
+			"path": "/guardian/edit",
+			"controller": "createGuardianController",
+			"template": "guardian/edit.html"
+		},{
+			"path": "/guardian/:guardianId/edit",
+			"controller": "updateGuardianController",
+			"template": "guardian/edit.html"
+		},{
+			"path": "/guardian/:guardianId/view",
+			"controller": "updateGuardianController",
+			"template": "guardian/view.html"
+		}
+	]
+}

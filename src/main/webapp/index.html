@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" ng-app="schoolApp">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -72,6 +72,9 @@
 
 <div class="container" ng-view></div>
 
+<script src="scripts/require-cfg.js"></script>
+<script src="scripts/vendor/requirejs/require.js" data-main="scripts/application"></script>
+<!--
 <script src="scripts/vendor/angular/angular.js"></script>
 <script src="scripts/vendor/angular-route/angular-route.js"></script>
 <script src="scripts/vendor/angular-ui-utils/ui-utils.js"></script>
@@ -82,6 +85,6 @@
 <script src="scripts/address.js"></script>
 <script src="child/child.js"></script>
 <script src="guardian/guardian.js"></script>
-
+-->
 </body>
 </html>

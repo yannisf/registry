@@ -1,0 +1,21 @@
+{
+	"angular-routes": [
+		{
+			"path": "/child/create",
+			"controller": "createChildController",
+			"template": "child/edit.html"
+		},{
+			"path": "/child/:childId/update",
+			"controller": "updateChildController",
+			"template": "child/edit.html"
+		},{
+			"path": "/child/:childId/view",
+			"controller": "updateChildController",
+			"template": "child/view.html"
+		},{
+			"path": "/child/list",
+			"controller": "listChildController",
+			"template": "child/list.html"
+		}
+	]
+}
