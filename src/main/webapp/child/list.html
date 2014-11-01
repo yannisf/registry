@@ -11,16 +11,16 @@
         <tr>
             <th>Όνομα</th>
             <th>Επώνυμο</th>
-            <th>Φύλο</th>
             <th>Τάξη</th>
+            <th>Φύλο</th>
         </tr>
     </thead>
     <tbody ng-click="goToChild($event)">
         <tr ng-repeat="child in data.children" class="clickable">
-            <td> {{child.firstName}}</td>
-            <td> {{child.lastName}}</td>
-            <td> {{child.genre|childGenreTypeFilter}}</td>
-            <td> {{child.level|preSchoolLevelFilter}}</td>
+            <td>{{child.firstName}}</td>
+            <td>{{child.lastName}}</td>
+            <td>{{child.level|preSchoolLevelFilter}}</td>
+            <td>{{child.genre|childGenreTypeFilter}}</td>
         </tr>
     </tbody>
 </table>

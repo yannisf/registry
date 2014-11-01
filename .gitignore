@@ -2,3 +2,4 @@
 *.iml
 /target
 /database/school.*
+/database.copy/school.*

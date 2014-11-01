@@ -166,8 +166,57 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'ui.utils', 'uuid4', 'ch
     }
     ])
 
-    .run(['$rootScope', '$location', 'statefulChildService', 'ListService',
-        function ($rootScope, $location, statefulChildService, ListService) {
+    .factory("Flash", ['$rootScope', function($rootScope) {
+      var infoQueue = [];
+      var currentInfoMessage = "";
+
+      var successQueue = [];
+      var currentSuccessMessage = "";
+
+      var warningQueue = [];
+      var currentWarningMessage = "";
+
+      var errorQueue = [];
+      var currentErrorMessage = "";
+
+      $rootScope.$on("$routeChangeSuccess", function() {
+        currentInfoMessage = infoQueue.shift() || "";
+        currentWarningMessage = warningQueue.shift() || "";
+        currentSuccessMessage = successQueue.shift() || "";
+        currentErrorMessage = errorQueue.shift() || "";
+      });
+
+      return {
+        setMessage: function(message) {
+          infoQueue.push(message);
+        },
+        getMessage: function() {
+          return currentInfoMessage;
+        },
+        setSuccessMessage: function(message) {
+          successQueue.push(message);
+        },
+        getSuccessMessage: function() {
+          return currentSuccessMessage;
+        },
+        setWarningMessage: function(message) {
+          warningQueue.push(message);
+        },
+        getWarningMessage: function() {
+          return currentWarningMessage;
+        },
+        setErrorMessage: function(message) {
+          errorQueue.push(message);
+        },
+        getErrorMessage: function() {
+          return currentErrorMessage;
+        },
+
+      };
+    }])
+
+    .run(['$rootScope', '$location', 'statefulChildService', 'Flash', 'ListService',
+        function ($rootScope, $location, statefulChildService, Flash, ListService) {
             angular.extend($rootScope, {
                 toChildList: function () {
                     $location.url('/child/list');
@@ -186,37 +235,10 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'ui.utils', 'uuid4', 'ch
                     }
                     $location.path(path);
                 },
-                nextChild: function () {
-                    var nextChildId = calculatePreviousAndNextChildId().next;
-                    if (nextChildId) {
-                        $location.url('/child/' + nextChildId + '/view');
-                    }
-                },
-                previousChild: function () {
-                    var previousChildId = calculatePreviousAndNextChildId().previous;
-                    if (previousChildId) {
-                        $location.url('/child/' + previousChildId + '/view');
-                    }
-                },
+                Flash: Flash,
                 relationshipTypes: [],
                 telephoneTypes: []
             });
-
-            function calculatePreviousAndNextChildId() {
-                var nextAndPrevious = {};
-                var numberOfChildren = statefulChildService.getChildIds().length;
-                var currentChildId = statefulChildService.getScopedChildId();
-                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId);
-                if (currentChildIdIndex + 1 < numberOfChildren) {
-                    var nextChildIdIndex = currentChildIdIndex + 1;
-                    nextAndPrevious.next = statefulChildService.getChildIds()[nextChildIdIndex];
-                }
-                if (currentChildIdIndex != 0) {
-                    var previousChildIdIndex = currentChildIdIndex - 1;
-                    nextAndPrevious.previous = statefulChildService.getChildIds()[previousChildIdIndex];
-                }
-                return nextAndPrevious;
-            }
 
             ListService.relationshipTypes().then(function (data) {
                 $rootScope.relationshipTypes = data;

@@ -134,10 +134,6 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 viewData: {
                     submitLabel: 'Εισαγωγή'
                 },
-                invoke:  function($event, message) {
-                	console.log(message);
-                	$event.preventDefault();
-                }
             });
 
             $scope.submit = function () {
@@ -153,8 +149,9 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$location', '$modal', 'childService', 'statefulChildService', 'addressService',
-        function ($scope, $location, $modal, childService, statefulChildService, addressService) {
+    .controller('updateChildController', ['$scope', '$window', '$location', '$modal',
+            'Flash', 'childService', 'statefulChildService', 'addressService',
+        function ($scope, $window, $location, $modal, Flash, childService, statefulChildService, addressService) {
             angular.extend($scope, {
                 data: {
                     child: null,
@@ -162,7 +159,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                     relationships: []
                 },
                 viewData: {
-                    submitLabel: 'Ανανέωση'
+                    submitLabel: 'Ανανέωση',
                 }
             });
 
@@ -182,6 +179,10 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 addressService.update($scope.data.address).then(function (response) {
                     return childService.update($scope.data.child);
                 }).then(function (response) {
+                    Flash.setMessage("Επιτυχής καταχώρηση. ");
+                    $scope.toScopedChild();
+                }, function (errorResponse) {
+                    Flash.setWarningMessage("Σφάλμα καταχώρησης. ");
                     $scope.toScopedChild();
                 });
             };
@@ -195,6 +196,65 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 var guardianId = clickedElement.scope().relationship.guardian.id;
                 $scope.go('/guardian/' + guardianId + '/view', $event);
             };
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            $scope.nextChild = function () {
+                var next = findNextChild();
+                if (next.rollover) {
+                    Flash.setMessage("Ανακύκλωση καταλόγου. ");
+                }
+                $location.url('/child/' + next.id + '/view');
+            };
+
+            $scope.previousChild = function () {
+                var previous = findPreviousChild();
+                if (previous.rollover) {
+                    Flash.setMessage("Ανακύκλωση καταλόγου. ");
+                }
+                $location.url('/child/' + previous.id + '/view');
+            };
+
+            angular.element($window).on('keyup', function(e) {
+                if(e.keyCode == '39') {
+                    $scope.nextChild();
+                } else if (e.keyCode == '37') {
+                    $scope.previousChild();
+                }
+                $scope.$apply();
+            });
+
+            $scope.$on('$locationChangeSuccess', function () {
+                angular.element($window).off('keyup');
+            });
+
+            function findNextChild() {
+                var result = {};
+                var numberOfChildren = statefulChildService.getChildIds().length;
+                var currentChildId = statefulChildService.getScopedChildId();
+                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId);
+                if (currentChildIdIndex + 1 < numberOfChildren) {
+                    result.id = statefulChildService.getChildIds()[currentChildIdIndex + 1];
+                } else {
+                    result.id = statefulChildService.getChildIds()[0];
+                    result.rollover = true;
+                }
+                return result;
+            }
+
+            function findPreviousChild() {
+                var result = {};
+                var numberOfChildren = statefulChildService.getChildIds().length;
+                var currentChildId = statefulChildService.getScopedChildId();
+                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId);
+                if (currentChildIdIndex != 0) {
+                    result.id = statefulChildService.getChildIds()[currentChildIdIndex - 1];
+                } else {
+                    result.id = statefulChildService.getChildIds()[numberOfChildren - 1];
+                    result.rollover = true;
+                }
+                return result;
+            }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             $scope.confirmRemoveChild = function () {
                 $modal.open({
