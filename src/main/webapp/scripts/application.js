@@ -123,11 +123,11 @@ angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'ui.utils', 'uuid4', 'ch
                         if (copiedPerson.firstName) {
                             name = copiedPerson.firstName + ' ';
                         }
-                        if (copiedPerson.lastName) {
-                            name += copiedPerson.lastName + ' ';
-                        }
                         if (copiedPerson.callName) {
                             name += " (" + copiedPerson.callName + ") ";
+                        }
+                        if (copiedPerson.lastName) {
+                            name += copiedPerson.lastName + ' ';
                         }
                         element.html(name);
                         unwatch();
