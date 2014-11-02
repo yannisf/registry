@@ -179,7 +179,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 addressService.update($scope.data.address).then(function (response) {
                     return childService.update($scope.data.child);
                 }).then(function (response) {
-                    Flash.setMessage("Επιτυχής καταχώρηση. ");
+                    Flash.setSuccessMessage("Επιτυχής καταχώρηση. ");
                     $scope.toScopedChild();
                 }, function (errorResponse) {
                     Flash.setWarningMessage("Σφάλμα καταχώρησης. ");
