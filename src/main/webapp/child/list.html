@@ -13,6 +13,7 @@
             <th>Επώνυμο</th>
             <th>Τάξη</th>
             <th>Φύλο</th>
+            <th>Σημειώσεις</th>
         </tr>
     </thead>
     <tbody ng-click="goToChild($event)">
@@ -21,6 +22,7 @@
             <td>{{child.lastName}}</td>
             <td>{{child.level|preSchoolLevelFilter}}</td>
             <td>{{child.genre|childGenreTypeFilter}}</td>
+            <td><span class="glyphicon glyphicon-info-sign" ng-if="child.notes" title="{{child.notes}}"></span></td>
         </tr>
     </tbody>
 </table>
