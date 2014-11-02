@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ui.bootstrap', 'ui.utils', 'uuid4', 'child', 'guardian', 'typeaheads'])
+angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'child', 'guardian', 'typeaheads'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({

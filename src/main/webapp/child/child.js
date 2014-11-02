@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
+angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -22,25 +22,16 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             })
     }])
 
-    .service('childService', ['$http', function ($http) {
+    .factory('Child', ['$resource', function($resource) {
+        return $resource('api/child/:childId', {childId: '@id'}, {
+            //custom actions here.
+        });
+    }])
+
+    .service('childService', ['$http', 'Child', function ($http, Child) {
         return {
-            fetch: function (childId) {
-                return $http.get('api/child/' + childId).then(function (response) {
-                    return response.data;
-                });
-            },
-            fetchAll: function () {
-                return $http.get('api/child/all').then(function (response) {
-                    return response.data;
-                });
-            },
             update: function (child) {
                 return $http.put('api/child/', child).then(function (response) {
-                    return response.data;
-                });
-            },
-            remove: function (childId) {
-                return $http({method: 'DELETE', url: 'api/child/' + childId}).then(function (response) {
                     return response.data;
                 });
             },
@@ -88,11 +79,11 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
         }
     }])
 
-    .controller('listChildController', ['$scope', 'childService', 'statefulChildService',
-        function ($scope, childService, statefulChildService) {
+    .controller('listChildController', ['$scope', 'Child', 'childService', 'statefulChildService',
+        function ($scope, Child, childService, statefulChildService) {
             angular.extend($scope, {
                 data: {
-                    children: []
+                    children: Child.query()
                 },
                 viewData: {
                     noChildren: true
@@ -105,17 +96,13 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 $scope.go('/child/' + childId + '/view', $event);
             };
 
-            childService.fetchAll().then(function (data) {
-                $scope.data.children = data;
-            });
-
-            $scope.$watch('data.children', function (newval) {
+            $scope.data.children.$promise.then(function(newval) {
                 var childIds = newval.map(function (child) {
-                    return child.id.toString();
+                    return child.id;
                 });
                 statefulChildService.setChildIds(childIds);
                 $scope.viewData.noChildren = newval.length == 0;
-            })
+            });
 
         }
     ])
@@ -133,7 +120,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 },
                 viewData: {
                     submitLabel: 'Εισαγωγή'
-                },
+                }
             });
 
             $scope.submit = function () {
@@ -149,25 +136,21 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$window', '$location', '$modal',
-            'Flash', 'childService', 'statefulChildService', 'addressService',
-        function ($scope, $window, $location, $modal, Flash, childService, statefulChildService, addressService) {
+    .controller('updateChildController', ['$scope', '$window', '$location', '$modal', 'Flash', 'Child', 'childService', 'statefulChildService', 'Address', 'addressService',
+        function ($scope, $window, $location, $modal, Flash, Child, childService, statefulChildService, Address, addressService) {
             angular.extend($scope, {
                 data: {
-                    child: null,
+                    child: Child.get({childId: statefulChildService.getScopedChildId()}),
                     address: null,
                     relationships: []
                 },
                 viewData: {
-                    submitLabel: 'Ανανέωση',
+                    submitLabel: 'Ανανέωση'
                 }
             });
 
-            childService.fetch(statefulChildService.getScopedChildId()).then(function (response) {
-                $scope.data.child = response;
-                return addressService.fetch($scope.data.child.addressId);
-            }).then(function (response) {
-                $scope.data.address = response;
+            $scope.data.child.$promise.then(function (response) {
+                $scope.data.address = Address.get({addressId: $scope.data.child.addressId});
                 statefulChildService.setScopedChildAddressId($scope.data.address.id);
             });
 
@@ -214,18 +197,20 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 $location.url('/child/' + previous.id + '/view');
             };
 
-            angular.element($window).on('keyup', function(e) {
-                if(e.keyCode == '39') {
-                    $scope.nextChild();
-                } else if (e.keyCode == '37') {
-                    $scope.previousChild();
-                }
-                $scope.$apply();
-            });
-
-            $scope.$on('$locationChangeSuccess', function () {
-                angular.element($window).off('keyup');
-            });
+//            angular.element($window).on('keyup', function(e) {
+//                if(e.keyCode == '39') { //RIGHT ARROW
+//                    $scope.nextChild();
+//                } else if (e.keyCode == '37') { //LEFT ARROW
+//                    $scope.previousChild();
+//                } else if (e.keyCode == '46') { //DEL
+//                    $scope.confirmRemoveChild();
+//                }
+//                $scope.$apply();
+//            });
+//
+//            $scope.$on('$locationChangeSuccess', function () {
+//                angular.element($window).off('keyup');
+//            });
 
             function findNextChild() {
                 var result = {};
@@ -283,11 +268,11 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
             };
         }])
 
-    .controller('removeChildModalController', ['$scope', '$modalInstance', 'childService', 'childId',
-        function ($scope, $modalInstance, childService, childId) {
+    .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId',
+        function ($scope, $modalInstance, Child, childId) {
             $scope.removeChild = function () {
-                childService.remove(childId).then(function (response) {
-                    $modalInstance.dismiss();
+                Child.remove({childId: childId}).$promise.then(function (response) {
+                    $scope.dismiss();
                     $scope.toChildList();
                 });
             };
@@ -303,7 +288,7 @@ angular.module('child', ['ngRoute', 'ui.bootstrap', 'uuid4'])
                 childService.removeRelationship(relationshipId).then(function (response) {
                     return childService.fetchRelationships(statefulChildService.getScopedChildId());
                 }).then(function (response) {
-                    $modalInstance.dismiss();
+                    $scope.dismiss();
                     $scope.data.relationships = response;
                 });
             };

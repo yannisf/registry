@@ -21,6 +21,11 @@ public class ChildController extends BaseRestController {
         childService.update(child);
     }
 
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Child> fetchAll() {
+        return childService.fetchAll();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable String id) throws NotFoundException {
@@ -30,11 +35,6 @@ public class ChildController extends BaseRestController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Child fetch(@PathVariable String id) throws NotFoundException {
         return childService.fetch(id);
-    }
-
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Child> fetchAll() {
-        return childService.fetchAll();
     }
 
 }

@@ -2,18 +2,14 @@
 
 angular.module('schoolApp')
 
+    .factory('Address', ['$resource', function($resource) {
+        return $resource('api/address/:addressId', {addressId: '@id'}, {
+            //custom actions here.
+        });
+    }])
+
     .service('addressService', ['$http', function ($http) {
         return {
-            fetch: function (addressId) {
-                return $http.get('api/address/' + addressId).then(function (response) {
-                    return response.data;
-                })
-            },
-            remove: function (addressId) {
-                return $http.delete('api/address/' + addressId).then(function (response) {
-                    return response.data;
-                })
-            },
             update: function (address) {
                 return $http.put('api/address', address).then(function (response) {
                     return response.data;
@@ -79,8 +75,8 @@ angular.module('schoolApp')
         };
     }])
 
-    .directive('inputAddress', ['statefulChildService', 'childService', 'addressService', 'uuid4',
-        function (statefulChildService, childService, addressService, uuid4) {
+    .directive('inputAddress', ['statefulChildService', 'childService', 'Address', 'addressService', 'uuid4',
+        function (statefulChildService, childService, Address, addressService, uuid4) {
             return {
                 restrict: 'E',
                 scope: {
@@ -110,7 +106,7 @@ angular.module('schoolApp')
 
                         scope.$watch('viewData.commonAddress', function (newval) {
                             if (newval && originalAddressId) {
-                                addressService.fetch(statefulChildService.getScopedChildAddressId()).then(
+                                Address.get({addressId: statefulChildService.getScopedChildAddressId()}).$promise.then(
                                     function (response) {
                                         scope.address = response;
                                     });
@@ -124,7 +120,7 @@ angular.module('schoolApp')
                                         id: originalAddressId
                                     }
                                 } else {
-                                    addressService.fetch(originalAddressId).then(function (response) {
+                                    Address.get({addressId: originalAddressId}).$promise.then(function (response) {
                                         scope.address = response;
                                     });
                                 }

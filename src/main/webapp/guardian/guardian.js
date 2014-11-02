@@ -88,8 +88,8 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             };
         }])
 
-    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService', 'guardianService', 'addressService', 'uuid4',
-        function ($scope, $routeParams, statefulChildService, guardianService, addressService, uuid4) {
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService', 'guardianService', 'Address', 'addressService', 'uuid4',
+        function ($scope, $routeParams, statefulChildService, guardianService, Address, addressService, uuid4) {
             angular.extend($scope, {
                 data: {
                     guardian: null,
@@ -105,7 +105,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
 
             guardianService.fetch($routeParams.guardianId).then(function (response) {
                 $scope.data.guardian = response;
-                return addressService.fetch($scope.data.guardian.addressId).then(function (response) {
+                return Address.get({addressId: $scope.data.guardian.addressId}).$promise.then(function (response) {
                     $scope.data.address = response;
                 });
             });
