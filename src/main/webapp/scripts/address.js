@@ -4,17 +4,12 @@ angular.module('schoolApp')
 
     .factory('Address', ['$resource', function($resource) {
         return $resource('api/address/:addressId', {addressId: '@id'}, {
-            //custom actions here.
+            save: {method: 'PUT', url: 'api/address'}
         });
     }])
 
     .service('addressService', ['$http', function ($http) {
         return {
-            update: function (address) {
-                return $http.put('api/address', address).then(function (response) {
-                    return response.data;
-                })
-            },
             format: function (address) {
                 var addressString = "";
                 if (address.streetName) {
@@ -64,19 +59,21 @@ angular.module('schoolApp')
                 address: "="
             },
             link: function (scope, element) {
-                var unwatch = scope.$watch('address', function (newval) {
-                    if (newval) {
-                        var addressString = addressService.format(newval);
+                console.log("X")
+                if (scope.address) {
+                    console.log("Y")
+                    scope.address.$promise.then(function(response) {
+                        console.log("Z")
+                        var addressString = addressService.format(scope.address);
                         element.html(addressString);
-                        unwatch();
-                    }
-                })
+                    });
+                }
             }
         };
     }])
 
-    .directive('inputAddress', ['statefulChildService', 'childService', 'Address', 'addressService', 'uuid4',
-        function (statefulChildService, childService, Address, addressService, uuid4) {
+    .directive('inputAddress', ['statefulChildService', 'Address', 'addressService', 'uuid4',
+        function (statefulChildService, Address, addressService, uuid4) {
             return {
                 restrict: 'E',
                 scope: {
@@ -106,10 +103,7 @@ angular.module('schoolApp')
 
                         scope.$watch('viewData.commonAddress', function (newval) {
                             if (newval && originalAddressId) {
-                                Address.get({addressId: statefulChildService.getScopedChildAddressId()}).$promise.then(
-                                    function (response) {
-                                        scope.address = response;
-                                    });
+                                scope.address = Address.get({addressId: statefulChildService.getScopedChildAddressId()});
                             } else if (originalCommonAddress) {
                                 scope.address = {
                                     id: uuid4.generate()
@@ -120,9 +114,7 @@ angular.module('schoolApp')
                                         id: originalAddressId
                                     }
                                 } else {
-                                    Address.get({addressId: originalAddressId}).$promise.then(function (response) {
-                                        scope.address = response;
-                                    });
+                                    scope.address = Address.get({addressId: originalAddressId});
                                 }
                             }
                         });

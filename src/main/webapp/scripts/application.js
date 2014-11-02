@@ -46,6 +46,16 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         PRE_SCHOOL_LEVEL_B: "Νήπιο"
     })
 
+    .filter('firstNameFilter', [function () {
+        return function (child) {
+            var value = child.firstName;
+            if (child.callName) {
+                value += " (" + child.callName + ")";
+            }
+            return value;
+        }
+    }])
+
     .filter('relationshipFilter', ['relationshipMap', function (relationshipMap) {
         return function (value) {
             return relationshipMap[value];
@@ -117,7 +127,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
             },
             link: function (scope, element) {
                 var unwatch = scope.$watch('person', function (newval) {
-                    if (newval) {
+                    if (newval.$resolved) {
                         var copiedPerson = angular.copy(newval);
                         var name = '';
                         if (copiedPerson.firstName) {
@@ -229,7 +239,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     }
                 },
                 go: function (path, $event) {
-                    console.log('Requested ', path);
                     if ($event) {
                         $event.stopPropagation();
                     }

@@ -23,18 +23,13 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
     }])
 
     .factory('Child', ['$resource', function($resource) {
-        return $resource('api/child/:childId', {childId: '@id'}, {
-            //custom actions here.
+        return $resource('api/child/:id', {id: '@id'}, {
+            save: {method: 'PUT', url: 'api/child'}
         });
     }])
 
     .service('childService', ['$http', 'Child', function ($http, Child) {
         return {
-            update: function (child) {
-                return $http.put('api/child/', child).then(function (response) {
-                    return response.data;
-                });
-            },
             fetchRelationships: function (childId) {
                 return $http.get('api/relationship/child/' + childId + '/guardian').then(function (response) {
                     return response.data;
@@ -107,8 +102,8 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
         }
     ])
 
-    .controller('createChildController', ['$scope', 'childService', 'statefulChildService', 'addressService', 'uuid4',
-        function ($scope, childService, statefulChildService, addressService, uuid4) {
+    .controller('createChildController', ['$scope', 'Child', 'statefulChildService', 'Address', 'uuid4',
+        function ($scope, Child, statefulChildService, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     child: {
@@ -124,23 +119,22 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
             });
 
             $scope.submit = function () {
-                addressService.update($scope.data.address).then(function (response) {
+                Address.save($scope.data.address).$promise.then(function (response) {
                     $scope.data.child.addressId = $scope.data.address.id;
-                    return childService.update($scope.data.child);
+                    return Child.save($scope.data.child).$promise;
                 }).then(function (response) {
-                    var childId = response.id;
-                    statefulChildService.setScopedChildId(childId);
+                    statefulChildService.setScopedChildId($scope.data.child.id);
                     statefulChildService.setScopedChildAddressId($scope.data.child.addressId);
                     $scope.toScopedChild();
                 });
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$window', '$location', '$modal', 'Flash', 'Child', 'childService', 'statefulChildService', 'Address', 'addressService',
-        function ($scope, $window, $location, $modal, Flash, Child, childService, statefulChildService, Address, addressService) {
+    .controller('updateChildController', ['$scope', '$window', '$location', '$modal', 'Flash', 'Child', 'childService', 'statefulChildService', 'Address',
+        function ($scope, $window, $location, $modal, Flash, Child, childService, statefulChildService, Address) {
             angular.extend($scope, {
                 data: {
-                    child: Child.get({childId: statefulChildService.getScopedChildId()}),
+                    child: Child.get({id: statefulChildService.getScopedChildId()}),
                     address: null,
                     relationships: []
                 },
@@ -151,7 +145,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
 
             $scope.data.child.$promise.then(function (response) {
                 $scope.data.address = Address.get({addressId: $scope.data.child.addressId});
-                statefulChildService.setScopedChildAddressId($scope.data.address.id);
+                statefulChildService.setScopedChildAddressId($scope.data.child.addressId);
             });
 
             childService.fetchRelationships(statefulChildService.getScopedChildId()).then(function (response) {
@@ -159,13 +153,13 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
             });
 
             $scope.submit = function () {
-                addressService.update($scope.data.address).then(function (response) {
-                    return childService.update($scope.data.child);
+                Address.save($scope.data.address).$promise.then(function (response) {
+                    return Child.save($scope.data.child).$promise;
                 }).then(function (response) {
-                    Flash.setSuccessMessage("Επιτυχής καταχώρηση. ");
+                    Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                     $scope.toScopedChild();
                 }, function (errorResponse) {
-                    Flash.setWarningMessage("Σφάλμα καταχώρησης. ");
+                    Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                     $scope.toScopedChild();
                 });
             };
@@ -271,7 +265,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
     .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId',
         function ($scope, $modalInstance, Child, childId) {
             $scope.removeChild = function () {
-                Child.remove({childId: childId}).$promise.then(function (response) {
+                Child.remove({id: childId}).$promise.then(function (response) {
                     $scope.dismiss();
                     $scope.toChildList();
                 });
