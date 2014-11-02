@@ -119,7 +119,8 @@
                     <label for="telephoneNumber" class="col-sm-2 control-label">Τηλέφωνο {{$index + 1}}</label>
 
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number"/>
+                        <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number"
+                               ui-mask="{{'999 99 99 999'}}"/>
                     </div>
                     <div class="col-sm-2">
                         <select class="form-control" id="telephoneType" ng-model="telephone.type"
