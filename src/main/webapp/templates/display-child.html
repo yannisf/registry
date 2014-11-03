@@ -21,10 +21,7 @@
     <dt ng-if="child.nationality">Υπηκοότητα</dt>
     <dd ng-if="child.nationality">{{child.nationality}}&nbsp;</dd>
 
-    <dt ng-if="address">Διεύθυνση</dt>
-    <dd ng-if="address">
-        <display-address address="address"></display-address>
-        &nbsp;
-    </dd>
+    <dt ng-if="!isBlank(address)">Διεύθυνση</dt>
+    <dd ng-if="!isBlank(address)">{{address | addressFilter}} &nbsp; </dd>
 
 </dl>

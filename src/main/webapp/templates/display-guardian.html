@@ -23,11 +23,8 @@
         <span class="label label-info">{{telephone.type|telephoneTypeFilter}}</span>
     </dd>
 
-    <dt>Διεύθυνση</dt>
-    <dd>
-        <display-address address="address"></display-address>
-        &nbsp;
-    </dd>
+    <dt ng-if="!isBlank(address)">Διεύθυνση</dt>
+    <dd ng-if="!isBlank(address)">{{address | addressFilter}} &nbsp; </dd>
 
 </dl>
 

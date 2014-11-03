@@ -91,12 +91,12 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
                 $scope.go('/child/' + childId + '/view', $event);
             };
 
-            $scope.data.children.$promise.then(function(newval) {
-                var childIds = newval.map(function (child) {
+            $scope.data.children.$promise.then(function(children) {
+                var childIds = children.map(function (child) {
                     return child.id;
                 });
                 statefulChildService.setChildIds(childIds);
-                $scope.viewData.noChildren = newval.length == 0;
+                $scope.viewData.noChildren = children.length == 0;
             });
 
         }
@@ -118,6 +118,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
                 }
             });
 
+			//command?
             $scope.submit = function () {
                 Address.save($scope.data.address).$promise.then(function (response) {
                     $scope.data.child.addressId = $scope.data.address.id;
@@ -192,17 +193,19 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
             };
 
 //            angular.element($window).on('keyup', function(e) {
-//                if(e.keyCode == '39') { //RIGHT ARROW
-//                    $scope.nextChild();
-//                } else if (e.keyCode == '37') { //LEFT ARROW
-//                    $scope.previousChild();
-//                } else if (e.keyCode == '46') { //DEL
-//                    $scope.confirmRemoveChild();
-//                }
-//                $scope.$apply();
+//                $scope.$apply(function() {
+//					console.log("Caught keyup")
+//					if(e.keyCode == '39') { //RIGHT ARROW
+//						$scope.nextChild();
+//					} else if (e.keyCode == '37') { //LEFT ARROW
+//						$scope.previousChild();
+//					} else if (e.keyCode == '46') { //DEL
+//						$scope.confirmRemoveChild();
+//					}
+//                });
 //            });
 //
-//            $scope.$on('$locationChangeSuccess', function () {
+//            $scope.$on('$destroy', function () {
 //                angular.element($window).off('keyup');
 //            });
 

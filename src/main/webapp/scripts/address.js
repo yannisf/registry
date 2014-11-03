@@ -52,25 +52,24 @@ angular.module('schoolApp')
         }
     }])
 
-    .directive('displayAddress', ['addressService', function (addressService) {
-        return {
-            restrict: 'E',
-            scope: {
-                address: "="
-            },
-            link: function (scope, element) {
-                console.log("X")
-                if (scope.address) {
-                    console.log("Y")
-                    scope.address.$promise.then(function(response) {
-                        console.log("Z")
-                        var addressString = addressService.format(scope.address);
-                        element.html(addressString);
-                    });
-                }
-            }
-        };
-    }])
+//    .filter('displayAddress', ['addressService', function (addressService) {
+//        return {
+//            restrict: 'E',
+//            scope: {
+//                address: "="
+//            },
+//            link: function (scope, element) {
+//            	scope.$watch('address', function(newval) {
+//            		if (newval) {
+//						var addressString = addressService.format(scope.address);
+//						element.html(addressString);
+//            		} else {
+//            			element.html('');
+//            		}
+//            	}, true);
+//            }
+//        };
+//    }])
 
     .directive('inputAddress', ['statefulChildService', 'Address', 'addressService', 'uuid4',
         function (statefulChildService, Address, addressService, uuid4) {
