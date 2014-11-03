@@ -102,7 +102,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
         }
     ])
 
-    .controller('createChildController', ['$scope', 'Child', 'statefulChildService', 'Address', 'uuid4',
+    .controller('createChildController', ['$scope', 'Child', 'statefulChildService', 'Address',  'uuid4',
         function ($scope, Child, statefulChildService, Address, uuid4) {
             angular.extend($scope, {
                 data: {

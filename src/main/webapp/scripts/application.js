@@ -107,7 +107,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     })
 
-    .directive('displayChild', function () {
+    .directive('displayChild', ['addressService', function (addressService) {
         return {
             restrict: 'E',
             replace: true,
@@ -115,9 +115,12 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                 child: "=",
                 address: "="
             },
-            templateUrl: "templates/display-child.html"
+            templateUrl: "templates/display-child.html",
+            link: function(scope) {
+                scope.isBlankAddress = addressService.isBlank;
+            }
         };
-    })
+    }])
 
     .directive('personName', function () {
         return {

@@ -71,12 +71,16 @@
 </nav>
 
 <div class="container">
-    <div class="alert alert-success" role="alert" ng-show="Flash.getSuccessMessage()">{{Flash.getSuccessMessage()}}
+    <div class="alert alert-success" role="alert" ng-show="Flash.getSuccessMessage()" ng-cloak>
+        {{Flash.getSuccessMessage()}}
     </div>
-    <div class="alert alert-info" role="alert" ng-show="Flash.getMessage()">{{Flash.getMessage()}}</div>
-    <div class="alert alert-warning" role="alert" ng-show="Flash.getWarningMessage()">{{Flash.getWarningMessage()}}
+    <div class="alert alert-info" role="alert" ng-show="Flash.getMessage()" ng-cloak>{{Flash.getMessage()}}</div>
+    <div class="alert alert-warning" role="alert" ng-show="Flash.getWarningMessage()" ng-cloak>
+        {{Flash.getWarningMessage()}}
     </div>
-    <div class="alert alert-danger" role="alert" ng-show="Flash.getErrorMessage()">{{Flash.getErrorMessage()}}</div>
+    <div class="alert alert-danger" role="alert" ng-show="Flash.getErrorMessage()" ng-cloak>
+        {{Flash.getErrorMessage()}}
+    </div>
 </div>
 
 <div class="container" ng-view></div>

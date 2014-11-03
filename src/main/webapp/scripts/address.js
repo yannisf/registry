@@ -43,33 +43,23 @@ angular.module('schoolApp')
                 return addressString;
             },
             isBlank: function (address) {
-                return ! (address.streetName
-                    || address.streetNumber
-                    || address.neighbourhood
-                    || address.postalCode
-                    || address.city);
+                return !(address
+                    && (address.streetName
+                        || address.streetNumber
+                        || address.neighbourhood
+                        || address.postalCode
+                        || address.city));
             }
         }
     }])
 
-//    .filter('displayAddress', ['addressService', function (addressService) {
-//        return {
-//            restrict: 'E',
-//            scope: {
-//                address: "="
-//            },
-//            link: function (scope, element) {
-//            	scope.$watch('address', function(newval) {
-//            		if (newval) {
-//						var addressString = addressService.format(scope.address);
-//						element.html(addressString);
-//            		} else {
-//            			element.html('');
-//            		}
-//            	}, true);
-//            }
-//        };
-//    }])
+    .filter('addressFilter', ['addressService', function (addressService) {
+        return function (address) {
+            if (address) {
+                return addressService.format(address);
+            }
+        }
+    }])
 
     .directive('inputAddress', ['statefulChildService', 'Address', 'addressService', 'uuid4',
         function (statefulChildService, Address, addressService, uuid4) {

@@ -30,7 +30,6 @@ angular.module('typeaheads', [])
                 })
             },
             getNeighbourhoods: function (startsWith) {
-                console.log('getNeighbourhoods ', startsWith);
                 return $http.get('api/typeahead/neighbourhoods', {params:{search:startsWith}}).then( function (response) {
                     return response.data;
                 })

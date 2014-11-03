@@ -102,9 +102,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             });
 
             $scope.data.guardian.$promise.then(function (response) {
-                console.log("1")
                 $scope.data.address = Address.get({addressId: $scope.data.guardian.addressId});
-                console.log("2")
             });
 
             guardianService.fetchRelationship(statefulChildService.getScopedChildId(), $routeParams.guardianId).then(function (response) {
