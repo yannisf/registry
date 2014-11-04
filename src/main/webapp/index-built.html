@@ -73,6 +73,15 @@
 <div class="container" ng-view></div>
 
 <script src="scripts/require-cfg.js"></script>
-<script src="scripts/vendor/requirejs/require.js" data-main="scripts/application"></script>
+<script src="scripts/bootstrap-built.js"></script>
+<script>
+    define("angular",[],function() {
+        return angular;
+    });
+    
+    LazyLoad.js(["scripts/application-built.js"], function() {
+        require(["scripts/application"]);
+    });
+</script>
 </body>
 </html>

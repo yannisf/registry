@@ -1,5 +1,5 @@
 var require = {
-	baseUrl: '/',
+	baseUrl: '',
 
 	paths: {
 		'angular': 'scripts/vendor/angular/angular'
