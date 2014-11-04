@@ -26,7 +26,7 @@
     "tag": "v0.1.0",
     "commit": "41cc4d5774cc9360ce691e496e5cce32a9c37f00"
   },
-  "_source": "https://github.com/monicao/angular-uuid4.git",
+  "_source": "git://github.com/monicao/angular-uuid4.git",
   "_target": "0.1.0",
   "_originalSource": "angular-uuid4"
 }
