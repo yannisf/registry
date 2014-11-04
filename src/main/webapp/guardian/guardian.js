@@ -19,7 +19,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
     }])
 
     .factory('Guardian', ['$resource', function($resource) {
-        return $resource('api/guardian/:guardianId', {guardianId: '@id'}, { });
+        return $resource('api/guardian/:guardianId', { }, { });
     }])
 
     .service('guardianService', ['$http', function ($http) {

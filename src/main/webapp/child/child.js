@@ -23,7 +23,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
     }])
 
     .factory('Child', ['$resource', function($resource) {
-        return $resource('api/child/:id', {id: '@id'}, {
+        return $resource('api/child/:id', { }, {
             save: {method: 'PUT', url: 'api/child'}
         });
     }])

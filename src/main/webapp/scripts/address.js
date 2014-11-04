@@ -3,7 +3,7 @@
 angular.module('schoolApp')
 
     .factory('Address', ['$resource', function($resource) {
-        return $resource('api/address/:addressId', {addressId: '@id'}, {
+        return $resource('api/address/:addressId', { }, {
             save: {method: 'PUT', url: 'api/address'}
         });
     }])
