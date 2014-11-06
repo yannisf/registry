@@ -2,6 +2,7 @@ package fraglab.school.child;
 
 import fraglab.NotFoundException;
 import fraglab.school.BaseRestController;
+import fraglab.school.formobject.ChildWithAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,12 @@ public class ChildController extends BaseRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody Child child) throws NotFoundException {
         childService.update(child);
+    }
+
+    @RequestMapping(value = "/address", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@RequestBody ChildWithAddress childWithAddress) throws NotFoundException {
+        childService.update(childWithAddress);
     }
 
     @RequestMapping(method = RequestMethod.GET)

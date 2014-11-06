@@ -3,6 +3,7 @@ package fraglab.school.relationship;
 import fraglab.NotFoundException;
 import fraglab.school.address.AddressService;
 import fraglab.school.child.ChildDao;
+import fraglab.school.formobject.RelationshipWithGuardianAndAddress;
 import fraglab.school.guardian.Guardian;
 import fraglab.school.guardian.GuardianService;
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +17,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class ChildGuardianServiceImpl implements ChildGuardianService {
+public class ChildGuardianRelationshipServiceImpl implements ChildGuardianRelationshipService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ChildGuardianServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChildGuardianRelationshipServiceImpl.class);
 
     @Autowired
     ChildDao childDao;
@@ -66,10 +67,12 @@ public class ChildGuardianServiceImpl implements ChildGuardianService {
 
     @Override
     @Transactional
-    public void updateGuardianAndRelationship(ChildGuardianRelationship relationship) {
-        guardianAddressHousekeeping(relationship.getGuardian());
-        guardianService.update(relationship.getGuardian());
-        childGuardianRelationshipDao.update(relationship);
+    public void updateRelationshipWithGuardianAndAddress(RelationshipWithGuardianAndAddress relationshipWithGuardianAndAddress) {
+        guardianAddressHousekeeping(relationshipWithGuardianAndAddress.getGuardian());
+        addressService.update(relationshipWithGuardianAndAddress.getAddress());
+        guardianService.update(relationshipWithGuardianAndAddress.getGuardian());
+        childGuardianRelationshipDao.update(relationshipWithGuardianAndAddress.getRelationship());
+
     }
 
     private void guardianAddressHousekeeping(Guardian guardian) {

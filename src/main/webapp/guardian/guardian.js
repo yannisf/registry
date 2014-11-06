@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
+angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relationship'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -18,29 +18,12 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             });
     }])
 
-    .factory('Guardian', ['$resource', function($resource) {
+    .factory('Guardian', ['$resource', function ($resource) {
         return $resource('api/guardian/:guardianId', { }, { });
     }])
 
-    .service('guardianService', ['$http', function ($http) {
-        return {
-            fetchRelationship: function (childId, guardianId) {
-                return $http.get('api/relationship/child/' + childId + '/guardian/' + guardianId).then(function (response) {
-                        return response.data;
-                    }
-                );
-            },
-            updateGuardianAndRelationship: function (childId, guardianId, relationship) {
-                return $http.put('api/relationship/child/' + childId + '/guardian/' + guardianId, relationship).then(function (response) {
-                        return response.data;
-                    }
-                );
-            }
-        };
-    }])
-
-    .controller('createGuardianController', ['$scope', 'statefulChildService', 'guardianService', 'uuid4', 'Address',
-        function ($scope, statefulChildService, guardianService, uuid4, Address) {
+    .controller('createGuardianController', ['$scope', 'Flash', 'statefulChildService', 'Relationship', 'uuid4', 'Address',
+        function ($scope, Flash, statefulChildService, Relationship, uuid4, Address) {
             angular.extend($scope, {
                 data: {
                     guardian: {
@@ -72,27 +55,34 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             };
 
             $scope.submit = function () {
-                $scope.data.guardian.addressId = $scope.data.address.id;
-                $scope.data.relationship.guardian = $scope.data.guardian;
+                var relationshipWithGuardianAndAddress = {
+                    relationship: $scope.data.relationship,
+                    guardian: $scope.data.guardian,
+                    address: $scope.data.address
+                }
 
-                Address.save($scope.data.address).$promise.then(function (response) {
-                    return guardianService.updateGuardianAndRelationship(
-                        statefulChildService.getScopedChildId(),
-                        $scope.data.relationship.guardian.id,
-                        $scope.data.relationship);
-                }).then(function (response) {
-                    $scope.toScopedChild();
+                Relationship.saveWithGuardianAndAddress({
+                    childId: statefulChildService.getScopedChildId(),
+                    guardianId: $scope.data.guardian.id
+                }, relationshipWithGuardianAndAddress)
+                    .$promise.then(function (response) {
+                        Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
+                        $scope.toScopedChild();
+                    }, function (response) {
+                        Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                 });
-            };
+            }
         }])
 
-    .controller('updateGuardianController', ['$scope', '$routeParams', 'statefulChildService', 'Guardian', 'guardianService', 'Address', 'uuid4',
-        function ($scope, $routeParams, statefulChildService, Guardian, guardianService, Address, uuid4) {
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'Flash', 'statefulChildService', 'Guardian', 'Relationship', 'Address', 'uuid4',
+        function ($scope, $routeParams, Flash, statefulChildService, Guardian, Relationship, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     guardian: Guardian.get({guardianId: $routeParams.guardianId}),
                     address: null,
-                    relationship: null
+                    relationship: Relationship.fetchRelationship({
+                        childId: statefulChildService.getScopedChildId(),
+                        guardianId: $routeParams.guardianId})
                 },
                 viewData: {
                     guardianId: $routeParams.guardianId,
@@ -105,11 +95,6 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
                 $scope.data.address = Address.get({addressId: $scope.data.guardian.addressId});
             });
 
-            guardianService.fetchRelationship(statefulChildService.getScopedChildId(), $routeParams.guardianId).then(function (response) {
-                    $scope.data.relationship = response;
-                }
-            );
-
             $scope.addTelephone = function () {
                 var telephone = { id: uuid4.generate() };
                 $scope.data.guardian.telephones.push(telephone);
@@ -120,18 +105,22 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child'])
             };
 
             $scope.submit = function () {
-                $scope.data.guardian.addressId = $scope.data.address.id;
-                $scope.data.relationship.guardian = $scope.data.guardian;
+                var relationshipWithGuardianAndAddress = {
+                    relationship: $scope.data.relationship,
+                    guardian: $scope.data.guardian,
+                    address: $scope.data.address
+                }
 
-                Address.save($scope.data.address).$promise.then(function (response) {
-                    return guardianService.updateGuardianAndRelationship(
-                        statefulChildService.getScopedChildId(),
-                        $scope.data.relationship.guardian.id,
-                        $scope.data.relationship);
-                }).then(function (response) {
-                    $scope.toScopedChild();
+                Relationship.saveWithGuardianAndAddress({
+                    childId: statefulChildService.getScopedChildId(),
+                    guardianId: $scope.data.guardian.id
+                }, relationshipWithGuardianAndAddress)
+                    .$promise.then(function (response) {
+                        Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
+                        $scope.toScopedChild();
+                    }, function (response) {
+                        Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                 });
-            };
-
+            }
         }
     ]);

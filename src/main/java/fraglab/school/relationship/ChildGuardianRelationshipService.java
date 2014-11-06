@@ -1,10 +1,11 @@
 package fraglab.school.relationship;
 
 import fraglab.NotFoundException;
+import fraglab.school.formobject.RelationshipWithGuardianAndAddress;
 
 import java.util.List;
 
-public interface ChildGuardianService {
+public interface ChildGuardianRelationshipService {
 
     ChildGuardianRelationship fetch(String id) throws NotFoundException;
 
@@ -14,6 +15,5 @@ public interface ChildGuardianService {
 
     void delete(String id) throws NotFoundException;
 
-    void updateGuardianAndRelationship(ChildGuardianRelationship relationship);
-
+    void updateRelationshipWithGuardianAndAddress(RelationshipWithGuardianAndAddress relationshipWithGuardianAndAddress);
 }

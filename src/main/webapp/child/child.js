@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
+angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'relationship'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -24,23 +24,9 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
 
     .factory('Child', ['$resource', function($resource) {
         return $resource('api/child/:id', { }, {
-            save: {method: 'PUT', url: 'api/child'}
+            save: {method: 'PUT', url: 'api/child'},
+            saveWithAddress: {method: 'PUT', url: 'api/child/address'}
         });
-    }])
-
-    .service('childService', ['$http', 'Child', function ($http, Child) {
-        return {
-            fetchRelationships: function (childId) {
-                return $http.get('api/relationship/child/' + childId + '/guardian').then(function (response) {
-                    return response.data;
-                });
-            },
-            removeRelationship: function (relationshipId) {
-                return $http({method: 'DELETE', url: 'api/relationship/' + relationshipId}).then(function (response) {
-                    return response.data;
-                });
-            }
-        };
     }])
 
     .service('statefulChildService', ['$routeParams', function ($routeParams) {
@@ -74,8 +60,8 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
         }
     }])
 
-    .controller('listChildController', ['$scope', 'Child', 'childService', 'statefulChildService',
-        function ($scope, Child, childService, statefulChildService) {
+    .controller('listChildController', ['$scope', 'Child', 'statefulChildService',
+        function ($scope, Child, statefulChildService) {
             angular.extend($scope, {
                 data: {
                     children: Child.query()
@@ -102,8 +88,8 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
         }
     ])
 
-    .controller('createChildController', ['$scope', 'Child', 'statefulChildService', 'Address',  'uuid4',
-        function ($scope, Child, statefulChildService, Address, uuid4) {
+    .controller('createChildController', ['$scope', 'Flash', 'Child', 'statefulChildService', 'Address',  'uuid4',
+        function ($scope, Flash, Child, statefulChildService, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     child: {
@@ -118,26 +104,30 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
                 }
             });
 
-			//command?
             $scope.submit = function () {
-                Address.save($scope.data.address).$promise.then(function (response) {
-                    $scope.data.child.addressId = $scope.data.address.id;
-                    return Child.save($scope.data.child).$promise;
-                }).then(function (response) {
+                var childWithAddress = {
+                    child: $scope.data.child,
+                    address: $scope.data.address
+                }
+
+                Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
                     statefulChildService.setScopedChildId($scope.data.child.id);
-                    statefulChildService.setScopedChildAddressId($scope.data.child.addressId);
+                    statefulChildService.setScopedChildAddressId($scope.data.address.id);
+                    Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                     $scope.toScopedChild();
+                }, function (response) {
+                    Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                 });
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$window', '$location', '$modal', 'Flash', 'Child', 'childService', 'statefulChildService', 'Address',
-        function ($scope, $window, $location, $modal, Flash, Child, childService, statefulChildService, Address) {
+    .controller('updateChildController', ['$scope', '$window', '$location', '$modal', 'Flash', 'Child', 'statefulChildService', 'Address', 'Relationship',
+        function ($scope, $window, $location, $modal, Flash, Child, statefulChildService, Address, Relationship) {
             angular.extend($scope, {
                 data: {
                     child: Child.get({id: statefulChildService.getScopedChildId()}),
                     address: null,
-                    relationships: []
+                    relationships: Relationship.fetchRelationships({childId: statefulChildService.getScopedChildId()})
                 },
                 viewData: {
                     submitLabel: 'Ανανέωση'
@@ -149,21 +139,21 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
                 statefulChildService.setScopedChildAddressId($scope.data.child.addressId);
             });
 
-            childService.fetchRelationships(statefulChildService.getScopedChildId()).then(function (response) {
-                $scope.data.relationships = response;
-            });
-
             $scope.submit = function () {
-                Address.save($scope.data.address).$promise.then(function (response) {
-                    return Child.save($scope.data.child).$promise;
-                }).then(function (response) {
+                var childWithAddress = {
+                    child: $scope.data.child,
+                    address: $scope.data.address
+                }
+
+                Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
+                    statefulChildService.setScopedChildId($scope.data.child.id);
+                    statefulChildService.setScopedChildAddressId($scope.data.address.id);
                     Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                     $scope.toScopedChild();
-                }, function (errorResponse) {
+                }, function (response) {
                     Flash.setWarningMessage("Σφάλμα καταχώρησης.");
-                    $scope.toScopedChild();
                 });
-            };
+            }
 
             $scope.addGuardian = function () {
                 $location.path('/guardian/edit');
@@ -175,7 +165,6 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
                 $scope.go('/guardian/' + guardianId + '/view', $event);
             };
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
             $scope.nextChild = function () {
                 var next = findNextChild();
                 if (next.rollover) {
@@ -191,23 +180,6 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
                 }
                 $location.url('/child/' + previous.id + '/view');
             };
-
-//            angular.element($window).on('keyup', function(e) {
-//                $scope.$apply(function() {
-//					console.log("Caught keyup")
-//					if(e.keyCode == '39') { //RIGHT ARROW
-//						$scope.nextChild();
-//					} else if (e.keyCode == '37') { //LEFT ARROW
-//						$scope.previousChild();
-//					} else if (e.keyCode == '46') { //DEL
-//						$scope.confirmRemoveChild();
-//					}
-//                });
-//            });
-//
-//            $scope.$on('$destroy', function () {
-//                angular.element($window).off('keyup');
-//            });
 
             function findNextChild() {
                 var result = {};
@@ -236,7 +208,6 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
                 }
                 return result;
             }
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             $scope.confirmRemoveChild = function () {
                 $modal.open({
@@ -279,11 +250,11 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
             };
         }])
 
-    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'childService', 'statefulChildService', 'relationshipId',
-        function ($scope, $modalInstance, childService, statefulChildService, relationshipId) {
+    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'statefulChildService', 'Relationship', 'relationshipId',
+        function ($scope, $modalInstance, statefulChildService, Relationship, relationshipId) {
             $scope.removeRelationship = function () {
-                childService.removeRelationship(relationshipId).then(function (response) {
-                    return childService.fetchRelationships(statefulChildService.getScopedChildId());
+                Relationship.remove({id: relationshipId}).$promise.then(function (response) {
+                    return Relationship.fetchRelationships({childId: statefulChildService.getScopedChildId()}).$promise;
                 }).then(function (response) {
                     $scope.dismiss();
                     $scope.data.relationships = response;

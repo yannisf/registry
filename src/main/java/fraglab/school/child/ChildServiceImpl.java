@@ -1,7 +1,9 @@
 package fraglab.school.child;
 
 import fraglab.NotFoundException;
+import fraglab.school.address.Address;
 import fraglab.school.address.AddressService;
+import fraglab.school.formobject.ChildWithAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +33,17 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public void update(Child child) throws NotFoundException {
+    public void update(Child child) {
         childDao.update(child);
+    }
+
+    @Override
+    public void update(ChildWithAddress childWithAddress) {
+        Address address = childWithAddress.getAddress();
+        addressService.update(address);
+        Child child = childWithAddress.getChild();
+        child.setAddressId(address.getId());
+        update(child);
     }
 
     @Override

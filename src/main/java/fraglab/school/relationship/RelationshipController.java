@@ -2,6 +2,7 @@ package fraglab.school.relationship;
 
 import fraglab.NotFoundException;
 import fraglab.school.BaseRestController;
+import fraglab.school.formobject.RelationshipWithGuardianAndAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,37 +14,38 @@ import java.util.List;
 public class RelationshipController extends BaseRestController {
 
     @Autowired
-    ChildGuardianService childGuardianService;
+    ChildGuardianRelationshipService childGuardianRelationshipService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ChildGuardianRelationship fetch(@PathVariable() String id) throws NotFoundException {
-        return childGuardianService.fetch(id);
+        return childGuardianRelationshipService.fetch(id);
     }
 
     @RequestMapping(value = "/child/{childId}/guardian/{guardianId}", method = RequestMethod.GET)
     public ChildGuardianRelationship fetch(@PathVariable() String childId, @PathVariable() String guardianId)
             throws NotFoundException {
-        return childGuardianService.fetch(childId, guardianId);
+        return childGuardianRelationshipService.fetch(childId, guardianId);
     }
 
     @RequestMapping(value = "/child/{childId}/guardian", method = RequestMethod.GET)
     public List<ChildGuardianRelationship> fetchRelationships(@PathVariable() String childId) throws NotFoundException {
-        return childGuardianService.fetchRelationships(childId);
+        return childGuardianRelationshipService.fetchRelationships(childId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable String id) throws NotFoundException {
-        childGuardianService.delete(id);
+        childGuardianRelationshipService.delete(id);
     }
 
-    @RequestMapping(value = "/child/{childId}/guardian/{guardianId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/child/{childId}/guardian/{guardianId}/address", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateGuardianAndRelationship(@PathVariable() String childId, @PathVariable() String guardianId,
-                                              @RequestBody ChildGuardianRelationship relationship) {
+                                              @RequestBody RelationshipWithGuardianAndAddress relationshipWithGuardianAndAddress) {
+        ChildGuardianRelationship relationship = relationshipWithGuardianAndAddress.getRelationship();
         relationship.setChildId(childId);
         relationship.setGuardianId(guardianId);
-        childGuardianService.updateGuardianAndRelationship(relationship);
+        childGuardianRelationshipService.updateRelationshipWithGuardianAndAddress(relationshipWithGuardianAndAddress);
     }
 
 }
