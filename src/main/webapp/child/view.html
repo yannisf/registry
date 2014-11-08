@@ -1,7 +1,7 @@
 <div class="page-header">
     <h2>
         <person-name person="data.child"></person-name>
-        <div class="pull-right">
+        <div class="pull-right" ng-show="{{viewData.hasChildrenIdsInScope}}">
             <button class="btn btn-primary btn-sm" ng-click="previousChild()" title="Προηγούμενο παιδί">
                 <span class="glyphicon glyphicon-chevron-left"></span>
             </button>

@@ -111,6 +111,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 }
 
                 Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
+                    statefulChildService.setChildIds([]);
                     statefulChildService.setScopedChildId($scope.data.child.id);
                     statefulChildService.setScopedChildAddressId($scope.data.address.id);
                     Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
@@ -130,7 +131,8 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                     relationships: Relationship.fetchRelationships({childId: statefulChildService.getScopedChildId()})
                 },
                 viewData: {
-                    submitLabel: 'Ανανέωση'
+                    submitLabel: 'Ανανέωση',
+                    hasChildrenIdsInScope: statefulChildService.getChildIds().length > 1
                 }
             });
 
@@ -236,10 +238,12 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             };
         }])
 
-    .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId',
-        function ($scope, $modalInstance, Child, childId) {
+    .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'statefulChildService',
+        function ($scope, $modalInstance, Child, childId, statefulChildService) {
             $scope.removeChild = function () {
                 Child.remove({id: childId}).$promise.then(function (response) {
+                    statefulChildService.setScopedChildId(null);
+                    statefulChildService.setScopedChildAddressId(null);
                     $scope.dismiss();
                     $scope.toChildList();
                 });

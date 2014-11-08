@@ -1,6 +1,7 @@
 package fraglab.school.relationship;
 
 import fraglab.NotFoundException;
+import fraglab.school.address.Address;
 import fraglab.school.address.AddressService;
 import fraglab.school.child.ChildDao;
 import fraglab.school.formobject.RelationshipWithGuardianAndAddress;
@@ -68,18 +69,19 @@ public class ChildGuardianRelationshipServiceImpl implements ChildGuardianRelati
     @Override
     @Transactional
     public void updateRelationshipWithGuardianAndAddress(RelationshipWithGuardianAndAddress relationshipWithGuardianAndAddress) {
-        guardianAddressHousekeeping(relationshipWithGuardianAndAddress.getGuardian());
+        guardianAddressHousekeeping(relationshipWithGuardianAndAddress.getGuardian(), relationshipWithGuardianAndAddress.getAddress());
         addressService.update(relationshipWithGuardianAndAddress.getAddress());
         guardianService.update(relationshipWithGuardianAndAddress.getGuardian());
         childGuardianRelationshipDao.update(relationshipWithGuardianAndAddress.getRelationship());
 
     }
 
-    private void guardianAddressHousekeeping(Guardian guardian) {
+    private void guardianAddressHousekeeping(Guardian guardian, Address address) {
         try {
+            String updatedGuardianAddressId = address.getId();
+            guardian.setAddressId(updatedGuardianAddressId);
             Guardian retrievedGuardian = guardianService.fetch(guardian.getId());
             String retrievedGuardianAddressId = retrievedGuardian.getAddressId();
-            String updatedGuardianAddressId = guardian.getAddressId();
             if (StringUtils.isNotBlank(retrievedGuardianAddressId)
                     && !retrievedGuardianAddressId.equals(updatedGuardianAddressId)
                     && !addressService.isSharedAddress(retrievedGuardianAddressId)) {

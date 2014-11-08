@@ -114,13 +114,15 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                 Relationship.saveWithGuardianAndAddress({
                     childId: statefulChildService.getScopedChildId(),
                     guardianId: $scope.data.guardian.id
-                }, relationshipWithGuardianAndAddress)
-                    .$promise.then(function (response) {
+                }, relationshipWithGuardianAndAddress).$promise.then(
+                    function (response) {
                         Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                         $scope.toScopedChild();
-                    }, function (response) {
+                    },
+                    function (response) {
                         Flash.setWarningMessage("Σφάλμα καταχώρησης.");
-                });
+                    }
+                );
             }
         }
     ]);

@@ -42,6 +42,9 @@ public class RelationshipController extends BaseRestController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateGuardianAndRelationship(@PathVariable() String childId, @PathVariable() String guardianId,
                                               @RequestBody RelationshipWithGuardianAndAddress relationshipWithGuardianAndAddress) {
+        if (!guardianId.equals(relationshipWithGuardianAndAddress.getGuardian().getId())) {
+            throw new AssertionError("Invalid data");
+        }
         ChildGuardianRelationship relationship = relationshipWithGuardianAndAddress.getRelationship();
         relationship.setChildId(childId);
         relationship.setGuardianId(guardianId);
