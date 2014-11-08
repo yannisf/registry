@@ -22,8 +22,8 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
         return $resource('api/guardian/:guardianId', { }, { });
     }])
 
-    .controller('createGuardianController', ['$scope', 'Flash', 'statefulChildService', 'Relationship', 'uuid4', 'Address',
-        function ($scope, Flash, statefulChildService, Relationship, uuid4, Address) {
+    .controller('createGuardianController', ['$scope', 'Flash', 'ChildService', 'Relationship', 'uuid4', 'Address',
+        function ($scope, Flash, ChildService, Relationship, uuid4, Address) {
             angular.extend($scope, {
                 data: {
                     guardian: {
@@ -62,7 +62,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                 }
 
                 Relationship.saveWithGuardianAndAddress({
-                    childId: statefulChildService.getScopedChildId(),
+                    childId: ChildService.child.id,
                     guardianId: $scope.data.guardian.id
                 }, relationshipWithGuardianAndAddress)
                     .$promise.then(function (response) {
@@ -74,14 +74,14 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
             }
         }])
 
-    .controller('updateGuardianController', ['$scope', '$routeParams', 'Flash', 'statefulChildService', 'Guardian', 'Relationship', 'Address', 'uuid4',
-        function ($scope, $routeParams, Flash, statefulChildService, Guardian, Relationship, Address, uuid4) {
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'Flash', 'ChildService', 'Guardian', 'Relationship', 'Address', 'uuid4',
+        function ($scope, $routeParams, Flash, ChildService, Guardian, Relationship, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     guardian: Guardian.get({guardianId: $routeParams.guardianId}),
                     address: null,
                     relationship: Relationship.fetchRelationship({
-                        childId: statefulChildService.getScopedChildId(),
+                        childId: ChildService.child.id,
                         guardianId: $routeParams.guardianId})
                 },
                 viewData: {
@@ -112,7 +112,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                 }
 
                 Relationship.saveWithGuardianAndAddress({
-                    childId: statefulChildService.getScopedChildId(),
+                    childId: ChildService.child.id,
                     guardianId: $scope.data.guardian.id
                 }, relationshipWithGuardianAndAddress).$promise.then(
                     function (response) {

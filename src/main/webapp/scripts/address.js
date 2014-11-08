@@ -61,8 +61,8 @@ angular.module('schoolApp')
         }
     }])
 
-    .directive('inputAddress', ['statefulChildService', 'Address', 'addressService', 'uuid4',
-        function (statefulChildService, Address, addressService, uuid4) {
+    .directive('inputAddress', ['ChildService', 'Address', 'addressService', 'uuid4',
+        function (ChildService, Address, addressService, uuid4) {
             return {
                 restrict: 'E',
                 scope: {
@@ -84,7 +84,7 @@ angular.module('schoolApp')
                         var unwatch = scope.$watch('address.id', function (newval) {
                             if (newval) {
                                 originalAddressId = newval;
-                                originalCommonAddress = (newval == statefulChildService.getScopedChildAddressId());
+                                originalCommonAddress = (newval == ChildService.child.addressId);
                                 scope.viewData.commonAddress = originalCommonAddress;
                                 unwatch();
                             }
@@ -92,7 +92,7 @@ angular.module('schoolApp')
 
                         scope.$watch('viewData.commonAddress', function (newval) {
                             if (newval && originalAddressId) {
-                                scope.address = Address.get({addressId: statefulChildService.getScopedChildAddressId()});
+                                scope.address = Address.get({addressId: ChildService.child.addressId});
                             } else if (originalCommonAddress) {
                                 scope.address = {
                                     id: uuid4.generate()

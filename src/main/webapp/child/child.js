@@ -29,39 +29,12 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
         });
     }])
 
-    .service('statefulChildService', ['$routeParams', function ($routeParams) {
-        var childId;
-        var childIds;
-        var childAddressId;
-
-        return {
-            getScopedChildId: function () {
-                if ($routeParams.childId) {
-                    childId = $routeParams.childId;
-                }
-
-                return childId;
-            },
-            setScopedChildId: function (value) {
-                childId = value;
-            },
-            getScopedChildAddressId: function () {
-                return childAddressId;
-            },
-            setScopedChildAddressId: function (value) {
-                childAddressId = value;
-            },
-            getChildIds: function () {
-                return childIds;
-            },
-            setChildIds: function (value) {
-                childIds = value;
-            }
-        }
+    .service('ChildService', [function () {
+        var child, childIds;
     }])
 
-    .controller('listChildController', ['$scope', 'Child', 'statefulChildService',
-        function ($scope, Child, statefulChildService) {
+    .controller('listChildController', ['$scope', 'Child', 'ChildService',
+        function ($scope, Child, ChildService) {
             angular.extend($scope, {
                 data: {
                     children: Child.query()
@@ -78,18 +51,17 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             };
 
             $scope.data.children.$promise.then(function(children) {
-                var childIds = children.map(function (child) {
+                ChildService.childIds = children.map(function (child) {
                     return child.id;
                 });
-                statefulChildService.setChildIds(childIds);
                 $scope.viewData.noChildren = children.length == 0;
             });
 
         }
     ])
 
-    .controller('createChildController', ['$scope', 'Flash', 'Child', 'statefulChildService', 'Address',  'uuid4',
-        function ($scope, Flash, Child, statefulChildService, Address, uuid4) {
+    .controller('createChildController', ['$scope', 'Flash', 'Child', 'ChildService', 'Address',  'uuid4',
+        function ($scope, Flash, Child, ChildService, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     child: {
@@ -111,9 +83,8 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 }
 
                 Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
-                    statefulChildService.setChildIds([]);
-                    statefulChildService.setScopedChildId($scope.data.child.id);
-                    statefulChildService.setScopedChildAddressId($scope.data.address.id);
+                    ChildService.childIds = [];
+                    ChildService.child = $scope.data.child;
                     Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                     $scope.toScopedChild();
                 }, function (response) {
@@ -122,23 +93,23 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$window', '$location', '$modal', 'Flash', 'Child', 'statefulChildService', 'Address', 'Relationship',
-        function ($scope, $window, $location, $modal, Flash, Child, statefulChildService, Address, Relationship) {
+    .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Flash', 'Child', 'ChildService', 'Address', 'Relationship',
+        function ($scope, $routeParams, $window, $location, $modal, Flash, Child, ChildService, Address, Relationship) {
             angular.extend($scope, {
                 data: {
-                    child: Child.get({id: statefulChildService.getScopedChildId()}),
+                    child: Child.get({id: $routeParams.childId}),
                     address: null,
-                    relationships: Relationship.fetchRelationships({childId: statefulChildService.getScopedChildId()})
+                    relationships: Relationship.fetchRelationships({childId: $routeParams.childId})
                 },
                 viewData: {
                     submitLabel: 'Ανανέωση',
-                    hasChildrenIdsInScope: statefulChildService.getChildIds().length > 1
+                    hasChildrenIdsInScope: ChildService.childIds.length > 1
                 }
             });
 
             $scope.data.child.$promise.then(function (response) {
+                ChildService.child = $scope.data.child;
                 $scope.data.address = Address.get({addressId: $scope.data.child.addressId});
-                statefulChildService.setScopedChildAddressId($scope.data.child.addressId);
             });
 
             $scope.submit = function () {
@@ -148,8 +119,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 }
 
                 Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
-                    statefulChildService.setScopedChildId($scope.data.child.id);
-                    statefulChildService.setScopedChildAddressId($scope.data.address.id);
+                    ChildService.child = $scope.data.child;
                     Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                     $scope.toScopedChild();
                 }, function (response) {
@@ -185,13 +155,13 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
 
             function findNextChild() {
                 var result = {};
-                var numberOfChildren = statefulChildService.getChildIds().length;
-                var currentChildId = statefulChildService.getScopedChildId();
-                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId);
+                var numberOfChildren = ChildService.childIds.length;
+                var currentChildId = ChildService.child.id;
+                var currentChildIdIndex = ChildService.childIds.indexOf(currentChildId);
                 if (currentChildIdIndex + 1 < numberOfChildren) {
-                    result.id = statefulChildService.getChildIds()[currentChildIdIndex + 1];
+                    result.id = ChildService.childIds[currentChildIdIndex + 1];
                 } else {
-                    result.id = statefulChildService.getChildIds()[0];
+                    result.id = ChildService.childIds[0];
                     result.rollover = true;
                 }
                 return result;
@@ -199,13 +169,13 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
 
             function findPreviousChild() {
                 var result = {};
-                var numberOfChildren = statefulChildService.getChildIds().length;
-                var currentChildId = statefulChildService.getScopedChildId();
-                var currentChildIdIndex = statefulChildService.getChildIds().indexOf(currentChildId);
+                var numberOfChildren = ChildService.childIds.length;
+                var currentChildId = ChildService.child.id;
+                var currentChildIdIndex = ChildService.childIds.indexOf(currentChildId);
                 if (currentChildIdIndex != 0) {
-                    result.id = statefulChildService.getChildIds()[currentChildIdIndex - 1];
+                    result.id = ChildService.childIds[currentChildIdIndex - 1];
                 } else {
-                    result.id = statefulChildService.getChildIds()[numberOfChildren - 1];
+                    result.id = ChildService.childIds[numberOfChildren - 1];
                     result.rollover = true;
                 }
                 return result;
@@ -217,7 +187,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                     controller: 'removeChildModalController',
                     resolve: {
                         childId: function () {
-                            return statefulChildService.getScopedChildId();
+                            return ChildService.child.id;
                         }
                     }
                 });
@@ -238,12 +208,11 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             };
         }])
 
-    .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'statefulChildService',
-        function ($scope, $modalInstance, Child, childId, statefulChildService) {
+    .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'ChildService',
+        function ($scope, $modalInstance, Child, childId, ChildService) {
             $scope.removeChild = function () {
                 Child.remove({id: childId}).$promise.then(function (response) {
-                    statefulChildService.setScopedChildId(null);
-                    statefulChildService.setScopedChildAddressId(null);
+                    ChildService.child = null;
                     $scope.dismiss();
                     $scope.toChildList();
                 });
@@ -254,11 +223,11 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             };
         }])
 
-    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'statefulChildService', 'Relationship', 'relationshipId',
-        function ($scope, $modalInstance, statefulChildService, Relationship, relationshipId) {
+    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'ChildService', 'Relationship', 'relationshipId',
+        function ($scope, $modalInstance, ChildService, Relationship, relationshipId) {
             $scope.removeRelationship = function () {
                 Relationship.remove({id: relationshipId}).$promise.then(function (response) {
-                    return Relationship.fetchRelationships({childId: statefulChildService.getScopedChildId()}).$promise;
+                    return Relationship.fetchRelationships({childId: ChildService.child.id}).$promise;
                 }).then(function (response) {
                     $scope.dismiss();
                     $scope.data.relationships = response;

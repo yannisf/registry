@@ -228,15 +228,15 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
       };
     }])
 
-    .run(['$rootScope', '$location', 'statefulChildService', 'Flash', 'ListService',
-        function ($rootScope, $location, statefulChildService, Flash, ListService) {
+    .run(['$rootScope', '$location', 'ChildService', 'Flash', 'ListService',
+        function ($rootScope, $location, ChildService, Flash, ListService) {
             angular.extend($rootScope, {
                 toChildList: function () {
                     $location.url('/child/list');
                 },
                 toScopedChild: function () {
-                    if (statefulChildService.getScopedChildId()) {
-                        $location.url('/child/' + statefulChildService.getScopedChildId() + '/view');
+                    if (ChildService.child) {
+                        $location.url('/child/' + ChildService.child.id + '/view');
                     } else {
                         this.toChildList();
                     }
