@@ -1,0 +1,19 @@
+<div class="page-header">
+    <h2>Κατάλογος σχολείων</h2>
+</div>
+
+<ul>
+    <li ng-repeat="node in data.schools" ng-include="'tree_item_renderer.html'"></li>
+</ul>
+
+<script type="text/ng-template" id="tree_item_renderer.html">
+
+    <a href ng-click="toChildList(node.id)" ng-if="node.type == 'YEAR'">{{node.label}}</a>
+
+    <span ng-if="node.type != 'YEAR'">{{node.label}}</span>
+
+    <ul>
+        <li ng-repeat="node in node.children" ng-include="'tree_item_renderer.html'"></li>
+    </ul>
+
+</script>

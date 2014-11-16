@@ -1,5 +1,4 @@
 .idea
 *.iml
 /target
-/database/school.*
-/database.copy/school.*
+/database

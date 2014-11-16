@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'child', 'guardian', 'typeaheads'])
+angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'child', 'guardian', 'typeaheads', 'school'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({
-            redirectTo: '/child/list'
+            redirectTo: '/school/list'
         });
     }])
 
@@ -228,11 +228,17 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
       };
     }])
 
-    .run(['$rootScope', '$location', 'ChildService', 'Flash', 'ListService',
-        function ($rootScope, $location, ChildService, Flash, ListService) {
+    .run(['$rootScope', '$location', '$window', 'ChildService', 'Flash', 'ListService', 'SchoolService',
+        function ($rootScope, $location, $window, ChildService, Flash, ListService, SchoolService) {
             angular.extend($rootScope, {
-                toChildList: function () {
-                    $location.url('/child/list');
+                toSchoolList: function() {
+                    $location.url('/school/list');
+                },
+                toChildList: function (yearClassId) {
+                    if (angular.isDefined(yearClassId)) {
+                        SchoolService.yearClassId = yearClassId;
+                    }
+                    $location.url('/child/class/' + SchoolService.yearClass + '/list');
                 },
                 toScopedChild: function () {
                     if (ChildService.child) {
