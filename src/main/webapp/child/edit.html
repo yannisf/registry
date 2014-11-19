@@ -12,11 +12,14 @@
     <div class="form-group">
         <label for="firstName" class="col-sm-2 control-label">Όνομα</label>
 
-        <div class="col-sm-3">
+        <div class="col-sm-3" style="position: relative">
             <input type="text" class="form-control" id="firstName" autocomplete="off" focus
                    ng-model="data.child.firstName"
                    typeahead="firstName for firstName in typeaheads.getFirstNames($viewValue)"
-                   typeahead-min-length="1" typeahead-wait-ms="500"/>
+                   typeahead-min-length="1" typeahead-wait-ms="500"
+                   typeahead-loading="loadingFirstNames"/>
+            <img ng-show="loadingFirstNames" src="images/loader.gif"
+                 style="position: absolute; right: -10px; top: 10px;"/>
         </div>
     </div>
 

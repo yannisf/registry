@@ -16,6 +16,15 @@ public class SchoolDaoImpl implements SchoolDao {
 
 
     @Override
+    public SchoolData fetchSchoolData(String yearClassId) {
+        String years = "select new fraglab.registry.school.SchoolData(s.name, c.label, y.label) " +
+                "from SchoolClassYearAggregation a join a.year y join a.clazz c join a.clazz.school s where a.id=:yearClassId " +
+                "order by y.label";
+
+        return (SchoolData) entityManager.createQuery(years).setParameter("yearClassId", yearClassId).getSingleResult();
+    }
+
+    @Override
     public void execute() {
         School school3 = new School("3ο Νέας Ιωνίας");
         School school22 = new School("22ο Νέας Ιωνίας");
@@ -72,10 +81,12 @@ public class SchoolDaoImpl implements SchoolDao {
         entityManager.persist(schoolClassYearAggregation5);
         entityManager.persist(schoolClassYearAggregation6);
         entityManager.persist(schoolClassYearAggregation7);
+
+        entityManager.flush();
     }
 
     @Override
-    public List<SchoolTreeElement> select() {
+    public List<SchoolTreeElement> fetchSchoolTreeElements() {
         String schools = "select new fraglab.registry.school.SchoolTreeElement(s.id, s.name) " +
                 "from School s " +
                 "order by s.name";

@@ -12,14 +12,22 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
     .factory('School', ['$resource', function($resource) {
         return $resource('api/school', { }, {
-            fetch: {method: 'GET', isArray: true}
+            fetch: {method: 'GET', isArray: true},
+            info: {method: 'GET', url: 'api/school/info/:yearClassId'}
         });
     }])
 
-    .service('SchoolService', [function () {
-        var school,clazz,year,yearClassId;
+    .service('SchoolService', ['School', function (School) {
+        return {
+            yearClassId: null,
+            info: function() {
+                console.log("HIT: ", this.yearClassId)
+                if (angular.isDefined(this.yearClassId)) {
+                    return School.info({yearClassId: this.yearClassId})
+                }
+            }
+        }
     }])
-
 
     .controller('listSchoolsController', ['$scope', 'School', 'SchoolService',
         function ($scope, School, SchoolService) {
@@ -30,23 +38,6 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
                 viewData: { }
             });
 
-            function walk(nodes) {
-                console.log("Nodes: ", nodes);
-                for(var node in nodes) {
-                    console.log(node);
-                    if (node.length > 1) {
-                        walk(node);
-                    }
-                }
-            }
-
-            var unwatch = $scope.$watchCollection('data.schools', function(newval) {
-                if (newval.$resolved) {
-                    console.log('Schools are: ', newval);
-                    walk(newval);
-                    SchoolService.schools = newval; //How to cache only the array and not the resource?
-                    unwatch();
-                }
-            });
+            console.log
         }
     ]);

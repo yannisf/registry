@@ -2,12 +2,9 @@ package fraglab.registry.school;
 
 import java.util.List;
 
-public interface SchoolDao {
+public interface SchoolService {
 
     SchoolData fetchSchoolData(String yearClassId);
 
-    void execute();
-
     List<SchoolTreeElement> fetchSchoolTreeElements();
-
 }
