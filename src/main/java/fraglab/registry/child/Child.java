@@ -15,8 +15,12 @@ public class Child extends Person {
     @Enumerated(EnumType.STRING)
     private PreSchoolLevel level;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "YEARCLASS_ID", updatable = false, insertable = false)
     private SchoolClassYearAggregation yearClass;
+
+    @Column(name = "YEARCLASS_ID", updatable = true, insertable = true)
+    private String yearClassId;
 
     public String getCallName() {
         return callName;
@@ -39,13 +43,12 @@ public class Child extends Person {
         return getCallName() != null ? getCallName() : getFirstName();
     }
 
-    @JsonIgnore
-    public SchoolClassYearAggregation getYearClass() {
-        return yearClass;
+    public String getYearClassId() {
+        return yearClassId;
     }
 
-    public void setYearClass(SchoolClassYearAggregation yearClass) {
-        this.yearClass = yearClass;
+    public void setYearClassId(String yearClassId) {
+        this.yearClassId = yearClassId;
     }
 
     @Override

@@ -8,7 +8,7 @@
 
 <script type="text/ng-template" id="tree_item_renderer.html">
 
-    <a href ng-click="toChildList(node.id)" ng-if="node.type == 'YEAR'">{{node.label}}</a>
+    <a href ng-click="toChildList(node.id)" ng-if="node.type == 'YEAR'">{{node.label}}</a> {{node.numberOfChildren}}
 
     <span ng-if="node.type != 'YEAR'">{{node.label}}</span>
 

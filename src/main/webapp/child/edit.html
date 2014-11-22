@@ -7,19 +7,18 @@
     </h2>
 </div>
 
-<form class="form-horizontal" role="form" ui-keypress="{'enter':'submit()', 'esc':'toScopedChild()'}">
+<form class="form-horizontal well" role="form" ui-keypress="{'enter':'submit()', 'esc':'toScopedChild()'}">
 
     <div class="form-group">
         <label for="firstName" class="col-sm-2 control-label">Όνομα</label>
 
-        <div class="col-sm-3" style="position: relative">
-            <input type="text" class="form-control" id="firstName" autocomplete="off" focus
-                   ng-model="data.child.firstName"
+        <div class="col-sm-3">
+            <input type="text" class="form-control loader-input" id="firstName" autocomplete="off"
+                   focus ng-model="data.child.firstName"
                    typeahead="firstName for firstName in typeaheads.getFirstNames($viewValue)"
                    typeahead-min-length="1" typeahead-wait-ms="500"
                    typeahead-loading="loadingFirstNames"/>
-            <img ng-show="loadingFirstNames" src="images/loader.gif"
-                 style="position: absolute; right: -10px; top: 10px;"/>
+            <img src="images/loader.gif" ng-show="loadingFirstNames" class="loader-img"/>
         </div>
     </div>
 
@@ -27,9 +26,10 @@
         <label for="lastName" class="col-sm-2 control-label">Επώνυμο</label>
 
         <div class="col-sm-3">
-            <input type="text" class="form-control" id="lastName" ng-model="data.child.lastName" autocomplete="off"
-                   typeahead="lastName for lastName in typeaheads.getLastNames($viewValue)" typeahead-min-length="1"
-                   typeahead-wait-ms="500">
+            <input type="text" class="form-control loader-input" id="lastName" ng-model="data.child.lastName"
+                   autocomplete="off" typeahead="lastName for lastName in typeaheads.getLastNames($viewValue)"
+                   typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingLastNames"/>
+            <img src="images/loader.gif" ng-show="loadingLastNames" class="loader-img"/>
         </div>
     </div>
 
@@ -37,7 +37,7 @@
         <label for="callName" class="col-sm-2 control-label">Χαϊδευτικό</label>
 
         <div class="col-sm-3">
-            <input type="text" class="form-control" id="callName" ng-model="data.child.callName">
+            <input type="text" class="form-control" id="callName" ng-model="data.child.callName"/>
         </div>
     </div>
 
@@ -46,7 +46,7 @@
 
         <div class="col-sm-3">
             <input type="text" class="form-control" id="dateOfBirth" ng-model="data.child.dateOfBirth"
-                   placeholder="ΗΗ-ΜΜ-ΧΧΧΧ">
+                   placeholder="ΗΗ-ΜΜ-ΧΧΧΧ"/>
         </div>
     </div>
 
@@ -55,10 +55,10 @@
 
         <div class="col-sm-3">
             <label class="radio-inline">
-                <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_B"> Νήπιο
+                <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_B"/> Νήπιο
             </label>
             <label class="radio-inline">
-                <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_A"> Προνήπιο
+                <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_A"/> Προνήπιο
             </label>
         </div>
     </div>
@@ -80,10 +80,10 @@
         <label for="nationality" class="col-sm-2 control-label">Υπηκοότητα</label>
 
         <div class="col-sm-3">
-            <input type="text" class="form-control" id="nationality" ng-model="data.child.nationality"
-                   autocomplete="off"
-                   typeahead="nationality for nationality in typeaheads.getNationalities($viewValue)"
-                   typeahead-min-length="1" typeahead-wait-ms="500">
+            <input type="text" class="form-control loader-input" id="nationality" ng-model="data.child.nationality"
+                   autocomplete="off" typeahead="nationality for nationality in typeaheads.getNationalities($viewValue)"
+                   typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingNationalities"/>
+            <img src="images/loader.gif" ng-show="loadingNationalities" class="loader-img"/>
         </div>
     </div>
 
@@ -99,11 +99,9 @@
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-primary" ng-click="submit()" type="submit">{{viewData.submitLabel}}</button>
-            <button class="btn btn-default" ng-click="toScopedChild()">Ακύρωση</button>
+            <button class="btn btn-success" ng-click="submit()" type="submit">{{viewData.submitLabel}}</button>
+            <button class="btn btn-primary" ng-click="toScopedChild()">Ακύρωση</button>
         </div>
     </div>
 
 </form>
-
-</div>

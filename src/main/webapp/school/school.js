@@ -12,7 +12,7 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
 
     .factory('School', ['$resource', function($resource) {
         return $resource('api/school', { }, {
-            fetch: {method: 'GET', isArray: true},
+            query: {method: 'GET', isArray: true},
             info: {method: 'GET', url: 'api/school/info/:yearClassId'}
         });
     }])
@@ -33,11 +33,10 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
         function ($scope, School, SchoolService) {
             angular.extend($scope, {
                 data: {
-                    schools: School.fetch()
+                    schools: School.query()
                 },
-                viewData: { }
+                viewData: {
+                }
             });
-
-            console.log
         }
     ]);

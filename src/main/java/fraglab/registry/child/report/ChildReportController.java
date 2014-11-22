@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,8 +20,9 @@ public class ChildReportController {
     ChildService childService;
 
     @RequestMapping(value = "/pdf/{mode}", method = RequestMethod.GET)
-    public String report(@PathVariable(value = "mode") String mode, Model model) throws Exception {
-        List<Child> children = childService.fetchAll();
+    public String report(@PathVariable(value = "mode") String mode, @RequestParam(value = "class") String clazz,
+                         Model model) throws Exception {
+        List<Child> children = childService.fetchClass(clazz);
         model.addAttribute("children", children);
         if (mode.equals("first")) {
             return "childrenFirstNamesPdf";

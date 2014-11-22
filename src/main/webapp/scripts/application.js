@@ -95,6 +95,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
 		};
 	})
 
+    //TODO: This could be an include
     .directive('displayGuardian', function () {
         return {
             restrict: 'E',
@@ -122,6 +123,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     }])
 
+    //TODO: This can be a filter
     .directive('personName', function () {
         return {
             restrict: 'E',
@@ -150,6 +152,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     })
 
+    //TODO: This could be a filter
     .directive('telephone', function () {
         return {
             restrict: 'E',
@@ -236,12 +239,12 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     $location.url('/school/list');
                 },
                 toChildList: function (yearClassId) {
-                    console.log('YEAR ID: ', yearClassId);
-                    SchoolService.yearClassId = yearClassId;
-//                    SchoolService.info().$promise.then(function(response) {
-//                        $rootScope.scopedSchoolInfo  = response;
-//                    });
-                    $rootScope.scopedSchoolInfo = SchoolService.info();
+                    if (angular.isDefined(yearClassId)) {
+                        console.log('yearClassId: ', yearClassId)
+                        SchoolService.yearClassId = yearClassId;
+                        $rootScope.scopedSchoolInfo = SchoolService.info();
+                        console.log('scopedSchoolInfo: ', $rootScope.scopedSchoolInfo)
+                    }
                     $location.url('/child/class/' + SchoolService.yearClassId + '/list');
                 },
                 toScopedChild: function () {

@@ -30,8 +30,8 @@ abstract class AbstractChildReport extends AbstractPdfView {
         }
         document.addAuthor(user);
         document.addCreationDate();
-        document.addCreator("School Application");
-        document.addSubject("School  printouts");
+        document.addCreator("School Registry");
+        document.addSubject("School printouts");
         document.addTitle(getDocumentTitle());
     }
 

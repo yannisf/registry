@@ -61,12 +61,13 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
         }
     ])
 
-    .controller('createChildController', ['$scope', 'Flash', 'Child', 'ChildService', 'Address',  'uuid4',
-        function ($scope, Flash, Child, ChildService, Address, uuid4) {
+    .controller('createChildController', ['$scope', 'Flash', 'Child', 'ChildService', 'SchoolService', 'Address',  'uuid4',
+        function ($scope, Flash, Child, ChildService, SchoolService, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     child: {
-                        id: uuid4.generate()
+                        id: uuid4.generate(),
+                        yearClassId: SchoolService.yearClassId
                     },
                     address: {
                         id: uuid4.generate()
@@ -94,8 +95,11 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             }
         }])
 
-    .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Flash', 'Child', 'ChildService', 'Address', 'Relationship',
-        function ($scope, $routeParams, $window, $location, $modal, Flash, Child, ChildService, Address, Relationship) {
+    .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Flash', 'Child',
+                'ChildService', 'SchoolService', 'Address', 'Relationship',
+        function ($scope, $routeParams, $window, $location, $modal, Flash, Child,
+                ChildService, SchoolService, Address, Relationship) {
+
             angular.extend($scope, {
                 data: {
                     child: Child.get({id: $routeParams.childId}),

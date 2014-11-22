@@ -10,6 +10,17 @@ body {
     cursor: pointer;
 }
 
+.loader-input {
+  position: relative;
+  padding-right: 30px;
+}
+
+.loader-img {
+  position: absolute;
+  right: 30px;
+  top: 12px;
+}
+
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;

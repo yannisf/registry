@@ -17,7 +17,7 @@ public class SchoolDaoImpl implements SchoolDao {
 
     @Override
     public SchoolData fetchSchoolData(String yearClassId) {
-        String years = "select new fraglab.registry.school.SchoolData(s.name, c.label, y.label) " +
+        String years = "select new fraglab.registry.school.SchoolData(a.id, s.name, c.label, y.label) " +
                 "from SchoolClassYearAggregation a join a.year y join a.clazz c join a.clazz.school s where a.id=:yearClassId " +
                 "order by y.label";
 
