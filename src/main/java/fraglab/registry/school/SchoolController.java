@@ -15,10 +15,13 @@ public class SchoolController {
     @Autowired
     private SchoolService schoolService;
 
-//    @RequestMapping(method = RequestMethod.POST)
-//    public void post() {
-//        schoolDao.execute();
-//    }
+    @Autowired
+    private SchoolDao schoolDao;
+
+    @RequestMapping(value = "/init", method = RequestMethod.POST)
+    public void post() {
+        schoolDao.execute();
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<SchoolTreeElement> fetchSchoolTreeElements() {
