@@ -1,7 +1,7 @@
 package fraglab.registry.relationship;
 
 import fraglab.GenericDao;
-import fraglab.NotFoundException;
+import fraglab.web.NotFoundException;
 
 import java.util.List;
 

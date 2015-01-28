@@ -1,7 +1,7 @@
 package fraglab.registry.relationship;
 
-import fraglab.NotFoundException;
 import fraglab.registry.formobject.RelationshipWithGuardianAndAddress;
+import fraglab.web.NotFoundException;
 
 import java.util.List;
 

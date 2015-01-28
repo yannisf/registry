@@ -1,7 +1,7 @@
 package fraglab.registry.relationship;
 
 import fraglab.GenericDaoImpl;
-import fraglab.NotFoundException;
+import fraglab.web.NotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;

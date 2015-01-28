@@ -1,6 +1,6 @@
 package fraglab.registry;
 
-import fraglab.NotFoundException;
+import fraglab.web.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package fraglab.registry.address;
 
-import fraglab.NotFoundException;
+import fraglab.web.NotFoundException;
 
 public interface AddressService {
 

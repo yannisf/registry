@@ -1,7 +1,7 @@
 package fraglab.registry.guardian;
 
-import fraglab.NotFoundException;
 import fraglab.registry.BaseRestController;
+import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

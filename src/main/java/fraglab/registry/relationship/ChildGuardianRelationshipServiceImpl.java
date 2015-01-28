@@ -1,12 +1,12 @@
 package fraglab.registry.relationship;
 
-import fraglab.NotFoundException;
 import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.child.ChildDao;
 import fraglab.registry.formobject.RelationshipWithGuardianAndAddress;
 import fraglab.registry.guardian.Guardian;
 import fraglab.registry.guardian.GuardianService;
+import fraglab.web.NotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
