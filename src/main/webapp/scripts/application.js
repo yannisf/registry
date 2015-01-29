@@ -121,7 +121,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
             scope: {
                 telephone: "=model"
             },
-            template: '{{telephone.number}} <span class="label label-success">{{telephone.type|telephoneTypeFilter}}</span>'
+            template: '{{telephone.number}} <span class="phone-type">{{telephone.type|telephoneTypeFilter}}</span>'
         };
     })
 

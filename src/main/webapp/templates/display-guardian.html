@@ -20,7 +20,7 @@
 
     <dt ng-repeat-start="telephone in guardian.telephones">Τηλέφωνο</dt>
     <dd ng-repeat-end>{{telephone.number}}&nbsp;
-        <span class="label label-info">{{telephone.type|telephoneTypeFilter}}</span>
+        <span class="phone-type">{{telephone.type|telephoneTypeFilter}}</span>
     </dd>
 
     <dt ng-if="!isBlankAddress(address)">Διεύθυνση</dt>
