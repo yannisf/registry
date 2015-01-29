@@ -10,4 +10,7 @@ public interface SchoolDao {
 
     List<SchoolTreeElement> fetchSchoolTreeElements();
 
+    List<School> fetchSchools();
+
+    List<SchoolClass> fetchClassesForSchool(String id);
 }

@@ -33,4 +33,14 @@ public class SchoolController {
         return schoolService.fetchSchoolData(yearClassId);
     }
 
+    @RequestMapping(value = "/school", method = RequestMethod.GET)
+    public List<School> fetchSchools() {
+        return schoolService.fetchSchools();
+    }
+
+    @RequestMapping(value = "/school/{id}/class", method = RequestMethod.GET)
+    public List<SchoolClass> fetchClasses(@PathVariable String id) {
+        return schoolService.fetchClassesForSchool(id);
+    }
+
 }

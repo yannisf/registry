@@ -1,5 +1,6 @@
 package fraglab.registry.school;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.BaseEntity;
 
 import javax.persistence.Entity;
@@ -31,6 +32,7 @@ public class SchoolClass extends BaseEntity {
         this.label = label;
     }
 
+    @JsonIgnore
     public School getSchool() {
         return school;
     }

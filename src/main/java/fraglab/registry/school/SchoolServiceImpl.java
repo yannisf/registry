@@ -12,6 +12,11 @@ public class SchoolServiceImpl implements SchoolService {
     private SchoolDao schoolDao;
 
     @Override
+    public List<School> fetchSchools() {
+        return schoolDao.fetchSchools();
+    }
+
+    @Override
     public SchoolData fetchSchoolData(String yearClassId) {
         return schoolDao.fetchSchoolData(yearClassId);
     }
@@ -19,5 +24,10 @@ public class SchoolServiceImpl implements SchoolService {
     @Override
     public List<SchoolTreeElement> fetchSchoolTreeElements() {
         return schoolDao.fetchSchoolTreeElements();
+    }
+
+    @Override
+    public List<SchoolClass> fetchClassesForSchool(String id) {
+        return schoolDao.fetchClassesForSchool(id);
     }
 }
