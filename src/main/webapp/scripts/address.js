@@ -8,39 +8,39 @@ angular.module('schoolApp')
         });
     }])
 
-    .service('addressService', ['$http', function ($http) {
+    .service('addressService', [function () {
         return {
             format: function (address) {
-                var addressString = "";
+                var formattedAddress = "";
                 if (address.streetName) {
-                    addressString = address.streetName;
+                    formattedAddress = address.streetName;
                     if (address.streetNumber) {
-                        addressString += " " + address.streetNumber;
+                        formattedAddress += " " + address.streetNumber;
                     }
                 }
                 if (address.neighbourhood) {
-                    if (addressString.length > 0) {
-                        addressString += ", " + address.neighbourhood;
+                    if (formattedAddress.length > 0) {
+                        formattedAddress += ", " + address.neighbourhood;
                     } else {
-                        addressString += address.neighbourhood;
+                        formattedAddress += address.neighbourhood;
                     }
                 }
                 if (address.postalCode) {
-                    if (addressString.length > 0) {
-                        addressString += ", " + address.postalCode;
+                    if (formattedAddress.length > 0) {
+                        formattedAddress += ", " + address.postalCode;
                     } else {
-                        addressString += address.postalCode;
+                        formattedAddress += address.postalCode;
                     }
                 }
                 if (address.city) {
-                    if (addressString.length > 0) {
-                        addressString += ", " + address.city;
+                    if (formattedAddress.length > 0) {
+                        formattedAddress += ", " + address.city;
                     } else {
-                        addressString += address.city;
+                        formattedAddress += address.city;
                     }
                 }
 
-                return addressString;
+                return formattedAddress;
             },
             isBlank: function (address) {
                 return !(address
@@ -68,7 +68,6 @@ angular.module('schoolApp')
                 scope: {
                     address: "=",
                     shareOption: "=",
-                    typeaheads: "="
                 },
                 templateUrl: "templates/input-address.html",
                 link: function (scope) {
