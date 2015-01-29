@@ -1,6 +1,6 @@
 package fraglab.registry.guardian;
 
-import fraglab.NotFoundException;
+import fraglab.web.NotFoundException;
 
 public interface GuardianService {
 

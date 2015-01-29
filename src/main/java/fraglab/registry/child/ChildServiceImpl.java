@@ -1,9 +1,9 @@
 package fraglab.registry.child;
 
-import fraglab.NotFoundException;
 import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.formobject.ChildWithAddress;
+import fraglab.web.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

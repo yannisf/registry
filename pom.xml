@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fraglab</groupId>
-    <artifactId>school</artifactId>
+    <artifactId>registry</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 

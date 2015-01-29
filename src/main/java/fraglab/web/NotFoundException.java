@@ -1,4 +1,4 @@
-package fraglab;
+package fraglab.web;
 
 public class NotFoundException extends Exception {
 

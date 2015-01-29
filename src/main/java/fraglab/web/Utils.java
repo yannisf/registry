@@ -1,4 +1,4 @@
-package fraglab;
+package fraglab.web;
 
 import org.apache.commons.lang3.CharEncoding;
 import org.apache.commons.lang3.StringUtils;

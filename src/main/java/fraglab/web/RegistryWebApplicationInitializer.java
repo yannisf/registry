@@ -6,7 +6,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
-public class SchoolWebApplicationInitializer implements WebApplicationInitializer {
+public class RegistryWebApplicationInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext container) {
