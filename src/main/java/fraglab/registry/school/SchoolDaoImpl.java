@@ -1,9 +1,12 @@
 package fraglab.registry.school;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -11,9 +14,10 @@ import java.util.List;
 @Transactional
 public class SchoolDaoImpl implements SchoolDao {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SchoolDaoImpl.class);
+
     @PersistenceContext
     protected EntityManager entityManager;
-
 
     @Override
     public SchoolData fetchSchoolData(String yearClassId) {
@@ -122,6 +126,21 @@ public class SchoolDaoImpl implements SchoolDao {
         }
 
         return schoolNodes;
+    }
+
+    @Override
+    public List<School> fetchSchools() {
+        LOG.debug("Fetching all schools");
+        Query query = entityManager.createQuery("select s from School s");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<SchoolClass> fetchClassesForSchool(String id) {
+        LOG.debug("Fetching all classes for school [{}]", id);
+        Query query = entityManager.createQuery("select c from SchoolClass c where c.school.id=:schoolId");
+        query.setParameter("schoolId", id);
+        return query.getResultList();
     }
 
 }
