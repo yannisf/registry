@@ -68,6 +68,7 @@ angular.module('schoolApp')
                 scope: {
                     address: "=",
                     shareOption: "=",
+                    typeaheads: "="
                 },
                 templateUrl: "templates/input-address.html",
                 link: function (scope) {
