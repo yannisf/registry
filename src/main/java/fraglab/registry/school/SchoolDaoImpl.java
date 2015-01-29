@@ -136,11 +136,36 @@ public class SchoolDaoImpl implements SchoolDao {
     }
 
     @Override
+    public void updateSchool(School school) {
+        entityManager.merge(school);
+    }
+
+    @Override
     public List<SchoolClass> fetchClassesForSchool(String id) {
         LOG.debug("Fetching all classes for school [{}]", id);
         Query query = entityManager.createQuery("select c from SchoolClass c where c.school.id=:schoolId");
         query.setParameter("schoolId", id);
         return query.getResultList();
+    }
+
+    @Override
+    public void updateClassForSchool(String id, SchoolClass schoolClass) {
+        LOG.debug("Updating school [{}]: Adding class [{}].", id, schoolClass.getId());
+        School school = entityManager.find(School.class, id);
+        school.addClass(schoolClass);
+        entityManager.merge(school);
+    }
+
+    @Override
+    public List<SchoolYear> fetchYears() {
+        LOG.debug("Fetching all school terms");
+        Query query = entityManager.createQuery("select t from SchoolYear t order by label");
+        return query.getResultList();
+    }
+
+    @Override
+    public void updateYear(SchoolYear year) {
+        entityManager.merge(year);
     }
 
 }

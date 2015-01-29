@@ -1,10 +1,8 @@
 package fraglab.registry.school;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,14 +31,38 @@ public class SchoolController {
         return schoolService.fetchSchoolData(yearClassId);
     }
 
+    //////////////////////////////
     @RequestMapping(value = "/school", method = RequestMethod.GET)
     public List<School> fetchSchools() {
         return schoolService.fetchSchools();
     }
 
+    @RequestMapping(value = "/school", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateSchool(@RequestBody School school) {
+        schoolService.updateSchool(school);
+    }
+
     @RequestMapping(value = "/school/{id}/class", method = RequestMethod.GET)
-    public List<SchoolClass> fetchClasses(@PathVariable String id) {
+    public List<SchoolClass> fetchClassesForSchool(@PathVariable String id) {
         return schoolService.fetchClassesForSchool(id);
+    }
+
+    @RequestMapping(value = "/school/{id}/class", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateClassForSchool(@PathVariable String id, @RequestBody SchoolClass schoolClass) {
+        schoolService.updateClassForSchool(id, schoolClass);
+    }
+
+    @RequestMapping(value = "/school/year", method = RequestMethod.GET)
+    public List<SchoolYear> fetchYears() {
+        return schoolService.fetchYears();
+    }
+
+    @RequestMapping(value = "/school/year", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateYear(@RequestBody SchoolYear year) {
+        schoolService.updateYear(year);
     }
 
 }

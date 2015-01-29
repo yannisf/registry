@@ -30,4 +30,25 @@ public class SchoolServiceImpl implements SchoolService {
     public List<SchoolClass> fetchClassesForSchool(String id) {
         return schoolDao.fetchClassesForSchool(id);
     }
+
+    @Override
+    public void updateSchool(School school) {
+        schoolDao.updateSchool(school);
+    }
+
+    @Override
+    public void updateClassForSchool(String id, SchoolClass schoolClass) {
+        schoolDao.updateClassForSchool(id, schoolClass);
+    }
+
+    @Override
+    public List<SchoolYear> fetchYears() {
+        return schoolDao.fetchYears();
+    }
+
+    @Override
+    public void updateYear(SchoolYear year) {
+        schoolDao.updateYear(year);
+    }
+
 }
