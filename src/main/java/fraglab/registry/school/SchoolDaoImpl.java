@@ -30,61 +30,35 @@ public class SchoolDaoImpl implements SchoolDao {
 
     @Override
     public void execute() {
-        School school3 = new School("3ο Νέας Ιωνίας");
-        School school22 = new School("22ο Νέας Ιωνίας");
-        SchoolClass schoolClass1 = new SchoolClass("Κλασσικό");
-        SchoolClass schoolClass2 = new SchoolClass("Ολοήμερο");
-        SchoolClass schoolClass3 = new SchoolClass("Κλασσικό");
-        school3.addClass(schoolClass1);
-        school3.addClass(schoolClass2);
-        school22.addClass(schoolClass3);
+        School kindergarten22 = new School("22ο Νέας Ιωνίας");
+        SchoolClass classicGroup = new SchoolClass("Κλασσικό");
+        kindergarten22.addClass(classicGroup);
+        entityManager.persist(kindergarten22);
 
-        entityManager.persist(school3);
-        entityManager.persist(school22);
+        SchoolYear term2012_2013 = new SchoolYear("2012-2013");
+        SchoolYear term2013_2014 = new SchoolYear("2013-2014");
+        SchoolYear term2014_2015 = new SchoolYear("2014-2015");
 
-        SchoolYear schoolYear1 = new SchoolYear("2012-2013");
-        SchoolYear schoolYear2 = new SchoolYear("2013-2014");
-        SchoolYear schoolYear3 = new SchoolYear("2014-2015");
+        entityManager.persist(term2012_2013);
+        entityManager.persist(term2013_2014);
+        entityManager.persist(term2014_2015);
 
-        entityManager.persist(schoolYear1);
-        entityManager.persist(schoolYear2);
-        entityManager.persist(schoolYear3);
 
         SchoolClassYearAggregation schoolClassYearAggregation1 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation1.setClazz(schoolClass1);
-        schoolClassYearAggregation1.setYear(schoolYear1);
+        schoolClassYearAggregation1.setClazz(classicGroup);
+        schoolClassYearAggregation1.setYear(term2012_2013);
 
         SchoolClassYearAggregation schoolClassYearAggregation2 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation2.setClazz(schoolClass1);
-        schoolClassYearAggregation2.setYear(schoolYear2);
+        schoolClassYearAggregation2.setClazz(classicGroup);
+        schoolClassYearAggregation2.setYear(term2013_2014);
 
         SchoolClassYearAggregation schoolClassYearAggregation3 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation3.setClazz(schoolClass2);
-        schoolClassYearAggregation3.setYear(schoolYear1);
-
-        SchoolClassYearAggregation schoolClassYearAggregation4 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation4.setClazz(schoolClass2);
-        schoolClassYearAggregation4.setYear(schoolYear2);
-
-        SchoolClassYearAggregation schoolClassYearAggregation5 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation5.setClazz(schoolClass3);
-        schoolClassYearAggregation5.setYear(schoolYear1);
-
-        SchoolClassYearAggregation schoolClassYearAggregation6 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation6.setClazz(schoolClass3);
-        schoolClassYearAggregation6.setYear(schoolYear2);
-
-        SchoolClassYearAggregation schoolClassYearAggregation7 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation7.setClazz(schoolClass3);
-        schoolClassYearAggregation7.setYear(schoolYear3);
+        schoolClassYearAggregation3.setClazz(classicGroup);
+        schoolClassYearAggregation3.setYear(term2014_2015);
 
         entityManager.persist(schoolClassYearAggregation1);
         entityManager.persist(schoolClassYearAggregation2);
         entityManager.persist(schoolClassYearAggregation3);
-        entityManager.persist(schoolClassYearAggregation4);
-        entityManager.persist(schoolClassYearAggregation5);
-        entityManager.persist(schoolClassYearAggregation6);
-        entityManager.persist(schoolClassYearAggregation7);
 
         entityManager.flush();
     }
