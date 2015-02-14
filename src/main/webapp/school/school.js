@@ -13,17 +13,16 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
     .factory('School', ['$resource', function($resource) {
         return $resource('api/school', { }, {
             query: {method: 'GET', isArray: true},
-            info: {method: 'GET', url: 'api/school/info/:yearClassId'}
+            info: {method: 'GET', url: 'api/school/info/:childGroupId'}
         });
     }])
 
     .service('SchoolService', ['School', function (School) {
         return {
-            yearClassId: null,
+            childGroupId: null,
             info: function() {
-                console.log("HIT: ", this.yearClassId)
-                if (angular.isDefined(this.yearClassId)) {
-                    return School.info({yearClassId: this.yearClassId})
+                if (angular.isDefined(this.childGroupId)) {
+                    return School.info({childGroupId: this.childGroupId})
                 }
             }
         }

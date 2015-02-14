@@ -1,6 +1,6 @@
 package fraglab.registry.address;
 
-import fraglab.GenericDao;
+import fraglab.data.GenericDao;
 
 public interface AddressDao extends GenericDao<Address, String> {
 

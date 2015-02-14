@@ -6,16 +6,16 @@ public class SchoolData implements Serializable {
 
     private String id;
     private String school;
-    private String clazz;
+    private String classroom;
     private String year;
 
     public SchoolData() {
     }
 
-    public SchoolData(String id, String school, String clazz, String year) {
+    public SchoolData(String id, String school, String classroom, String year) {
         this.id = id;
         this.school = school;
-        this.clazz = clazz;
+        this.classroom = classroom;
         this.year = year;
     }
 
@@ -35,12 +35,12 @@ public class SchoolData implements Serializable {
         this.school = school;
     }
 
-    public String getClazz() {
-        return clazz;
+    public String getClassroom() {
+        return classroom;
     }
 
-    public void setClazz(String clazz) {
-        this.clazz = clazz;
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 
     public String getYear() {

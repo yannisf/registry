@@ -1,4 +1,4 @@
-package fraglab.web;
+package fraglab;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -6,7 +6,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
-public class RegistryWebApplicationInitializer implements WebApplicationInitializer {
+public class ApplicationInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext container) {

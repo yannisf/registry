@@ -1,7 +1,7 @@
 package fraglab.registry.typeahead;
 
-import fraglab.GenericDaoImpl;
-import fraglab.registry.Person;
+import fraglab.data.GenericDaoImpl;
+import fraglab.registry.common.Person;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;

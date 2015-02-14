@@ -1,6 +1,6 @@
 package fraglab.registry.address;
 
-import fraglab.registry.BaseEntity;
+import fraglab.registry.common.BaseEntity;
 
 import javax.persistence.Entity;
 

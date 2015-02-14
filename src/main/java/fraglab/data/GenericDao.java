@@ -1,4 +1,4 @@
-package fraglab;
+package fraglab.data;
 
 import java.io.Serializable;
 

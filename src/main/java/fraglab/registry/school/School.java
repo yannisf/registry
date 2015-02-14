@@ -1,7 +1,7 @@
 package fraglab.registry.school;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fraglab.registry.BaseEntity;
+import fraglab.registry.common.BaseEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,7 +16,7 @@ public class School extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SchoolClass> classes;
+    private List<Classroom> classrooms;
 
     public School() {
         this.id = UUID.randomUUID().toString();
@@ -36,20 +36,20 @@ public class School extends BaseEntity {
     }
 
     @JsonIgnore
-    public List<SchoolClass> getClasses() {
-        return classes;
+    public List<Classroom> getClassrooms() {
+        return classrooms;
     }
 
-    public void setClasses(List<SchoolClass> classes) {
-        this.classes = classes;
+    public void setClassrooms(List<Classroom> classrooms) {
+        this.classrooms = classrooms;
     }
 
-    public void addClass(SchoolClass schoolClass) {
-        if (classes == null) {
-            classes = new ArrayList<>();
+    public void addClassroom(Classroom classroom) {
+        if (classrooms == null) {
+            classrooms = new ArrayList<>();
         }
-        schoolClass.setSchool(this);
-        classes.add(schoolClass);
+        classroom.setSchool(this);
+        classrooms.add(classroom);
     }
 
 }

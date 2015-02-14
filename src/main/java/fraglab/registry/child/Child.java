@@ -1,8 +1,8 @@
 package fraglab.registry.child;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fraglab.registry.Person;
-import fraglab.registry.school.SchoolClassYearAggregation;
+import fraglab.registry.common.Person;
+import fraglab.registry.school.ChildGroup;
 
 import javax.persistence.*;
 
@@ -16,11 +16,11 @@ public class Child extends Person {
     private PreSchoolLevel level;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "YEARCLASS_ID", updatable = false, insertable = false)
-    private SchoolClassYearAggregation yearClass;
+    @JoinColumn(name = "CHILD_GROUP_ID", updatable = false, insertable = false)
+    private ChildGroup childGroup;
 
-    @Column(name = "YEARCLASS_ID", updatable = true, insertable = true)
-    private String yearClassId;
+    @Column(name = "CHILD_GROUP_ID", updatable = true, insertable = true)
+    private String childGroupId;
 
     public String getCallName() {
         return callName;
@@ -43,12 +43,12 @@ public class Child extends Person {
         return getCallName() != null ? getCallName() : getFirstName();
     }
 
-    public String getYearClassId() {
-        return yearClassId;
+    public String getChildGroupId() {
+        return childGroupId;
     }
 
-    public void setYearClassId(String yearClassId) {
-        this.yearClassId = yearClassId;
+    public void setChildGroupId(String childGroupId) {
+        this.childGroupId = childGroupId;
     }
 
     @Override

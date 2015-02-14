@@ -1,8 +1,8 @@
 
 package fraglab.registry.relationship;
 
-import fraglab.registry.BaseEntity;
 import fraglab.registry.child.Child;
+import fraglab.registry.common.BaseEntity;
 import fraglab.registry.guardian.Guardian;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "CHILD_GUARDIAN", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"CHILD_ID", "GUARDIAN_ID"})
 })
-public class ChildGuardianRelationship extends BaseEntity implements Comparable<ChildGuardianRelationship> {
+public class Relationship extends BaseEntity implements Comparable<Relationship> {
 
     @Column(name = "CHILD_ID")
     private String childId;
@@ -30,7 +30,7 @@ public class ChildGuardianRelationship extends BaseEntity implements Comparable<
     @Transient
     private Guardian guardian;
 
-    public ChildGuardianRelationship() {
+    public Relationship() {
         this.id = UUID.randomUUID().toString();
     }
 
@@ -75,7 +75,7 @@ public class ChildGuardianRelationship extends BaseEntity implements Comparable<
     }
 
     @Override
-    public int compareTo(ChildGuardianRelationship o) {
+    public int compareTo(Relationship o) {
         if (metadata != null && metadata.getType() != null && o.metadata != null && o.metadata.getType() != null) {
             return metadata.getType().compareTo(o.metadata.getType());
         } else if (o.metadata == null || o.metadata.getType() == null) {
@@ -89,7 +89,7 @@ public class ChildGuardianRelationship extends BaseEntity implements Comparable<
 
     @Override
     public String toString() {
-        return "ChildGuardianRelationship{" +
+        return "Relationship{" +
                 "childId=" + childId +
                 ", guardianId=" + guardianId +
                 ", metadata=" + metadata +
@@ -109,17 +109,17 @@ public class ChildGuardianRelationship extends BaseEntity implements Comparable<
     public static class RelationshipMetadata implements Serializable {
 
         @Enumerated(EnumType.STRING)
-        private ChildGuardianRelationship.Type type;
+        private Relationship.Type type;
 
         private String notes;
 
         private Boolean pickup;
 
-        public ChildGuardianRelationship.Type getType() {
+        public Relationship.Type getType() {
             return type;
         }
 
-        public void setType(ChildGuardianRelationship.Type type) {
+        public void setType(Relationship.Type type) {
             this.type = type;
         }
 

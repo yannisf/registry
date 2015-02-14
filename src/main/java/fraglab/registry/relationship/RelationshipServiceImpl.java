@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class ChildGuardianRelationshipServiceImpl implements ChildGuardianRelationshipService {
+public class RelationshipServiceImpl implements RelationshipService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ChildGuardianRelationshipServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RelationshipServiceImpl.class);
 
     @Autowired
     ChildDao childDao;
@@ -32,24 +32,24 @@ public class ChildGuardianRelationshipServiceImpl implements ChildGuardianRelati
     AddressService addressService;
 
     @Autowired
-    ChildGuardianRelationshipDao childGuardianRelationshipDao;
+    RelationshipDao relationshipDao;
 
     @Override
-    public ChildGuardianRelationship fetch(String id) throws NotFoundException {
-        return childGuardianRelationshipDao.fetch(id);
+    public Relationship fetch(String id) throws NotFoundException {
+        return relationshipDao.fetch(id);
     }
 
     @Override
-    public ChildGuardianRelationship fetch(String childId, String guardianId) throws NotFoundException {
-        return childGuardianRelationshipDao.fetchForChildAndGuardian(childId, guardianId);
+    public Relationship fetch(String childId, String guardianId) throws NotFoundException {
+        return relationshipDao.fetchForChildAndGuardian(childId, guardianId);
     }
 
     @Override
-    public List<ChildGuardianRelationship> fetchRelationships(String childId) throws NotFoundException {
-        List<ChildGuardianRelationship> relationships = childGuardianRelationshipDao.fetchAllForChild(childId);
+    public List<Relationship> fetchRelationships(String childId) throws NotFoundException {
+        List<Relationship> relationships = relationshipDao.fetchAllForChild(childId);
         LOG.debug("Fetched {} relationships for child {}", relationships.size(), childId);
 
-        for (ChildGuardianRelationship relationship : relationships) {
+        for (Relationship relationship : relationships) {
             relationship.setGuardian(guardianService.fetch(relationship.getGuardianId()));
         }
 
@@ -60,10 +60,10 @@ public class ChildGuardianRelationshipServiceImpl implements ChildGuardianRelati
     @Override
     @Transactional
     public void delete(String id) throws NotFoundException {
-        ChildGuardianRelationship childGuardianRelationship = fetch(id);
-        childGuardianRelationshipDao.delete(childGuardianRelationship);
+        Relationship relationship = fetch(id);
+        relationshipDao.delete(relationship);
         //Delete Guardian as long as sharing guardians is not implemented
-        guardianService.delete(childGuardianRelationship.getGuardianId());
+        guardianService.delete(relationship.getGuardianId());
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ChildGuardianRelationshipServiceImpl implements ChildGuardianRelati
         guardianAddressHousekeeping(relationshipWithGuardianAndAddress.getGuardian(), relationshipWithGuardianAndAddress.getAddress());
         addressService.update(relationshipWithGuardianAndAddress.getAddress());
         guardianService.update(relationshipWithGuardianAndAddress.getGuardian());
-        childGuardianRelationshipDao.update(relationshipWithGuardianAndAddress.getRelationship());
+        relationshipDao.update(relationshipWithGuardianAndAddress.getRelationship());
 
     }
 

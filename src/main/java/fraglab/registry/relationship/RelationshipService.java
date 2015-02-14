@@ -5,13 +5,13 @@ import fraglab.web.NotFoundException;
 
 import java.util.List;
 
-public interface ChildGuardianRelationshipService {
+public interface RelationshipService {
 
-    ChildGuardianRelationship fetch(String id) throws NotFoundException;
+    Relationship fetch(String id) throws NotFoundException;
 
-    ChildGuardianRelationship fetch(String childId, String guardianId) throws NotFoundException;
+    Relationship fetch(String childId, String guardianId) throws NotFoundException;
 
-    List<ChildGuardianRelationship> fetchRelationships(String childId) throws NotFoundException;
+    List<Relationship> fetchRelationships(String childId) throws NotFoundException;
 
     void delete(String id) throws NotFoundException;
 

@@ -1,6 +1,6 @@
 package fraglab.registry.guardian;
 
-import fraglab.GenericDaoImpl;
+import fraglab.data.GenericDaoImpl;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;

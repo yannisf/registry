@@ -17,5 +17,5 @@ public interface ChildService {
 
     List<Child> fetchAll();
 
-    List<Child> fetchClass(String id);
+    List<Child> fetchChildGroup(String id);
 }

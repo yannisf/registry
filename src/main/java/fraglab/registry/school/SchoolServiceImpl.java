@@ -22,13 +22,13 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public List<SchoolTreeElement> fetchSchoolTreeElements() {
+    public List<TreeElement> fetchSchoolTreeElements() {
         return schoolDao.fetchSchoolTreeElements();
     }
 
     @Override
-    public List<SchoolClass> fetchClassesForSchool(String id) {
-        return schoolDao.fetchClassesForSchool(id);
+    public List<Classroom> fetchClassroomsForSchool(String id) {
+        return schoolDao.fetchClassroomsForSchool(id);
     }
 
     @Override
@@ -37,18 +37,18 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public void updateClassForSchool(String id, SchoolClass schoolClass) {
-        schoolDao.updateClassForSchool(id, schoolClass);
+    public void updateClassroomForSchool(String id, Classroom classroom) {
+        schoolDao.updateClassroomForSchool(id, classroom);
     }
 
     @Override
-    public List<SchoolYear> fetchYears() {
-        return schoolDao.fetchYears();
+    public List<Term> fetchTerms() {
+        return schoolDao.fetchTerms();
     }
 
     @Override
-    public void updateYear(SchoolYear year) {
-        schoolDao.updateYear(year);
+    public void updateTerm(Term year) {
+        schoolDao.updateTerm(year);
     }
 
 }

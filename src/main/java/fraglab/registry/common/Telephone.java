@@ -1,4 +1,4 @@
-package fraglab.registry;
+package fraglab.registry.common;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,4 +54,5 @@ public class Telephone extends BaseEntity implements Comparable<Telephone> {
         HOME,
         OTHER;
     }
+
 }

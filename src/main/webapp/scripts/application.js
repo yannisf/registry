@@ -200,14 +200,14 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                 toSchoolList: function() {
                     $location.url('/school/list');
                 },
-                toChildList: function (yearClassId) {
-                    if (angular.isDefined(yearClassId)) {
-                        console.log('yearClassId: ', yearClassId)
-                        SchoolService.yearClassId = yearClassId;
+                toChildList: function (childGroupId) {
+                    if (angular.isDefined(childGroupId)) {
+                        console.log('childGroupId: ', childGroupId)
+                        SchoolService.childGroupId = childGroupId;
                         $rootScope.scopedSchoolInfo = SchoolService.info();
                         console.log('scopedSchoolInfo: ', $rootScope.scopedSchoolInfo)
                     }
-                    $location.url('/child/class/' + SchoolService.yearClassId + '/list');
+                    $location.url('/child/class/' + SchoolService.childGroupId + '/list');
                 },
                 toScopedChild: function () {
                     if (ChildService.child) {

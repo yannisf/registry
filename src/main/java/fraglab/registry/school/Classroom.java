@@ -1,35 +1,35 @@
 package fraglab.registry.school;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fraglab.registry.BaseEntity;
+import fraglab.registry.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import java.util.UUID;
 
 @Entity
-public class SchoolClass extends BaseEntity {
+public class Classroom extends BaseEntity {
 
-    private String label;
+    private String name;
 
     @ManyToOne(optional = false)
     private School school;
 
-    public SchoolClass() {
+    public Classroom() {
         this.id = UUID.randomUUID().toString();
     }
 
-    public SchoolClass(String label) {
+    public Classroom(String name) {
         this();
-        this.label = label;
+        this.name = name;
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @JsonIgnore

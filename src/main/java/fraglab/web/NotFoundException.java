@@ -15,4 +15,5 @@ public class NotFoundException extends Exception {
     public String getMessage() {
         return message;
     }
+
 }

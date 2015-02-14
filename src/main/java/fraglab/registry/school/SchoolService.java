@@ -8,15 +8,15 @@ public interface SchoolService {
 
     SchoolData fetchSchoolData(String yearClassId);
 
-    List<SchoolTreeElement> fetchSchoolTreeElements();
+    List<TreeElement> fetchSchoolTreeElements();
 
-    List<SchoolClass> fetchClassesForSchool(String id);
+    List<Classroom> fetchClassroomsForSchool(String id);
 
     void updateSchool(School school);
 
-    void updateClassForSchool(String id, SchoolClass schoolClass);
+    void updateClassroomForSchool(String id, Classroom classroom);
 
-    List<SchoolYear> fetchYears();
+    List<Term> fetchTerms();
 
-    void updateYear(SchoolYear year);
+    void updateTerm(Term year);
 }

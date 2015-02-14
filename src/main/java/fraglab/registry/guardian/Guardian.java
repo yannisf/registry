@@ -1,7 +1,7 @@
 package fraglab.registry.guardian;
 
-import fraglab.registry.Person;
-import fraglab.registry.Telephone;
+import fraglab.registry.common.Person;
+import fraglab.registry.common.Telephone;
 
 import javax.persistence.*;
 import java.util.ArrayList;

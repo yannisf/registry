@@ -62,8 +62,8 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public List<Child> fetchClass(String id) {
-        return childDao.fetchClass(id);
+    public List<Child> fetchChildGroup(String id) {
+        return childDao.fetchClassroom(id);
     }
 
 

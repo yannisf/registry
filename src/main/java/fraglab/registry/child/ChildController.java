@@ -1,7 +1,7 @@
 package fraglab.registry.child;
 
-import fraglab.registry.BaseRestController;
 import fraglab.registry.formobject.ChildWithAddress;
+import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +33,9 @@ public class ChildController extends BaseRestController {
         return childService.fetchAll();
     }
 
-    @RequestMapping(value = "/class/{id}", method = RequestMethod.GET)
-    public List<Child> fetchClass(@PathVariable String id) {
-        return childService.fetchClass(id);
+    @RequestMapping(value = "/group/{id}", method = RequestMethod.GET)
+    public List<Child> fetchChildGroup(@PathVariable String id) {
+        return childService.fetchChildGroup(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

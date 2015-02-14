@@ -8,18 +8,18 @@ public interface SchoolDao {
 
     void execute();
 
-    List<SchoolTreeElement> fetchSchoolTreeElements();
+    List<TreeElement> fetchSchoolTreeElements();
 
     List<School> fetchSchools();
 
-    List<SchoolClass> fetchClassesForSchool(String id);
+    List<Classroom> fetchClassroomsForSchool(String id);
 
     void updateSchool(School school);
 
-    void updateClassForSchool(String id, SchoolClass schoolClass);
+    void updateClassroomForSchool(String id, Classroom classroom);
 
-    List<SchoolYear> fetchYears();
+    List<Term> fetchTerms();
 
-    void updateYear(SchoolYear year);
+    void updateTerm(Term year);
 
 }

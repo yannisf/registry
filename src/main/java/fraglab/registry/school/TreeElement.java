@@ -4,24 +4,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SchoolTreeElement implements Serializable {
+public class TreeElement implements Serializable {
 
     private String id;
-    private String label;
+    private String name;
     private String parentId;
     private Type type;
-    private List<SchoolTreeElement> children;
+    private List<TreeElement> children;
 
-    public SchoolTreeElement() {
+    public TreeElement() {
     }
 
-    public SchoolTreeElement(String id, String label) {
+    public TreeElement(String id, String name) {
         this.id = id;
-        this.label = label;
+        this.name = name;
     }
 
-    public SchoolTreeElement(String id, String label, String parentId) {
-        this(id, label);
+    public TreeElement(String id, String name, String parentId) {
+        this(id, name);
         this.parentId = parentId;
     }
 
@@ -33,12 +33,12 @@ public class SchoolTreeElement implements Serializable {
         this.id = id;
     }
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getParentId() {
@@ -57,15 +57,15 @@ public class SchoolTreeElement implements Serializable {
         this.type = type;
     }
 
-    public List<SchoolTreeElement> getChildren() {
+    public List<TreeElement> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SchoolTreeElement> children) {
+    public void setChildren(List<TreeElement> children) {
         this.children = children;
     }
 
-    public void addChild(SchoolTreeElement child) {
+    public void addChild(TreeElement child) {
         if (this.children == null) {
             this.children = new ArrayList<>();
         }
@@ -74,14 +74,14 @@ public class SchoolTreeElement implements Serializable {
 
     @Override
     public String toString() {
-        return "SchoolTreeElement{" +
+        return "TreeElement{" +
                 "id='" + id + '\'' +
-                ", label='" + label + '\'' +
+                ", name='" + name + '\'' +
                 ", parentId='" + parentId + '\'' +
                 '}';
     }
 
     public static enum Type {
-        SCHOOL, CLASS, YEAR;
+        SCHOOL, CLASSROOM, TERM;
     }
 }

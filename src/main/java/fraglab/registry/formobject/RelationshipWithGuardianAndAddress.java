@@ -2,21 +2,21 @@ package fraglab.registry.formobject;
 
 import fraglab.registry.address.Address;
 import fraglab.registry.guardian.Guardian;
-import fraglab.registry.relationship.ChildGuardianRelationship;
+import fraglab.registry.relationship.Relationship;
 
 import java.io.Serializable;
 
 public class RelationshipWithGuardianAndAddress implements Serializable {
 
-    private ChildGuardianRelationship relationship;
+    private Relationship relationship;
     private Guardian guardian;
     private Address address;
 
-    public ChildGuardianRelationship getRelationship() {
+    public Relationship getRelationship() {
         return relationship;
     }
 
-    public void setRelationship(ChildGuardianRelationship relationship) {
+    public void setRelationship(Relationship relationship) {
         this.relationship = relationship;
     }
 

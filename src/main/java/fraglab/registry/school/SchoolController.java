@@ -22,13 +22,13 @@ public class SchoolController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<SchoolTreeElement> fetchSchoolTreeElements() {
+    public List<TreeElement> fetchSchoolTreeElements() {
         return schoolService.fetchSchoolTreeElements();
     }
 
-    @RequestMapping(value = "/info/{yearClassId}", method = RequestMethod.GET)
-    public SchoolData yearClassInformation(@PathVariable String yearClassId) {
-        return schoolService.fetchSchoolData(yearClassId);
+    @RequestMapping(value = "/info/{childGroupId}", method = RequestMethod.GET)
+    public SchoolData fetchSchoolData(@PathVariable String childGroupId) {
+        return schoolService.fetchSchoolData(childGroupId);
     }
 
     //////////////////////////////
@@ -43,26 +43,26 @@ public class SchoolController {
         schoolService.updateSchool(school);
     }
 
-    @RequestMapping(value = "/school/{id}/class", method = RequestMethod.GET)
-    public List<SchoolClass> fetchClassesForSchool(@PathVariable String id) {
-        return schoolService.fetchClassesForSchool(id);
+    @RequestMapping(value = "/school/{id}/classroom", method = RequestMethod.GET)
+    public List<Classroom> fetchClassroomsForSchool(@PathVariable String id) {
+        return schoolService.fetchClassroomsForSchool(id);
     }
 
-    @RequestMapping(value = "/school/{id}/class", method = RequestMethod.PUT)
+    @RequestMapping(value = "/school/{id}/classroom", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClassForSchool(@PathVariable String id, @RequestBody SchoolClass schoolClass) {
-        schoolService.updateClassForSchool(id, schoolClass);
+    public void updateClassroomForSchool(@PathVariable String id, @RequestBody Classroom classroom) {
+        schoolService.updateClassroomForSchool(id, classroom);
     }
 
-    @RequestMapping(value = "/school/year", method = RequestMethod.GET)
-    public List<SchoolYear> fetchYears() {
-        return schoolService.fetchYears();
+    @RequestMapping(value = "/school/term", method = RequestMethod.GET)
+    public List<Term> fetchTerms() {
+        return schoolService.fetchTerms();
     }
 
-    @RequestMapping(value = "/school/year", method = RequestMethod.PUT)
+    @RequestMapping(value = "/school/term", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateYear(@RequestBody SchoolYear year) {
-        schoolService.updateYear(year);
+    public void updateTerm(@RequestBody Term term) {
+        schoolService.updateTerm(term);
     }
 
 }

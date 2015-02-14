@@ -1,7 +1,7 @@
 package fraglab.registry.school;
 
-import fraglab.registry.BaseEntity;
 import fraglab.registry.child.Child;
+import fraglab.registry.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -11,36 +11,36 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "YEAR_CLASS")
-public class SchoolClassYearAggregation extends BaseEntity {
+@Table(name = "CHILD_GROUP")
+public class ChildGroup extends BaseEntity {
 
     @ManyToOne(optional = false)
-    private SchoolClass clazz;
+    private Classroom classroom;
 
     @ManyToOne(optional = false)
-    private SchoolYear year;
+    private Term term;
 
-    @OneToMany(mappedBy = "yearClass")
+    @OneToMany(mappedBy = "childGroup")
     private List<Child> children;
 
-    public SchoolClassYearAggregation() {
+    public ChildGroup() {
         this.id = UUID.randomUUID().toString();
     }
 
-    public SchoolClass getClazz() {
-        return clazz;
+    public Classroom getClassroom() {
+        return classroom;
     }
 
-    public void setClazz(SchoolClass clazz) {
-        this.clazz = clazz;
+    public void setClassroom(Classroom classroom) {
+        this.classroom = classroom;
     }
 
-    public SchoolYear getYear() {
-        return year;
+    public Term getTerm() {
+        return term;
     }
 
-    public void setYear(SchoolYear year) {
-        this.year = year;
+    public void setTerm(Term term) {
+        this.term = term;
     }
 
     public List<Child> getChildren() {

@@ -1,4 +1,4 @@
-package fraglab.registry;
+package fraglab.web;
 
 import java.io.Serializable;
 

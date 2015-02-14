@@ -20,79 +20,75 @@ public class SchoolDaoImpl implements SchoolDao {
     protected EntityManager entityManager;
 
     @Override
-    public SchoolData fetchSchoolData(String yearClassId) {
-        String years = "select new fraglab.registry.school.SchoolData(a.id, s.name, c.label, y.label) " +
-                "from SchoolClassYearAggregation a join a.year y join a.clazz c join a.clazz.school s where a.id=:yearClassId " +
-                "order by y.label";
+    public SchoolData fetchSchoolData(String childGrouId) {
+        String years = "select new fraglab.registry.school.SchoolData(cg.id, s.name, cr.name, t.name) " +
+                "from ChildGroup cg join cg.term t join cg.classroom cr join cg.classroom.school s " +
+                "where cg.id=:childGrouId order by t.name";
 
-        return (SchoolData) entityManager.createQuery(years).setParameter("yearClassId", yearClassId).getSingleResult();
+        return (SchoolData) entityManager.createQuery(years).setParameter("childGrouId", childGrouId).getSingleResult();
     }
 
     @Override
     public void execute() {
         School kindergarten22 = new School("22ο Νέας Ιωνίας");
-        SchoolClass classicGroup = new SchoolClass("Κλασσικό");
-        kindergarten22.addClass(classicGroup);
+        Classroom classicGroup = new Classroom("Κλασσικό");
+        kindergarten22.addClassroom(classicGroup);
         entityManager.persist(kindergarten22);
 
-        SchoolYear term2012_2013 = new SchoolYear("2012-2013");
-        SchoolYear term2013_2014 = new SchoolYear("2013-2014");
-        SchoolYear term2014_2015 = new SchoolYear("2014-2015");
+        Term term2012_2013 = new Term("2012-2013");
+        Term term2013_2014 = new Term("2013-2014");
+        Term term2014_2015 = new Term("2014-2015");
 
         entityManager.persist(term2012_2013);
         entityManager.persist(term2013_2014);
         entityManager.persist(term2014_2015);
 
 
-        SchoolClassYearAggregation schoolClassYearAggregation1 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation1.setClazz(classicGroup);
-        schoolClassYearAggregation1.setYear(term2012_2013);
+        ChildGroup childGroup1 = new ChildGroup();
+        childGroup1.setClassroom(classicGroup);
+        childGroup1.setTerm(term2012_2013);
 
-        SchoolClassYearAggregation schoolClassYearAggregation2 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation2.setClazz(classicGroup);
-        schoolClassYearAggregation2.setYear(term2013_2014);
+        ChildGroup childGroup2 = new ChildGroup();
+        childGroup2.setClassroom(classicGroup);
+        childGroup2.setTerm(term2013_2014);
 
-        SchoolClassYearAggregation schoolClassYearAggregation3 = new SchoolClassYearAggregation();
-        schoolClassYearAggregation3.setClazz(classicGroup);
-        schoolClassYearAggregation3.setYear(term2014_2015);
+        ChildGroup childGroup3 = new ChildGroup();
+        childGroup3.setClassroom(classicGroup);
+        childGroup3.setTerm(term2014_2015);
 
-        entityManager.persist(schoolClassYearAggregation1);
-        entityManager.persist(schoolClassYearAggregation2);
-        entityManager.persist(schoolClassYearAggregation3);
+        entityManager.persist(childGroup1);
+        entityManager.persist(childGroup2);
+        entityManager.persist(childGroup3);
 
         entityManager.flush();
     }
 
     @Override
-    public List<SchoolTreeElement> fetchSchoolTreeElements() {
-        String schools = "select new fraglab.registry.school.SchoolTreeElement(s.id, s.name) " +
-                "from School s " +
-                "order by s.name";
-        List<SchoolTreeElement> schoolNodes = (List<SchoolTreeElement>) entityManager.createQuery(schools).getResultList();
+    public List<TreeElement> fetchSchoolTreeElements() {
+        String schools = "select new fraglab.registry.school.TreeElement(s.id, s.name) from School s order by s.name";
+        List<TreeElement> schoolNodes = (List<TreeElement>) entityManager.createQuery(schools).getResultList();
 
-        String classes = "select new fraglab.registry.school.SchoolTreeElement(c.id, c.label, s.id) " +
-                "from SchoolClass c join c.school s " +
-                "order by c.label";
-        List<SchoolTreeElement> classNodes = (List<SchoolTreeElement>) entityManager.createQuery(classes).getResultList();
+        String classrooms = "select new fraglab.registry.school.TreeElement(cr.id, cr.name, s.id) " +
+                "from Classroom cr join cr.school s order by cr.name";
+        List<TreeElement> classroomNodes = (List<TreeElement>) entityManager.createQuery(classrooms).getResultList();
 
-        String years = "select new fraglab.registry.school.SchoolTreeElement(a.id, y.label, c.id) " +
-                "from SchoolClassYearAggregation a join a.year y join a.clazz c " +
-                "order by y.label";
-        List<SchoolTreeElement> yearNodes = (List<SchoolTreeElement>) entityManager.createQuery(years).getResultList();
+        String terms = "select new fraglab.registry.school.TreeElement(cg.id, t.name, cr.id) " +
+                "from ChildGroup cg join cg.term t join cg.classroom cr order by t.name";
+        List<TreeElement> termNodes = (List<TreeElement>) entityManager.createQuery(terms).getResultList();
 
-        for (SchoolTreeElement schoolNode : schoolNodes) {
-            schoolNode.setType(SchoolTreeElement.Type.SCHOOL);
-            System.out.println(schoolNode.getLabel());
-            for (SchoolTreeElement classNode : classNodes) {
-                classNode.setType(SchoolTreeElement.Type.CLASS);
-                if (classNode.getParentId().equals(schoolNode.getId())) {
-                    schoolNode.addChild(classNode);
-                    System.out.println("\t" + classNode.getLabel());
-                    for (SchoolTreeElement yearNode : yearNodes) {
-                        yearNode.setType(SchoolTreeElement.Type.YEAR);
-                        if (yearNode.getParentId().equals(classNode.getId())) {
-                            classNode.addChild(yearNode);
-                            System.out.println("\t\t" + yearNode.getLabel());
+        for (TreeElement schoolNode : schoolNodes) {
+            schoolNode.setType(TreeElement.Type.SCHOOL);
+            System.out.println(schoolNode.getName());
+            for (TreeElement classroomNode : classroomNodes) {
+                classroomNode.setType(TreeElement.Type.CLASSROOM);
+                if (classroomNode.getParentId().equals(schoolNode.getId())) {
+                    schoolNode.addChild(classroomNode);
+                    System.out.println("\t" + classroomNode.getName());
+                    for (TreeElement termNode : termNodes) {
+                        termNode.setType(TreeElement.Type.TERM);
+                        if (termNode.getParentId().equals(classroomNode.getId())) {
+                            classroomNode.addChild(termNode);
+                            System.out.println("\t\t" + termNode.getName());
                         }
                     }
                 }
@@ -115,30 +111,30 @@ public class SchoolDaoImpl implements SchoolDao {
     }
 
     @Override
-    public List<SchoolClass> fetchClassesForSchool(String id) {
+    public List<Classroom> fetchClassroomsForSchool(String id) {
         LOG.debug("Fetching all classes for school [{}]", id);
-        Query query = entityManager.createQuery("select c from SchoolClass c where c.school.id=:schoolId");
+        Query query = entityManager.createQuery("select crfrom Classroom cr where cr.school.id=:schoolId");
         query.setParameter("schoolId", id);
         return query.getResultList();
     }
 
     @Override
-    public void updateClassForSchool(String id, SchoolClass schoolClass) {
-        LOG.debug("Updating school [{}]: Adding class [{}].", id, schoolClass.getId());
+    public void updateClassroomForSchool(String id, Classroom classroom) {
+        LOG.debug("Updating school [{}]: Adding class [{}].", id, classroom.getId());
         School school = entityManager.find(School.class, id);
-        school.addClass(schoolClass);
+        school.addClassroom(classroom);
         entityManager.merge(school);
     }
 
     @Override
-    public List<SchoolYear> fetchYears() {
-        LOG.debug("Fetching all school terms");
-        Query query = entityManager.createQuery("select t from SchoolYear t order by label");
+    public List<Term> fetchTerms() {
+        LOG.debug("Fetching all terms");
+        Query query = entityManager.createQuery("select t from Term t order by label");
         return query.getResultList();
     }
 
     @Override
-    public void updateYear(SchoolYear year) {
+    public void updateTerm(Term year) {
         entityManager.merge(year);
     }
 

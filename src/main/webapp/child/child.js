@@ -16,7 +16,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 templateUrl: 'child/view.html',
                 controller: 'updateChildController'
             })
-            .when('/child/class/:yearClassId/list', {
+            .when('/child/class/:childGroupId/list', {
                 templateUrl: 'child/list.html',
                 controller: 'listChildController'
             })
@@ -24,7 +24,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
 
     .factory('Child', ['$resource', function($resource) {
         return $resource('api/child/:id', { }, {
-            yearClass: {method: 'GET', url: 'api/child/class/:yearClassId', isArray: true},
+            group: {method: 'GET', url: 'api/child/group/:childGroupId', isArray: true},
             save: {method: 'PUT', url: 'api/child'},
             saveWithAddress: {method: 'PUT', url: 'api/child/address'}
         });
@@ -38,7 +38,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
         function ($scope, $routeParams, Child, ChildService) {
             angular.extend($scope, {
                 data: {
-                    children: Child.yearClass({yearClassId: $routeParams.yearClassId})
+                    children: Child.group({childGroupId: $routeParams.childGroupId})
                 },
                 viewData: {
                     noChildren: true
