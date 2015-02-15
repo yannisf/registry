@@ -20,15 +20,6 @@ public class SchoolDaoImpl implements SchoolDao {
     protected EntityManager entityManager;
 
     @Override
-    public SchoolData fetchSchoolData(String childGroupId) {
-        String years = "select new fraglab.registry.school.SchoolData(cg.id, s.name, cr.name, t.name) " +
-                "from ChildGroup cg join cg.term t join cg.classroom cr join cg.classroom.school s " +
-                "where cg.id=:childGrouId order by t.name";
-
-        return (SchoolData) entityManager.createQuery(years).setParameter("childGrouId", childGroupId).getSingleResult();
-    }
-
-    @Override
     public void init() {
         School kindergarten22 = new School("22ο Νέας Ιωνίας");
         Classroom classicGroup = new Classroom("Κλασσικό");
@@ -64,6 +55,15 @@ public class SchoolDaoImpl implements SchoolDao {
     }
 
     @Override
+    public SchoolData fetchSchoolData(String childGroupId) {
+        String schoolDataQuery = "select new fraglab.registry.school.SchoolData(cg.id, s.name, cr.name, t.name) " +
+                "from ChildGroup cg join cg.term t join cg.classroom cr join cg.classroom.school s " +
+                "where cg.id=:childGrouId order by t.name";
+
+        return (SchoolData) entityManager.createQuery(schoolDataQuery).setParameter("childGrouId", childGroupId).getSingleResult();
+    }
+
+    @Override
     public List<TreeElement> fetchSchoolTreeElements() {
         List<TreeElement> schoolNodes = getSchoolNodes();
         List<TreeElement> classroomNodes = getClassroomNodes();
@@ -71,17 +71,14 @@ public class SchoolDaoImpl implements SchoolDao {
 
         for (TreeElement schoolNode : schoolNodes) {
             schoolNode.setType(TreeElement.Type.SCHOOL);
-            System.out.println(schoolNode.getName());
             for (TreeElement classroomNode : classroomNodes) {
                 classroomNode.setType(TreeElement.Type.CLASSROOM);
                 if (classroomNode.getParentId().equals(schoolNode.getId())) {
                     schoolNode.addChild(classroomNode);
-                    System.out.println("\t" + classroomNode.getName());
                     for (TreeElement termNode : termNodes) {
                         termNode.setType(TreeElement.Type.TERM);
                         if (termNode.getParentId().equals(classroomNode.getId())) {
                             classroomNode.addChild(termNode);
-                            System.out.println("\t\t" + termNode.getName());
                         }
                     }
                 }
@@ -111,46 +108,6 @@ public class SchoolDaoImpl implements SchoolDao {
     private List<TreeElement> getNodes(String query) {
         TypedQuery<TreeElement> termsQuery = entityManager.createQuery(query, TreeElement.class);
         return termsQuery.getResultList();
-    }
-
-    @Override
-    public List<School> fetchSchools() {
-        LOG.debug("Fetching all schools");
-        TypedQuery<School> query = entityManager.createQuery("select s from School s", School.class);
-        return query.getResultList();
-    }
-
-    @Override
-    public void updateSchool(School school) {
-        entityManager.merge(school);
-    }
-
-    @Override
-    public List<Classroom> fetchClassroomsForSchool(String id) {
-        LOG.debug("Fetching all classes for school [{}]", id);
-        TypedQuery<Classroom> query = entityManager.createQuery("select cr from Classroom cr where cr.school.id=:schoolId", Classroom.class);
-        query.setParameter("schoolId", id);
-        return query.getResultList();
-    }
-
-    @Override
-    public void updateClassroomForSchool(String id, Classroom classroom) {
-        LOG.debug("Updating school [{}]: Adding class [{}].", id, classroom.getId());
-        School school = entityManager.find(School.class, id);
-        school.addClassroom(classroom);
-        entityManager.merge(school);
-    }
-
-    @Override
-    public List<Term> fetchTerms() {
-        LOG.debug("Fetching all terms");
-        TypedQuery<Term> query = entityManager.createQuery("select t from Term t order by name", Term.class);
-        return query.getResultList();
-    }
-
-    @Override
-    public void updateTerm(Term year) {
-        entityManager.merge(year);
     }
 
 }

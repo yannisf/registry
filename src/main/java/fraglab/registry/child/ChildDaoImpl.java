@@ -17,24 +17,17 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, String> implements Child
     private static final Logger LOG = LoggerFactory.getLogger(ChildDaoImpl.class);
 
     @Override
-    @SuppressWarnings("unchecked")
-    public List<Child> fetchAll() {
-        LOG.debug("Fetching all Child(ren)");
-        Query query = entityManager.createQuery("select c from Child c order by c.level desc, c.genre desc, c.lastName");
-        return query.getResultList();
-    }
-
-    @Override
     public List<Child> fetchClassroom(String id) {
-        LOG.debug("Fetching Children for class {}", id);
-        TypedQuery<Child> query = entityManager.createQuery("select c from Child c where c.childGroup.id = :childGroupId " +
-                "order by c.level desc, c.genre desc, c.lastName", Child.class)
+        LOG.debug("Fetching Children for Classroom [{}]", id);
+        String childQuery = "select c from Child c where c.childGroup.id = :childGroupId order by c.level desc, c.genre desc, c.lastName";
+        TypedQuery<Child> query = entityManager.createQuery(childQuery, Child.class)
                 .setParameter("childGroupId", id);
         return query.getResultList();
     }
 
     @Override
     public void delete(Child child) {
+        LOG.debug("Deleting Child [{}]", child.getId());
         Query deleteChildRelationships = entityManager.createQuery("delete from Relationship r where r.childId=:childId");
         deleteChildRelationships.setParameter("childId", child.getId());
         int relationshipsToDelete = deleteChildRelationships.executeUpdate();

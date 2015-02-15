@@ -8,7 +8,7 @@
     <style type="text/css">
         body {
         font-family: Open Sans, sans-serif;
-        font-size: 6pt;
+        font-size: 8pt;
         }
 
         table {
@@ -21,49 +21,146 @@
         border: thin solid black;
         }
 
-        tbody {
+        td {
+        vertical-align: top;
+        }
+
+        th {
+        text-align: center;
+        font-size: 10pt;
+        }
+
+        tr {
         page-break-inside: avoid;
+        }
+
+        ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        }
+
+        li:nth-child(even) {
+        background: #cdcdcd;
+        }
+
+        .col1 {
+        width: 3%;
+        }
+
+        .col2 {
+        width: 17%;
+        }
+
+        .col3 {
+        width: 60%;
+        }
+
+        .col4 {
+        width: 20%;
+        }
+
+
+        .name {
+        vertical-align: middle;
+        text-align: center;
+        font-weight: bold;
+        }
+
+        img.school {
+        width:12px;
+        height: 12px;
+        vertical-align: text-bottom;
+        }
+
+        #header {
+        position: running(header);
+        font-size: 12pt;
+        font-style: italic;
+        }
+
+        #footer {
+        position: running(footer );
+        font-size: 10pt;
+        }
+
+        #pagenumber:before {
+        content: counter(page);
+        }
+
+        #pagecount:before {
+        content: counter(pages);
         }
 
         @page {
         size: A4 landscape;
-        margin-top: 1.00cm;
-        margin-bottom: 1.00cm;
+        margin-top: 2.00cm;
+        margin-bottom: 2.00cm;
+        @top-center {
+        content: element(header)
         }
+        @bottom-right {
+        content: element(footer)
+        }
+        }
+
     </style>
 </head>
 
 <body>
+
+<div id="header">
+    <div style="float: left">
+        <span>22<sup style="font-size: x-small">o</sup> Νηπιαγωγείο Νέας Ιωνίας </span><br/>
+        <span>Κλασσικό Τμήμα</span>
+    </div>
+
+
+    <div style="float: right">
+        <span>Τάξη 2014-2015</span>
+    </div>
+
+</div>
+
+<div id="footer">
+    <div style="float: right">
+        <span id="pagenumber"></span>/<span id="pagecount"></span>
+    </div>
+</div>
+
+
 <h1>Πίνακας Επικοινωνίας</h1>
 <table>
     <thead>
     <tr>
-        <th style="width: 2%">A/A</th>
-        <th style="width: 18j%">Ονοματεπώνυμο</th>
-        <th style="width: 40%">Επικοινωνία</th>
-        <th style="width: 20%">Αναχώρηση</th>
-        <th style="width: 20%">Παρατηρήσεις</th>
+        <th class="col1">A/A</th>
+        <th class="col2">Ονοματεπώνυμο</th>
+        <th class="col3">Επικοινωνία</th>
+        <th class="col4">Παρατηρήσεις</th>
     </tr>
     </thead>
 
     <tbody>
+    #foreach ($child in $children)
     <tr>
-        <td>00</td>
-        <td>Κάποιος Κάποιου</td>
+        <th>$foreach.count</th>
+        <td class="name">${child.name}</td>
         <td>
-            Πατέρας Κάποιου <strong>ΠΤ</strong>/ <strong>Σ </strong>2102525487 / Κ:6985874872 / Δ:21548946 <br/>
-            MΤ:Μητέρα Κάποιου / <strong>Σ </strong>2102525487 / Κ:6985874872 / Δ:21548946 <br/>
-            ΠΠ:Παπούς Κάποιου / <strong>Σ </strong>2102525487 / Κ:6985874872 / Δ:21548946 <br/>
-            ΓΓ:Γιαγιά Κάποιου / <strong>Σ </strong>2102525487 / Κ:6985874872 / Δ:21548946 <br/>
+            <ul>
+                #foreach ($guardian in $child.guardians)
+                <li>
+                    #if ($guardian.pickup) <img src="${school}" class="school"/> #end
+                    ${guardian.name} <strong style="font-size:5pt">${guardian.relationship}</strong> |
+                    #foreach ($telephone in $guardian.telephones)
+                    <strong>$telephone.type</strong>:$telephone.number |
+                    #end
+                </li>
+                #end
+            </ul>
         </td>
-        <td>
-            ΠΤ:Πατέρας Κάποιου<br/>
-            MΤ:Μητέρα Κάποιου<br/>
-            ΠΠ:Παπούς Κάποιου<br/>
-            ΓΓ:Γιαγιά Κάποιου<br/>
-        </td>
-        <td>Ελεύθερο κείμενο</td>
+        <td>${child.remarks}</td>
     </tr>
+    #end
     </tbody>
 </table>
 </body>

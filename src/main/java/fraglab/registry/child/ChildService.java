@@ -15,7 +15,5 @@ public interface ChildService {
 
     Child fetch(String id) throws NotFoundException;
 
-    List<Child> fetchAll();
-
     List<Child> fetchChildGroup(String id);
 }

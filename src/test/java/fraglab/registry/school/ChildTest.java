@@ -1,10 +1,6 @@
 package fraglab.registry.school;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildService;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
@@ -16,8 +12,6 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 @Test
 @ContextConfiguration(locations = {"file:///home/yannis/development/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
@@ -45,16 +39,6 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
     @AfterClass
     public void tearDown() {
         client.close();
-    }
-
-    @Test
-    public void index() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Child> children = childService.fetchAll();
-        for (Child child : children) {
-            String jsonChild = mapper.writeValueAsString(child);
-            IndexResponse response = client.prepareIndex("register", "child").setSource(jsonChild).execute().actionGet();
-        }
     }
 
 }

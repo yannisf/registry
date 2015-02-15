@@ -28,11 +28,6 @@ public class ChildController extends BaseRestController {
         childService.update(childWithAddress);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Child> fetchAll() {
-        return childService.fetchAll();
-    }
-
     @RequestMapping(value = "/group/{id}", method = RequestMethod.GET)
     public List<Child> fetchChildGroup(@PathVariable String id) {
         return childService.fetchChildGroup(id);

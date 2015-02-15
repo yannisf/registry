@@ -12,13 +12,8 @@ public class SchoolServiceImpl implements SchoolService {
     private SchoolDao schoolDao;
 
     @Override
-    public List<School> fetchSchools() {
-        return schoolDao.fetchSchools();
-    }
-
-    @Override
-    public SchoolData fetchSchoolData(String yearClassId) {
-        return schoolDao.fetchSchoolData(yearClassId);
+    public void init() {
+        schoolDao.init();
     }
 
     @Override
@@ -27,28 +22,8 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public List<Classroom> fetchClassroomsForSchool(String id) {
-        return schoolDao.fetchClassroomsForSchool(id);
-    }
-
-    @Override
-    public void updateSchool(School school) {
-        schoolDao.updateSchool(school);
-    }
-
-    @Override
-    public void updateClassroomForSchool(String id, Classroom classroom) {
-        schoolDao.updateClassroomForSchool(id, classroom);
-    }
-
-    @Override
-    public List<Term> fetchTerms() {
-        return schoolDao.fetchTerms();
-    }
-
-    @Override
-    public void updateTerm(Term year) {
-        schoolDao.updateTerm(year);
+    public SchoolData fetchSchoolData(String yearClassId) {
+        return schoolDao.fetchSchoolData(yearClassId);
     }
 
 }
