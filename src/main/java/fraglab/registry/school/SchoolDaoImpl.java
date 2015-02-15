@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -20,16 +20,16 @@ public class SchoolDaoImpl implements SchoolDao {
     protected EntityManager entityManager;
 
     @Override
-    public SchoolData fetchSchoolData(String childGrouId) {
+    public SchoolData fetchSchoolData(String childGroupId) {
         String years = "select new fraglab.registry.school.SchoolData(cg.id, s.name, cr.name, t.name) " +
                 "from ChildGroup cg join cg.term t join cg.classroom cr join cg.classroom.school s " +
                 "where cg.id=:childGrouId order by t.name";
 
-        return (SchoolData) entityManager.createQuery(years).setParameter("childGrouId", childGrouId).getSingleResult();
+        return (SchoolData) entityManager.createQuery(years).setParameter("childGrouId", childGroupId).getSingleResult();
     }
 
     @Override
-    public void execute() {
+    public void init() {
         School kindergarten22 = new School("22ο Νέας Ιωνίας");
         Classroom classicGroup = new Classroom("Κλασσικό");
         kindergarten22.addClassroom(classicGroup);
@@ -65,16 +65,9 @@ public class SchoolDaoImpl implements SchoolDao {
 
     @Override
     public List<TreeElement> fetchSchoolTreeElements() {
-        String schools = "select new fraglab.registry.school.TreeElement(s.id, s.name) from School s order by s.name";
-        List<TreeElement> schoolNodes = (List<TreeElement>) entityManager.createQuery(schools).getResultList();
-
-        String classrooms = "select new fraglab.registry.school.TreeElement(cr.id, cr.name, s.id) " +
-                "from Classroom cr join cr.school s order by cr.name";
-        List<TreeElement> classroomNodes = (List<TreeElement>) entityManager.createQuery(classrooms).getResultList();
-
-        String terms = "select new fraglab.registry.school.TreeElement(cg.id, t.name, cr.id) " +
-                "from ChildGroup cg join cg.term t join cg.classroom cr order by t.name";
-        List<TreeElement> termNodes = (List<TreeElement>) entityManager.createQuery(terms).getResultList();
+        List<TreeElement> schoolNodes = getSchoolNodes();
+        List<TreeElement> classroomNodes = getClassroomNodes();
+        List<TreeElement> termNodes = getTermNodes();
 
         for (TreeElement schoolNode : schoolNodes) {
             schoolNode.setType(TreeElement.Type.SCHOOL);
@@ -98,10 +91,32 @@ public class SchoolDaoImpl implements SchoolDao {
         return schoolNodes;
     }
 
+    private List<TreeElement> getSchoolNodes() {
+        String schools = "select new fraglab.registry.school.TreeElement(s.id, s.name) from School s order by s.name";
+        return getNodes(schools);
+    }
+
+    private List<TreeElement> getClassroomNodes() {
+        String classrooms = "select new fraglab.registry.school.TreeElement(cr.id, cr.name, s.id) " +
+                "from Classroom cr join cr.school s order by cr.name";
+        return getNodes(classrooms);
+    }
+
+    private List<TreeElement> getTermNodes() {
+        String terms = "select new fraglab.registry.school.TreeElement(cg.id, t.name, cr.id) " +
+                "from ChildGroup cg join cg.term t join cg.classroom cr order by t.name";
+        return getNodes(terms);
+    }
+
+    private List<TreeElement> getNodes(String query) {
+        TypedQuery<TreeElement> termsQuery = entityManager.createQuery(query, TreeElement.class);
+        return termsQuery.getResultList();
+    }
+
     @Override
     public List<School> fetchSchools() {
         LOG.debug("Fetching all schools");
-        Query query = entityManager.createQuery("select s from School s");
+        TypedQuery<School> query = entityManager.createQuery("select s from School s", School.class);
         return query.getResultList();
     }
 
@@ -113,7 +128,7 @@ public class SchoolDaoImpl implements SchoolDao {
     @Override
     public List<Classroom> fetchClassroomsForSchool(String id) {
         LOG.debug("Fetching all classes for school [{}]", id);
-        Query query = entityManager.createQuery("select crfrom Classroom cr where cr.school.id=:schoolId");
+        TypedQuery<Classroom> query = entityManager.createQuery("select cr from Classroom cr where cr.school.id=:schoolId", Classroom.class);
         query.setParameter("schoolId", id);
         return query.getResultList();
     }
@@ -129,7 +144,7 @@ public class SchoolDaoImpl implements SchoolDao {
     @Override
     public List<Term> fetchTerms() {
         LOG.debug("Fetching all terms");
-        Query query = entityManager.createQuery("select t from Term t order by label");
+        TypedQuery<Term> query = entityManager.createQuery("select t from Term t order by name", Term.class);
         return query.getResultList();
     }
 

@@ -25,7 +25,7 @@ public class ChildReportSmallTagNamesPdfView extends AbstractChildReport {
                                     HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
 
         super.buildPdfDocument(stringObjectMap, document, pdfWriter, httpServletRequest, httpServletResponse);
-        Font font = FontFactory.getFont("/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 16.0f, Font.NORMAL);
+        Font font = FontFactory.getFont("/fonts/DidactGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 16.0f, Font.NORMAL);
         @SuppressWarnings(value = "unchecked")
         List<Child> children = (List<Child>) stringObjectMap.get("children");
         Table table = getTable();

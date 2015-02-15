@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface SchoolDao {
 
-    SchoolData fetchSchoolData(String yearClassId);
+    SchoolData fetchSchoolData(String childGroupId);
 
-    void execute();
+    void init();
 
     List<TreeElement> fetchSchoolTreeElements();
 

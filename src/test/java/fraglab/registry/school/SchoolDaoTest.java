@@ -14,7 +14,7 @@ public class SchoolDaoTest extends AbstractTransactionalTestNGSpringContextTests
 
     @Test
     public void test() {
-        schoolDao.execute();
+        schoolDao.init();
     }
 
 }

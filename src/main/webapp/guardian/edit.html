@@ -119,27 +119,34 @@
         </legend>
 
         <div ng-repeat="telephone in data.guardian.telephones">
-            <input type="hidden" ng-model="telephone.id">
 
-            <div class="form-group">
-                <label for="telephoneNumber" class="col-sm-2 control-label">Τηλέφωνο {{$index + 1}}</label>
+            <div class="row">
 
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number"
-                           ui-mask="{{'999 99 99 999'}}"/>
+                <input type="hidden" ng-model="telephone.id">
+
+                <div class="form-group">
+                    <label for="telephoneNumber" class="col-sm-2 control-label">Τηλέφωνο {{$index + 1}}</label>
+
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number"
+                               ui-mask="{{'999 99 99 999'}}"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="telephoneType" ng-model="telephone.type"
+                                ng-options="type|telephoneTypeFilter for type in telephoneTypes">
+                            <option value="">--</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn-remove" ng-click="removeTelephone($index)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+
                 </div>
-                <div class="col-sm-2">
-                    <select class="form-control" id="telephoneType" ng-model="telephone.type"
-                            ng-options="type|telephoneTypeFilter for type in telephoneTypes">
-                        <option value="">--</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">
-                    <button class="btn btn-xs" ng-click="removeTelephone($index)">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                </div>
+
             </div>
+
         </div>
     </fieldset>
 

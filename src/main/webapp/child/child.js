@@ -67,7 +67,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 data: {
                     child: {
                         id: uuid4.generate(),
-                        yearClassId: SchoolService.yearClassId
+                        childGroupId: SchoolService.childGroupId
                     },
                     address: {
                         id: uuid4.generate()

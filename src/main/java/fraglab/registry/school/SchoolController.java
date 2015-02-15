@@ -18,7 +18,7 @@ public class SchoolController {
 
     @RequestMapping(value = "/init", method = RequestMethod.POST)
     public void post() {
-        schoolDao.execute();
+        schoolDao.init();
     }
 
     @RequestMapping(method = RequestMethod.GET)

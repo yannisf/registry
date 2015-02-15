@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, String> implements Child
     @Override
     public List<Child> fetchClassroom(String id) {
         LOG.debug("Fetching Children for class {}", id);
-        Query query = entityManager.createQuery("select c from Child c where c.childGroup.id = :childGroupId " +
-                "order by c.level desc, c.genre desc, c.lastName")
+        TypedQuery<Child> query = entityManager.createQuery("select c from Child c where c.childGroup.id = :childGroupId " +
+                "order by c.level desc, c.genre desc, c.lastName", Child.class)
                 .setParameter("childGroupId", id);
         return query.getResultList();
     }

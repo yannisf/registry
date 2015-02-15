@@ -7,16 +7,16 @@ public class SchoolData implements Serializable {
     private String id;
     private String school;
     private String classroom;
-    private String year;
+    private String term;
 
     public SchoolData() {
     }
 
-    public SchoolData(String id, String school, String classroom, String year) {
+    public SchoolData(String id, String school, String classroom, String term) {
         this.id = id;
         this.school = school;
         this.classroom = classroom;
-        this.year = year;
+        this.term = term;
     }
 
     public String getId() {
@@ -43,12 +43,12 @@ public class SchoolData implements Serializable {
         this.classroom = classroom;
     }
 
-    public String getYear() {
-        return year;
+    public String getTerm() {
+        return term;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setTerm(String term) {
+        this.term = term;
     }
 
 }

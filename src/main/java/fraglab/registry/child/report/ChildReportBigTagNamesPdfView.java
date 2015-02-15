@@ -15,10 +15,10 @@ import java.util.Map;
 public class ChildReportBigTagNamesPdfView extends AbstractChildReport {
 
     public static final float BASE_FONT_SIZE = 28.0f;
-    public static final Font BASE_FONT = FontFactory.getFont("/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H,
+    public static final Font BASE_FONT = FontFactory.getFont("/fonts/DidactGothic.ttf", BaseFont.IDENTITY_H,
             BaseFont.EMBEDDED, BASE_FONT_SIZE, Font.NORMAL);
     public static final float SMALLER_FONT_SIZE = 24.0f;
-    public static final Font SMALLER_FONT = FontFactory.getFont("/fonts/DejaVuSans.ttf", BaseFont.IDENTITY_H,
+    public static final Font SMALLER_FONT = FontFactory.getFont("/fonts/DidactGothic.ttf", BaseFont.IDENTITY_H,
             BaseFont.EMBEDDED, SMALLER_FONT_SIZE, Font.NORMAL);
 
     @Override
