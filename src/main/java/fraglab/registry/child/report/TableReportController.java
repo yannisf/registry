@@ -4,6 +4,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.relationship.Relationship;
+import fraglab.registry.school.SchoolData;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -38,6 +39,7 @@ public class TableReportController {
     public void table(HttpServletResponse response) throws IOException, DocumentException {
         Template template = velocityEngine.getTemplate("/templates/template.html", "UTF-8");
         VelocityContext context = new VelocityContext();
+        context.put("schoolData", createSchoolData());
         context.put("children", createChildList());
         context.put("phoneTypeMap", getLocalizedTelephoneTypeMap());
         context.put("relationshipTypeMap", getLocalizedRelationshipTypeMap());
@@ -83,16 +85,16 @@ public class TableReportController {
     List<Child> createChildList() {
         List<Child> children = new ArrayList<>();
 
-        Child child1 = new Child("Manolis Mitsias");
-        Guardian guardian1 = new Guardian("Andreas Mitsias", Relationship.Type.FATHER, false);
+        Child child1 = new Child("Γιώργος Παπαδόπουλος");
+        Guardian guardian1 = new Guardian("Δημήτρα Παπαδοπούλου", Relationship.Type.MOTHER, false);
         guardian1.addTelephone("2104545879", Telephone.Type.HOME);
         guardian1.addTelephone("6904545879", Telephone.Type.MOBILE);
-        Guardian guardian2 = new Guardian("Maria Mitsias", Relationship.Type.MOTHER, true);
+        Guardian guardian2 = new Guardian("Σπύρος Παπαδόπουλος", Relationship.Type.FATHER, true);
         guardian2.addTelephone("2104545879", Telephone.Type.HOME);
         guardian2.addTelephone("6984545879", Telephone.Type.MOBILE);
         child1.addGuardian(guardian1);
         child1.addGuardian(guardian2);
-        child1.setRemarks("Some remarks");
+        child1.setRemarks("");
         children.add(child1);
         children.add(child1);
         children.add(child1);
@@ -102,6 +104,14 @@ public class TableReportController {
         children.add(child1);
         children.add(child1);
         return children;
+    }
+
+    SchoolData createSchoolData() {
+        SchoolData schoolData = new SchoolData();
+        schoolData.setSchool("22ο Νηπιαγωγείο Νέας Ιωνίας");
+        schoolData.setClassroom("Κλασσικό");
+        schoolData.setTerm("2014-2015");
+        return schoolData;
     }
 
 }
