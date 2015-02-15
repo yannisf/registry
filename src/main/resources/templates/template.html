@@ -150,9 +150,10 @@
                 #foreach ($guardian in $child.guardians)
                 <li>
                     #if ($guardian.pickup) <img src="${school}" class="school"/> #end
-                    ${guardian.name} <strong style="font-size:5pt">${guardian.relationship}</strong> |
+                    ${guardian.name} <strong
+                        style="font-size:5pt">${relationshipTypeMap[${guardian.relationship}]}</strong> |
                     #foreach ($telephone in $guardian.telephones)
-                    <strong>$telephone.type</strong>:$telephone.number |
+                    <strong>${phoneTypeMap[${telephone.type}]}</strong>: $telephone.number |
                     #end
                 </li>
                 #end

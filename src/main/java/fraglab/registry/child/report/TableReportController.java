@@ -2,6 +2,8 @@ package fraglab.registry.child.report;
 
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
+import fraglab.registry.common.Telephone;
+import fraglab.registry.relationship.Relationship;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -15,9 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @RestController()
 @RequestMapping("/table")
@@ -39,6 +39,8 @@ public class TableReportController {
         Template template = velocityEngine.getTemplate("/templates/template.html", "UTF-8");
         VelocityContext context = new VelocityContext();
         context.put("children", createChildList());
+        context.put("phoneTypeMap", getLocalizedTelephoneTypeMap());
+        context.put("relationshipTypeMap", getLocalizedRelationshipTypeMap());
         context.put("school", getClass().getResource("/templates/school.png"));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
@@ -58,16 +60,36 @@ public class TableReportController {
         return renderer;
     }
 
+    Map<Telephone.Type, String> getLocalizedTelephoneTypeMap() {
+        Map<Telephone.Type, String> map = new HashMap<>();
+        map.put(Telephone.Type.HOME, "ΣΠΙΤΙ");
+        map.put(Telephone.Type.MOBILE, "KINΗΤΟ");
+        map.put(Telephone.Type.WORK, "ΔΟΥΛΕΙΑ");
+        map.put(Telephone.Type.OTHER, "ΑΛΛΟ");
+        return map;
+    }
+
+    Map<Relationship.Type, String> getLocalizedRelationshipTypeMap() {
+        Map<Relationship.Type, String> map = new HashMap<>();
+        map.put(Relationship.Type.FATHER, "ΠΑΤΕΡΑΣ");
+        map.put(Relationship.Type.MOTHER, "ΜΗΤΕΡΑ");
+        map.put(Relationship.Type.GRANDFATHER, "ΠΑΠΠΟΥΣ");
+        map.put(Relationship.Type.GRANDMOTHER, "ΓΙΑΓΙΑ");
+        map.put(Relationship.Type.BROTHER, "ΑΔΕΛΦΟΣ");
+        map.put(Relationship.Type.SISTER, "ΑΔΕΛΦΗ");
+        return map;
+    }
+
     List<Child> createChildList() {
         List<Child> children = new ArrayList<>();
 
         Child child1 = new Child("Manolis Mitsias");
-        Guardian guardian1 = new Guardian("Andreas Mitsias", "pateras", false);
-        guardian1.addTelephone("2104545879", "S");
-        guardian1.addTelephone("6904545879", "K");
-        Guardian guardian2 = new Guardian("Maria Mitsias", "mana", true);
-        guardian2.addTelephone("2104545879", "S");
-        guardian2.addTelephone("6984545879", "K");
+        Guardian guardian1 = new Guardian("Andreas Mitsias", Relationship.Type.FATHER, false);
+        guardian1.addTelephone("2104545879", Telephone.Type.HOME);
+        guardian1.addTelephone("6904545879", Telephone.Type.MOBILE);
+        Guardian guardian2 = new Guardian("Maria Mitsias", Relationship.Type.MOTHER, true);
+        guardian2.addTelephone("2104545879", Telephone.Type.HOME);
+        guardian2.addTelephone("6984545879", Telephone.Type.MOBILE);
         child1.addGuardian(guardian1);
         child1.addGuardian(guardian2);
         child1.setRemarks("Some remarks");

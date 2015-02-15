@@ -18,6 +18,14 @@ public class Telephone extends BaseEntity implements Comparable<Telephone> {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    public Telephone() {
+    }
+
+    public Telephone(String number, Type type) {
+        this.number = number;
+        this.type = type;
+    }
+
     public String getNumber() {
         return number;
     }
