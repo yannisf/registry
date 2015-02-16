@@ -113,7 +113,7 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
 
         private String notes;
 
-        private Boolean pickup;
+        private boolean pickup;
 
         public Relationship.Type getType() {
             return type;
@@ -123,11 +123,11 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
             this.type = type;
         }
 
-        public Boolean getPickup() {
+        public boolean getPickup() {
             return pickup;
         }
 
-        public void setPickup(Boolean pickup) {
+        public void setPickup(boolean pickup) {
             this.pickup = pickup;
         }
 

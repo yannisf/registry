@@ -5,10 +5,13 @@ import com.lowagie.text.pdf.BaseFont;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.relationship.Relationship;
 import fraglab.registry.school.SchoolData;
+import fraglab.web.NotFoundException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +27,9 @@ import java.util.*;
 @RequestMapping("/table")
 public class TableReportController {
 
+    @Autowired
+    private ReportService reportService;
+
     private VelocityEngine velocityEngine;
 
     @PostConstruct
@@ -35,12 +41,12 @@ public class TableReportController {
         velocityEngine.init();
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/pdf")
-    public void table(HttpServletResponse response) throws IOException, DocumentException {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/pdf")
+    public void table(@PathVariable String id, HttpServletResponse response) throws IOException, DocumentException, NotFoundException {
         Template template = velocityEngine.getTemplate("/templates/template.html", "UTF-8");
         VelocityContext context = new VelocityContext();
         context.put("schoolData", createSchoolData());
-        context.put("children", createChildList());
+        context.put("children", reportService.getReportChildrenForChildGroup(id));
         context.put("phoneTypeMap", getLocalizedTelephoneTypeMap());
         context.put("relationshipTypeMap", getLocalizedRelationshipTypeMap());
         context.put("school", getClass().getResource("/templates/school.png"));

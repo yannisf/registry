@@ -43,6 +43,10 @@ public class Child extends Person {
         return getCallName() != null ? getCallName() : getFirstName();
     }
 
+    public String getReportName() {
+        return getName() + " " + getLastName();
+    }
+
     public String getChildGroupId() {
         return childGroupId;
     }
