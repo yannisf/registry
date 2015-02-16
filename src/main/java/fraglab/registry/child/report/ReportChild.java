@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Child implements Serializable {
+public class ReportChild implements Serializable {
 
     private String name;
-    private List<Guardian> guardians;
-    private String remarks;
+    private String notes;
+    private List<ReportGuardian> guardians;
 
-    public Child() {
+    public ReportChild() {
     }
 
-    public Child(String name) {
+    public ReportChild(String name) {
         this.name = name;
     }
 
@@ -25,23 +25,23 @@ public class Child implements Serializable {
         this.name = name;
     }
 
-    public List<Guardian> getGuardians() {
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public List<ReportGuardian> getGuardians() {
         return guardians;
     }
 
-    public void addGuardian(Guardian guardian) {
+    public void addGuardian(ReportGuardian guardian) {
         if (this.guardians == null) {
             this.guardians = new ArrayList<>();
         }
         this.guardians.add(guardian);
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
     }
 
 }

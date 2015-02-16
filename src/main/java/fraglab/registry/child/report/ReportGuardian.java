@@ -7,17 +7,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Guardian implements Serializable {
+public class ReportGuardian implements Serializable {
 
     private String name;
     private Relationship.Type relationship;
     private boolean pickup;
     private List<Telephone> telephones;
 
-    public Guardian() {
+    public ReportGuardian() {
     }
 
-    public Guardian(String name, Relationship.Type relationship, boolean pickup) {
+    public ReportGuardian(String name, Relationship.Type relationship, boolean pickup) {
         this.name = name;
         this.relationship = relationship;
         this.pickup = pickup;

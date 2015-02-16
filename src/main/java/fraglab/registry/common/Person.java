@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fraglab.json.LocalDateDeserializer;
 import fraglab.json.LocalDateSerializer;
 import fraglab.registry.address.Address;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -47,6 +48,12 @@ public class Person extends BaseEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        String firstName = getFirstName() != null ? getFirstName() : StringUtils.EMPTY;
+        String lastName = getLastName() != null ? getLastName() : StringUtils.EMPTY;
+        return StringUtils.stripToEmpty(firstName + StringUtils.SPACE + lastName);
     }
 
     @JsonSerialize(using = LocalDateSerializer.class)

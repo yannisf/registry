@@ -21,14 +21,14 @@ public class SchoolDaoImpl implements SchoolDao {
 
     @Override
     public void init() {
-        School kindergarten22 = new School("22ο Νέας Ιωνίας");
-        Classroom classicGroup = new Classroom("Κλασσικό");
+        School kindergarten22 = new School("22ο Νηπιαγωγείο Νέας Ιωνίας");
+        Classroom classicGroup = new Classroom("Κλασσικό Τμήμα");
         kindergarten22.addClassroom(classicGroup);
         entityManager.persist(kindergarten22);
 
-        Term term2012_2013 = new Term("2012-2013");
-        Term term2013_2014 = new Term("2013-2014");
-        Term term2014_2015 = new Term("2014-2015");
+        Term term2012_2013 = new Term("2012 - 2013");
+        Term term2013_2014 = new Term("2013 - 2014");
+        Term term2014_2015 = new Term("2014 - 2015");
 
         entityManager.persist(term2012_2013);
         entityManager.persist(term2013_2014);

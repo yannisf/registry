@@ -97,7 +97,15 @@
                         ng-options="relationship|relationshipFilter for relationship in relationshipTypes"/>
                 <option value="">--</option>
                 </select>
+            </div>
         </div>
+
+        <div class="form-group">
+            <label for="escort" class="col-sm-2 control-label">Συνοδός</label>
+
+            <div class="col-sm-3">
+                <input class="form-control" id="escort" ng-model="data.relationship.metadata.pickup" type="checkbox"/>
+            </div>
         </div>
 
         <div class="form-group">
@@ -106,7 +114,7 @@
             <div class="col-sm-3">
                 <textarea rows="3" class="form-control" id="notes"
                           ng-model="data.relationship.metadata.notes"></textarea>
-        </div>
+            </div>
         </div>
     </fieldset>
 

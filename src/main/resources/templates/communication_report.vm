@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Πίνακας Επικοινωνίας</title>
+    <link rel="stylesheet" type="text/css" href="${css}"/>
+</head>
+
+<body>
+
+<div id="header">
+    <div style="float: left">
+        <span>${schoolData.school}</span><br/>
+        <span>${schoolData.classroom}</span>
+    </div>
+
+    <div style="float: right">
+        <span>Τάξη ${schoolData.term}</span>
+    </div>
+
+</div>
+
+<div id="footer">
+    <div style="float: right">
+        <span id="pagenumber"></span>/<span id="pagecount"></span>
+    </div>
+</div>
+
+
+<h1>Πίνακας Επικοινωνίας</h1>
+<table>
+    <thead>
+    <tr>
+        <th class="col1">A/A</th>
+        <th class="col2">Ονοματεπώνυμο</th>
+        <th class="col3">Επικοινωνία</th>
+        <th class="col4">Παρατηρήσεις</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    #foreach ($child in $children)
+    <tr>
+        <th>$foreach.count</th>
+        <td class="name">${child.name}</td>
+        <td>
+            <ul>
+                #foreach ($guardian in $child.guardians)
+                <li>
+                    #if ($guardian.pickup) <img src="${school}" class="school"/> #end
+                    ${guardian.name} <strong style="font-size:5pt">${relationshipTypeMap[${guardian.relationship}]}</strong>
+                    #foreach ($telephone in $guardian.telephones)
+                    |$telephone.number <strong style="font-size:5pt">${phoneTypeMap[${telephone.type}]}</strong>
+                    #end
+                </li>
+                #end
+            </ul>
+        </td>
+        <td>$!{child.notes}</td>
+    </tr>
+    #end
+    </tbody>
+</table>
+</body>
+
+</html>

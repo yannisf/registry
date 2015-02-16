@@ -1,0 +1,97 @@
+body {
+    font-family: Open Sans, sans-serif;
+    font-size: 8pt;
+}
+
+table {
+    width: 100%;
+    border: thin solid black;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: thin solid black;
+}
+
+td {
+    vertical-align: top;
+}
+
+th {
+    text-align: center;
+    font-size: 10pt;
+}
+
+tr {
+    page-break-inside: avoid;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+li:nth-child(even) {
+    background: #cdcdcd;
+}
+
+.col1 {
+    width: 3%;
+}
+
+.col2 {
+    width: 17%;
+}
+
+.col3 {
+    width: 60%;
+}
+
+.col4 {
+    width: 20%;
+}
+
+.name {
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+}
+
+img.school {
+    width:12px;
+    height: 12px;
+    vertical-align: text-bottom;
+}
+
+#header {
+    position: running(header);
+    font-size: 12pt;
+    font-style: italic;
+}
+
+#footer {
+    position: running(footer );
+    font-size: 10pt;
+}
+
+#pagenumber:before {
+    content: counter(page);
+}
+
+#pagecount:before {
+    content: counter(pages);
+}
+
+@page {
+    size: A4 landscape;
+    margin-top: 2.00cm;
+    margin-bottom: 2.00cm;
+    @top-center {
+        content: element(header)
+    }
+
+    @bottom-right {
+        content: element(footer)
+    }
+}

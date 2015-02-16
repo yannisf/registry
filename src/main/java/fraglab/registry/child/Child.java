@@ -3,6 +3,7 @@ package fraglab.registry.child;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.Person;
 import fraglab.registry.school.ChildGroup;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 
@@ -28,6 +29,10 @@ public class Child extends Person {
 
     public void setCallName(String callName) {
         this.callName = callName;
+    }
+
+    public String getInformalFullName() {
+        return StringUtils.stripToEmpty(getName() + StringUtils.SPACE + getLastName());
     }
 
     public PreSchoolLevel getLevel() {

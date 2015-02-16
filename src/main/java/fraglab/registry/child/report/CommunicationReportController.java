@@ -4,13 +4,13 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.relationship.Relationship;
-import fraglab.registry.school.SchoolData;
 import fraglab.web.NotFoundException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,16 +21,22 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @RestController()
-@RequestMapping("/table")
-public class TableReportController {
+@RequestMapping("/communication")
+public class CommunicationReportController {
 
+    private VelocityEngine velocityEngine;
+    
     @Autowired
     private ReportService reportService;
 
-    private VelocityEngine velocityEngine;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     @PostConstruct
     private void initialize() {
@@ -43,20 +49,38 @@ public class TableReportController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/pdf")
     public void table(@PathVariable String id, HttpServletResponse response) throws IOException, DocumentException, NotFoundException {
-        Template template = velocityEngine.getTemplate("/templates/template.html", "UTF-8");
-        VelocityContext context = new VelocityContext();
-        context.put("schoolData", createSchoolData());
+        String content = processTemplate(id);
+        streamReport(response, content);
+    }
+
+    private String processTemplate(String id) throws IOException, NotFoundException {
+        Template template = velocityEngine.getTemplate("/templates/communication_report.vm", "UTF-8");
+        VelocityContext context = createContext();
+        context.put("schoolData", reportService.getSchoolDataForChildGroup(id));
         context.put("children", reportService.getReportChildrenForChildGroup(id));
-        context.put("phoneTypeMap", getLocalizedTelephoneTypeMap());
-        context.put("relationshipTypeMap", getLocalizedRelationshipTypeMap());
-        context.put("school", getClass().getResource("/templates/school.png"));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
-        String content = writer.toString();
+        return writer.toString();
+    }
+
+    private void streamReport(HttpServletResponse response, String content) throws DocumentException, IOException {
         ITextRenderer renderer = getITextRendered();
         renderer.setDocumentFromString(content);
         renderer.layout();
         renderer.createPDF(response.getOutputStream());
+    }
+
+    private VelocityContext createContext() throws IOException {
+        VelocityContext context = new VelocityContext();
+        context.put("css", getClasspathResource("/templates/communication_report.css"));
+        context.put("school", getClasspathResource("/templates/school.png"));
+        context.put("phoneTypeMap", getLocalizedTelephoneTypeMap());
+        context.put("relationshipTypeMap", getLocalizedRelationshipTypeMap());
+        return context;
+    }
+
+    private URL getClasspathResource(String resource) throws IOException {
+        return resourceLoader.getResource("classpath:" + resource).getURL();
     }
 
     private ITextRenderer getITextRendered() throws DocumentException, IOException {
@@ -85,39 +109,12 @@ public class TableReportController {
         map.put(Relationship.Type.GRANDMOTHER, "ΓΙΑΓΙΑ");
         map.put(Relationship.Type.BROTHER, "ΑΔΕΛΦΟΣ");
         map.put(Relationship.Type.SISTER, "ΑΔΕΛΦΗ");
+        map.put(Relationship.Type.UNCLE, "ΘΕΙΟΣ");
+        map.put(Relationship.Type.AUNT, "ΘΕΙΑ");
+        map.put(Relationship.Type.GODFATHER, "ΝΟΝΟΣ");
+        map.put(Relationship.Type.GODMOTHER, "ΝΟΝΑ");
+        map.put(Relationship.Type.OTHER, "ΑΛΛΟΣ");
         return map;
-    }
-
-    List<Child> createChildList() {
-        List<Child> children = new ArrayList<>();
-
-        Child child1 = new Child("Γιώργος Παπαδόπουλος");
-        Guardian guardian1 = new Guardian("Δημήτρα Παπαδοπούλου", Relationship.Type.MOTHER, false);
-        guardian1.addTelephone("2104545879", Telephone.Type.HOME);
-        guardian1.addTelephone("6904545879", Telephone.Type.MOBILE);
-        Guardian guardian2 = new Guardian("Σπύρος Παπαδόπουλος", Relationship.Type.FATHER, true);
-        guardian2.addTelephone("2104545879", Telephone.Type.HOME);
-        guardian2.addTelephone("6984545879", Telephone.Type.MOBILE);
-        child1.addGuardian(guardian1);
-        child1.addGuardian(guardian2);
-        child1.setRemarks("");
-        children.add(child1);
-        children.add(child1);
-        children.add(child1);
-        children.add(child1);
-        children.add(child1);
-        children.add(child1);
-        children.add(child1);
-        children.add(child1);
-        return children;
-    }
-
-    SchoolData createSchoolData() {
-        SchoolData schoolData = new SchoolData();
-        schoolData.setSchool("22ο Νηπιαγωγείο Νέας Ιωνίας");
-        schoolData.setClassroom("Κλασσικό");
-        schoolData.setTerm("2014-2015");
-        return schoolData;
     }
 
 }
