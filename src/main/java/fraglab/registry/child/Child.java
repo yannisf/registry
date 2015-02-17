@@ -13,6 +13,7 @@ public class Child extends Person {
 
     private String callName;
 
+    @Column(name = "PRESCHOOL_LEVEL")
     @Enumerated(EnumType.STRING)
     private PreSchoolLevel level;
 

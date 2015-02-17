@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class Telephone extends BaseEntity implements Comparable<Telephone> {
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "num", nullable = false)
     private String number;
 
     @NotNull
