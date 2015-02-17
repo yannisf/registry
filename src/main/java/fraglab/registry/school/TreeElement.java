@@ -10,6 +10,7 @@ public class TreeElement implements Serializable {
     private String name;
     private String parentId;
     private Type type;
+    private Integer members;
     private List<TreeElement> children;
 
     public TreeElement() {
@@ -23,6 +24,11 @@ public class TreeElement implements Serializable {
     public TreeElement(String id, String name, String parentId) {
         this(id, name);
         this.parentId = parentId;
+    }
+
+    public TreeElement(String id, String name, String parentId, Integer members) {
+        this(id, name, parentId);
+        this.members = members;
     }
 
     public String getId() {
@@ -55,6 +61,14 @@ public class TreeElement implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Integer getMembers() {
+        return members;
+    }
+
+    public void setMembers(Integer members) {
+        this.members = members;
     }
 
     public List<TreeElement> getChildren() {

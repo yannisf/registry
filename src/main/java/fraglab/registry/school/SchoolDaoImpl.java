@@ -56,7 +56,7 @@ public class SchoolDaoImpl implements SchoolDao {
 
     @Override
     public SchoolData fetchSchoolData(String childGroupId) {
-        String schoolDataQuery = "select new fraglab.registry.school.SchoolData(cg.id, s.name, cr.name, t.name) " +
+        String schoolDataQuery = "select new fraglab.registry.school.SchoolData(cg.id, s.name, cr.name, t.name, cg.members) " +
                 "from ChildGroup cg join cg.term t join cg.classroom cr join cg.classroom.school s " +
                 "where cg.id=:childGrouId order by t.name";
 
@@ -100,7 +100,7 @@ public class SchoolDaoImpl implements SchoolDao {
     }
 
     private List<TreeElement> getTermNodes() {
-        String terms = "select new fraglab.registry.school.TreeElement(cg.id, t.name, cr.id) " +
+        String terms = "select new fraglab.registry.school.TreeElement(cg.id, t.name, cr.id, cg.members) " +
                 "from ChildGroup cg join cg.term t join cg.classroom cr order by t.name";
         return getNodes(terms);
     }

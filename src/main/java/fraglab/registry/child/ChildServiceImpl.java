@@ -30,11 +30,13 @@ public class ChildServiceImpl implements ChildService {
         String addressId = child.getAddressId();
         childDao.delete(child);
         addressService.delete(addressId);
+        childDao.updateChildGroupMembers(child.getChildGroupId());
     }
 
     @Override
     public void update(Child child) {
         childDao.update(child);
+        childDao.updateChildGroupMembers(child.getChildGroupId());
     }
 
     @Override
@@ -60,6 +62,5 @@ public class ChildServiceImpl implements ChildService {
     public List<Child> fetchChildGroup(String id) {
         return childDao.fetchClassroom(id);
     }
-
 
 }

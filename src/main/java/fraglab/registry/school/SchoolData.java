@@ -8,15 +8,17 @@ public class SchoolData implements Serializable {
     private String school;
     private String classroom;
     private String term;
+    private Integer members;
 
     public SchoolData() {
     }
 
-    public SchoolData(String id, String school, String classroom, String term) {
+    public SchoolData(String id, String school, String classroom, String term, Integer members) {
         this.id = id;
         this.school = school;
         this.classroom = classroom;
         this.term = term;
+        this.members = members;
     }
 
     public String getId() {
@@ -51,4 +53,11 @@ public class SchoolData implements Serializable {
         this.term = term;
     }
 
+    public Integer getMembers() {
+        return members;
+    }
+
+    public void setMembers(Integer members) {
+        this.members = members;
+    }
 }

@@ -8,7 +8,7 @@
 
 <script type="text/ng-template" id="tree_item_renderer.html">
 
-    <a href ng-click="toChildList(node.id)" ng-if="node.type == 'TERM'">{{node.name}}</a> {{node.numberOfChildren}}
+    <a href ng-click="toChildList(node.id)" ng-if="node.type == 'TERM'">{{node.name}} <span class="badge">{{node.members+200}}</span></a>
 
     <span ng-if="node.type != 'TERM'">{{node.name}}</span>
 

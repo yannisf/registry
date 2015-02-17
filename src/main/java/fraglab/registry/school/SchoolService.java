@@ -8,6 +8,6 @@ public interface SchoolService {
 
     List<TreeElement> fetchSchoolTreeElements();
     
-    SchoolData fetchSchoolData(String yearClassId);
+    SchoolData fetchSchoolData(String childGroupId);
 
 }

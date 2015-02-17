@@ -3,10 +3,7 @@ package fraglab.registry.school;
 import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +19,8 @@ public class ChildGroup extends BaseEntity {
 
     @OneToMany(mappedBy = "childGroup")
     private List<Child> children;
+
+    private Integer members;
 
     public ChildGroup() {
         this.id = UUID.randomUUID().toString();
@@ -49,6 +48,14 @@ public class ChildGroup extends BaseEntity {
 
     public void setChildren(List<Child> children) {
         this.children = children;
+    }
+
+    public Integer getMembers() {
+        return members;
+    }
+
+    public void setMembers(Integer members) {
+        this.members = members;
     }
 
 }

@@ -26,6 +26,15 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, String> implements Child
     }
 
     @Override
+    public void updateChildGroupMembers(String childGroupId) {
+        LOG.debug("Updating members for ChildGroup [{}]", childGroupId);
+        String query = "update ChildGroup cg set cg.members=(" +
+                "select count(c) from Child c where c.childGroup.id=:childGroupId) " +
+                "where cg.id=:childGroupId";
+        entityManager.createQuery(query).setParameter("childGroupId", childGroupId).executeUpdate();
+    }
+
+    @Override
     public void delete(Child child) {
         LOG.debug("Deleting Child [{}]", child.getId());
         Query deleteChildRelationships = entityManager.createQuery("delete from Relationship r where r.childId=:childId");
