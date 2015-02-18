@@ -89,15 +89,18 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <url>jdbc:hsqldb:hsql://localhost/school</url>
-                    <user>SA</user>
-                    <baselineOnMigrate>true</baselineOnMigrate>
+                    <url>jdbc:oracle:thin:@//localhost:1521/xe</url>
+                    <user>REGISTRY</user>
+                    <password>REGISTRY</password>
+                    <schemas>
+                        <schema>REGISTRY</schema>
+                    </schemas>
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>org.hsqldb</groupId>
-                        <artifactId>hsqldb</artifactId>
-                        <version>2.3.2</version>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>11.2.0.2.0</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -230,6 +233,11 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.2.0</version>
         </dependency>
     </dependencies>
 
