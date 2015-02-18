@@ -1,1 +1,0 @@
-alter table child_group add column members_no INTEGER  default 0
