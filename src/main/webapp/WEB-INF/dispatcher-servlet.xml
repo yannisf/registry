@@ -16,10 +16,10 @@
     <bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@//localhost:1521/xe"/>
-        <property name="username" value="REGISTRY"/>
-        <property name="password" value="REGISTRY"/>
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:hsqldb:hsql://localhost/school"/>
+        <property name="username" value="SA"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
