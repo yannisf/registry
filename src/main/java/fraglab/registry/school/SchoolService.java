@@ -10,4 +10,6 @@ public interface SchoolService {
     
     SchoolData fetchSchoolData(String childGroupId);
 
+    ChildGroupStatistics fetchChildGroupStatistics(String childGroupId);
+
 }

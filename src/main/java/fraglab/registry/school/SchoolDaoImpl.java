@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.List;
 
 @Repository
@@ -65,6 +66,7 @@ public class SchoolDaoImpl implements SchoolDao {
 
     @Override
     public List<TreeElement> fetchSchoolTreeElements() {
+        fetchClassroomStatistics("7c02192a-24c4-443e-ba76-dc5945896124");
         List<TreeElement> schoolNodes = getSchoolNodes();
         List<TreeElement> classroomNodes = getClassroomNodes();
         List<TreeElement> termNodes = getTermNodes();
@@ -108,6 +110,28 @@ public class SchoolDaoImpl implements SchoolDao {
     private List<TreeElement> getNodes(String query) {
         TypedQuery<TreeElement> termsQuery = entityManager.createQuery(query, TreeElement.class);
         return termsQuery.getResultList();
+    }
+
+    @Override
+    public ChildGroupStatistics fetchClassroomStatistics(String childGroupId) {
+        String query = "select " +
+                "BOYS.BOYS_NUMBER, " +
+                "GIRLS.GIRLS_NUMBER, " +
+                "PRESCHOOL_LEVEL_A.PRESCHOOL_LEVEL_A_NUMBER, " +
+                "PRESCHOOL_LEVEL_B.PRESCHOOL_LEVEL_B_NUMBER from " +
+                "(select count(*) AS BOYS_NUMBER from person p " +
+                "where p.child_group_id = :childGroupId and p.genre = 'MALE') BOYS, " +
+                "(select count(*) AS GIRLS_NUMBER from person p " +
+                "where p.child_group_id = :childGroupId and p.genre = 'FEMALE') GIRLS, " +
+                "(select count(*) AS PRESCHOOL_LEVEL_A_NUMBER from person p " +
+                "where p.child_group_id = :childGroupId and p.PRESCHOOL_LEVEL = 'PRE_SCHOOL_LEVEL_A') PRESCHOOL_LEVEL_A, " +
+                "(select count(*)AS PRESCHOOL_LEVEL_B_NUMBER from person p " +
+                "where p.child_group_id = :childGroupId and p.PRESCHOOL_LEVEL = 'PRE_SCHOOL_LEVEL_B') PRESCHOOL_LEVEL_B ";
+
+        Object[] result = (Object[]) entityManager.createNativeQuery(query).setParameter("childGroupId", childGroupId).getSingleResult();
+
+        return new ChildGroupStatistics(childGroupId, ((BigInteger) result[0]).intValue(),
+                ((BigInteger) result[1]).intValue(), ((BigInteger) result[2]).intValue(), ((BigInteger) result[3]).intValue());
     }
 
 }

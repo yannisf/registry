@@ -33,4 +33,9 @@ public class SchoolController {
         return schoolService.fetchSchoolData(childGroupId);
     }
 
+    @RequestMapping(value = "/group/{childGroupId}/statistics", method = RequestMethod.GET)
+    public ChildGroupStatistics fetchChildGroupStatistics(@PathVariable String childGroupId) {
+        return schoolService.fetchChildGroupStatistics(childGroupId);
+    }
+
 }

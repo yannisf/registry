@@ -10,4 +10,5 @@ public interface SchoolDao {
 
     List<TreeElement> fetchSchoolTreeElements();
 
+    ChildGroupStatistics fetchClassroomStatistics(String childGroupId);
 }

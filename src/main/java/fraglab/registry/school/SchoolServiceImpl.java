@@ -26,4 +26,9 @@ public class SchoolServiceImpl implements SchoolService {
         return schoolDao.fetchSchoolData(childGroupId);
     }
 
+    @Override
+    public ChildGroupStatistics fetchChildGroupStatistics(String childGroupId) {
+        return schoolDao.fetchClassroomStatistics(childGroupId);
+    }
+
 }
