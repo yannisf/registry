@@ -198,6 +198,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
             angular.extend($rootScope, {
                 scopedSchoolInfo: null,
                 toSchoolList: function() {
+                    $rootScope.scopedSchoolInfo = null;
                     $location.url('/school/list');
                 },
                 toChildList: function (childGroupId) {
