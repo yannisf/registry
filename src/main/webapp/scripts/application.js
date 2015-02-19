@@ -69,6 +69,22 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
             templateUrl: "templates/display-guardian.html"
         };
     })
+    
+    .directive('groupStatistics', function () {
+        return {
+            restrict: 'E',
+            replace: false,
+            scope: {
+                childGroupId: "="
+            },
+            templateUrl: "templates/display-group-statistics.html",
+            link: function(scope, element) {
+                    console.log('scope: ', scope);
+                    console.log('childGroupId: ', scope.childGroupId);
+                    console.log('element: ', element);
+            }
+        }
+    })
 
     .directive('displayChild', ['addressService', function (addressService) {
         return {
