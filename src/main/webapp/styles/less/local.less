@@ -31,6 +31,26 @@ body {
   .label-success;
 }
 
+.child-list-col1 {
+  width: 30%
+}
+
+.child-list-col2 {
+  width: 30%
+}
+
+.child-list-col3 {
+  width: 15%
+}
+
+.child-list-col4 {
+  width: 15%
+}
+
+.child-list-col5 {
+  width: 10%
+}
+
 .btn-remove{
   .btn;
   .btn-danger;
@@ -39,6 +59,7 @@ body {
 
 .info-badge-mixin(@background: @badge-bg) {
 	.badge;
+	color: lighten(@badge-color, 80%);
 	background-color: @background;
 }
 
