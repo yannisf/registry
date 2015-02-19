@@ -1,3 +1,8 @@
+@boy-color: #3399ff;
+@girl-color: #ff33ff;
+@preschool-a-color: #ff8000;
+@preschool-b-color: #66cc00;
+
 body {
     font-family: 'Open Sans', sans-serif;
 }
@@ -30,6 +35,27 @@ body {
   .btn;
   .btn-danger;
   .btn-xs;
+}
+
+.info-badge-mixin(@background: @badge-bg) {
+	.badge;
+	background-color: @background;
+}
+
+.boys-badge {
+	.info-badge-mixin(@boy-color);
+}
+
+.girls-badge {
+	.info-badge-mixin(@girl-color);
+}
+
+.levela-badge {
+	.info-badge-mixin(@preschool-a-color);
+}
+
+.levelb-badge {
+	.info-badge-mixin(@preschool-b-color);
 }
 
 @font-face {

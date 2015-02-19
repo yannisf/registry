@@ -30,6 +30,10 @@
             <td><span class="glyphicon glyphicon-info-sign" ng-if="child.notes" title="{{child.notes}}"></span></td>
         </tr>
     </tbody>
+    <tfoot>
+        <tr colspan="5">
+            <td><group-statistics school-data="scopedSchoolInfo"></group-statistics></td>
+        </tr>
+    </tfoot>
 </table>
 
-<group-statistics childGroupId="scopedSchoolInfo"></group-statistics>

@@ -70,21 +70,21 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     })
     
-    .directive('groupStatistics', function () {
+    .directive('groupStatistics', ['School', function (School) {
         return {
             restrict: 'E',
             replace: false,
             scope: {
-                childGroupId: "="
+                schoolData: "="
             },
             templateUrl: "templates/display-group-statistics.html",
             link: function(scope, element) {
-                    console.log('scope: ', scope);
-                    console.log('childGroupId: ', scope.childGroupId);
-                    console.log('element: ', element);
+            		scope.schoolData.$promise.then(function() {
+                    	scope.statistics = School.statistics({childGroupId: scope.schoolData.id});
+            		})
             }
         }
-    })
+    }])
 
     .directive('displayChild', ['addressService', function (addressService) {
         return {
@@ -219,10 +219,8 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                 },
                 toChildList: function (childGroupId) {
                     if (angular.isDefined(childGroupId)) {
-                        console.log('childGroupId: ', childGroupId)
                         SchoolService.childGroupId = childGroupId;
                         $rootScope.scopedSchoolInfo = SchoolService.info();
-                        console.log('scopedSchoolInfo: ', $rootScope.scopedSchoolInfo)
                     }
                     $location.url('/child/class/' + SchoolService.childGroupId + '/list');
                 },

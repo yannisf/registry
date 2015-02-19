@@ -13,7 +13,8 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
     .factory('School', ['$resource', function($resource) {
         return $resource('api/school', { }, {
             query: {method: 'GET', isArray: true},
-            info: {method: 'GET', url: 'api/school/info/:childGroupId'}
+            info: {method: 'GET', url: 'api/school/info/:childGroupId'},
+            statistics: {method: 'GET', url: 'api/school/group/:childGroupId/statistics'}
         });
     }])
 
