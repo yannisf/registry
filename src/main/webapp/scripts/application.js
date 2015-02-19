@@ -73,7 +73,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
     .directive('groupStatistics', ['School', function (School) {
         return {
             restrict: 'E',
-            replace: false,
+            replace: true,
             scope: {
                 schoolData: "="
             },
