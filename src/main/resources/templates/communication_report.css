@@ -41,11 +41,11 @@ li:nth-child(even) {
 }
 
 .col2 {
-    width: 17%;
+    width: 20%;
 }
 
 .col3 {
-    width: 60%;
+    width: 57%;
 }
 
 .col4 {
@@ -54,8 +54,10 @@ li:nth-child(even) {
 
 .name {
     vertical-align: middle;
-    text-align: center;
+    text-align: left;
+    padding-left: 2pt;
     font-weight: bold;
+    font-size: 10pt;
 }
 
 img.school {
