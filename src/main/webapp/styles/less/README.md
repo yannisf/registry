@@ -1,1 +1,0 @@
-src/main/webapp/styles/less $  lessc --include-path=../../scripts/vendor/bootstrap/less master.less > ../application.css
