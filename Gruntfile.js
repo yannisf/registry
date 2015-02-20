@@ -13,7 +13,7 @@ module.exports = function(grunt) {
   		"scripts/relationship.js",
   		"scripts/address.js",
   		"child/child.js",
-  		"child/groupStatistics.js"
+  		"child/groupStatistics.js",
   		"guardian/guardian.js",
   	];
 
