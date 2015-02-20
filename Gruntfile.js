@@ -18,6 +18,14 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
     	pkg: grunt.file.readJSON("package.json"),
+    	jshint: {
+    		options: {
+    			globals: {
+    				angular: true
+    			}
+    		},
+    		sources: ['src/main/webapp/**/*.js', '!src/main/webapp/scripts/vendor/**']
+    	},
 		copy: {
 			main: {
 				src: 'src/main/webapp/index.tpl.html',
@@ -56,8 +64,9 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-less");
+	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks("grunt-contrib-watch");
 
-	grunt.registerTask("default", ["copy", "less"]);
+	grunt.registerTask("default", ["jshint", "copy", "less"]);
 
 };
