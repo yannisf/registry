@@ -99,21 +99,8 @@
     <div ng-view></div>
 </div>
 
-
-<script type="text/javascript" src="scripts/vendor/angular/angular.js"></script>
-<script type="text/javascript" src="scripts/vendor/angular-route/angular-route.js"></script>
-<script type="text/javascript" src="scripts/vendor/angular-resource/angular-resource.js"></script>
-<script type="text/javascript" src="scripts/vendor/angular-ui-utils/ui-utils.js"></script>
-<script type="text/javascript" src="scripts/vendor/angular-uuid4/angular-uuid4.js"></script>
-<script type="text/javascript" src="scripts/vendor/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-<script type="text/javascript" src="scripts/typeaheads.js"></script>
-<script type="text/javascript" src="scripts/values.js"></script>
-<script type="text/javascript" src="scripts/application.js"></script>
-<script type="text/javascript" src="school/school.js"></script>
-<script type="text/javascript" src="scripts/relationship.js"></script>
-<script type="text/javascript" src="scripts/address.js"></script>
-<script type="text/javascript" src="child/child.js"></script>
-<script type="text/javascript" src="guardian/guardian.js"></script>
+<% scripts.forEach( function ( file ) { %>
+<script type="text/javascript" src="<%= file %>"></script><% }); %>
 
 </body>
 
