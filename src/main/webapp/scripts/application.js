@@ -57,34 +57,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
 		};
 	})
 
-    //TODO: This could be an include
-    .directive('displayGuardian', function () {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                guardian: "=",
-                address: "="
-            },
-            templateUrl: "templates/display-guardian.html"
-        };
-    })
-    
-    .directive('displayChild', ['addressService', function (addressService) {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                child: "=",
-                address: "="
-            },
-            templateUrl: "templates/display-child.html",
-            link: function(scope) {
-                scope.isBlankAddress = addressService.isBlank;
-            }
-        };
-    }])
-
     //TODO: This can be a filter
     .directive('personName', function () {
         return {

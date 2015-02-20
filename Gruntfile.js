@@ -11,10 +11,13 @@ module.exports = function(grunt) {
   		"scripts/application.js",
   		"school/school.js",
   		"scripts/relationship.js",
-  		"scripts/address.js",
+  		"address/address.js",
+  		"address/input-address.js",
   		"child/child.js",
+  		"child/display-child.js",
   		"child/groupStatistics.js",
   		"guardian/guardian.js",
+  		"guardian/display-guardian.js"
   	];
 
 	grunt.initConfig({
