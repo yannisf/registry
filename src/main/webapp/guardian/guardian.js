@@ -59,7 +59,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                     relationship: $scope.data.relationship,
                     guardian: $scope.data.guardian,
                     address: $scope.data.address
-                }
+                };
 
                 Relationship.saveWithGuardianAndAddress({
                     childId: ChildService.child.id,
@@ -71,7 +71,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                     }, function (response) {
                         Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                 });
-            }
+            };
         }])
 
     .controller('updateGuardianController', ['$scope', '$routeParams', 'Flash', 'ChildService', 'Guardian', 'Relationship', 'Address', 'uuid4',
@@ -109,7 +109,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                     relationship: $scope.data.relationship,
                     guardian: $scope.data.guardian,
                     address: $scope.data.address
-                }
+                };
 
                 Relationship.saveWithGuardianAndAddress({
                     childId: ChildService.child.id,
@@ -123,6 +123,6 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                         Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                     }
                 );
-            }
+            };
         }
     ]);

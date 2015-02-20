@@ -43,14 +43,14 @@ angular.module('schoolApp')
                 return formattedAddress;
             },
             isBlank: function (address) {
-                return !(address
-                    && (address.streetName
-                        || address.streetNumber
-                        || address.neighbourhood
-                        || address.postalCode
-                        || address.city));
+                return !(address && (
+                	address.streetName ||
+                	address.streetNumber ||
+                	address.neighbourhood ||
+                	address.postalCode ||
+                	address.city));
             }
-        }
+        };
     }])
 
     .filter('addressFilter', ['addressService', function (addressService) {
@@ -58,7 +58,7 @@ angular.module('schoolApp')
             if (address) {
                 return addressService.format(address);
             }
-        }
+        };
     }])
 
     .directive('inputAddress', ['ChildService', 'Address', 'addressService', 'uuid4',
@@ -96,12 +96,12 @@ angular.module('schoolApp')
                             } else if (originalCommonAddress) {
                                 scope.address = {
                                     id: uuid4.generate()
-                                }
+                                };
                             } else if (originalAddressId) {
                                 if (addressService.isBlank(scope.address)) {
                                     scope.address = {
                                         id: originalAddressId
-                                    }
+                                    };
                                 } else {
                                     scope.address = Address.get({addressId: originalAddressId});
                                 }

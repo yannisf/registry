@@ -13,6 +13,7 @@ module.exports = function(grunt) {
   		"scripts/relationship.js",
   		"scripts/address.js",
   		"child/child.js",
+  		"child/groupStatistics.js"
   		"guardian/guardian.js",
   	];
 
@@ -20,6 +21,7 @@ module.exports = function(grunt) {
     	pkg: grunt.file.readJSON("package.json"),
     	jshint: {
     		options: {
+    			globalstrict: true,
     			globals: {
     				angular: true
     			}

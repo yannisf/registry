@@ -7,7 +7,7 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
             .when('/school/list', {
                 templateUrl: 'school/list.html',
                 controller: 'listSchoolsController'
-            })
+            });
     }])
 
     .factory('School', ['$resource', function($resource) {
@@ -23,10 +23,10 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
             childGroupId: null,
             info: function() {
                 if (angular.isDefined(this.childGroupId)) {
-                    return School.info({childGroupId: this.childGroupId})
+                    return School.info({childGroupId: this.childGroupId});
                 }
             }
-        }
+        };
     }])
 
     .controller('listSchoolsController', ['$scope', 'School', 'SchoolService',

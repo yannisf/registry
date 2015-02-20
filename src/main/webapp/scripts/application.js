@@ -15,37 +15,37 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                 value += " (" + child.callName + ")";
             }
             return value;
-        }
+        };
     }])
 
     .filter('relationshipFilter', ['relationshipMap', function (relationshipMap) {
         return function (value) {
             return relationshipMap[value];
-        }
+        };
     }])
 
     .filter('telephoneTypeFilter', ['telephoneTypeMap', function (telephoneTypeMap) {
         return function (value) {
             return telephoneTypeMap[value];
-        }
+        };
     }])
 
     .filter('childGenreTypeFilter', ['childGenreTypeMap', function (childGenreTypeMap) {
         return function (value) {
             return childGenreTypeMap[value];
-        }
+        };
     }])
 
     .filter('guardianGenreTypeFilter', ['guardianGenreTypeMap', function (guardianGenreTypeMap) {
         return function (value) {
             return guardianGenreTypeMap[value];
-        }
+        };
     }])
 
     .filter('preSchoolLevelFilter', ['preSchoolLevelMap', function (preSchoolLevelMap) {
         return function (value) {
             return preSchoolLevelMap[value];
-        }
+        };
     }])
 
 	.directive('focus', function focus(){
@@ -70,22 +70,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     })
     
-    .directive('groupStatistics', ['School', function (School) {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                schoolData: "="
-            },
-            templateUrl: "templates/display-group-statistics.html",
-            link: function(scope, element) {
-            		scope.schoolData.$promise.then(function() {
-                    	scope.statistics = School.statistics({childGroupId: scope.schoolData.id});
-            		})
-            }
-        }
-    }])
-
     .directive('displayChild', ['addressService', function (addressService) {
         return {
             restrict: 'E',

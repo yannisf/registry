@@ -19,7 +19,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             .when('/child/class/:childGroupId/list', {
                 templateUrl: 'child/list.html',
                 controller: 'listChildController'
-            })
+            });
     }])
 
     .factory('Child', ['$resource', function($resource) {
@@ -55,7 +55,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 ChildService.childIds = children.map(function (child) {
                     return child.id;
                 });
-                $scope.viewData.noChildren = children.length == 0;
+                $scope.viewData.noChildren = children.length === 0;
             });
 
         }
@@ -82,7 +82,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 var childWithAddress = {
                     child: $scope.data.child,
                     address: $scope.data.address
-                }
+                };
 
                 Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
                     ChildService.childIds = [];
@@ -92,7 +92,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 }, function (response) {
                     Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                 });
-            }
+            };
         }])
 
     .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Flash', 'Child',
@@ -121,7 +121,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 var childWithAddress = {
                     child: $scope.data.child,
                     address: $scope.data.address
-                }
+                };
 
                 Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
                     ChildService.child = $scope.data.child;
@@ -130,7 +130,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 }, function (response) {
                     Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                 });
-            }
+            };
 
             $scope.addGuardian = function () {
                 $location.path('/guardian/edit');
@@ -177,7 +177,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
                 var numberOfChildren = ChildService.childIds.length;
                 var currentChildId = ChildService.child.id;
                 var currentChildIdIndex = ChildService.childIds.indexOf(currentChildId);
-                if (currentChildIdIndex != 0) {
+                if (currentChildIdIndex !== 0) {
                     result.id = ChildService.childIds[currentChildIdIndex - 1];
                 } else {
                     result.id = ChildService.childIds[numberOfChildren - 1];
