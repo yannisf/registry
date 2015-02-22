@@ -38,10 +38,10 @@
                 <telephone model="relationship.guardian.telephones[0]"></telephone>
             </td>
             <td class="text-right">
-                <button class="btn btn-default btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit', $event)">
+                <button class="btn btn-primary btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit', $event)">
                     <span class="glyphicon glyphicon-edit"></span> Ανανέωση
                 </button>
-                <button class="btn btn-default btn-xs" ng-click="confirmRemoveRelationship(relationship.id, $event)">
+                <button class="btn btn-danger btn-xs" ng-click="confirmRemoveRelationship(relationship.id, $event)">
                     <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
                 </button>
             </td>
@@ -52,7 +52,7 @@
 
 <div style="padding-top: 1em">
     <button class="btn btn-primary btn-md" ng-click="addGuardian()">
-        <span class="glyphicon glyphicon-user"></span> Εισαγωγή κηδεμόνα
+        <span class="glyphicon glyphicon-user"></span> Εισαγωγή κηδεμόνα 
     </button>
     <button class="btn btn-md btn-primary" ng-click="go('/child/' + data.child.id  + '/update')">
         <span class="glyphicon glyphicon-edit"></span> Ανανέωση

@@ -15,7 +15,8 @@ angular.module('schoolApp')
                 link: function (scope) {
 
                     scope.viewData = {
-                        commonAddress: false
+                        commonAddress: false,
+                        isAddressOpen: false
                     };
 
                     if (scope.shareOption) {

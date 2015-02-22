@@ -14,6 +14,8 @@ module.exports = function(grunt) {
   		"address/address.js",
   		"address/input-address.js",
   		"child/child.js",
+  		"child/createChildController.js",
+  		"child/updateChildController.js",
   		"child/display-child.js",
   		"child/groupStatistics.js",
   		"guardian/guardian.js",
@@ -26,7 +28,8 @@ module.exports = function(grunt) {
     		options: {
     			globalstrict: true,
     			globals: {
-    				angular: true
+    				angular: true,
+    				console: true
     			}
     		},
     		sources: ['src/main/webapp/**/*.js', '!src/main/webapp/scripts/vendor/**']
