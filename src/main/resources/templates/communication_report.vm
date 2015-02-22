@@ -6,6 +6,13 @@
 <head>
     <title>Πίνακας Επικοινωνίας</title>
     <link rel="stylesheet" type="text/css" href="${css}"/>
+    #if(${format}=="a3")
+    <style type="text/css">
+        @page {
+            size: A3;
+        }
+    </style>
+    #end
 </head>
 
 <body>

@@ -11,10 +11,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.annotation.PostConstruct;
@@ -48,14 +45,18 @@ public class CommunicationReportController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/pdf")
-    public void table(@PathVariable String id, HttpServletResponse response) throws IOException, DocumentException, NotFoundException {
-        String content = processTemplate(id);
+    public void table(@PathVariable(value = "id") String id,
+                      @RequestParam(defaultValue = "a4", value = "format", required = false) String format,
+                      HttpServletResponse response) 
+            throws IOException, DocumentException, NotFoundException {
+        String content = processTemplate(id, format);
         streamReport(response, content);
     }
 
-    private String processTemplate(String id) throws IOException, NotFoundException {
+    private String processTemplate(String id, String format) throws IOException, NotFoundException {
         Template template = velocityEngine.getTemplate("/templates/communication_report.vm", "UTF-8");
         VelocityContext context = createContext();
+        context.put("format", format);
         context.put("schoolData", reportService.getSchoolDataForChildGroup(id));
         context.put("children", reportService.getReportChildrenForChildGroup(id));
         StringWriter writer = new StringWriter();
