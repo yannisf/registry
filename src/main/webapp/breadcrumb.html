@@ -1,5 +1,6 @@
 <ol class="breadcrumb" ng-if="$root.scopedSchoolInfo">
-    <li>{{$root.scopedSchoolInfo.school}}</li>
-    <li>{{$root.scopedSchoolInfo.classroom}}</li>
-    <li>{{$root.scopedSchoolInfo.term}}</li>
+    <li><a href ng-click="toSchoolList()">{{::$root.scopedSchoolInfo.school}}</a></li>
+    <li><a href ng-click="toSchoolList()">{{::$root.scopedSchoolInfo.classroom}}</a></li>
+    <li><a href ng-click="toChildList()">{{::$root.scopedSchoolInfo.term}}</a></li>
 </ol>
+

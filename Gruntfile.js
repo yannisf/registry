@@ -13,6 +13,8 @@ module.exports = function(grunt) {
   		"scripts/relationship.js",
   		"address/address.js",
   		"address/input-address.js",
+  		"management/management.js",
+  		"management/school-control.js",
   		"child/child.js",
   		"child/createChildController.js",
   		"child/updateChildController.js",

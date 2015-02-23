@@ -1,0 +1,18 @@
+<tr class="clickable"  ng-class="{ 'active': school === viewData.activeSchool}">
+    <td ng-click="setActive(school)">
+        {{school.name}}
+    </td>
+    <td style="text-align: center">
+        <button class="btn btn-xs btn-default">
+            <span class="glyphicon glyphicon-edit"></span>
+        </button>
+        <button class="btn btn-xs btn-success">
+            <span class="glyphicon glyphicon-ok"></span>
+        </button>
+    </td>
+    <td style="text-align: center">
+        <button class="btn btn-xs btn-danger">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </td>
+</tr>
