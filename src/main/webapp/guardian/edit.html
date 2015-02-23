@@ -49,9 +49,9 @@
             <label for="genre" class="col-sm-2 control-label">Φύλο</label>
 
             <div class="col-sm-3">
-                <select class="form-control" id="genre" ng-model="data.guardian.genre"/>
-                <option value="MALE">Άνδρας</option>
-                <option value="FEMALE">Γυναίκα</option>
+                <select class="form-control" id="genre" ng-model="data.guardian.genre">
+                    <option value="MALE">Άνδρας</option>
+                    <option value="FEMALE">Γυναίκα</option>
                 </select>
         </div>
         </div>
@@ -94,7 +94,7 @@
 
             <div class="col-sm-3">
                 <select class="form-control" id="relationship" ng-model="data.relationship.metadata.type"
-                        ng-options="relationship|relationshipFilter for relationship in relationshipTypes"/>
+                        ng-options="relationship|relationshipFilter for relationship in relationshipTypes">
                 <option value="">--</option>
                 </select>
             </div>

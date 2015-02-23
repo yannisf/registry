@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
   	var scripts = [
+  		"scripts/vendor/jquery/dist/jquery.js",
   		"scripts/vendor/angular/angular.js",
   		"scripts/vendor/angular-route/angular-route.js",
   		"scripts/vendor/angular-resource/angular-resource.js",
@@ -15,6 +16,7 @@ module.exports = function(grunt) {
   		"address/input-address.js",
   		"management/management.js",
   		"management/school-control.js",
+  		"management/group-control.js",
   		"child/child.js",
   		"child/createChildController.js",
   		"child/updateChildController.js",

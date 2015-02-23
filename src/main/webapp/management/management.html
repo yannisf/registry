@@ -1,76 +1,79 @@
-<div>
-    <h2>Διαχείρηση σχολείων και τμημάτων</h2>
-    
-    <div class="row">
-        
-        <div class="col-md-5" style="border-right: 1px solid #ccc">
-            
-            <h3>Σχολεία
-                <button class="btn btn-xs btn-primary" ng-click="addSchool()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </h3>
-            
-            <table class="table table-hover">
-                
-                <thead>
-                    <tr>
-                        <th style="width:80%">Όνομα</th>
-                        <th style="width:10%">Ανανέωση</th>
-                        <th style="width:10%">Διαγραφή</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <tr class="clickable"  ng-repeat="school in data.schools" ng-class="{ 'active': school === viewData.activeSchool}">
-                        <td ng-click="setActive(school)">
-                            {{school.name}}
-                        </td>
-                        <td style="text-align: center">
-                            <button class="btn btn-xs btn-default">
-                                <span class="glyphicon glyphicon-edit"></span>
-                            </button>
-                            <button class="btn btn-xs btn-success">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                        </td>
-                        <td style="text-align: center">
-                            <button class="btn btn-xs btn-danger">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                
-            </table>
-        </div>
-        
-        <div class="col-md-4" style="border-right: 1px solid #ccc">
-            
-            <h3>Τμήματα
-                <button class="btn btn-xs btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </h3>
-            
-            <div style="width: 100%; text-align: center; font-style: italic; font-size: larger; padding-top: 2em;">
-                Επιλέξτε πρώτα σχολείο
-            </div>
-            
+<h2>Διαχείρηση σχολείων και τμημάτων</h2>
+
+<div class="row">
+
+    <div class="col-md-5 management-area">
+        <h3>Σχολεία
+            <button class="btn btn-xs btn-primary" ng-click="addSchool()">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </h3>
+
+        <div class="management-msg" ng-if="data.schools.length === 0">
+            Δεν έχει εισαχθεί κανένα σχολείο
         </div>
 
-        <div class="col-md-3">
-            <h3>Χρονιές
-                <button class="btn btn-xs btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            </h3>
-            
-            <div style="width: 100%; text-align: center; font-style: italic; font-size: larger; padding-top: 2em;">
-                Επιλέξτε πρώτα τμήμα
-            </div>
-            
+        <table class="table table-hover" ng-if="data.schools.length > 0">
+            <thead>
+                <tr>
+                    <th class="management-col1">Όνομα</th>
+                    <th class="management-col2">Ανανέωση</th>
+                    <th class="management-col3">Διαγραφή</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="clickable" ng-repeat="school in data.schools"
+                        school-control="school" schools="data.schools" view-data="viewData"
+                        ng-click="setActive(school, $event)"
+                        ng-class="{ 'active': school === viewData.activeSchool}">
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-4 management-area">
+        <h3>Τμήματα
+            <button class="btn btn-xs btn-primary" ng-click="addGroup()" ng-disabled="!viewData.activeSchool">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </h3>
+
+        <div class="management-msg" ng-if="!viewData.activeSchool">
+            Επιλέξτε πρώτα σχολείο
+        </div>
+
+        <div class="management-msg" ng-if="viewData.activeSchool && !activeSchoolHasGroups()">
+            Δεν έχει εισαχθεί κανένα τμήμα
+        </div>
+
+        <table class="table table-hover" ng-if="viewData.activeSchool && activeSchoolHasGroups()">
+            <thead>
+                <tr>
+                    <th class="management-col1">Όνομα</th>
+                    <th class="management-col2">Ανανέωση</th>
+                    <th class="management-col3">Διαγραφή</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="clickable" ng-repeat="group in viewData.activeSchool.groups"
+                    group-control="group" groups="viewData.activeSchool.groups"
+                    ng-click="setActiveGroup(group, $event)"
+                    ng-class="{'active': group === viewData.activeGroup}">
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-3">
+        <h3>Χρονιές
+            <button class="btn btn-xs btn-primary">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </h3>
+
+        <div class="management-msg">
+            Επιλέξτε πρώτα τμήμα
         </div>
     </div>
-    
+
 </div>
