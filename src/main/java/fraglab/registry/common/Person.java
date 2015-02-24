@@ -1,5 +1,6 @@
 package fraglab.registry.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fraglab.json.LocalDateDeserializer;
@@ -21,11 +22,7 @@ public class Person extends BaseEntity {
     private Date dateOfBirth;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ADDRESS_ID", updatable = false, insertable = false)
     private Address address;
-
-    @Column(name = "ADDRESS_ID", updatable = true, insertable = true)
-    private String addressId;
 
     private String nationality;
 
@@ -50,6 +47,7 @@ public class Person extends BaseEntity {
         this.lastName = lastName;
     }
 
+    @JsonIgnore
     public String getFullName() {
         String firstName = getFirstName() != null ? getFirstName() : StringUtils.EMPTY;
         String lastName = getLastName() != null ? getLastName() : StringUtils.EMPTY;
@@ -82,20 +80,21 @@ public class Person extends BaseEntity {
         this.genre = genre;
     }
 
-    public String getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(String addressId) {
-        this.addressId = addressId;
-    }
-
     public String getNotes() {
         return notes;
     }
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @JsonIgnore
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public enum Genre {

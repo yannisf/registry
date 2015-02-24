@@ -24,10 +24,10 @@ public class GuardianServiceImpl implements GuardianService {
     @Transactional
     public void delete(String id) throws NotFoundException {
         Guardian guardian = fetch(id);
-        boolean sharedAddress = addressService.isSharedAddress(guardian.getAddressId());
+        boolean sharedAddress = addressService.isSharedAddress(guardian.getAddress().getId());
         guardianDao.delete(guardian);
         if (!sharedAddress) {
-            addressService.delete(guardian.getAddressId());
+            addressService.delete(guardian.getAddress().getId());
         }
     }
 

@@ -1,8 +1,6 @@
 package fraglab.registry.child;
 
-import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
-import fraglab.registry.formobject.ChildWithAddress;
 import fraglab.web.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,25 +25,15 @@ public class ChildServiceImpl implements ChildService {
     @Override
     public void delete(String id) throws NotFoundException {
         Child child = fetch(id);
-        String addressId = child.getAddressId();
         childDao.delete(child);
-        addressService.delete(addressId);
-        childDao.updateChildGroupMembers(child.getChildGroupId());
+        addressService.delete(child.getAddress().getId());
+        childDao.updateChildGroupMembers(child.getChildGroup().getId());
     }
 
     @Override
     public void update(Child child) {
         childDao.update(child);
-        childDao.updateChildGroupMembers(child.getChildGroupId());
-    }
-
-    @Override
-    public void update(ChildWithAddress childWithAddress) {
-        Address address = childWithAddress.getAddress();
-        addressService.update(address);
-        Child child = childWithAddress.getChild();
-        child.setAddressId(address.getId());
-        update(child);
+        childDao.updateChildGroupMembers(child.getChildGroup().getId());
     }
 
     @Override

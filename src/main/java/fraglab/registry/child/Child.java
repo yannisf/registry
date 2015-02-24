@@ -6,6 +6,7 @@ import fraglab.registry.school.ChildGroup;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("CHILD")
@@ -17,12 +18,11 @@ public class Child extends Person {
     @Enumerated(EnumType.STRING)
     private PreSchoolLevel level;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "CHILD_GROUP_ID", updatable = false, insertable = false)
-    private ChildGroup childGroup;
+    @OneToMany
+    private List<Relationship> relationships;
 
-    @Column(name = "CHILD_GROUP_ID", updatable = true, insertable = true)
-    private String childGroupId;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private ChildGroup childGroup;
 
     public String getCallName() {
         return callName;
@@ -30,10 +30,6 @@ public class Child extends Person {
 
     public void setCallName(String callName) {
         this.callName = callName;
-    }
-
-    public String getInformalFullName() {
-        return StringUtils.stripToEmpty(getName() + StringUtils.SPACE + getLastName());
     }
 
     public PreSchoolLevel getLevel() {
@@ -45,20 +41,36 @@ public class Child extends Person {
     }
 
     @JsonIgnore
-    public String getName() {
+    public ChildGroup getChildGroup() {
+        return childGroup;
+    }
+
+    public void setChildGroup(ChildGroup childGroup) {
+        this.childGroup = childGroup;
+    }
+
+    @JsonIgnore
+    public List<Relationship> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(List<Relationship> relationships) {
+        this.relationships = relationships;
+    }
+
+    @JsonIgnore
+    public String getSimpleName() {
         return getCallName() != null ? getCallName() : getFirstName();
     }
 
+    @JsonIgnore
     public String getReportName() {
-        return getName() + " " + getLastName();
+        return getSimpleName() + StringUtils.SPACE + getLastName();
     }
 
-    public String getChildGroupId() {
-        return childGroupId;
-    }
-
-    public void setChildGroupId(String childGroupId) {
-        this.childGroupId = childGroupId;
+    @JsonIgnore
+    public String getInformalFullName() {
+        return StringUtils.stripToEmpty(getSimpleName() + StringUtils.SPACE + getLastName());
     }
 
     @Override

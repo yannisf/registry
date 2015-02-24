@@ -1,7 +1,6 @@
 
-package fraglab.registry.relationship;
+package fraglab.registry.child;
 
-import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
 import fraglab.registry.guardian.Guardian;
 
@@ -10,44 +9,19 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "CHILD_GUARDIAN", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"CHILD_ID", "GUARDIAN_ID"})
-})
 public class Relationship extends BaseEntity implements Comparable<Relationship> {
-
-    @Column(name = "CHILD_ID")
-    private String childId;
-
-    @Column(name = "GUARDIAN_ID")
-    private String guardianId;
 
     @Embedded
     private RelationshipMetadata metadata;
 
-    @Transient
+    @ManyToOne
     private Child child;
 
-    @Transient
+    @OneToOne
     private Guardian guardian;
 
     public Relationship() {
         this.id = UUID.randomUUID().toString();
-    }
-
-    public String getChildId() {
-        return childId;
-    }
-
-    public void setChildId(String childId) {
-        this.childId = childId;
-    }
-
-    public String getGuardianId() {
-        return guardianId;
-    }
-
-    public void setGuardianId(String guardianId) {
-        this.guardianId = guardianId;
     }
 
     public RelationshipMetadata getMetadata() {
@@ -80,18 +54,16 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
             return metadata.getType().compareTo(o.metadata.getType());
         } else if (o.metadata == null || o.metadata.getType() == null) {
             return 1;
-        } else if (metadata == null || metadata.getType() == null) {
-            return -1;
         } else {
-            return 0;
+            return -1;
         }
     }
 
     @Override
     public String toString() {
         return "Relationship{" +
-                "childId=" + childId +
-                ", guardianId=" + guardianId +
+                "child=" + child +
+                ", guardian=" + guardian +
                 ", metadata=" + metadata +
                 '}';
     }

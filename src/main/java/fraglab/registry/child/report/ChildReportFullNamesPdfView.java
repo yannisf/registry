@@ -31,7 +31,7 @@ public class ChildReportFullNamesPdfView extends AbstractChildReport {
         @SuppressWarnings(value = "unchecked")
         List<Child> children = (List<Child>) stringObjectMap.get("children");
         for (Child child : children) {
-            Paragraph paragraph = new Paragraph(child.getName() + " " + child.getLastName(), font);
+            Paragraph paragraph = new Paragraph(child.getSimpleName() + " " + child.getLastName(), font);
             document.add(paragraph);
         }
     }

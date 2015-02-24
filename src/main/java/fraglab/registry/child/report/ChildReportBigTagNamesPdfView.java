@@ -35,8 +35,8 @@ public class ChildReportBigTagNamesPdfView extends AbstractChildReport {
         List<Child> children = (List<Child>) stringObjectMap.get("children");
         Table table = getTable();
         for (Child child : children) {
-            Font actualFont = evaluateActualFont(child.getName(), child.getLastName());
-            Phrase phrase = new Phrase(child.getName() + "\n" + child.getLastName(), actualFont);
+            Font actualFont = evaluateActualFont(child.getSimpleName(), child.getLastName());
+            Phrase phrase = new Phrase(child.getSimpleName() + "\n" + child.getLastName(), actualFont);
             table.addCell(phrase);
         }
         document.add(table);

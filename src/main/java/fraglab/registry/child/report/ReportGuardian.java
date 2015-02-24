@@ -1,7 +1,7 @@
 package fraglab.registry.child.report;
 
 import fraglab.registry.common.Telephone;
-import fraglab.registry.relationship.Relationship;
+import fraglab.registry.child.Relationship;
 
 import java.io.Serializable;
 import java.util.ArrayList;

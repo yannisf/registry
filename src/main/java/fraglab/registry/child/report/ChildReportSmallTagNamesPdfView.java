@@ -30,7 +30,7 @@ public class ChildReportSmallTagNamesPdfView extends AbstractChildReport {
         List<Child> children = (List<Child>) stringObjectMap.get("children");
         Table table = getTable();
         for (Child child : children) {
-            Phrase phrase = new Phrase(child.getName() + "\n" + child.getLastName(), font);
+            Phrase phrase = new Phrase(child.getSimpleName() + "\n" + child.getLastName(), font);
             table.addCell(phrase);
         }
         document.add(table);

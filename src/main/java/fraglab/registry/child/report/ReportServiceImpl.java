@@ -2,11 +2,10 @@ package fraglab.registry.child.report;
 
 import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildService;
+import fraglab.registry.child.Relationship;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.guardian.Guardian;
 import fraglab.registry.guardian.GuardianService;
-import fraglab.registry.relationship.Relationship;
-import fraglab.registry.relationship.RelationshipService;
 import fraglab.registry.school.SchoolDao;
 import fraglab.registry.school.SchoolData;
 import fraglab.web.NotFoundException;
@@ -26,9 +25,6 @@ public class ReportServiceImpl implements ReportService {
     GuardianService guardianService;
 
     @Autowired
-    RelationshipService relationshipService;
-
-    @Autowired
     SchoolDao schoolDao;
 
     @Override
@@ -45,8 +41,7 @@ public class ReportServiceImpl implements ReportService {
     private ReportChild mapChild(Child child) throws NotFoundException {
         ReportChild reportChild = new ReportChild(child.getInformalFullName());
         reportChild.setNotes(child.getNotes());
-        List<Relationship> relationships = relationshipService.fetchRelationships(child.getId());
-        for (Relationship relationship : relationships) {
+        for (Relationship relationship : child.getRelationships()) {
             mapRelationship(reportChild, relationship);
         }
 
@@ -54,7 +49,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private void mapRelationship(ReportChild reportChild, Relationship relationship) throws NotFoundException {
-        Guardian guardian = guardianService.fetch(relationship.getGuardianId());
+        Guardian guardian = relationship.getGuardian();
         ReportGuardian reportGuardian = new ReportGuardian(guardian.getFullName(),
                 relationship.getMetadata().getType(), relationship.getMetadata().getPickup());
         mapTelephones(guardian, reportGuardian);

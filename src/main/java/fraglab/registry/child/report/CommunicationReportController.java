@@ -3,7 +3,7 @@ package fraglab.registry.child.report;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
 import fraglab.registry.common.Telephone;
-import fraglab.registry.relationship.Relationship;
+import fraglab.registry.child.Relationship;
 import fraglab.web.NotFoundException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
