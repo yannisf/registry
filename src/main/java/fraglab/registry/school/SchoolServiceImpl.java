@@ -12,11 +12,6 @@ public class SchoolServiceImpl implements SchoolService {
     private SchoolDao schoolDao;
 
     @Override
-    public void init() {
-        schoolDao.init();
-    }
-
-    @Override
     public List<TreeElement> fetchSchoolTreeElements() {
         return schoolDao.fetchSchoolTreeElements();
     }
@@ -29,6 +24,26 @@ public class SchoolServiceImpl implements SchoolService {
     @Override
     public ChildGroupStatistics fetchChildGroupStatistics(String childGroupId) {
         return schoolDao.fetchClassroomStatistics(childGroupId);
+    }
+
+    @Override
+    public void update(School school) {
+        schoolDao.update(school);
+    }
+
+    @Override
+    public void createOrUpdateTerm(Term term) {
+        schoolDao.createOrUpdateTerm(term);
+    }
+
+    @Override
+    public void createOrUpdateClassroom(Classroom classroom) {
+        schoolDao.createOrUpdateClassroom(classroom);
+    }
+
+    @Override
+    public void createOrUpdateGroup(Group group) {
+        schoolDao.createOrUpdateGroup(group);
     }
 
 }

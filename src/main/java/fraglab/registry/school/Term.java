@@ -10,12 +10,9 @@ public class Term extends BaseEntity {
 
     private String name;
 
-    public Term() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Term() { }
 
     public Term(String name) {
-        this();
         this.name = name;
     }
 

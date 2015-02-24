@@ -4,12 +4,13 @@ import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "CHILD_GROUP")
-public class ChildGroup extends BaseEntity {
+@Table(name = "CGROUP")
+public class Group extends BaseEntity {
 
     @ManyToOne(optional = false)
     private Classroom classroom;
@@ -22,7 +23,7 @@ public class ChildGroup extends BaseEntity {
 
     private Integer members;
 
-    public ChildGroup() {
+    public Group() {
         this.id = UUID.randomUUID().toString();
     }
 
@@ -48,6 +49,14 @@ public class ChildGroup extends BaseEntity {
 
     public void setChildren(List<Child> children) {
         this.children = children;
+    }
+
+    public void addChild(Child child) {
+        if (this.children == null) {
+            this.children = new ArrayList<>();
+        }
+        this.children.add(child);
+        child.setGroup(this);
     }
 
     public Integer getMembers() {

@@ -19,11 +19,9 @@ public class School extends BaseEntity {
     private List<Classroom> classrooms;
 
     public School() {
-        this.id = UUID.randomUUID().toString();
     }
 
     public School(String name) {
-        this();
         this.name = name;
     }
 

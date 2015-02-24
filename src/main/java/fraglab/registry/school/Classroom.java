@@ -15,12 +15,9 @@ public class Classroom extends BaseEntity {
     @ManyToOne(optional = false)
     private School school;
 
-    public Classroom() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Classroom() { }
 
     public Classroom(String name) {
-        this();
         this.name = name;
     }
 
@@ -40,4 +37,5 @@ public class Classroom extends BaseEntity {
     public void setSchool(School school) {
         this.school = school;
     }
+    
 }

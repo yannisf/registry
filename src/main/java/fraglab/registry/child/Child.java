@@ -2,7 +2,7 @@ package fraglab.registry.child;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.Person;
-import fraglab.registry.school.ChildGroup;
+import fraglab.registry.school.Group;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -22,7 +22,7 @@ public class Child extends Person {
     private List<Relationship> relationships;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    private ChildGroup childGroup;
+    private Group group;
 
     public String getCallName() {
         return callName;
@@ -41,12 +41,12 @@ public class Child extends Person {
     }
 
     @JsonIgnore
-    public ChildGroup getChildGroup() {
-        return childGroup;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setChildGroup(ChildGroup childGroup) {
-        this.childGroup = childGroup;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     @JsonIgnore

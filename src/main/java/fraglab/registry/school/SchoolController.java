@@ -18,11 +18,6 @@ public class SchoolController {
     @Autowired
     private SchoolDao schoolDao;
 
-    @RequestMapping(value = "/init", method = RequestMethod.POST)
-    public void post() {
-        schoolService.init();
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     public List<TreeElement> fetchSchoolTreeElements() {
         return schoolService.fetchSchoolTreeElements();

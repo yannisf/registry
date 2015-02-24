@@ -10,8 +10,4 @@ import javax.transaction.Transactional;
 @Transactional
 public class AddressDaoImpl extends GenericDaoImpl<Address, String> implements AddressDao {
     @Override
-    public Long countAddresses(String addressId) {
-        Query query = entityManager.createQuery("select count(p.addressId) from Person p where p.addressId = :addressId");
-        return (Long) query.setParameter("addressId", addressId).getSingleResult();
-    }
 }

@@ -1,11 +1,11 @@
 package fraglab.registry.child;
 
 import fraglab.data.GenericDaoImpl;
+import fraglab.registry.school.Group;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,7 +17,12 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, String> implements Child
     private static final Logger LOG = LoggerFactory.getLogger(ChildDaoImpl.class);
 
     @Override
-    public List<Child> fetchClassroom(String id) {
+    public Group fetchChildGroup(String id) {
+        return entityManager.find(Group.class, id);
+    }
+
+    @Override
+    public List<Child> fetchGroup(String id) {
         LOG.debug("Fetching Children for Classroom [{}]", id);
         String childQuery = "select c from Child c where c.childGroup.id = :childGroupId order by c.level desc, c.genre desc, c.lastName";
         TypedQuery<Child> query = entityManager.createQuery(childQuery, Child.class)
@@ -34,14 +39,4 @@ public class ChildDaoImpl extends GenericDaoImpl<Child, String> implements Child
         entityManager.createQuery(query).setParameter("childGroupId", childGroupId).executeUpdate();
     }
 
-    @Override
-    public void delete(Child child) {
-        LOG.debug("Deleting Child [{}]", child.getId());
-        Query deleteChildRelationships = entityManager.createQuery("delete from Relationship r where r.childId=:childId");
-        deleteChildRelationships.setParameter("childId", child.getId());
-        int relationshipsToDelete = deleteChildRelationships.executeUpdate();
-        LOG.debug("While deleting Child[{}], [{}] relationships with Guardians will be deleted as well. ",
-                child.getId(), relationshipsToDelete);
-        super.delete(child);
-    }
 }
