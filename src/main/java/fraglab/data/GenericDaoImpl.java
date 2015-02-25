@@ -1,6 +1,5 @@
 package fraglab.data;
 
-import fraglab.registry.common.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -10,42 +9,33 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 @Transactional
-public class GenericDaoImpl<T extends BaseEntity> implements GenericDao<T> {
+public class GenericDaoImpl implements GenericDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(GenericDaoImpl.class);
-
-    protected Class<T> entityClass;
 
     @PersistenceContext
     protected EntityManager entityManager;
 
-    @SuppressWarnings(value = "unchecked")
-    public GenericDaoImpl() {
-        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-        this.entityClass = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
-    }
-
     @Override
-    public void createOrUpdate(T entity) {
-        LOG.debug("Update or create [{}] with id [{}]", entityClass.getName(), entity.getId());
+    public <T> void createOrUpdate(T entity) {
+        LOG.debug("Update or create [{}]: [{}]", entity.getClass().getName(), entity.toString());
         entityManager.merge(entity);
     }
 
     @Override
-    public T fetch(String id) {
-        LOG.debug("Fetch [{}] with id [{}]", entityClass.getName(), id);
-        return entityManager.find(entityClass, id);
+    public <T> T fetch(Class<T> clazz, String id) {
+        LOG.debug("Fetch [{}] with id [{}]", clazz.getName(), id);
+        return entityManager.find(clazz, id);
     }
 
     @Override
-    public void delete(T entity) {
-        LOG.debug("Remove [{}] with id [{}]", entityClass.getName(), entity.getId());
+    public <T> void delete(T entity) {
+        LOG.debug("Remove [{}]: [{}]", entity.getClass().getName(), entity.toString());
         entity = entityManager.merge(entity);
         entityManager.remove(entity);
     }
@@ -58,19 +48,19 @@ public class GenericDaoImpl<T extends BaseEntity> implements GenericDao<T> {
     }
 
     @Override
-    public List<T> findByQuery(String query) {
+    public <T> List<T> findByQuery(String query) {
         return null;
     }
 
     @Override
-    public List<T> findByQuery(String query, Map<String, Object> params) {
-        TypedQuery<T> typedQuery = getTypedQuery(query, params);
+    public <T> List<T> findByQuery(Class<T> clazz, String query, Map<String, Object> params) {
+        TypedQuery<T> typedQuery = getTypedQuery(clazz, query, params);
         return typedQuery.getResultList();
     }
 
     @Override
-    public List<T> findByQuery(String query, Map<String, Object> params, Integer maxResults) {
-        TypedQuery<T> typedQuery = getTypedQuery(query, params);
+    public <T> List<T> findByQuery(Class<T> clazz, String query, Map<String, Object> params, Integer maxResults) {
+        TypedQuery<T> typedQuery = getTypedQuery(clazz, query, params);
         typedQuery.setMaxResults(maxResults);
         return typedQuery.getResultList();
     }
@@ -82,9 +72,9 @@ public class GenericDaoImpl<T extends BaseEntity> implements GenericDao<T> {
         return (Object[]) nativeQuery.getSingleResult();
     }
 
-    private TypedQuery<T> getTypedQuery(String query, Map<String, Object> params) {
+    private <T> TypedQuery<T> getTypedQuery(Class<T> clazz, String query, Map<String, Object> params) {
         LOG.debug("Query [{}] with parameter map [{}]", query, params.toString());
-        TypedQuery<T> typedQuery = entityManager.createQuery(query, entityClass);
+        TypedQuery<T> typedQuery = entityManager.createQuery(query, clazz);
         params.entrySet().stream().forEach(e -> typedQuery.setParameter(e.getKey(), e.getValue()));
         return typedQuery;
     }

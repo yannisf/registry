@@ -4,6 +4,7 @@ import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildService;
+import fraglab.registry.foundation.FoundationService;
 import fraglab.registry.foundation.Group;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.testng.annotations.Test;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
-@ContextConfiguration(locations = {"file:///home/yannis/development/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
+@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
@@ -24,19 +25,26 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
     
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private FoundationService foundationService;
     
     private String childId;
     
     private String addressId;
 
+    private String groupId = "b459fdfd-16cf-4774-b6a9-f17ed370f21f";
+
     @Test
     @Transactional
     @Rollback(false)
     public void testAddChild() {
+        Group group = childService.fetchGroup(groupId);
         Child child = new Child();
         child.setId(generateUuid());
         child.setFirstName("Giorgos");
         child.setLastName("Papadopoulos");
+        group.addChild(child);
         childService.createOrUpdate(child);
         childId = child.getId();
     }
@@ -61,8 +69,8 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
         child.setAddress(address);
     }
 
-    @Test(dependsOnMethods = "testChildAddressBinding")
-    @Transactional
+//    @Test(dependsOnMethods = "testChildAddressBinding")
+//    @Transactional
 //    @Rollback(false)
     public void testAssertAndDeleteChildAndAddress() throws NotFoundException {
         Child child = childService.fetch(childId);
@@ -70,17 +78,6 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
         Assert.assertEquals(childAddressId, addressId);
         childService.delete(child.getId());
         addressService.delete(childAddressId);
-    }
-
-    @Test(dependsOnMethods = "testAddAddress")
-    @Transactional
-    @Rollback(false)
-    public void testAddChildToGroup() throws NotFoundException {
-        Child child = childService.fetch("");
-        Group group = childService.fetchGroup("ec59b434-5aaa-4861-8985-929e469d94dc");
-        group.addChild(child);
-        
-        
     }
 
     private String generateUuid() {

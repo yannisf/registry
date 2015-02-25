@@ -18,18 +18,6 @@ public class FoundationServiceImpl implements FoundationService {
     @Autowired
     private GenericDao dao;
 
-    @Autowired
-    private GenericDao<School> schoolDao;
-
-    @Autowired
-    private GenericDao<Classroom> classroomDao;
-
-    @Autowired
-    private GenericDao<Term> termDao;
-
-    @Autowired
-    private GenericDao<Group> groupDao;
-
     @Override
     public GroupDataTransfer fetchSchoolData(String groupId) {
         String schoolDataQuery = "select new fraglab.registry.school.SchoolData(cg.id, s.name, cr.name, t.name, cg.members) " +
@@ -38,7 +26,7 @@ public class FoundationServiceImpl implements FoundationService {
         Map<String, Object> params = new HashMap<>();
         params.put("groupId", groupId);
 
-        return (GroupDataTransfer) dao.findByQuery(schoolDataQuery, params).get(0);
+        return (GroupDataTransfer) dao.findByQuery(GroupDataTransfer.class, schoolDataQuery, params).get(0);
     }
 
     @Override
@@ -70,22 +58,22 @@ public class FoundationServiceImpl implements FoundationService {
 
     @Override
     public void createOrUpdateSchool(School school) {
-        schoolDao.createOrUpdate(school);
+        dao.createOrUpdate(school);
     }
 
     @Override
     public void createOrUpdateClassroom(Classroom classroom) {
-        classroomDao.createOrUpdate(classroom);
+        dao.createOrUpdate(classroom);
     }
 
     @Override
     public void createOrUpdateTerm(Term term) {
-        termDao.createOrUpdate(term);
+        dao.createOrUpdate(term);
     }
 
     @Override
     public void createOrUpdateGroup(Group group) {
-        groupDao.createOrUpdate(group);
+        dao.createOrUpdate(group);
     }
 
 

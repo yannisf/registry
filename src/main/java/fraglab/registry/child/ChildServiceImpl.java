@@ -17,10 +17,7 @@ import java.util.Map;
 public class ChildServiceImpl implements ChildService {
 
     @Autowired
-    private GenericDao<Child> childDao;
-
-    @Autowired
-    private GenericDao<Group> groupDao;
+    private GenericDao dao;
 
     @Autowired
     private AddressService addressService;
@@ -28,19 +25,19 @@ public class ChildServiceImpl implements ChildService {
     @Override
     public void delete(String id) throws NotFoundException {
         Child child = fetch(id);
-        childDao.delete(child);
+        dao.delete(child);
         updateGroupMembersNum(child.getGroup());
     }
 
     @Override
     public void createOrUpdate(Child child) {
-        childDao.createOrUpdate(child);
+        dao.createOrUpdate(child);
         updateGroupMembersNum(child.getGroup());
     }
 
     @Override
     public Child fetch(String id) throws NotFoundException {
-        Child child = childDao.fetch(id);
+        Child child = dao.fetch(Child.class, id);
         if (child == null) {
             throw new NotFoundException("Child not found");
         }
@@ -53,19 +50,19 @@ public class ChildServiceImpl implements ChildService {
         String query = "select c from Child c where c.group.id=:groupId";
         Map<String, Object> params = new HashMap<>();
         params.put("groupId", id);
-        return  childDao.findByQuery(query, params);
+        return  dao.findByQuery(Child.class, query, params);
     }
 
     @Override
     public Group fetchGroup(String id) {
-        return groupDao.fetch(id);
+        return dao.fetch(Group.class, id);
     }
 
     private void updateGroupMembersNum(Group group) {
-        String query = "createOrUpdate Group g set g.members=(select count(c) from Child c where c.group=:group) where g=:group";
+        String query = "update Group g set g.members=(select count(c) from Child c where c.group=:group) where g=:group";
         Map<String, Object> params = new HashMap<>();
         params.put("group", group);
-        childDao.executeUpdate(query, params);
+        dao.executeUpdate(query, params);
     }
 
 }

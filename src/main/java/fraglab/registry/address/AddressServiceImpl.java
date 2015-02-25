@@ -12,16 +12,16 @@ import java.util.Map;
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
-    private GenericDao<Address> addressDao;
+    private GenericDao dao;
 
     @Override
     public void createOrUpdate(Address address) {
-        addressDao.createOrUpdate(address);
+        dao.createOrUpdate(address);
     }
 
     @Override
     public Address fetch(String id) throws NotFoundException {
-        Address address = addressDao.fetch(id);
+        Address address = dao.fetch(Address.class, id);
         if (address == null) {
             throw new NotFoundException("Address not found");
         }
@@ -31,7 +31,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void delete(String id) throws NotFoundException {
         Address address = fetch(id);
-        addressDao.delete(address);
+        dao.delete(address);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class AddressServiceImpl implements AddressService {
         String query = "select count(p.address.id) from Person p where p.address.id = :addressId";
         Map<String, Object> params = new HashMap<>();
         params.put("addressId", addressId);
-        return addressDao.countByQuery(query, params) > 1;
+        return dao.countByQuery(query, params) > 1;
     }
 
 }

@@ -16,7 +16,7 @@ public class GuardianServiceImpl implements GuardianService {
     private static final Logger LOG = LoggerFactory.getLogger(GuardianServiceImpl.class);
 
     @Autowired
-    GenericDao<Guardian> guardianDao;
+    GenericDao dao;
 
     @Autowired
     AddressService addressService;
@@ -26,7 +26,7 @@ public class GuardianServiceImpl implements GuardianService {
     public void delete(String id) throws NotFoundException {
         Guardian guardian = fetch(id);
         boolean sharedAddress = addressService.isSharedAddress(guardian.getAddress().getId());
-        guardianDao.delete(guardian);
+        dao.delete(guardian);
         if (!sharedAddress) {
             addressService.delete(guardian.getAddress().getId());
         }
@@ -34,12 +34,12 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     public void update(Guardian guardian) {
-        guardianDao.createOrUpdate(guardian);
+        dao.createOrUpdate(guardian);
     }
 
     @Override
     public Guardian fetch(String id) throws NotFoundException {
-        Guardian guardian = guardianDao.fetch(id);
+        Guardian guardian = dao.fetch(Guardian.class, id);
         if (guardian == null) {
             throw new NotFoundException("Guardian not found");
         }

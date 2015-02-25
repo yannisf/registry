@@ -68,7 +68,7 @@ public class TypeAheadServiceImpl implements TypeAheadService {
     private List<String> findTypeAhead(String query, String startsWith) {
         Map<String, Object> params = new HashMap<>();
         params.put("startsWith", startsWith.toLowerCase() + "%");
-        return dao.findByQuery(query, params, MAX_RESULTS);
+        return dao.findByQuery(String.class, query, params, MAX_RESULTS);
     }
 
 }
