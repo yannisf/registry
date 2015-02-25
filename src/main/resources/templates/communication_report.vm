@@ -48,7 +48,7 @@
     </thead>
 
     <tbody>
-    #foreach ($child in $children)
+    #foreach ($child in $childNodes)
     <tr>
         <th>$foreach.count</th>
         <td class="name">${child.name}</td>

@@ -1,11 +1,10 @@
-package fraglab.registry.school;
+package fraglab.registry.foundation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.UUID;
 
 @Entity
 public class Classroom extends BaseEntity {

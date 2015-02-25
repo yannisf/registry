@@ -1,6 +1,7 @@
 package fraglab.registry.school;
 
 import fraglab.registry.child.ChildService;
+import fraglab.registry.foundation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,11 +12,11 @@ import org.testng.annotations.Test;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
-@ContextConfiguration(locations = {"file:///home/yannis/development/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
+@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
-    private SchoolService schoolService;
+    private FoundationService foundationService;
     
     @Autowired
     private ChildService childService;
@@ -45,24 +46,24 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
         
         school.addClassroom(classroom1);
         school.addClassroom(classroom2);
-        schoolService.update(school);
+        foundationService.createOrUpdateSchool(school);
         
         Term term1 = new Term("2013-2014");
         term1.setId(generateUuid());
         termId1 = term1.getId();
-        schoolService.createOrUpdateTerm(term1);
+        foundationService.createOrUpdateTerm(term1);
         
         Term term2 = new Term("2014-2015");
         term2.setId(generateUuid());
         termId2 = term2.getId();
-        schoolService.createOrUpdateTerm(term2);
+        foundationService.createOrUpdateTerm(term2);
         
         Group group = new Group();
         group.setId(generateUuid());
         groupId = group.getId();
         group.setClassroom(classroom2);
         group.setTerm(term1);
-        schoolService.createOrUpdateGroup(group);
+        foundationService.createOrUpdateGroup(group);
     }
 
     @Test(dependsOnMethods = "testAddSchoolSystem")

@@ -22,7 +22,7 @@ public class ChildReportController {
     @RequestMapping(value = "/pdf/{mode}", method = RequestMethod.GET)
     public String report(@PathVariable(value = "mode") String mode, @RequestParam(value = "class") String clazz,
                          Model model) throws Exception {
-        List<Child> children = childService.fetchChildGroup(clazz);
+        List<Child> children = childService.fetchChildrenForGroup(clazz);
         model.addAttribute("children", children);
         if (mode.equals("first")) {
             return "childrenFirstNamesPdf";

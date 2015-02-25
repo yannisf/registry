@@ -1,4 +1,4 @@
-package fraglab.registry.school;
+package fraglab.registry.foundation;
 
 import fraglab.registry.common.BaseEntity;
 

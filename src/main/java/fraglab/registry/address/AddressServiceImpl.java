@@ -5,17 +5,27 @@ import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Query;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
-    private GenericDao<Address, String> addressDao;
+    private GenericDao<Address> addressDao;
 
     @Override
-    public void update(Address address) {
-        addressDao.update(address);
+    public void createOrUpdate(Address address) {
+        addressDao.createOrUpdate(address);
+    }
+
+    @Override
+    public Address fetch(String id) throws NotFoundException {
+        Address address = addressDao.fetch(id);
+        if (address == null) {
+            throw new NotFoundException("Address not found");
+        }
+        return address;
     }
 
     @Override
@@ -25,25 +35,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address fetch(String id) throws NotFoundException {
-        Address address = addressDao.fetch(id);
-        if (address == null) {
-            throw new NotFoundException("Address not found");
-        }
-
-        return address;
-    }
-
-    public Long countAddresses(String addressId) {
-        Query query = entityManager.createQuery("select count(p.addressId) from Person p where p.addressId = :addressId");
-        return (Long) query.setParameter("addressId", addressId).getSingleResult();
-    }
-
-
-    @Override
     public boolean isSharedAddress(String addressId) {
-        
-        return addressDao.countAddresses(addressId) > 1;
+        String query = "select count(p.address.id) from Person p where p.address.id = :addressId";
+        Map<String, Object> params = new HashMap<>();
+        params.put("addressId", addressId);
+        return addressDao.countByQuery(query, params) > 1;
     }
 
 }

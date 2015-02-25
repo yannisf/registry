@@ -1,15 +1,28 @@
 package fraglab.data;
 
-import java.io.Serializable;
+import fraglab.registry.common.BaseEntity;
 
-public interface GenericDao<T extends Serializable, PK extends Serializable> {
+import java.util.List;
+import java.util.Map;
 
-    T create(T t);
+public interface GenericDao<T extends BaseEntity> {
 
-    T fetch(PK id);
+    void createOrUpdate(T t);
 
-    T update(T t);
+    T fetch(String id);
 
     void delete(T t);
+
+    Long countByQuery(String query, Map<String, Object> params);
+
+    List<T> findByQuery(String query);
+
+    List<T> findByQuery(String query, Map<String, Object> params);
+
+    List<T> findByQuery(String query, Map<String, Object> params, Integer maxResults);
+
+    Object[] findSingleByNativeQuery(String query, Map<String, Object> params);
+
+    void executeUpdate(String query, Map<String, Object> params);
 
 }

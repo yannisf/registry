@@ -4,11 +4,12 @@ import fraglab.web.NotFoundException;
 
 public interface AddressService {
 
-    void update(Address address);
-
-    void delete(String id) throws NotFoundException;
+    void createOrUpdate(Address address);
 
     Address fetch(String id) throws NotFoundException;
 
+    void delete(String id) throws NotFoundException;
+
     boolean isSharedAddress(String addressId);
+
 }

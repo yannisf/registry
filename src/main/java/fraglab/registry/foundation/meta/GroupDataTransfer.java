@@ -1,8 +1,8 @@
-package fraglab.registry.school;
+package fraglab.registry.foundation.meta;
 
 import java.io.Serializable;
 
-public class SchoolData implements Serializable {
+public class GroupDataTransfer implements Serializable {
 
     private String id;
     private String school;
@@ -10,10 +10,9 @@ public class SchoolData implements Serializable {
     private String term;
     private Integer members;
 
-    public SchoolData() {
-    }
+    public GroupDataTransfer() { }
 
-    public SchoolData(String id, String school, String classroom, String term, Integer members) {
+    public GroupDataTransfer(String id, String school, String classroom, String term, Integer members) {
         this.id = id;
         this.school = school;
         this.classroom = classroom;
@@ -60,4 +59,5 @@ public class SchoolData implements Serializable {
     public void setMembers(Integer members) {
         this.members = members;
     }
+
 }

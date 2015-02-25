@@ -13,7 +13,7 @@
     <span ng-if="node.type != 'TERM'">{{node.name}}</span>
 
     <ul>
-        <li ng-repeat="node in node.children" ng-include="'tree_item_renderer.html'"></li>
+        <li ng-repeat="node in node.childNodes" ng-include="'tree_item_renderer.html'"></li>
     </ul>
 
 </script>

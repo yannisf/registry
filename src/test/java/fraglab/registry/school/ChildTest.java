@@ -4,6 +4,7 @@ import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildService;
+import fraglab.registry.foundation.Group;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
@@ -36,7 +37,7 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
         child.setId(generateUuid());
         child.setFirstName("Giorgos");
         child.setLastName("Papadopoulos");
-        childService.update(child);
+        childService.createOrUpdate(child);
         childId = child.getId();
     }
 
@@ -47,7 +48,7 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
         Address address = new Address();
         address.setId(generateUuid());
         address.setCity("Athens");
-        addressService.update(address);
+        addressService.createOrUpdate(address);
         addressId = address.getId();
     }
 

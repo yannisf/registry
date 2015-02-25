@@ -13,15 +13,15 @@ public class AddressController extends BaseRestController {
     @Autowired
     AddressService addressService;
 
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void createOrUpdate(@RequestBody Address address) {
+        addressService.createOrUpdate(address);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Address fetch(@PathVariable String id) throws NotFoundException {
         return addressService.fetch(id);
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Address address) {
-        addressService.update(address);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

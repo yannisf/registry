@@ -4,10 +4,10 @@ import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildService;
 import fraglab.registry.child.Relationship;
 import fraglab.registry.common.Telephone;
+import fraglab.registry.foundation.FoundationService;
+import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.guardian.Guardian;
 import fraglab.registry.guardian.GuardianService;
-import fraglab.registry.school.SchoolDao;
-import fraglab.registry.school.SchoolData;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,18 +19,18 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
 
     @Autowired
+    FoundationService foundationService;
+
+    @Autowired
     ChildService childService;
 
     @Autowired
     GuardianService guardianService;
 
-    @Autowired
-    SchoolDao schoolDao;
-
     @Override
     public List<ReportChild> getReportChildrenForChildGroup(String childGroupId) throws NotFoundException {
         List<ReportChild> reportChildren = new ArrayList<>();
-        List<Child> children = childService.fetchChildGroup(childGroupId);
+        List<Child> children = childService.fetchChildrenForGroup(childGroupId);
         for (Child child : children) {
             reportChildren.add(mapChild(child));
         }
@@ -63,8 +63,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public SchoolData getSchoolDataForChildGroup(String childGroupId) {
-        return schoolDao.fetchSchoolData(childGroupId);
+    public GroupDataTransfer getSchoolDataForChildGroup(String childGroupId) {
+        return foundationService.fetchSchoolData(childGroupId);
     }
 
 }

@@ -1,4 +1,4 @@
-package fraglab.registry.school;
+package fraglab.registry.foundation;
 
 import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
@@ -18,7 +18,7 @@ public class Group extends BaseEntity {
     @ManyToOne(optional = false)
     private Term term;
 
-    @OneToMany(mappedBy = "childGroup")
+    @OneToMany(mappedBy = "group")
     private List<Child> children;
 
     private Integer members;

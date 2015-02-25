@@ -1,5 +1,6 @@
 package fraglab.registry.guardian;
 
+import fraglab.data.GenericDao;
 import fraglab.registry.address.AddressService;
 import fraglab.web.NotFoundException;
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ public class GuardianServiceImpl implements GuardianService {
     private static final Logger LOG = LoggerFactory.getLogger(GuardianServiceImpl.class);
 
     @Autowired
-    GuardianDao guardianDao;
+    GenericDao<Guardian> guardianDao;
 
     @Autowired
     AddressService addressService;
@@ -33,7 +34,7 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     public void update(Guardian guardian) {
-        guardianDao.update(guardian);
+        guardianDao.createOrUpdate(guardian);
     }
 
     @Override

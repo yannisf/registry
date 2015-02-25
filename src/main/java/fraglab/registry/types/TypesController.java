@@ -27,8 +27,8 @@ public class TypesController {
     }
 
     @RequestMapping(value = "/preschool", method = RequestMethod.GET)
-    public Child.PreSchoolLevel[] getPreSchoolLevels() {
-        return Child.PreSchoolLevel.values();
+    public Child.PreschoolLevel[] getPreSchoolLevels() {
+        return Child.PreschoolLevel.values();
     }
 
 }

@@ -18,12 +18,12 @@ public class ChildController extends BaseRestController {
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(@RequestBody Child child) throws NotFoundException {
-        childService.update(child);
+        childService.createOrUpdate(child);
     }
 
-    @RequestMapping(value = "/group/{id}", method = RequestMethod.GET)
-    public List<Child> fetchChildGroup(@PathVariable String id) {
-        return childService.fetchChildGroup(id);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Child fetch(@PathVariable String id) throws NotFoundException {
+        return childService.fetch(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -32,9 +32,9 @@ public class ChildController extends BaseRestController {
         childService.delete(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Child fetch(@PathVariable String id) throws NotFoundException {
-        return childService.fetch(id);
+    @RequestMapping(value = "/group/{id}", method = RequestMethod.GET)
+    public List<Child> fetchChildGroup(@PathVariable String id) {
+        return childService.fetchChildrenForGroup(id);
     }
 
 }

@@ -1,16 +1,16 @@
 <div class="page-header">
     <h2>
         Κατάλογος παιδιών
-        <span class="badge" ng-if="data.children.length > 0">{{data.children.length}}</span>
-        <img src="images/loader.gif" ng-hide="data.children.$resolved"/>
+        <span class="badge" ng-if="data.childNodes.length > 0">{{data.childNodes.length}}</span>
+        <img src="images/loader.gif" ng-hide="data.childNodes.$resolved"/>
     </h2>
 </div>
 
-<div ng-show="data.children.$resolved && viewData.noChildren" style="padding-bottom: 1em">
+<div ng-show="data.childNodes.$resolved && viewData.noChildren" style="padding-bottom: 1em">
 Δεν έχει εισαχθεί κανένα παιδί ακόμα.
 </div>
 
-<table class="table table-striped table-hover table-condensed" ng-show="data.children.$resolved && !viewData.noChildren">
+<table class="table table-striped table-hover table-condensed" ng-show="data.childNodes.$resolved && !viewData.noChildren">
     <thead>
         <tr>
             <th class="child-list-col1">Όνομα</th>
@@ -21,7 +21,7 @@
         </tr>
     </thead>
     <tbody ng-click="goToChild($event)">
-        <tr ng-repeat="child in data.children" class="clickable">
+        <tr ng-repeat="child in data.childNodes" class="clickable">
             <td>{{child|firstNameFilter}}</td>
             <td>{{child.lastName}}</td>
             <td>{{child.level|preSchoolLevelFilter}}</td>

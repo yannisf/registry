@@ -9,7 +9,7 @@
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="fraglab.registry"/>
+    <context:component-scan base-package="fraglab.registry, fraglab.data"/>
     <tx:annotation-driven/>
     <mvc:annotation-driven/>
 

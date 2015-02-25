@@ -1,4 +1,4 @@
-package fraglab.registry.school;
+package fraglab.registry.foundation.meta;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,10 +11,9 @@ public class TreeElement implements Serializable {
     private String parentId;
     private Type type;
     private Integer members;
-    private List<TreeElement> children;
+    private List<TreeElement> childNodes;
 
-    public TreeElement() {
-    }
+    public TreeElement() { }
 
     public TreeElement(String id, String name) {
         this.id = id;
@@ -35,30 +34,19 @@ public class TreeElement implements Serializable {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
     public Type getType() {
         return type;
     }
 
+    @Deprecated
     public void setType(Type type) {
         this.type = type;
     }
@@ -67,23 +55,15 @@ public class TreeElement implements Serializable {
         return members;
     }
 
-    public void setMembers(Integer members) {
-        this.members = members;
-    }
-
-    public List<TreeElement> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<TreeElement> children) {
-        this.children = children;
+    public List<TreeElement> getChildNodes() {
+        return childNodes;
     }
 
     public void addChild(TreeElement child) {
-        if (this.children == null) {
-            this.children = new ArrayList<>();
+        if (this.childNodes == null) {
+            this.childNodes = new ArrayList<>();
         }
-        this.children.add(child);
+        this.childNodes.add(child);
     }
 
     @Override
@@ -98,4 +78,5 @@ public class TreeElement implements Serializable {
     public static enum Type {
         SCHOOL, CLASSROOM, TERM;
     }
+
 }

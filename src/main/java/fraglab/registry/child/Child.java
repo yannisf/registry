@@ -2,7 +2,7 @@ package fraglab.registry.child;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.Person;
-import fraglab.registry.school.Group;
+import fraglab.registry.foundation.Group;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ public class Child extends Person {
 
     @Column(name = "PRESCHOOL_LEVEL")
     @Enumerated(EnumType.STRING)
-    private PreSchoolLevel level;
+    private PreschoolLevel level;
 
     @OneToMany
     private List<Relationship> relationships;
@@ -32,11 +32,11 @@ public class Child extends Person {
         this.callName = callName;
     }
 
-    public PreSchoolLevel getLevel() {
+    public PreschoolLevel getLevel() {
         return level;
     }
 
-    public void setLevel(PreSchoolLevel level) {
+    public void setLevel(PreschoolLevel level) {
         this.level = level;
     }
 
@@ -83,7 +83,7 @@ public class Child extends Person {
                 '}';
     }
 
-    public enum PreSchoolLevel {
+    public enum PreschoolLevel {
         PRE_SCHOOL_LEVEL_A,
         PRE_SCHOOL_LEVEL_B
     }
