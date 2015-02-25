@@ -1,5 +1,6 @@
 package fraglab.registry.foundation;
 
+import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
 import fraglab.registry.foundation.meta.TreeElement;
@@ -11,6 +12,8 @@ public interface FoundationService {
     List<TreeElement> fetchSchoolTreeElements();
     
     GroupDataTransfer fetchSchoolData(String childGroupId);
+
+    List<Child> fetchChildrenForGroup(String groupId);
 
     GroupStatistics fetchChildGroupStatistics(String childGroupId);
 

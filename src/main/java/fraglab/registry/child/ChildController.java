@@ -32,9 +32,4 @@ public class ChildController extends BaseRestController {
         childService.delete(id);
     }
 
-    @RequestMapping(value = "/group/{id}", method = RequestMethod.GET)
-    public List<Child> fetchChildGroup(@PathVariable String id) {
-        return childService.fetchChildrenForGroup(id);
-    }
-
 }

@@ -11,29 +11,29 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
     }])
 
     .factory('School', ['$resource', function($resource) {
-        return $resource('api/school', { }, {
-            query: {method: 'GET', isArray: true},
-            info: {method: 'GET', url: 'api/school/info/:childGroupId'},
-            statistics: {method: 'GET', url: 'api/school/group/:childGroupId/statistics'}
+        return $resource('api/foundation', { }, {
+            system: {method: 'GET', isArray: true},
+            groupInfo: {method: 'GET', url: 'api/foundation/group/:groupId/info'},
+            groupChildren: {method: 'GET', url: 'api/foundation/group/:groupId/children', isArray: true},
+            groupStatistics: {method: 'GET', url: 'api/foundation/group/:groupId/statistics'}
         });
     }])
 
     .service('SchoolService', ['School', function (School) {
         return {
-            childGroupId: null,
+            groupId: null,
             info: function() {
-                if (angular.isDefined(this.childGroupId)) {
-                    return School.info({childGroupId: this.childGroupId});
+                if (angular.isDefined(this.groupId)) {
+                    return School.groupInfo({groupId: this.groupId});
                 }
             }
         };
     }])
 
-    .controller('listSchoolsController', ['$scope', 'School', 'SchoolService',
-        function ($scope, School, SchoolService) {
+    .controller('listSchoolsController', ['$scope', 'School', function ($scope, School) {
             angular.extend($scope, {
                 data: {
-                    schools: School.query()
+                    schools: School.system()
                 },
                 viewData: {
                 }

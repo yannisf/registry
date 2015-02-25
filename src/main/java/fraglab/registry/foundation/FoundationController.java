@@ -1,5 +1,6 @@
 package fraglab.registry.foundation;
 
+import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
 import fraglab.registry.foundation.meta.TreeElement;
@@ -23,14 +24,19 @@ public class FoundationController {
         return foundationService.fetchSchoolTreeElements();
     }
 
-    @RequestMapping(value = "/info/{childGroupId}", method = RequestMethod.GET)
-    public GroupDataTransfer fetchSchoolData(@PathVariable String childGroupId) {
-        return foundationService.fetchSchoolData(childGroupId);
+    @RequestMapping(value = "/group/{groupId}/info", method = RequestMethod.GET)
+    public GroupDataTransfer fetchSchoolData(@PathVariable String groupId) {
+        return foundationService.fetchSchoolData(groupId);
     }
 
-    @RequestMapping(value = "/group/{childGroupId}/statistics", method = RequestMethod.GET)
-    public GroupStatistics fetchChildGroupStatistics(@PathVariable String childGroupId) {
-        return foundationService.fetchChildGroupStatistics(childGroupId);
+    @RequestMapping(value = "/group/{groupId}/statistics", method = RequestMethod.GET)
+    public GroupStatistics fetchChildGroupStatistics(@PathVariable String groupId) {
+        return foundationService.fetchChildGroupStatistics(groupId);
+    }
+
+    @RequestMapping(value = "/group/{groupId}/children", method = RequestMethod.GET)
+    public List<Child> fetchChildGroup(@PathVariable String groupId) {
+        return foundationService.fetchChildrenForGroup(groupId);
     }
 
 }

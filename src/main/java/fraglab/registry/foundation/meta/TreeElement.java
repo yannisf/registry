@@ -46,7 +46,6 @@ public class TreeElement implements Serializable {
         return type;
     }
 
-    @Deprecated
     public void setType(Type type) {
         this.type = type;
     }

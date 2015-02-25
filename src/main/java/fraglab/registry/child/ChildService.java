@@ -13,8 +13,6 @@ public interface ChildService {
 
     void delete(String id) throws NotFoundException;
 
-    List<Child> fetchChildrenForGroup(String id);
-
     Group fetchGroup(String id);
 
 }

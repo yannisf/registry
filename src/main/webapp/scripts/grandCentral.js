@@ -23,21 +23,21 @@ angular.module('schoolApp')
         var resetSchool = function() {
             resetGroup();
             school = { id: null, name: null };
-        }
+        };
         
         var resetGroup = function() {
             resetTerm();
             group = { id: null, name: null };
-        }
+        };
         
         var resetTerm = function() {
             resetChild();
             term = { id: null, name: null };
-        }
+        };
         
         var resetChild = function() {
             child = { id: null, name: null };
-        }
+        };
         
         $rootScope.central = {
             school: school,

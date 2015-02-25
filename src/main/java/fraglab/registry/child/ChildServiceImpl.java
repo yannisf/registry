@@ -46,14 +46,6 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public List<Child> fetchChildrenForGroup(String id) {
-        String query = "select c from Child c where c.group.id=:groupId";
-        Map<String, Object> params = new HashMap<>();
-        params.put("groupId", id);
-        return  dao.findByQuery(Child.class, query, params);
-    }
-
-    @Override
     public Group fetchGroup(String id) {
         return dao.fetch(Group.class, id);
     }

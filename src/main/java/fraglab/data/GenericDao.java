@@ -13,9 +13,11 @@ public interface GenericDao {
 
     Long countByQuery(String query, Map<String, Object> params);
 
-    <T> List<T> findByQuery(String query);
+    <T> List<T> findByQuery(Class<T> clazz, String query);
 
     <T> List<T> findByQuery(Class<T> clazz, String query, Map<String, Object> params);
+
+    <T> T findSingleByQuery(Class<T> clazz, String query, Map<String, Object> params);
 
     <T> List<T> findByQuery(Class<T> clazz, String query, Map<String, Object> params, Integer maxResults);
 

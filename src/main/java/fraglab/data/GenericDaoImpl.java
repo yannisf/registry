@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,14 +49,21 @@ public class GenericDaoImpl implements GenericDao {
     }
 
     @Override
-    public <T> List<T> findByQuery(String query) {
-        return null;
+    public <T> List<T> findByQuery(Class<T> clazz, String query) {
+        TypedQuery<T> typedQuery = getTypedQuery(clazz, query, new HashMap<>());
+        return typedQuery.getResultList();
     }
 
     @Override
     public <T> List<T> findByQuery(Class<T> clazz, String query, Map<String, Object> params) {
         TypedQuery<T> typedQuery = getTypedQuery(clazz, query, params);
         return typedQuery.getResultList();
+    }
+
+    @Override
+    public <T> T findSingleByQuery(Class<T> clazz, String query, Map<String, Object> params) {
+        TypedQuery<T> typedQuery = getTypedQuery(clazz, query, params);
+        return typedQuery.getSingleResult();
     }
 
     @Override

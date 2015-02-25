@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
-@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
+@ContextConfiguration(locations = {"file:///home/yannis/development/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired

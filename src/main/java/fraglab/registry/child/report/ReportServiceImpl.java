@@ -22,15 +22,12 @@ public class ReportServiceImpl implements ReportService {
     FoundationService foundationService;
 
     @Autowired
-    ChildService childService;
-
-    @Autowired
     GuardianService guardianService;
 
     @Override
-    public List<ReportChild> getReportChildrenForChildGroup(String childGroupId) throws NotFoundException {
+    public List<ReportChild> getReportChildrenForChildGroup(String groupId) throws NotFoundException {
         List<ReportChild> reportChildren = new ArrayList<>();
-        List<Child> children = childService.fetchChildrenForGroup(childGroupId);
+        List<Child> children = foundationService.fetchChildrenForGroup(groupId);
         for (Child child : children) {
             reportChildren.add(mapChild(child));
         }
