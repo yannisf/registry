@@ -2,52 +2,29 @@
 
 angular.module('schoolApp')
 
-    .run(['$rootScope', '$location', function ($rootScope, $location) {
+    .run(['$rootScope', '$location', 'School', function ($rootScope, $location, School) {
         var school = { id: null, name: "Σχολείο" };
-        var group = { id: null, name: "Τμήμα" };
+        var classroom = { id: null, name: "Τμήμα" };
         var term = { id: null, name: "Χρονιά" };
+        var group = { id: null, name: "Τμήμα/Χρονιά" };
         var child = { id: null, name: "Παιδί" };
-        
-        $rootScope.$watch('central.child.id', function(newval) {
-            if (newval) {
-                child.name = "New name";
-            }
-        });
-        
-        var goToGroup = function() {
-            if (group.id !== null) {
-                $location.url('/child/class/' + group.id + '/list');
-            }
-        };
-        
-        var resetSchool = function() {
-            resetGroup();
-            school = { id: null, name: null };
-        };
-        
-        var resetGroup = function() {
-            resetTerm();
-            group = { id: null, name: null };
-        };
-        
-        var resetTerm = function() {
-            resetChild();
-            term = { id: null, name: null };
-        };
-        
-        var resetChild = function() {
-            child = { id: null, name: null };
-        };
         
         $rootScope.central = {
             school: school,
-            group: group,
+            classroom: classroom,
             term: term,
-            child: child,
-            goToGroup: goToGroup,
-            resetSchool: resetSchool,
-            resetGroup: resetGroup,
-            resetTerm: resetTerm,
-            resetChild: resetChild
+            group: group,
+            child: child
         };
+        
+        $rootScope.toChildList = function (groupId) {
+            console.log('Group id is: ', groupId);
+            var groupInfo = School.groupInfo({groupId: groupId});
+            $rootScope.central.group.id = groupId;
+            $rootScope.central.school.name = groupInfo.school;
+            $rootScope.central.classroom.name = groupInfo.classroom;
+            $rootScope.central.term.name = groupInfo.term;
+            $location.url('/child/class/' + groupId + '/list');
+        };
+
     }]);

@@ -10,6 +10,7 @@ module.exports = function(grunt) {
   		"scripts/typeaheads.js",
   		"scripts/values.js",
   		"scripts/application.js",
+  		"scripts/grandCentral.js",
   		"school/school.js",
   		"scripts/relationship.js",
   		"address/address.js",

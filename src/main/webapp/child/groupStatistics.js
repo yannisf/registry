@@ -6,13 +6,11 @@ angular.module('child')
             restrict: 'E',
             replace: true,
             scope: {
-                schoolData: "="
+                groupId: "="
             },
             templateUrl: "child/groupStatistics.tpl.html",
             link: function(scope, element) {
-                scope.schoolData.$promise.then(function() {
-                    scope.groupStatistics = School.groupStatistics({groupId: scope.schoolData.id});
-                });
+                scope.groupStatistics = School.groupStatistics({groupId: scope.groupId});
             }
         };
     }]);

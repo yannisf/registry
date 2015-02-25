@@ -19,17 +19,6 @@ angular.module('school', ['ngRoute', 'ngResource', 'ui.bootstrap'])
         });
     }])
 
-    .service('SchoolService', ['School', function (School) {
-        return {
-            groupId: null,
-            info: function() {
-                if (angular.isDefined(this.groupId)) {
-                    return School.groupInfo({groupId: this.groupId});
-                }
-            }
-        };
-    }])
-
     .controller('listSchoolsController', ['$scope', 'School', function ($scope, School) {
             angular.extend($scope, {
                 data: {
