@@ -1,7 +1,7 @@
 'use strict';
 angular.module('child')
 
-    .directive('groupStatistics', ['School', function (School) {
+    .directive('groupStatistics', ['Foundation', function (Foundation) {
         return {
             restrict: 'E',
             replace: true,
@@ -10,7 +10,7 @@ angular.module('child')
             },
             templateUrl: "child/groupStatistics.tpl.html",
             link: function(scope, element) {
-                scope.groupStatistics = School.groupStatistics({groupId: scope.groupId});
+                scope.groupStatistics = Foundation.groupStatistics({groupId: scope.groupId});
             }
         };
     }]);

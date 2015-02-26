@@ -15,10 +15,6 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
             .when('/child/:childId/view', {
                 templateUrl: 'child/view.html',
                 controller: 'updateChildController'
-            })
-            .when('/child/class/:groupId/list', {
-                templateUrl: 'child/list.html',
-                controller: 'listChildController'
             });
     }])
 
@@ -33,32 +29,6 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
         var child, childIds;
     }])
 
-    .controller('listChildController', ['$scope', '$routeParams', 'Child', 'ChildService', 'School',
-        function ($scope, $routeParams, Child, ChildService, School) {
-            angular.extend($scope, {
-                data: {
-                    children: School.groupChildren({groupId: $routeParams.groupId})
-                },
-                viewData: {
-                    noChildren: true
-                }
-            });
-
-            $scope.goToChild = function ($event) {
-                var clickedElement = angular.element($event.target);
-                var childId = clickedElement.scope().child.id;
-                $scope.go('/child/' + childId + '/view', $event);
-            };
-
-            $scope.data.children.$promise.then(function(children) {
-                ChildService.childIds = children.map(function (child) {
-                    return child.id;
-                });
-                $scope.viewData.noChildren = children.length === 0;
-            });
-
-        }
-    ])
 
     .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'ChildService',
         function ($scope, $modalInstance, Child, childId, ChildService) {

@@ -10,7 +10,7 @@ angular.module('schoolApp')
                 child: "=",
                 address: "="
             },
-            templateUrl: "child/display-child.tpl.html",
+            templateUrl: "child/displayChild.tpl.html",
             link: function(scope) {
                 scope.isBlankAddress = addressService.isBlank;
             }

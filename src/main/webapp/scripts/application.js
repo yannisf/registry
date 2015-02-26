@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'values', 
-        'child', 'guardian', 'typeaheads', 'school', 'management'])
+        'child', 'guardian', 'typeaheads', 'foundation', 'management'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({
-            redirectTo: '/school/list'
+            redirectTo: '/foundation/list'
         });
     }])
 
@@ -166,13 +166,13 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
       };
     }])
 
-    .run(['$rootScope', '$location', '$window', 'ChildService', 'Flash', 'ListService', 'School',
-        function ($rootScope, $location, $window, ChildService, Flash, ListService, School) {
+    .run(['$rootScope', '$location', '$window', 'ChildService', 'Flash', 'ListService', 'Foundation',
+        function ($rootScope, $location, $window, ChildService, Flash, ListService, Foundation) {
             angular.extend($rootScope, {
                 scopedSchoolInfo: null,
                 toSchoolList: function() {
                     $rootScope.scopedSchoolInfo = null;
-                    $location.url('/school/list');
+                    $location.url('/foundation/list');
                 },
                 toScopedChild: function () {
                     if (ChildService.child) {

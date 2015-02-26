@@ -11,7 +11,7 @@ module.exports = function(grunt) {
   		"scripts/values.js",
   		"scripts/application.js",
   		"scripts/grandCentral.js",
-  		"school/school.js",
+  		"foundation/foundation.js",
   		"scripts/relationship.js",
   		"address/address.js",
   		"address/input-address.js",
@@ -21,10 +21,10 @@ module.exports = function(grunt) {
   		"child/child.js",
   		"child/createChildController.js",
   		"child/updateChildController.js",
-  		"child/display-child.js",
+  		"child/displayChild.js",
   		"child/groupStatistics.js",
   		"guardian/guardian.js",
-  		"guardian/display-guardian.js"
+  		"guardian/displayGuardian.js"
   	];
 
 	grunt.initConfig({

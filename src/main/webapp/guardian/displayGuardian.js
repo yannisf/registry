@@ -10,7 +10,7 @@ angular.module('schoolApp')
                 guardian: "=",
                 address: "="
             },
-            templateUrl: "guardian/display-guardian.tpl.html"
+            templateUrl: "guardian/displayGuardian.tpl.html"
         };
     });
     

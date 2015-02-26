@@ -2,7 +2,7 @@
 
 angular.module('schoolApp')
 
-    .run(['$rootScope', '$location', 'School', function ($rootScope, $location, School) {
+    .run(['$rootScope', '$location', 'Foundation', function ($rootScope, $location, Foundation) {
         var school = { id: null, name: "Σχολείο" };
         var classroom = { id: null, name: "Τμήμα" };
         var term = { id: null, name: "Χρονιά" };
@@ -19,12 +19,12 @@ angular.module('schoolApp')
         
         $rootScope.toChildList = function (groupId) {
             console.log('Group id is: ', groupId);
-            var groupInfo = School.groupInfo({groupId: groupId});
+            var groupInfo = Foundation.groupInfo({groupId: groupId});
             $rootScope.central.group.id = groupId;
             $rootScope.central.school.name = groupInfo.school;
             $rootScope.central.classroom.name = groupInfo.classroom;
             $rootScope.central.term.name = groupInfo.term;
-            $location.url('/child/class/' + groupId + '/list');
+            $location.url('/group/' + groupId );
         };
 
     }]);
