@@ -117,57 +117,8 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
     }
     ])
 
-    .factory("Flash", ['$rootScope', function($rootScope) {
-      var infoQueue = [];
-      var currentInfoMessage = "";
-
-      var successQueue = [];
-      var currentSuccessMessage = "";
-
-      var warningQueue = [];
-      var currentWarningMessage = "";
-
-      var errorQueue = [];
-      var currentErrorMessage = "";
-
-      $rootScope.$on("$routeChangeSuccess", function() {
-        currentInfoMessage = infoQueue.shift() || "";
-        currentWarningMessage = warningQueue.shift() || "";
-        currentSuccessMessage = successQueue.shift() || "";
-        currentErrorMessage = errorQueue.shift() || "";
-      });
-
-      return {
-        setMessage: function(message) {
-          infoQueue.push(message);
-        },
-        getMessage: function() {
-          return currentInfoMessage;
-        },
-        setSuccessMessage: function(message) {
-          successQueue.push(message);
-        },
-        getSuccessMessage: function() {
-          return currentSuccessMessage;
-        },
-        setWarningMessage: function(message) {
-          warningQueue.push(message);
-        },
-        getWarningMessage: function() {
-          return currentWarningMessage;
-        },
-        setErrorMessage: function(message) {
-          errorQueue.push(message);
-        },
-        getErrorMessage: function() {
-          return currentErrorMessage;
-        },
-
-      };
-    }])
-
-    .run(['$rootScope', '$location', '$window', 'ChildService', 'Flash', 'ListService', 'Foundation',
-        function ($rootScope, $location, $window, ChildService, Flash, ListService, Foundation) {
+    .run(['$rootScope', '$location', '$window', 'ChildService', 'ListService', 'Foundation',
+        function ($rootScope, $location, $window, ChildService, ListService, Foundation) {
             angular.extend($rootScope, {
                 scopedSchoolInfo: null,
                 toSchoolList: function() {
@@ -187,7 +138,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     }
                     $location.path(path);
                 },
-                Flash: Flash,
                 relationshipTypes: [],
                 telephoneTypes: []
             });

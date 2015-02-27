@@ -22,8 +22,8 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
         return $resource('api/guardian/:guardianId', { }, { });
     }])
 
-    .controller('createGuardianController', ['$scope', 'Flash', 'ChildService', 'Relationship', 'uuid4', 'Address',
-        function ($scope, Flash, ChildService, Relationship, uuid4, Address) {
+    .controller('createGuardianController', ['$scope', 'ChildService', 'Relationship', 'uuid4', 'Address',
+        function ($scope, ChildService, Relationship, uuid4, Address) {
             angular.extend($scope, {
                 data: {
                     guardian: {
@@ -66,16 +66,13 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                     guardianId: $scope.data.guardian.id
                 }, relationshipWithGuardianAndAddress)
                     .$promise.then(function (response) {
-                        Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                         $scope.toScopedChild();
-                    }, function (response) {
-                        Flash.setWarningMessage("Σφάλμα καταχώρησης.");
-                });
+                    });
             };
         }])
 
-    .controller('updateGuardianController', ['$scope', '$routeParams', 'Flash', 'ChildService', 'Guardian', 'Relationship', 'Address', 'uuid4',
-        function ($scope, $routeParams, Flash, ChildService, Guardian, Relationship, Address, uuid4) {
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'ChildService', 'Guardian', 'Relationship', 'Address', 'uuid4',
+        function ($scope, $routeParams, ChildService, Guardian, Relationship, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     guardian: Guardian.get({guardianId: $routeParams.guardianId}),
@@ -116,11 +113,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
                     guardianId: $scope.data.guardian.id
                 }, relationshipWithGuardianAndAddress).$promise.then(
                     function (response) {
-                        Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                         $scope.toScopedChild();
-                    },
-                    function (response) {
-                        Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                     }
                 );
             };

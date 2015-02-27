@@ -2,9 +2,9 @@
 
 angular.module('child')
 
-    .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Flash', 'Child',
+    .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Child',
                 'ChildService', 'SchoolService', 'Address', 'Relationship',
-        function ($scope, $routeParams, $window, $location, $modal, Flash, Child,
+        function ($scope, $routeParams, $window, $location, $modal, Child,
                 ChildService, SchoolService, Address, Relationship) {
 
             angular.extend($scope, {
@@ -30,7 +30,6 @@ angular.module('child')
                     $scope.toScopedChild();
                 } else if ($scope.childForm.$invalid) {
                     console.log('Form is invalid');
-                    Flash.setWarningMessage("Μη έγκυρη καταχώρηση.");
                 } else {
                     var childWithAddress = {
                         child: $scope.data.child,
@@ -39,10 +38,7 @@ angular.module('child')
 
                     Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
                         ChildService.child = $scope.data.child;
-                        Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                         $scope.toScopedChild();
-                    }, function (response) {
-                        Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                     });
                 }
             };
@@ -60,7 +56,7 @@ angular.module('child')
             $scope.nextChild = function () {
                 var next = findNextChild();
                 if (next.rollover) {
-                    Flash.setMessage("Ανακύκλωση καταλόγου. ");
+                    console.log("Ανακύκλωση καταλόγου. ");
                 }
                 $location.url('/child/' + next.id + '/view');
             };
@@ -68,7 +64,7 @@ angular.module('child')
             $scope.previousChild = function () {
                 var previous = findPreviousChild();
                 if (previous.rollover) {
-                    Flash.setMessage("Ανακύκλωση καταλόγου. ");
+                    console.log("Ανακύκλωση καταλόγου. ");
                 }
                 $location.url('/child/' + previous.id + '/view');
             };

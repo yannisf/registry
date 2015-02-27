@@ -6,7 +6,7 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap'])
         $routeProvider
             .when('/foundation/list', {
                 templateUrl: 'foundation/list.html',
-                controller: 'listSchoolsController'
+                controller: 'foundationController'
             })
             .when('/group/:groupId', {
                 templateUrl: 'foundation/group.html',
@@ -23,8 +23,20 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap'])
         });
     }])
 
-   .controller('listChildController', ['$scope', '$routeParams', 'Child', 'ChildService', 'Foundation',
-       function ($scope, $routeParams, Child, ChildService, Foundation) {
+    .controller('foundationController', ['$scope', 'Foundation',
+        function ($scope, Foundation) {
+            angular.extend($scope, {
+                data: {
+                    schools: Foundation.system()
+                },
+                viewData: {
+                }
+            });
+        }
+    ])
+
+    .controller('listChildController', ['$scope', '$routeParams', 'Child', 'ChildService', 'Foundation',
+        function ($scope, $routeParams, Child, ChildService, Foundation) {
            angular.extend($scope, {
                data: {
                    children: Foundation.groupChildren({groupId: $routeParams.groupId})
@@ -46,19 +58,6 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap'])
                });
                $scope.viewData.noChildren = children.length === 0;
            });
-
        }
-   ])
-
-
-    .controller('listSchoolsController', ['$scope', 'Foundation', function ($scope, Foundation) {
-            angular.extend($scope, {
-                data: {
-                    schools: Foundation.system()
-                },
-                viewData: {
-                }
-            });
-        }
     ]);
 

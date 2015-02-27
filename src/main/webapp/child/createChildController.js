@@ -2,8 +2,8 @@
 
 angular.module('child')
 
-    .controller('createChildController', ['$scope', 'Flash', 'Child', 'ChildService', 'SchoolService', 'Address',  'uuid4',
-        function ($scope, Flash, Child, ChildService, SchoolService, Address, uuid4) {
+    .controller('createChildController', ['$scope', 'Child', 'ChildService', 'SchoolService', 'Address',  'uuid4',
+        function ($scope, Child, ChildService, SchoolService, Address, uuid4) {
             angular.extend($scope, {
                 data: {
                     child: {
@@ -28,10 +28,7 @@ angular.module('child')
                 Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
                     ChildService.childIds = [];
                     ChildService.child = $scope.data.child;
-                    Flash.setSuccessMessage("Επιτυχής καταχώρηση.");
                     $scope.toScopedChild();
-                }, function (response) {
-                    Flash.setWarningMessage("Σφάλμα καταχώρησης.");
                 });
             };
         }]);
