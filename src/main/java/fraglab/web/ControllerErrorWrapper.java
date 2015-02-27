@@ -7,8 +7,7 @@ public class ControllerErrorWrapper implements Serializable {
     private String description;
     private String internalMessage;
 
-    public ControllerErrorWrapper() {
-    }
+    public ControllerErrorWrapper() { }
 
     public ControllerErrorWrapper(String description, String internalMessage) {
         this.description = description;

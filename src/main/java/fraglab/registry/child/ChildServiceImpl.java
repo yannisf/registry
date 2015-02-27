@@ -4,6 +4,8 @@ import fraglab.data.GenericDao;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.foundation.Group;
 import fraglab.web.NotFoundException;
+import fraglab.web.NotIdentifiedException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,11 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public void createOrUpdate(Child child) {
+    public void createOrUpdate(Child child) throws NotIdentifiedException {
+        if (StringUtils.isBlank(child.getId())) {
+            throw new NotIdentifiedException();
+        }
+
         dao.createOrUpdate(child);
         updateGroupMembersNum(child.getGroup());
     }

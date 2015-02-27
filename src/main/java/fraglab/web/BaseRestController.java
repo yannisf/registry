@@ -20,6 +20,15 @@ public class BaseRestController {
         return new ControllerErrorWrapper("Resource not found", e.getMessage());
     }
 
+    @ExceptionHandler(NotIdentifiedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public
+    @ResponseBody
+    ControllerErrorWrapper handleNotIdentifiedException(Exception e) {
+        LOG.warn("Error handling ", e);
+        return new ControllerErrorWrapper("Subject not identified ", e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public

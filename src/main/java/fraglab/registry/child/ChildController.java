@@ -2,6 +2,8 @@ package fraglab.registry.child;
 
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
+import fraglab.web.NotIdentifiedException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ public class ChildController extends BaseRestController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@RequestBody Child child) throws NotFoundException {
+    public void createOrUpdate(@RequestBody Child child) throws NotIdentifiedException {
         childService.createOrUpdate(child);
     }
 

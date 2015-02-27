@@ -114,17 +114,20 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     });
             }
         };
-    }
-    ])
+    }])
 
-    .run(['$rootScope', '$location', '$window', 'ChildService', 'ListService', 'Foundation',
-        function ($rootScope, $location, $window, ChildService, ListService, Foundation) {
+    .run(['$rootScope', '$location', '$window', 'ChildService', 'ListService', 'FoundationService',
+        function ($rootScope, $location, $window, ChildService, ListService, FoundationService) {
             angular.extend($rootScope, {
                 scopedSchoolInfo: null,
                 toSchoolList: function() {
                     $rootScope.scopedSchoolInfo = null;
                     $location.url('/foundation/list');
                 },
+				toChildList: function (groupId) {
+					FoundationService.initializeGroup(groupId);
+					$location.url('/group/' + groupId );
+				},
                 toScopedChild: function () {
                     if (ChildService.child) {
                         $location.url('/child/' + ChildService.child.id + '/view');

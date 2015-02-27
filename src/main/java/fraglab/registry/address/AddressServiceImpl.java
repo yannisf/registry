@@ -42,4 +42,12 @@ public class AddressServiceImpl implements AddressService {
         return dao.countByQuery(query, params) > 1;
     }
 
+    @Override
+    public Address fetchForChild(String childId) {
+        String query = "select a from Address a where a.id = (select c.address.id from Child c where c.id= :childId)";
+        Map<String, Object> params = new HashMap<>();
+        params.put("childId", childId);
+        return dao.findSingleByQuery(Address.class, query, params);
+    }
+
 }

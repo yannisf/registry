@@ -12,4 +12,5 @@ public interface AddressService {
 
     boolean isSharedAddress(String addressId);
 
+    Address fetchForChild(String childId);
 }

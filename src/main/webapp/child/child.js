@@ -21,14 +21,12 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
     .factory('Child', ['$resource', function($resource) {
         return $resource('api/child/:id', { }, {
             save: {method: 'PUT', url: 'api/child'},
-            saveWithAddress: {method: 'PUT', url: 'api/child/address'}
         });
     }])
 
     .service('ChildService', [function () {
-        var child, childIds;
+        var child, childIds, childName = null;
     }])
-
 
     .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'ChildService',
         function ($scope, $modalInstance, Child, childId, ChildService) {

@@ -4,7 +4,8 @@ angular.module('schoolApp')
 
     .factory('Address', ['$resource', function($resource) {
         return $resource('api/address/:addressId', { }, {
-            save: {method: 'PUT', url: 'api/address'}
+            save: {method: 'PUT', url: 'api/address'},
+            getForChild: {method: 'GET', url: 'api/address/child/:childId'}
         });
     }])
 

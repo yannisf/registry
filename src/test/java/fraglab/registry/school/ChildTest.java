@@ -7,6 +7,7 @@ import fraglab.registry.child.ChildService;
 import fraglab.registry.foundation.FoundationService;
 import fraglab.registry.foundation.Group;
 import fraglab.web.NotFoundException;
+import fraglab.web.NotIdentifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,7 +39,7 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
     @Test
     @Transactional
     @Rollback(false)
-    public void testAddChild() {
+    public void testAddChild() throws NotIdentifiedException {
         Group group = childService.fetchGroup(groupId);
         Child child = new Child();
         child.setId(generateUuid());

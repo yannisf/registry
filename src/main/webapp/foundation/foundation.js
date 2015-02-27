@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap'])
+angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
@@ -10,7 +10,7 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap'])
             })
             .when('/group/:groupId', {
                 templateUrl: 'foundation/group.html',
-                controller: 'listChildController'
+                controller: 'listGroupController'
             });
     }])
 
@@ -23,41 +23,80 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap'])
         });
     }])
 
-    .controller('foundationController', ['$scope', 'Foundation',
-        function ($scope, Foundation) {
+    .service('FoundationService', ['Foundation', 'ChildService', function (Foundation, ChildService) {
+		var school = { id: null, name: "Σχολείο" };
+		var classroom = { id: null, name: "Τμήμα" };
+		var term = { id: null, name: "Χρονιά" };
+		var group = { id: null };
+		var initializeGroup = function(groupId) {
+			group.id = groupId;
+			var groupInfo = Foundation.groupInfo({groupId: groupId});
+			groupInfo.$promise.then(function(response) {
+				school.name = response.school;
+				classroom.name = response.classroom;
+				term.name = response.term;
+				console.log('school (F): ', school.name);
+			});
+		};
+		var groupChildren = function() {
+			var children = Foundation.groupChildren({groupId: group.id});
+			children.$promise.then(function(response) {
+			   ChildService.childIds = response.map(function (child) {
+				   return child.id;
+			   });
+			});
+
+			return children;
+		};
+		var fetchSystem = function() {
+			return Foundation.system();
+		};
+
+		return {
+			school: school,
+			classroom: classroom,
+			term: term,
+			group: group,
+			initializeGroup: initializeGroup,
+			fetchSystem: fetchSystem,
+			groupChildren: groupChildren
+		};
+    }])
+
+    .controller('foundationController', ['$scope', 'FoundationService',
+        function ($scope, FoundationService) {
             angular.extend($scope, {
                 data: {
-                    schools: Foundation.system()
-                },
-                viewData: {
+                    schools: FoundationService.fetchSystem()
                 }
             });
         }
     ])
 
-    .controller('listChildController', ['$scope', '$routeParams', 'Child', 'ChildService', 'Foundation',
-        function ($scope, $routeParams, Child, ChildService, Foundation) {
+    .controller('listGroupController', ['$scope', 'FoundationService', 'ChildService',
+        function ($scope, FoundationService, ChildService) {
            angular.extend($scope, {
                data: {
-                   children: Foundation.groupChildren({groupId: $routeParams.groupId})
+                   children: FoundationService.groupChildren()
                },
                viewData: {
-                   noChildren: true
+					groupId: FoundationService.group.id,
+                   	noChildren: false
                }
            });
 
-           $scope.goToChild = function ($event) {
-               var clickedElement = angular.element($event.target);
-               var childId = clickedElement.scope().child.id;
-               $scope.go('/child/' + childId + '/view', $event);
-           };
+			$scope.data.children.$promise.then(function(response) {
+				$scope.viewData.noChildren = response.length === 0;
+			});
 
-           $scope.data.children.$promise.then(function(children) {
-               ChildService.childIds = children.map(function (child) {
-                   return child.id;
-               });
-               $scope.viewData.noChildren = children.length === 0;
-           });
-       }
-    ]);
+           	$scope.goToChild = function ($event) {
+				var clickedElement = angular.element($event.target);
+               	var childId = clickedElement.scope().child.id;
+               	console.log('Child service name set to...');
+               	ChildService.childName = "Someone";
+               	console.log(ChildService.childName);
+               	$scope.go('/child/' + childId + '/view', $event);
+           	};
+       	}
+	]);
 
