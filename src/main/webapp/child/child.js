@@ -24,24 +24,11 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
         });
     }])
 
-    .service('ChildService', [function () {
-        var child = {id: null, name: null};
-        var childIds = [];
-        
-        return {
-            child: child,
-            childIds: childIds
-        };
-    }])
-
     .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'ChildService',
         function ($scope, $modalInstance, Child, childId, ChildService) {
             $scope.removeChild = function () {
-                Child.remove({id: childId}).$promise.then(function (response) {
-                    ChildService.child = null;
-                    $scope.dismiss();
-                    $scope.toChildList();
-                });
+                ChildService.remove(childId)
+                $scope.dismiss();
             };
 
             $scope.dismiss = function () {

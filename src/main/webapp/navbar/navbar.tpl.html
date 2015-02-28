@@ -18,22 +18,22 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-class="{'in':!navCollapsed}">
             <ul class="nav navbar-nav">
                 <li><a href ng-click="toSchoolList()">Κατάλογος σχολείων</a></li>
-                <li class="dropdown" ng-if="$root.scopedSchoolInfo">
+                <li class="dropdown" ng-if="group.id">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Διαχείριση τάξης<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href ng-click="toChildList()">Κατάλογος παιδιών</a></li>
-                        <li><a href ng-click="go('/child/create')" ng-disabled="! $root.scopedSchoolInfo">Εισαγωγή παιδιού</a> </li>
+                        <li><a href ng-click="toChildList(group.id)">Κατάλογος παιδιών</a></li>
+                        <li><a href ng-click="go('/child/create')" ng-disabled="! group.id">Εισαγωγή παιδιού</a> </li>
                     </ul>
                 </li>
-                <li class="dropdown" ng-if="$root.scopedSchoolInfo">
+                <li class="dropdown" ng-if="group.id">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Εκτυπώσεις<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="api/child/report/pdf/first?class={{$root.scopedSchoolInfo.id}}" target="_blank">Μικρά ονόματα</a></li>
-                        <li><a href="api/child/report/pdf/full?class={{$root.scopedSchoolInfo.id}}" target="_blank">Ολόκληρα ονόματα</a></li>
-                        <li><a href="api/child/report/pdf/smallTags?class={{$root.scopedSchoolInfo.id}}" target="_blank">Ταμπέλες ονομάτων (μικρές)</a></li>
-                        <li><a href="api/child/report/pdf/bigTags?class={{$root.scopedSchoolInfo.id}}" target="_blank">Ταμπέλες ονομάτων (μεγάλες)</a></li>
-                        <li><a href="api/communication/{{$root.scopedSchoolInfo.id}}?format=a4" target="_blank">Πίνακας Επικοινωνίας (A4)</a></li>
-                        <li><a href="api/communication/{{$root.scopedSchoolInfo.id}}?format=a3" target="_blank">Πίνακας Επικοινωνίας (A3)</a></li>
+                        <li><a href="api/child/report/pdf/first?class={{group.id}}" target="_blank">Μικρά ονόματα</a></li>
+                        <li><a href="api/child/report/pdf/full?class={{group.id}}" target="_blank">Ολόκληρα ονόματα</a></li>
+                        <li><a href="api/child/report/pdf/smallTags?class={{group.id}}" target="_blank">Ταμπέλες ονομάτων (μικρές)</a></li>
+                        <li><a href="api/child/report/pdf/bigTags?class={{group.id}}" target="_blank">Ταμπέλες ονομάτων (μεγάλες)</a></li>
+                        <li><a href="api/communication/{{group.id}}?format=a4" target="_blank">Πίνακας Επικοινωνίας (A4)</a></li>
+                        <li><a href="api/communication/{{group.id}}?format=a3" target="_blank">Πίνακας Επικοινωνίας (A3)</a></li>
                     </ul>
                 </li>
             </ul>

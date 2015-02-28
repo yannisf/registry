@@ -1,6 +1,7 @@
 package fraglab.registry.child;
 
 import fraglab.data.GenericDao;
+import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.foundation.Group;
 import fraglab.web.NotFoundException;
@@ -39,6 +40,16 @@ public class ChildServiceImpl implements ChildService {
 
         dao.createOrUpdate(child);
         updateGroupMembersNum(child.getGroup());
+    }
+
+    @Override
+    public void createOrUpdate(Child child, String addressId, String groupId) 
+            throws NotIdentifiedException, NotFoundException {
+        Address address = dao.fetch(Address.class, addressId);
+        Group group = dao.fetch(Group.class, groupId);
+        child.setAddress(address);
+        child.setGroup(group);
+        createOrUpdate(child);
     }
 
     @Override

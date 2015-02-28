@@ -32,15 +32,15 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
     @Transactional
     @Rollback(false)
     public void testAddSchoolSystem() {
-        School school = new School("My school");
+        School school = new School("My other school");
         school.setId(generateUuid());
         schoolId = school.getId();
         
-        Classroom classroom1 = new Classroom("My classroom 1");
+        Classroom classroom1 = new Classroom("My other classroom 1");
         classroom1.setId(generateUuid());
         classroomId1 = classroom1.getId();
         
-        Classroom classroom2 = new Classroom("My classroom 2");
+        Classroom classroom2 = new Classroom("My other classroom 2");
         classroom2.setId(generateUuid());
         classroomId2 = classroom2.getId();
         
@@ -62,7 +62,7 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
         group.setId(generateUuid());
         groupId = group.getId();
         group.setClassroom(classroom2);
-        group.setTerm(term1);
+        group.setTerm(term2);
         foundationService.createOrUpdateGroup(group);
     }
 

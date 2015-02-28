@@ -23,7 +23,7 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
         });
     }])
 
-    .service('FoundationService', ['Foundation', 'ChildService', function (Foundation, ChildService) {
+    .service('FoundationService', ['Foundation', function (Foundation) {
 		var school = { id: null, name: "Σχολείο" };
 		var classroom = { id: null, name: "Τμήμα" };
 		var term = { id: null, name: "Χρονιά" };
@@ -40,25 +40,38 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 		var groupChildren = function() {
 			var children = Foundation.groupChildren({groupId: group.id});
 			children.$promise.then(function(response) {
-			   ChildService.childIds = response.map(function (child) {
+			   groupChildrenIds = response.map(function (child) {
 				   return child.id;
 			   });
 			});
 
 			return children;
 		};
+		var groupChildrenIds = [];
 		var fetchSystem = function() {
 			return Foundation.system();
 		};
+		var reset = function() {
+			this.school.id = null;
+			this.school.name = null;
+			this.classroom.id = null;
+			this.classroom.name = null;
+			this.term.id = null;
+			this.term.name = null;
+			this.group.id = null;
+			this.groupChildrenIds = [];
+		}
 
 		return {
 			school: school,
 			classroom: classroom,
 			term: term,
 			group: group,
+			reset: reset,
 			initializeGroup: initializeGroup,
 			fetchSystem: fetchSystem,
-			groupChildren: groupChildren
+			groupChildren: groupChildren,
+			groupChildrenIds: groupChildrenIds
 		};
     }])
 
@@ -91,7 +104,6 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
            	$scope.goToChild = function ($event) {
 				var clickedElement = angular.element($event.target);
                	var childId = clickedElement.scope().child.id;
-               	ChildService.child.name = "Loading...";
                	$scope.go('/child/' + childId + '/view', $event);
            	};
        	}

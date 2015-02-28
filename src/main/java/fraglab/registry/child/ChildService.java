@@ -10,6 +10,8 @@ public interface ChildService {
 
     void createOrUpdate(Child child) throws NotIdentifiedException;
 
+    void createOrUpdate(Child child, String addressId, String groupId) throws NotIdentifiedException, NotFoundException;
+    
     Child fetch(String id) throws NotFoundException;
 
     void delete(String id) throws NotFoundException;

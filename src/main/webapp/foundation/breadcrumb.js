@@ -5,15 +5,14 @@ angular.module('foundation')
         return {
             restrict: 'E',
             replace: true,
-            scope: { },
+            scope: true,
             templateUrl: "foundation/breadcrumb.tpl.html",
             link: function(scope, element) {
                 scope.school = FoundationService.school;
                 scope.classroom = FoundationService.classroom;
                 scope.term = FoundationService.term;
-                
-                scope.$watch('ChildService.child', )
-                scope.child = ChildService.child;
+                scope.group = FoundationService.group;
+                scope.child = ChildService.cache.child;
             }
         };
     }]);

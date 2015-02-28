@@ -3,9 +3,9 @@
 angular.module('child')
 
     .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Child',
-                'ChildService', 'Address', 'Relationship',
+                'ChildService', 'Address', 'Relationship', 'FoundationService',
         function ($scope, $routeParams, $window, $location, $modal, Child,
-                ChildService, Address, Relationship) {
+                ChildService, Address, Relationship, FoundationService) {
 
             angular.extend($scope, {
                 data: {
@@ -15,16 +15,12 @@ angular.module('child')
                 },
                 viewData: {
                     submitLabel: 'Ανανέωση',
-                    hasChildrenIdsInScope: ChildService.childIds.length > 1
+                    hasChildrenIdsInScope: FoundationService.groupChildrenIds.length > 1
                 }
             });
 
             $scope.data.child.$promise.then(function (response) {
-                console.log('1. child: ', ChildService.child);
-                ChildService.child = $scope.data.child;
-                console.log('2. child: ', ChildService.child);
-                ChildService.child.name = "Me!";
-                console.log('3. child: ', ChildService.child);
+                ChildService.setChild($scope.data.child);
                 $scope.data.address = Address.getForChild({childId: $scope.data.child.id});
             });
 
