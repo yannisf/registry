@@ -11,8 +11,9 @@ angular.module('foundation')
                 scope.school = FoundationService.school;
                 scope.classroom = FoundationService.classroom;
                 scope.term = FoundationService.term;
-                scope.childName = ChildService.childName;
-                console.log('Childname set to ', scope.childName);
+                
+                scope.$watch('ChildService.child', )
+                scope.child = ChildService.child;
             }
         };
     }]);

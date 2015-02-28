@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
-@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
+@ContextConfiguration(locations = {"file:///home/yannis/development/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
@@ -34,7 +34,7 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
     
     private String addressId;
 
-    private String groupId = "b459fdfd-16cf-4774-b6a9-f17ed370f21f";
+    private String groupId = "14fbd8de-9eb7-4487-bdee-b4412cec43a2";
 
     @Test
     @Transactional
@@ -43,8 +43,8 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
         Group group = childService.fetchGroup(groupId);
         Child child = new Child();
         child.setId(generateUuid());
-        child.setFirstName("Giorgos");
-        child.setLastName("Papadopoulos");
+        child.setFirstName("Manolis");
+        child.setLastName("Mitsia");
         group.addChild(child);
         childService.createOrUpdate(child);
         childId = child.getId();
@@ -56,7 +56,7 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
     public void testAddAddress() {
         Address address = new Address();
         address.setId(generateUuid());
-        address.setCity("Athens");
+        address.setCity("Peiraias");
         addressService.createOrUpdate(address);
         addressId = address.getId();
     }

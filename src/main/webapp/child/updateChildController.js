@@ -20,7 +20,11 @@ angular.module('child')
             });
 
             $scope.data.child.$promise.then(function (response) {
+                console.log('1. child: ', ChildService.child);
                 ChildService.child = $scope.data.child;
+                console.log('2. child: ', ChildService.child);
+                ChildService.child.name = "Me!";
+                console.log('3. child: ', ChildService.child);
                 $scope.data.address = Address.getForChild({childId: $scope.data.child.id});
             });
 

@@ -25,7 +25,13 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
     }])
 
     .service('ChildService', [function () {
-        var child, childIds, childName = null;
+        var child = {id: null, name: null};
+        var childIds = [];
+        
+        return {
+            child: child,
+            childIds: childIds
+        };
     }])
 
     .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'ChildService',

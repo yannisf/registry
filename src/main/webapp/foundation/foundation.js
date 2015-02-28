@@ -35,7 +35,6 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 				school.name = response.school;
 				classroom.name = response.classroom;
 				term.name = response.term;
-				console.log('school (F): ', school.name);
 			});
 		};
 		var groupChildren = function() {
@@ -92,9 +91,7 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
            	$scope.goToChild = function ($event) {
 				var clickedElement = angular.element($event.target);
                	var childId = clickedElement.scope().child.id;
-               	console.log('Child service name set to...');
-               	ChildService.childName = "Someone";
-               	console.log(ChildService.childName);
+               	ChildService.child.name = "Loading...";
                	$scope.go('/child/' + childId + '/view', $event);
            	};
        	}
