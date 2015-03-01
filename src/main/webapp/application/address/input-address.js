@@ -11,7 +11,7 @@ angular.module('schoolApp')
                     shareOption: "=",
                     typeaheads: "="
                 },
-                templateUrl: "address/input-address.tpl.html",
+                templateUrl: "application/address/input-address.tpl.html",
                 link: function (scope) {
 
                     scope.viewData = {

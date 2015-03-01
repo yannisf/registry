@@ -5,11 +5,11 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/foundation/list', {
-                templateUrl: 'foundation/list.html',
+                templateUrl: 'application/foundation/list.html',
                 controller: 'foundationController'
             })
             .when('/group/:groupId', {
-                templateUrl: 'foundation/group.html',
+                templateUrl: 'application/foundation/group.html',
                 controller: 'listGroupController'
             });
     }])
@@ -24,9 +24,9 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
     }])
 
     .service('FoundationService', ['Foundation', function (Foundation) {
-		var school = { id: null, name: "Σχολείο" };
-		var classroom = { id: null, name: "Τμήμα" };
-		var term = { id: null, name: "Χρονιά" };
+		var school = { id: null, name: null };
+		var classroom = { id: null, name: null };
+		var term = { id: null, name: null };
 		var group = { id: null };
 		var initializeGroup = function(groupId) {
 			group.id = groupId;
@@ -38,11 +38,12 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 			});
 		};
 		var groupChildren = function() {
+			var self = this;
 			var children = Foundation.groupChildren({groupId: group.id});
 			children.$promise.then(function(response) {
-			   groupChildrenIds = response.map(function (child) {
+				self.groupChildrenIds = response.map(function (child) {
 				   return child.id;
-			   });
+				});
 			});
 
 			return children;

@@ -125,6 +125,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     $location.url('/foundation/list');
                 },
 				toChildList: function (groupId) {
+				    ChildService.reset();
 					FoundationService.initializeGroup(groupId);
 					$location.url('/group/' + groupId );
 				},

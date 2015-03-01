@@ -2,8 +2,8 @@
 
 angular.module('child')
 
-    .controller('createChildController', ['$scope', 'ChildService', 'uuid4',
-        function ($scope, ChildService,uuid4) {
+    .controller('createChildController', ['$scope', 'uuid4', 'ChildService',
+        function ($scope, uuid4, ChildService) {
             angular.extend($scope, {
                 data: {
                     child: {

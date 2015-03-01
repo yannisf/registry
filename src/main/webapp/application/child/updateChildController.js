@@ -45,50 +45,6 @@ angular.module('child')
                 $scope.go('/guardian/' + guardianId + '/view', $event);
             };
 
-            $scope.nextChild = function () {
-                var next = findNextChild();
-                if (next.rollover) {
-                    console.log("Ανακύκλωση καταλόγου. ");
-                }
-                $location.url('/child/' + next.id + '/view');
-            };
-
-            $scope.previousChild = function () {
-                var previous = findPreviousChild();
-                if (previous.rollover) {
-                    console.log("Ανακύκλωση καταλόγου. ");
-                }
-                $location.url('/child/' + previous.id + '/view');
-            };
-
-            function findNextChild() {
-                var result = {};
-                var numberOfChildren = ChildService.childIds.length;
-                var currentChildId = ChildService.child.id;
-                var currentChildIdIndex = ChildService.childIds.indexOf(currentChildId);
-                if (currentChildIdIndex + 1 < numberOfChildren) {
-                    result.id = ChildService.childIds[currentChildIdIndex + 1];
-                } else {
-                    result.id = ChildService.childIds[0];
-                    result.rollover = true;
-                }
-                return result;
-            }
-
-            function findPreviousChild() {
-                var result = {};
-                var numberOfChildren = ChildService.childIds.length;
-                var currentChildId = ChildService.child.id;
-                var currentChildIdIndex = ChildService.childIds.indexOf(currentChildId);
-                if (currentChildIdIndex !== 0) {
-                    result.id = ChildService.childIds[currentChildIdIndex - 1];
-                } else {
-                    result.id = ChildService.childIds[numberOfChildren - 1];
-                    result.rollover = true;
-                }
-                return result;
-            }
-
             $scope.confirmRemoveChild = function () {
                 $modal.open({
                     templateUrl: 'templates/remove-child.tpl.html',

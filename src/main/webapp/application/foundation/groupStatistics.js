@@ -8,7 +8,7 @@ angular.module('foundation')
             scope: {
                 groupId: "="
             },
-            templateUrl: "foundation/groupStatistics.tpl.html",
+            templateUrl: "application/foundation/groupStatistics.tpl.html",
             link: function(scope, element) {
                 scope.groupStatistics = Foundation.groupStatistics({groupId: scope.groupId});
             }

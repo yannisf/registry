@@ -5,15 +5,15 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/child/create', {
-                templateUrl: 'child/edit.html',
+                templateUrl: 'application/child/edit.html',
                 controller: 'createChildController'
             })
             .when('/child/:childId/update', {
-                templateUrl: 'child/edit.html',
+                templateUrl: 'application/child/edit.html',
                 controller: 'updateChildController'
             })
             .when('/child/:childId/view', {
-                templateUrl: 'child/view.html',
+                templateUrl: 'application/child/view.html',
                 controller: 'updateChildController'
             });
     }])
@@ -24,8 +24,8 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
         });
     }])
 
-    .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'ChildService',
-        function ($scope, $modalInstance, Child, childId, ChildService) {
+    .controller('removeChildModalController', ['$scope', '$modalInstance', 'childId', 'ChildService',
+        function ($scope, $modalInstance, childId, ChildService) {
             $scope.removeChild = function () {
                 ChildService.remove(childId);
                 $scope.dismiss();

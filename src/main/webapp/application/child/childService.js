@@ -12,8 +12,15 @@ angular.module('child')
             };
             var child = {};
             var setChild = function(child) {
+                console.log('Setting child: ', child);
+                console.log('The ids are ', FoundationService.groupChildrenIds);
                 this.child = child;
                 cache.child.name = formatName(child);
+            };
+            var reset = function() {
+                child = {};
+                cache.child.id = null;
+                cache.child.name = null;
             };
             var save = function(child, address) {
                 var self = this;
@@ -47,6 +54,7 @@ angular.module('child')
             return {
                 cache: cache,
                 child: child,
+                reset: reset,
                 save: save,
                 remove: remove,
                 setChild: setChild,

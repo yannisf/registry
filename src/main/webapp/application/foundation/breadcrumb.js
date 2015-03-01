@@ -6,8 +6,8 @@ angular.module('foundation')
             restrict: 'E',
             replace: true,
             scope: true,
-            templateUrl: "foundation/breadcrumb.tpl.html",
-            link: function(scope, element) {
+            templateUrl: "application/foundation/breadcrumb.tpl.html",
+            link: function(scope) {
                 scope.school = FoundationService.school;
                 scope.classroom = FoundationService.classroom;
                 scope.term = FoundationService.term;
