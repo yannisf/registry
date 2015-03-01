@@ -1,12 +1,12 @@
 module.exports = function(grunt) {
   	var scripts = [
-  		"scripts/vendor/jquery/dist/jquery.js",
-  		"scripts/vendor/angular/angular.js",
-  		"scripts/vendor/angular-route/angular-route.js",
-  		"scripts/vendor/angular-resource/angular-resource.js",
-  		"scripts/vendor/angular-ui-utils/ui-utils.js",
-  		"scripts/vendor/angular-uuid4/angular-uuid4.js",
-  		"scripts/vendor/angular-bootstrap/ui-bootstrap-tpls.js",
+  		"scripts/lib/jquery.js",
+  		"scripts/lib/angular.js",
+  		"scripts/lib/angular-route.js",
+  		"scripts/lib/angular-resource.js",
+  		"scripts/lib/ui-utils.js",
+  		"scripts/lib/angular-uuid4.js",
+  		"scripts/lib/ui-bootstrap-tpls.js",
   		"application/typeaheads.js",
   		"application/values.js",
   		"application/application.js",
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
     				console: true
     			}
     		},
-    		sources: ['src/main/webapp/**/*.js', '!src/main/webapp/scripts/vendor/**']
+    		sources: ['src/main/webapp/**/*.js', '!src/main/webapp/scripts/lib/**']
     	},
 		copy: {
 			main: {
@@ -55,12 +55,24 @@ module.exports = function(grunt) {
 				  		});
 			  		}
 				}
+		  	},
+		  	lib: {
+		  		files: [
+		  			{expand: true, cwd:'bower_modules/jquery/dist/', src: 'jquery.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/angular/', src: 'angular.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/angular-route/', src: 'angular-route.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/angular-resource/', src: 'angular-resource.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/angular-ui-utils/', src: 'ui-utils.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/angular-uuid4/', src: 'angular-uuid4.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/angular-bootstrap/', src: 'ui-bootstrap-tpls.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/bootstrap/', src: 'fonts/**', dest: 'src/main/webapp/scripts/lib/'},
+		  		],
 		  	}
 		},
 		less: {
 			development: {
 				options: {
-			  		paths: ["src/main/webapp/scripts/vendor/bootstrap/less"]
+			  		paths: ["bower_modules/bootstrap/less"]
 				},
 				files: {
 			  		"src/main/webapp/styles/application.css": "src/main/less/master.less"
