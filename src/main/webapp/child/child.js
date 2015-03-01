@@ -27,7 +27,7 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
     .controller('removeChildModalController', ['$scope', '$modalInstance', 'Child', 'childId', 'ChildService',
         function ($scope, $modalInstance, Child, childId, ChildService) {
             $scope.removeChild = function () {
-                ChildService.remove(childId)
+                ChildService.remove(childId);
                 $scope.dismiss();
             };
 

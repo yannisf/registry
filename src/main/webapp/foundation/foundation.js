@@ -60,7 +60,7 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 			this.term.name = null;
 			this.group.id = null;
 			this.groupChildrenIds = [];
-		}
+		};
 
 		return {
 			school: school,

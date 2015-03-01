@@ -13,6 +13,7 @@ module.exports = function(grunt) {
   		"navbar/navbar.js",
   		"foundation/foundation.js",
   		"foundation/breadcrumb.js",
+  		"foundation/groupStatistics.js",
   		"scripts/relationship.js",
   		"address/address.js",
   		"address/input-address.js",
@@ -24,7 +25,6 @@ module.exports = function(grunt) {
   		"child/createChildController.js",
   		"child/updateChildController.js",
   		"child/displayChild.js",
-  		"child/groupStatistics.js",
   		"guardian/guardian.js",
   		"guardian/displayGuardian.js"
   	];

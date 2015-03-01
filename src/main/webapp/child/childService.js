@@ -34,8 +34,7 @@ angular.module('child')
                     self.child = {};
                     $rootScope.toChildList(FoundationService.group.id);
                 });
-
-            }
+            };
             
             function formatName(child) {
                 var name = child.firstName + " ";

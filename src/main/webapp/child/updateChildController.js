@@ -31,15 +31,7 @@ angular.module('child')
                 } else if ($scope.childForm.$invalid) {
                     console.log('Form is invalid');
                 } else {
-                    var childWithAddress = {
-                        child: $scope.data.child,
-                        address: $scope.data.address
-                    };
-
-                    Child.saveWithAddress(childWithAddress).$promise.then(function (response) {
-                        ChildService.child = $scope.data.child;
-                        $scope.toScopedChild();
-                    });
+                    ChildService.save($scope.data.child, $scope.data.address);
                 }
             };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('schoolApp')
+angular.module('child')
 
     .directive('displayChild', ['addressService', function (addressService) {
         return {

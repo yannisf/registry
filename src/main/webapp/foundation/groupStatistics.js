@@ -1,5 +1,5 @@
 'use strict';
-angular.module('child')
+angular.module('foundation')
 
     .directive('groupStatistics', ['Foundation', function (Foundation) {
         return {
@@ -8,7 +8,7 @@ angular.module('child')
             scope: {
                 groupId: "="
             },
-            templateUrl: "child/groupStatistics.tpl.html",
+            templateUrl: "foundation/groupStatistics.tpl.html",
             link: function(scope, element) {
                 scope.groupStatistics = Foundation.groupStatistics({groupId: scope.groupId});
             }
