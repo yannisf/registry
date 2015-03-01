@@ -3,6 +3,7 @@ package fraglab.registry.child;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.Person;
 import fraglab.registry.foundation.Group;
+import fraglab.registry.relationship.Relationship;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class Child extends Person {
     @Enumerated(EnumType.STRING)
     private PreschoolLevel level;
 
-    @OneToMany
+    @OneToMany(mappedBy = "child", fetch = FetchType.LAZY)
     private List<Relationship> relationships;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)

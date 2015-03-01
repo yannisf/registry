@@ -1,5 +1,6 @@
 package fraglab.data;
 
+import fraglab.registry.common.BaseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -23,19 +24,19 @@ public class GenericDaoImpl implements GenericDao {
     protected EntityManager entityManager;
 
     @Override
-    public <T> void createOrUpdate(T entity) {
+    public <T extends BaseEntity> void createOrUpdate(T entity) {
         LOG.debug("Update or create [{}]: [{}]", entity.getClass().getName(), entity.toString());
         entityManager.merge(entity);
     }
 
     @Override
-    public <T> T fetch(Class<T> clazz, String id) {
+    public <T extends BaseEntity> T fetch(Class<T> clazz, String id) {
         LOG.debug("Fetch [{}] with id [{}]", clazz.getName(), id);
         return entityManager.find(clazz, id);
     }
 
     @Override
-    public <T> void delete(T entity) {
+    public <T extends BaseEntity> void delete(T entity) {
         LOG.debug("Remove [{}]: [{}]", entity.getClass().getName(), entity.toString());
         entity = entityManager.merge(entity);
         entityManager.remove(entity);

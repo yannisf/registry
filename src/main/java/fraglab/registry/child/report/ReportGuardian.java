@@ -1,7 +1,7 @@
 package fraglab.registry.child.report;
 
 import fraglab.registry.common.Telephone;
-import fraglab.registry.child.Relationship;
+import fraglab.registry.relationship.RelationshipType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,14 +10,14 @@ import java.util.List;
 public class ReportGuardian implements Serializable {
 
     private String name;
-    private Relationship.Type relationship;
+    private RelationshipType relationship;
     private boolean pickup;
     private List<Telephone> telephones;
 
     public ReportGuardian() {
     }
 
-    public ReportGuardian(String name, Relationship.Type relationship, boolean pickup) {
+    public ReportGuardian(String name, RelationshipType relationship, boolean pickup) {
         this.name = name;
         this.relationship = relationship;
         this.pickup = pickup;
@@ -31,11 +31,11 @@ public class ReportGuardian implements Serializable {
         this.name = name;
     }
 
-    public Relationship.Type getRelationship() {
+    public RelationshipType getRelationship() {
         return relationship;
     }
 
-    public void setRelationship(Relationship.Type relationship) {
+    public void setRelationship(RelationshipType relationship) {
         this.relationship = relationship;
     }
 

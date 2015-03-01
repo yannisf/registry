@@ -3,7 +3,7 @@ package fraglab.registry.child.report;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
 import fraglab.registry.common.Telephone;
-import fraglab.registry.child.Relationship;
+import fraglab.registry.relationship.RelationshipType;
 import fraglab.web.NotFoundException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -102,19 +102,19 @@ public class CommunicationReportController {
         return map;
     }
 
-    Map<Relationship.Type, String> getLocalizedRelationshipTypeMap() {
-        Map<Relationship.Type, String> map = new HashMap<>();
-        map.put(Relationship.Type.FATHER, "ΠΑΤΕΡΑΣ");
-        map.put(Relationship.Type.MOTHER, "ΜΗΤΕΡΑ");
-        map.put(Relationship.Type.GRANDFATHER, "ΠΑΠΠΟΥΣ");
-        map.put(Relationship.Type.GRANDMOTHER, "ΓΙΑΓΙΑ");
-        map.put(Relationship.Type.BROTHER, "ΑΔΕΛΦΟΣ");
-        map.put(Relationship.Type.SISTER, "ΑΔΕΛΦΗ");
-        map.put(Relationship.Type.UNCLE, "ΘΕΙΟΣ");
-        map.put(Relationship.Type.AUNT, "ΘΕΙΑ");
-        map.put(Relationship.Type.GODFATHER, "ΝΟΝΟΣ");
-        map.put(Relationship.Type.GODMOTHER, "ΝΟΝΑ");
-        map.put(Relationship.Type.OTHER, "ΑΛΛΟΣ");
+    Map<RelationshipType, String> getLocalizedRelationshipTypeMap() {
+        Map<RelationshipType, String> map = new HashMap<>();
+        map.put(RelationshipType.FATHER, "ΠΑΤΕΡΑΣ");
+        map.put(RelationshipType.MOTHER, "ΜΗΤΕΡΑ");
+        map.put(RelationshipType.GRANDFATHER, "ΠΑΠΠΟΥΣ");
+        map.put(RelationshipType.GRANDMOTHER, "ΓΙΑΓΙΑ");
+        map.put(RelationshipType.BROTHER, "ΑΔΕΛΦΟΣ");
+        map.put(RelationshipType.SISTER, "ΑΔΕΛΦΗ");
+        map.put(RelationshipType.UNCLE, "ΘΕΙΟΣ");
+        map.put(RelationshipType.AUNT, "ΘΕΙΑ");
+        map.put(RelationshipType.GODFATHER, "ΝΟΝΟΣ");
+        map.put(RelationshipType.GODMOTHER, "ΝΟΝΑ");
+        map.put(RelationshipType.OTHER, "ΑΛΛΟΣ");
         return map;
     }
 

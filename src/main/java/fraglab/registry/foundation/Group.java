@@ -3,10 +3,12 @@ package fraglab.registry.foundation;
 import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "CGROUP")
@@ -23,9 +25,7 @@ public class Group extends BaseEntity {
 
     private Integer members;
 
-    public Group() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Group() { }
 
     public Classroom getClassroom() {
         return classroom;

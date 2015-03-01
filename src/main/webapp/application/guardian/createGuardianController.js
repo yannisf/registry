@@ -1,0 +1,101 @@
+'use strict';
+
+angular.module('guardian')
+
+    .controller('createGuardianController', ['$scope', 'ChildService', 'Relationship', 'uuid4', 'Address',
+        function ($scope, ChildService, Relationship, uuid4, Address) {
+            angular.extend($scope, {
+                data: {
+                    guardian: {
+                        id: uuid4.generate(),
+                        telephones: []
+                    },
+                    address: {
+                        id: uuid4.generate()
+                    },
+                    relationship: {
+                        id: uuid4.generate(),
+                        metadata: {
+                            type: null
+                        }
+                    }
+                },
+                viewData: {
+                    submitLabel: "Εισαγωγή"
+                }
+            });
+
+            $scope.addTelephone = function () {
+                var telephone = { id: uuid4.generate() };
+                $scope.data.guardian.telephones.push(telephone);
+            };
+
+            $scope.removeTelephone = function (telephoneIndex) {
+                $scope.data.guardian.telephones.splice(telephoneIndex, 1);
+            };
+
+            $scope.submit = function () {
+                var relationshipWithGuardianAndAddress = {
+                    relationship: $scope.data.relationship,
+                    guardian: $scope.data.guardian,
+                    address: $scope.data.address
+                };
+
+                Relationship.saveWithGuardianAndAddress({
+                    childId: ChildService.child.id,
+                    guardianId: $scope.data.guardian.id
+                }, relationshipWithGuardianAndAddress)
+                    .$promise.then(function (response) {
+                        $scope.toScopedChild();
+                    });
+            };
+        }])
+
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'ChildService', 'Guardian', 'Relationship', 'Address', 'uuid4',
+        function ($scope, $routeParams, ChildService, Guardian, Relationship, Address, uuid4) {
+            angular.extend($scope, {
+                data: {
+                    guardian: Guardian.get({guardianId: $routeParams.guardianId}),
+                    address: null,
+                    relationship: Relationship.fetchRelationship({
+                        childId: ChildService.child.id,
+                        guardianId: $routeParams.guardianId})
+                },
+                viewData: {
+                    guardianId: $routeParams.guardianId,
+                    submitLabel: "Ανανέωση"
+                }
+
+            });
+
+            $scope.data.guardian.$promise.then(function (response) {
+                $scope.data.address = Address.get({addressId: $scope.data.guardian.addressId});
+            });
+
+            $scope.addTelephone = function () {
+                var telephone = { id: uuid4.generate() };
+                $scope.data.guardian.telephones.push(telephone);
+            };
+
+            $scope.removeTelephone = function (telephoneIndex) {
+                $scope.data.guardian.telephones.splice(telephoneIndex, 1);
+            };
+
+            $scope.submit = function () {
+                var relationshipWithGuardianAndAddress = {
+                    relationship: $scope.data.relationship,
+                    guardian: $scope.data.guardian,
+                    address: $scope.data.address
+                };
+
+                Relationship.saveWithGuardianAndAddress({
+                    childId: ChildService.child.id,
+                    guardianId: $scope.data.guardian.id
+                }, relationshipWithGuardianAndAddress).$promise.then(
+                    function (response) {
+                        $scope.toScopedChild();
+                    }
+                );
+            };
+        }
+    ]);

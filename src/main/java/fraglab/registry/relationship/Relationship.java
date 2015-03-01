@@ -1,12 +1,12 @@
 
-package fraglab.registry.child;
+package fraglab.registry.relationship;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
 import fraglab.registry.guardian.Guardian;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.UUID;
 
 @Entity
 public class Relationship extends BaseEntity implements Comparable<Relationship> {
@@ -14,15 +14,13 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
     @Embedded
     private RelationshipMetadata metadata;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Child child;
 
-    @OneToOne
+    @OneToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Guardian guardian;
 
-    public Relationship() {
-        this.id = UUID.randomUUID().toString();
-    }
+    public Relationship() { }
 
     public RelationshipMetadata getMetadata() {
         return metadata;
@@ -32,6 +30,7 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
         this.metadata = metadata;
     }
 
+    @JsonIgnore
     public Child getChild() {
         return child;
     }
@@ -40,6 +39,7 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
         this.child = child;
     }
 
+//    @JsonIgnore
     public Guardian getGuardian() {
         return guardian;
     }
@@ -66,56 +66,6 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
                 ", guardian=" + guardian +
                 ", metadata=" + metadata +
                 '}';
-    }
-
-    public enum Type {
-        FATHER, MOTHER,
-        GRANDFATHER, GRANDMOTHER,
-        BROTHER, SISTER,
-        UNCLE, AUNT,
-        GODFATHER, GODMOTHER,
-        OTHER
-    }
-
-    @Embeddable
-    public static class RelationshipMetadata implements Serializable {
-
-        @Enumerated(EnumType.STRING)
-        private Relationship.Type type;
-
-        private String notes;
-
-        private boolean pickup;
-
-        public Relationship.Type getType() {
-            return type;
-        }
-
-        public void setType(Relationship.Type type) {
-            this.type = type;
-        }
-
-        public boolean getPickup() {
-            return pickup;
-        }
-
-        public void setPickup(boolean pickup) {
-            this.pickup = pickup;
-        }
-
-        public String getNotes() {
-            return notes;
-        }
-
-        public void setNotes(String notes) {
-            this.notes = notes;
-        }
-
-        @Override
-        public String toString() {
-            return "RelationshipMetadata{type=" + type + '}';
-        }
-
     }
 
 }

@@ -43,10 +43,10 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address fetchForChild(String childId) {
-        String query = "select a from Address a where a.id = (select c.address.id from Child c where c.id= :childId)";
+    public Address fetchForPerson(String personId) {
+        String query = "select a from Address a where a.id = (select p.address.id from Person p where p.id= :personId)";
         Map<String, Object> params = new HashMap<>();
-        params.put("childId", childId);
+        params.put("personId", personId);
         return dao.findSingleByQuery(Address.class, query, params);
     }
 

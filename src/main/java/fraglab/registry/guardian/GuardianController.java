@@ -2,6 +2,7 @@ package fraglab.registry.guardian;
 
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
+import fraglab.web.NotIdentifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +16,20 @@ public class GuardianController extends BaseRestController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Guardian guardian) throws NotFoundException {
-        guardianService.update(guardian);
+    public void createOrUpdate(@RequestBody Guardian guardian, @RequestParam("addressId") String addressId)
+            throws NotIdentifiedException, NotFoundException {
+        guardianService.createOrUpdate(guardian, addressId);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Guardian fetch(@PathVariable String id) throws NotFoundException {
+        return guardianService.fetch(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(@PathVariable String id) throws NotFoundException {
         guardianService.delete(id);
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Guardian fetch(@PathVariable String id) throws NotFoundException {
-        return guardianService.fetch(id);
     }
 
 }

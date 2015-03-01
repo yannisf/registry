@@ -1,8 +1,7 @@
 package fraglab.registry.child.report;
 
 import fraglab.registry.child.Child;
-import fraglab.registry.child.ChildService;
-import fraglab.registry.child.Relationship;
+import fraglab.registry.relationship.Relationship;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.foundation.FoundationService;
 import fraglab.registry.foundation.meta.GroupDataTransfer;

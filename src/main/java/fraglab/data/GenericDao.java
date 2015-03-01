@@ -1,15 +1,17 @@
 package fraglab.data;
 
+import fraglab.registry.common.BaseEntity;
+
 import java.util.List;
 import java.util.Map;
 
 public interface GenericDao {
 
-    <T> void createOrUpdate(T t);
+    <T extends BaseEntity> void createOrUpdate(T t);
 
-    <T> T fetch(Class<T> clazz, String id);
+    <T extends BaseEntity> T fetch(Class<T> clazz, String id);
 
-    <T> void delete(T t);
+    <T extends BaseEntity> void delete(T t);
 
     Long countByQuery(String query, Map<String, Object> params);
 

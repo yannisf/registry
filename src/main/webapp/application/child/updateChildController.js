@@ -36,7 +36,7 @@ angular.module('child')
             };
 
             $scope.addGuardian = function () {
-                $location.path('/guardian/edit');
+                $location.path('/guardian/create');
             };
 
             $scope.goToGuardian = function ($event) {

@@ -27,7 +27,8 @@ module.exports = function(grunt) {
   		"application/child/displayChild.js",
   		"application/child/previousNext.js",
   		"application/guardian/guardian.js",
-  		"application/guardian/displayGuardian.js"
+  		"application/guardian/displayGuardian.js",
+  		"application/guardian/createGuardianController.js"
   	];
 
 	grunt.initConfig({

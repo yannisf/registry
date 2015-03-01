@@ -2,7 +2,7 @@ package fraglab.registry.types;
 
 import fraglab.registry.child.Child;
 import fraglab.registry.common.Telephone;
-import fraglab.registry.child.Relationship;
+import fraglab.registry.relationship.RelationshipType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +16,8 @@ public class TypesController {
     private static final Logger LOG = LoggerFactory.getLogger(TypesController.class);
 
     @RequestMapping(value = "/relationship", method = RequestMethod.GET)
-    public Relationship.Type[] getRelationshipTypes() {
-        return Relationship.Type.values();
+    public RelationshipType[] getRelationshipTypes() {
+        return RelationshipType.values();
     }
 
 
