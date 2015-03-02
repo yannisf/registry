@@ -2,8 +2,8 @@
 
 angular.module('guardian')
 
-    .controller('createGuardianController', ['$scope', 'ChildService', 'Relationship', 'uuid4', 'Address',
-        function ($scope, ChildService, Relationship, uuid4, Address) {
+    .controller('createGuardianController', ['$scope', 'uuid4', 'RelationshipService',
+        function ($scope, uuid4, RelationshipService) {
             angular.extend($scope, {
                 data: {
                     guardian: {
@@ -21,7 +21,8 @@ angular.module('guardian')
                     }
                 },
                 viewData: {
-                    submitLabel: "Εισαγωγή"
+                    submitLabel: "Εισαγωγή",
+                    sharedAddress: false
                 }
             });
 
@@ -35,19 +36,11 @@ angular.module('guardian')
             };
 
             $scope.submit = function () {
-                var relationshipWithGuardianAndAddress = {
-                    relationship: $scope.data.relationship,
-                    guardian: $scope.data.guardian,
-                    address: $scope.data.address
-                };
-
-                Relationship.saveWithGuardianAndAddress({
-                    childId: ChildService.child.id,
-                    guardianId: $scope.data.guardian.id
-                }, relationshipWithGuardianAndAddress)
-                    .$promise.then(function (response) {
-                        $scope.toScopedChild();
-                    });
+				if ($scope.viewData.sharedAddress) {
+            		RelationshipService.saveWithAddress($scope.data.address.id, $scope.data.guardian, $scope.data.relationship);
+                } else {
+                	RelationshipService.saveWithoutAddress($scope.data.address, $scope.data.guardian, $scope.data.relationship);
+                }
             };
         }])
 

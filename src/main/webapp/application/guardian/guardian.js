@@ -20,5 +20,7 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
     ])
 
     .factory('Guardian', ['$resource', function ($resource) {
-        return $resource('api/guardian/:guardianId', { }, { });
+        return $resource('api/guardian/:guardianId', { }, {
+        	save: {method: 'PUT', url: 'api/guardian'},
+        });
     }]);
