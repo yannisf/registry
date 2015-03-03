@@ -11,7 +11,7 @@ angular.module('child')
                 data: {
                     child: Child.get({id: $routeParams.childId}),
                     address: null,
-                    relationships: null /*Relationship.fetchRelationships({childId: $routeParams.childId})*/
+                    relationships: RelationshipService.fetchRelationships($routeParams.childId)
                 },
                 viewData: {
                     submitLabel: 'Ανανέωση',
@@ -22,6 +22,7 @@ angular.module('child')
             $scope.data.child.$promise.then(function (response) {
                 ChildService.setChild($scope.data.child);
                 $scope.data.address = Address.getForChild({childId: $scope.data.child.id});
+                console.log('Child set to ', ChildService.child.id);
             });
 
             $scope.submit = function () {

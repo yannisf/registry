@@ -14,7 +14,7 @@ angular.module('child')
             var setChild = function(newChild) {
                 console.log('Setting child: ', newChild);
                 console.log('The ids are ', FoundationService.groupChildrenIds);
-                child = newChild;
+                this.child = newChild;
                 cache.child.name = formatName(newChild);
             };
             var reset = function() {
@@ -23,21 +23,18 @@ angular.module('child')
                 cache.child.name = null;
             };
             var fetch = function(childId) {
-                var x = Child.get({id: childId});
-                x.$promise.then(function (response) {
-                    setChild(response);
-                })
-                return x;
+                return Child.get({id: childId});
             };
             var save = function(child, address) {
                 var self = this;
                 Address.save(address).$promise.then(function (response) {
+                	console.log("[ChildService] Saving child");
                     return Child.save({
                         addressId: address.id,
                         groupId: FoundationService.group.id
                     }, child);
                 }).then(function (response) {
-                    console.log("Saved child");
+                	console.log("[ChildService] Saved child");
                     self.child = child;
                     $rootScope.toScopedChild();
                 });

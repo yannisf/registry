@@ -4,8 +4,6 @@ import fraglab.registry.foundation.Group;
 import fraglab.web.NotFoundException;
 import fraglab.web.NotIdentifiedException;
 
-import java.util.List;
-
 public interface ChildService {
 
     void createOrUpdate(Child child) throws NotIdentifiedException;

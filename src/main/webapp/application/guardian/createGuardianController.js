@@ -2,8 +2,8 @@
 
 angular.module('guardian')
 
-    .controller('createGuardianController', ['$scope', 'uuid4', 'RelationshipService',
-        function ($scope, uuid4, RelationshipService) {
+    .controller('createGuardianController', ['$scope', 'uuid4', 'RelationshipService', 'ChildService',
+        function ($scope, uuid4, RelationshipService, ChildService) {
             angular.extend($scope, {
                 data: {
                     guardian: {
@@ -36,6 +36,8 @@ angular.module('guardian')
             };
 
             $scope.submit = function () {
+            	console.log("[createGuardianController] Submitting form");
+            	console.log("[createGuardianController] Child seems to be ", ChildService.child);
 				if ($scope.viewData.sharedAddress) {
             		RelationshipService.saveWithAddress($scope.data.address.id, $scope.data.guardian, $scope.data.relationship);
                 } else {

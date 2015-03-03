@@ -1,3 +1,4 @@
+<!--
 <div class="page-header">
     <h2>
         Κατάλογος παιδιών
@@ -5,6 +6,7 @@
         <img src="images/loader.gif" ng-hide="data.children.$resolved"/>
     </h2>
 </div>
+-->
 
 <div ng-show="data.children.$resolved && viewData.noChildren" style="padding-bottom: 1em">
 Δεν έχει εισαχθεί κανένα παιδί ακόμα.
@@ -31,7 +33,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="5"><group-statistics group-id="viewData.groupId"></group-statistics></td>
+            <td colspan="5"><!--<group-statistics group-id="viewData.groupId"></group-statistics>--></td>
         </tr>
     </tfoot>
 </table>
