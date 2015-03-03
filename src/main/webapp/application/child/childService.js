@@ -11,16 +11,23 @@ angular.module('child')
                 }
             };
             var child = {};
-            var setChild = function(child) {
-                console.log('Setting child: ', child);
+            var setChild = function(newChild) {
+                console.log('Setting child: ', newChild);
                 console.log('The ids are ', FoundationService.groupChildrenIds);
-                this.child = child;
-                cache.child.name = formatName(child);
+                child = newChild;
+                cache.child.name = formatName(newChild);
             };
             var reset = function() {
                 child = {};
                 cache.child.id = null;
                 cache.child.name = null;
+            };
+            var fetch = function(childId) {
+                var x = Child.get({id: childId});
+                x.$promise.then(function (response) {
+                    setChild(response);
+                })
+                return x;
             };
             var save = function(child, address) {
                 var self = this;
@@ -55,6 +62,7 @@ angular.module('child')
                 cache: cache,
                 child: child,
                 reset: reset,
+                fetch: fetch,
                 save: save,
                 remove: remove,
                 setChild: setChild,

@@ -3,9 +3,9 @@
 angular.module('child')
 
     .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Child',
-                'ChildService', 'Address', 'Relationship', 'FoundationService',
+                'ChildService', 'Address', 'RelationshipService', 'FoundationService',
         function ($scope, $routeParams, $window, $location, $modal, Child,
-                ChildService, Address, Relationship, FoundationService) {
+                ChildService, Address, RelationshipService, FoundationService) {
 
             angular.extend($scope, {
                 data: {

@@ -12,6 +12,12 @@ angular.module('relationship', ['ngResource'])
 
 	.service('RelationshipService', ['ChildService', 'Relationship', 'Guardian', 'Address',
 		function (ChildService, Relationship, Guardian, Address) {
+		
+			var fetchRelationships = function() {
+				console.log('Child id is: ', ChildService.child.id);
+				return Relationship.fetchRelationships({childId: ChildService.child.id});
+			};
+
 			var saveWithAddress = function (addressId, guardian, relationship) {
 				return Guardian.save({addressId: addressId}, guardian).$promise.then(function() {
 					return Relationship.save({
@@ -25,6 +31,12 @@ angular.module('relationship', ['ngResource'])
 				Address.save(address).$promise.then(function() {
 					return saveWithAddress(address.id, guardian, relationship);
 				});
+			};
+			
+			return {
+				fetchRelationships: fetchRelationships,
+				saveWithAddress: saveWithAddress,
+				saveWithoutAddress: saveWithoutAddress
 			};
 		}
 	]);
