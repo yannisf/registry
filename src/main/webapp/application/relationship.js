@@ -6,7 +6,8 @@ angular.module('relationship', ['ngResource'])
         return $resource('api/relationship/:id', {}, {
             fetchRelationship: {method:'GET', url:'api/relationship/child/:childId/guardian/:guardianId'},
             fetchRelationships: {method:'GET', url:'api/relationship/child/:childId', isArray: true},
-            save: {method: 'PUT', url: 'api/relationship/child/:childId/guardian/:guardianId'}
+            save: {method: 'PUT', url: 'api/relationship/child/:childId/guardian/:guardianId'},
+            remove: {method: 'DELETE', url: 'api/relationship/:relationshipId'}
         });
     }])
 
@@ -20,7 +21,7 @@ angular.module('relationship', ['ngResource'])
 				return Relationship.fetchRelationships({childId: childId});
 			};
 
-			var saveWithAddress = function (addressId, guardian, relationship) {
+			var saveWithAddress = function (addressId, guardian, relationship, callback) {
 				console.log('[RelationshipService] Saving with address');
 				console.log('[RelationshipService] Child seems to be ', ChildService.child.id);
 				return Guardian.save({addressId: addressId}, guardian).$promise.then(function() {
@@ -29,13 +30,16 @@ angular.module('relationship', ['ngResource'])
 						childId: ChildService.child.id,
 						guardianId: guardian.id
 					}, relationship);
+				}).then(function() {
+					console.log('callback is ', callback);
+					callback();
 				});
 			};
 
-			var saveWithoutAddress = function (address, guardian, relationship) {
+			var saveWithoutAddress = function (address, guardian, relationship, callback) {
 				console.log('[RelationshipService] Saving without address');
-				Address.save(address).$promise.then(function() {
-					return saveWithAddress(address.id, guardian, relationship);
+				Address.save(address).$promise.then(function(response) {
+					return saveWithAddress(address.id, guardian, relationship, callback);
 				});
 			};
 			

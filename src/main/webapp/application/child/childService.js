@@ -11,19 +11,18 @@ angular.module('child')
                 }
             };
             var child = {};
-            var setChild = function(newChild) {
-                console.log('Setting child: ', newChild);
-                console.log('The ids are ', FoundationService.groupChildrenIds);
-                this.child = newChild;
-                cache.child.name = formatName(newChild);
-            };
             var reset = function() {
                 child = {};
                 cache.child.id = null;
                 cache.child.name = null;
             };
             var fetch = function(childId) {
-                return Child.get({id: childId});
+                return Child.get({id: childId}).$promise.then(function(response) {
+                    //I want child to be the above reference
+                    child = response;
+                    cache.child.name = formatName(response);
+                    return response;
+                });
             };
             var save = function(child, address) {
                 var self = this;
@@ -62,7 +61,6 @@ angular.module('child')
                 fetch: fetch,
                 save: save,
                 remove: remove,
-                setChild: setChild,
             };
         }
     ]);

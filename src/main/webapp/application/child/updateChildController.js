@@ -9,20 +9,14 @@ angular.module('child')
 
             angular.extend($scope, {
                 data: {
-                    child: Child.get({id: $routeParams.childId}),
-                    address: null,
+                    child: ChildService.fetch($routeParams.childId),
+                    address: Address.getForChild({childId: $routeParams.childId}),
                     relationships: RelationshipService.fetchRelationships($routeParams.childId)
                 },
                 viewData: {
                     submitLabel: 'Ανανέωση',
                     hasChildrenIdsInScope: FoundationService.groupChildrenIds.length > 1
                 }
-            });
-
-            $scope.data.child.$promise.then(function (response) {
-                ChildService.setChild($scope.data.child);
-                $scope.data.address = Address.getForChild({childId: $scope.data.child.id});
-                console.log('Child set to ', ChildService.child.id);
             });
 
             $scope.submit = function () {

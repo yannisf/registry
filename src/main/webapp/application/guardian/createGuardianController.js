@@ -39,9 +39,19 @@ angular.module('guardian')
             	console.log("[createGuardianController] Submitting form");
             	console.log("[createGuardianController] Child seems to be ", ChildService.child);
 				if ($scope.viewData.sharedAddress) {
-            		RelationshipService.saveWithAddress($scope.data.address.id, $scope.data.guardian, $scope.data.relationship);
+				    console.log('callback will be ', $scope.toScopedChild);
+            		RelationshipService.saveWithAddress(
+            		        $scope.data.address.id, 
+            		        $scope.data.guardian, 
+            		        $scope.data.relationship,
+            		        $scope.toScopedChild);
                 } else {
-                	RelationshipService.saveWithoutAddress($scope.data.address, $scope.data.guardian, $scope.data.relationship);
+                    console.log('callback will be ', $scope.toScopedChild);
+                	RelationshipService.saveWithoutAddress(
+                	        $scope.data.address, 
+                	        $scope.data.guardian, 
+                	        $scope.data.relationship,
+                	        $scope.toScopedChild);
                 }
             };
         }])
