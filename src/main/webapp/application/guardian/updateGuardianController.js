@@ -10,13 +10,13 @@ angular.module('guardian')
                     address: null,
                     relationship: Relationship.fetchRelationship({
                         childId: ChildService.child.id,
-                        guardianId: $routeParams.guardianId})
+                        guardianId: $routeParams.guardianId
+					})
                 },
                 viewData: {
                     guardianId: $routeParams.guardianId,
                     submitLabel: "Ανανέωση"
                 }
-
             });
 
             $scope.data.guardian.$promise.then(function (response) {

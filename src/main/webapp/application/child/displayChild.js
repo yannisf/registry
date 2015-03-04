@@ -2,7 +2,7 @@
 
 angular.module('child')
 
-    .directive('displayChild', ['addressService', function (addressService) {
+    .directive('displayChild', ['AddressService', function (AddressService) {
         return {
             restrict: 'E',
             replace: true,
@@ -12,7 +12,7 @@ angular.module('child')
             },
             templateUrl: "application/child/displayChild.tpl.html",
             link: function(scope) {
-                scope.isBlankAddress = addressService.isBlank;
+                scope.isBlankAddress = AddressService.isBlank;
             }
         };
     }]);

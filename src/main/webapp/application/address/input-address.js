@@ -2,8 +2,8 @@
 
 angular.module('schoolApp')
 
-    .directive('inputAddress', ['ChildService', 'Address', 'addressService', 'uuid4',
-        function (ChildService, Address, addressService, uuid4) {
+    .directive('inputAddress', ['ChildService', 'Address', 'AddressService', 'uuid4',
+        function (ChildService, Address, AddressService, uuid4) {
             return {
                 restrict: 'E',
                 scope: {
@@ -26,7 +26,7 @@ angular.module('schoolApp')
                         var unwatch = scope.$watch('address.id', function (newval) {
                             if (newval) {
                                 originalAddressId = newval;
-                                originalCommonAddress = (newval == ChildService.child.addressId);
+                                originalCommonAddress = (newval == ChildService.child.addressId); // <-- Requires fix
                                 scope.viewData.commonAddress = originalCommonAddress;
                                 unwatch();
                             }
@@ -34,18 +34,18 @@ angular.module('schoolApp')
 
                         scope.$watch('viewData.commonAddress', function (newval) {
                             if (newval && originalAddressId) {
-                                scope.address = Address.get({addressId: ChildService.child.addressId});
+                                scope.address = Address.getForPerson({personId: ChildService.child.id});
                             } else if (originalCommonAddress) {
                                 scope.address = {
                                     id: uuid4.generate()
                                 };
                             } else if (originalAddressId) {
-                                if (addressService.isBlank(scope.address)) {
+                                if (AddressService.isBlank(scope.address)) {
                                     scope.address = {
                                         id: originalAddressId
                                     };
                                 } else {
-                                    scope.address = Address.get({addressId: originalAddressId});
+                                    scope.address = Address.getForPerson({personId: ChildService.child.id});
                                 }
                             }
                         });

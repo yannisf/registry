@@ -9,7 +9,7 @@ angular.module('schoolApp')
         });
     }])
 
-    .service('addressService', [function () {
+    .service('AddressService', [function () {
         return {
             format: function (address) {
                 var formattedAddress = "";
@@ -54,10 +54,10 @@ angular.module('schoolApp')
         };
     }])
 
-    .filter('addressFilter', ['addressService', function (addressService) {
+    .filter('addressFilter', ['AddressService', function (AddressService) {
         return function (address) {
             if (address) {
-                return addressService.format(address);
+                return AddressService.format(address);
             }
         };
     }]);

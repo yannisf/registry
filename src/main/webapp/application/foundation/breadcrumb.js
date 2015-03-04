@@ -2,6 +2,15 @@
 angular.module('foundation')
 
     .directive('breadcrumb', ['FoundationService', 'ChildService', function (FoundationService, ChildService) {
+
+		function formatName (child) {
+			var name = child.firstName ? child.firstName + " " : "";
+			if (child.callName) {
+				name += "(" + child.callName + ") ";
+			}
+			return name + " " + (child.lastName ? child.lastName + " " : "");
+		}
+
         return {
             restrict: 'E',
             replace: true,
@@ -12,7 +21,19 @@ angular.module('foundation')
                 scope.classroom = FoundationService.classroom;
                 scope.term = FoundationService.term;
                 scope.group = FoundationService.group;
-                scope.child = ChildService.cache.child;
+                scope.$watch(
+                	function() {
+                		return {
+                			firstName: ChildService.child.firstName,
+                			callName: ChildService.child.callName,
+                			lastName: ChildService.child.lastName
+                		};
+                	},
+                	function(newval) {
+                		scope.formattedName = formatName(newval);
+                	},
+                	true
+                );
             }
         };
     }]);
