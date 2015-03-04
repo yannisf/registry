@@ -23,9 +23,15 @@ public class RelationshipController extends BaseRestController {
         relationshipService.createOrUpdate(relationship, childId, guardianId);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/child/{childId}/guardian/{guardianId}")
+    public Relationship fetchForChildAndGuardian(@PathVariable("childId") String childId,
+                                      @PathVariable("guardianId") String guardianId) throws NotFoundException {
+        return relationshipService.fetchForChildAndGuardian(childId, guardianId);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/child/{childId}")
-    public List<Relationship> fetchForChild(@PathVariable("childId") String childId) {
-        return relationshipService.fetchForChild(childId);
+    public List<Relationship> fetchAllForChild(@PathVariable("childId") String childId) {
+        return relationshipService.fetchAllForChild(childId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

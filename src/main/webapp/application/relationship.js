@@ -7,7 +7,7 @@ angular.module('relationship', ['ngResource'])
             fetchRelationship: {method:'GET', url:'api/relationship/child/:childId/guardian/:guardianId'},
             fetchRelationships: {method:'GET', url:'api/relationship/child/:childId', isArray: true},
             save: {method: 'PUT', url: 'api/relationship/child/:childId/guardian/:guardianId'},
-            remove: {method: 'DELETE', url: 'api/relationship/:relationshipId'}
+            remove: {method: 'DELETE', url: 'api/relationship/:id'}
         });
     }])
 

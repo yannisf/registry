@@ -10,7 +10,7 @@ angular.module('child')
             angular.extend($scope, {
                 data: {
                     child: ChildService.fetch($routeParams.childId),
-                    address: Address.getForChild({childId: $routeParams.childId}),
+                    address: Address.getForPerson({personId: $routeParams.childId}),
                     relationships: RelationshipService.fetchRelationships($routeParams.childId)
                 },
                 viewData: {
@@ -18,6 +18,8 @@ angular.module('child')
                     hasChildrenIdsInScope: FoundationService.groupChildrenIds.length > 1
                 }
             });
+
+            console.log('[updateChildController] model child is ', $scope.data.child);
 
             $scope.submit = function () {
                 if ($scope.childForm.$pristine) {

@@ -1,7 +1,5 @@
 package fraglab.registry.relationship;
 
-import fraglab.web.NotFoundException;
-
 import java.util.List;
 
 public interface RelationshipService {
@@ -14,5 +12,7 @@ public interface RelationshipService {
     
     void delete(String id);
 
-    List<Relationship> fetchForChild(String childId);
+    List<Relationship> fetchAllForChild(String childId);
+
+    Relationship fetchForChildAndGuardian(String childId, String guardianId);
 }

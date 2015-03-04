@@ -28,7 +28,8 @@ module.exports = function(grunt) {
   		"application/child/previousNext.js",
   		"application/guardian/guardian.js",
   		"application/guardian/displayGuardian.js",
-  		"application/guardian/createGuardianController.js"
+  		"application/guardian/createGuardianController.js",
+  		"application/guardian/updateGuardianController.js"
   	];
 
 	grunt.initConfig({

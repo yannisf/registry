@@ -24,9 +24,9 @@ public class AddressController extends BaseRestController {
         return addressService.fetch(id);
     }
 
-    @RequestMapping(value = "child/{childId}", method = RequestMethod.GET)
-    public Address fetchForChild(@PathVariable String childId) throws NotFoundException {
-        return addressService.fetchForPerson(childId);
+    @RequestMapping(value = "person/{personId}", method = RequestMethod.GET)
+    public Address fetchForPerson(@PathVariable String personId) throws NotFoundException {
+        return addressService.fetchForPerson(personId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

@@ -79,7 +79,7 @@ public class GuardianTest extends AbstractTransactionalTestNGSpringContextTests 
     @Test()
 //    @Transactional
     public void testFetchForChild() {
-        List<Relationship> relationships = relationshipService.fetchForChild(childId);
+        List<Relationship> relationships = relationshipService.fetchAllForChild(childId);
         System.out.println(relationships);
     }
 
