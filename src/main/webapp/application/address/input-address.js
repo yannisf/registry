@@ -14,41 +14,36 @@ angular.module('schoolApp')
                 templateUrl: "application/address/input-address.tpl.html",
                 link: function (scope) {
 
+                    console.log("Address is ", scope.address);
                     scope.viewData = {
                         commonAddress: false,
                         isAddressOpen: false
                     };
 
                     if (scope.shareOption) {
-                        var originalAddressId;
-                        var originalCommonAddress = false;
 
-                        var unwatch = scope.$watch('address.id', function (newval) {
-                            if (newval) {
-                                originalAddressId = newval;
-                                originalCommonAddress = (newval == ChildService.child.addressId); // <-- Requires fix
-                                scope.viewData.commonAddress = originalCommonAddress;
+                        var unwatch = scope.$watch('address.id', 
+                            function (newval, oldval) {
+                                console.log('[inputAddress] address.id new value ', newval);
+                                console.log('[inputAddress] address.id old value ', oldval);
+                                Address.getForPerson({personId: ChildService.child.id}).$promise.then(
+                                    function(response) {
+                                        if (newval == response.id) {
+                                            console.log('[inputAddress] address is common');
+                                            scope.viewData.commonAddress = true;
+                                        }
+                                    }
+                                );
                                 unwatch();
                             }
-                        });
+                        );
 
-                        scope.$watch('viewData.commonAddress', function (newval) {
-                            if (newval && originalAddressId) {
-                                scope.address = Address.getForPerson({personId: ChildService.child.id});
-                            } else if (originalCommonAddress) {
-                                scope.address = {
-                                    id: uuid4.generate()
-                                };
-                            } else if (originalAddressId) {
-                                if (AddressService.isBlank(scope.address)) {
-                                    scope.address = {
-                                        id: originalAddressId
-                                    };
-                                } else {
-                                    scope.address = Address.getForPerson({personId: ChildService.child.id});
-                                }
+                        scope.$watch('viewData.commonAddress', 
+                            function (newval, oldval) {
+                                console.log('[inputAddress] commonAddress new value ', newval);
+                                console.log('[inputAddress] commonAddress old value ', oldval);
                             }
-                        });
+                        );
                     }
                 }
             };

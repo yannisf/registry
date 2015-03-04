@@ -8,7 +8,11 @@ angular.module('foundation')
 			if (child.callName) {
 				name += "(" + child.callName + ") ";
 			}
-			return name + " " + (child.lastName ? child.lastName + " " : "");
+			name = (name + " " + (child.lastName ? child.lastName + " " : "")).trim();
+			if (name.length === 0) {
+				name = null;
+			}
+			return name;
 		}
 
         return {
