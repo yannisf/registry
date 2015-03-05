@@ -42,6 +42,11 @@ angular.module('schoolApp')
                             function (newval, oldval) {
                                 console.log('[inputAddress] commonAddress new value ', newval);
                                 console.log('[inputAddress] commonAddress old value ', oldval);
+                                if (newval) {
+                                    scope.address = Address.getForPerson({personId: ChildService.child.id});
+                                } else {
+                                    scope.address = {id: uuid4.generate()}
+                                }
                             }
                         );
                     }
