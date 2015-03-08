@@ -17,7 +17,7 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Child child;
 
-    @OneToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @OneToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
     private Guardian guardian;
 
     public Relationship() { }

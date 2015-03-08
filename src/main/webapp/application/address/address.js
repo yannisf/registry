@@ -9,7 +9,7 @@ angular.module('schoolApp')
         });
     }])
 
-    .service('AddressService', [function () {
+    .service('AddressService', ['Address', function (Address) {
         return {
             format: function (address) {
                 var formattedAddress = "";
@@ -50,6 +50,12 @@ angular.module('schoolApp')
                 	address.neighbourhood ||
                 	address.postalCode ||
                 	address.city));
+            },
+            save: function (address) {
+                return Address.save(address);
+            },
+            getForPerson: function (personId) {
+                return Address.getForPerson({personId: personId});
             }
         };
     }])

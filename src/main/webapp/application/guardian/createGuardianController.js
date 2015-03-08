@@ -2,8 +2,9 @@
 
 angular.module('guardian')
 
-    .controller('createGuardianController', ['$scope', 'uuid4', 'RelationshipService', 'ChildService',
-        function ($scope, uuid4, RelationshipService, ChildService) {
+    .controller('createGuardianController', ['$scope', 'uuid4', 'RelationshipService',
+    
+        function ($scope, uuid4, RelationshipService) {
             angular.extend($scope, {
                 data: {
                     guardian: {
@@ -21,38 +22,14 @@ angular.module('guardian')
                     }
                 },
                 viewData: {
-                    submitLabel: "Εισαγωγή",
+                    submitLabel: "Δημιουργία",
                     sharedAddress: false
                 }
             });
 
-            $scope.addTelephone = function () {
-                var telephone = { id: uuid4.generate() };
-                $scope.data.guardian.telephones.push(telephone);
-            };
-
-            $scope.removeTelephone = function (telephoneIndex) {
-                $scope.data.guardian.telephones.splice(telephoneIndex, 1);
-            };
-
             $scope.submit = function () {
-            	console.log("[createGuardianController] Submitting form");
-            	console.log("[createGuardianController] Child seems to be ", ChildService.child);
-				if ($scope.viewData.sharedAddress) {
-				    console.log('callback will be ', $scope.toScopedChild);
-            		RelationshipService.saveWithAddress(
-            		        $scope.data.address.id, 
-            		        $scope.data.guardian, 
-            		        $scope.data.relationship,
-            		        $scope.toScopedChild);
-                } else {
-                    console.log('callback will be ', $scope.toScopedChild);
-                	RelationshipService.saveWithoutAddress(
-                	        $scope.data.address, 
-                	        $scope.data.guardian, 
-                	        $scope.data.relationship,
-                	        $scope.toScopedChild);
-                }
+                RelationshipService.saveWithAddress($scope.data.address, $scope.data.guardian, $scope.data.relationship);
             };
         }
+        
 	]);

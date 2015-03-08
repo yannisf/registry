@@ -130,10 +130,10 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
 					$location.url('/group/' + groupId );
 				},
                 toScopedChild: function () {
-                    if (ChildService.child) {
+                    if (ChildService.child.id) {
                         $location.url('/child/' + ChildService.child.id + '/view');
                     } else {
-                        this.toChildList();
+                        this.toChildList(FoundationService.group.id);
                     }
                 },
                 go: function (path, $event) {
@@ -142,16 +142,11 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     }
                     $location.path(path);
                 },
-                relationshipTypes: [],
-                telephoneTypes: []
+                relationshipTypes: []
             });
 
             ListService.relationshipTypes().then(function (data) {
                 $rootScope.relationshipTypes = data;
-            });
-
-            ListService.telephoneTypes().then(function (data) {
-                $rootScope.telephoneTypes = data;
             });
 
         }]);

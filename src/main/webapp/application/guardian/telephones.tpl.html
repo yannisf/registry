@@ -1,0 +1,29 @@
+<fieldset>
+    <legend>Τηλέφωνα
+        <button class="btn btn-xs btn-info" ng-click="addTelephone()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </legend>
+
+    <div class="row" ng-repeat="telephone in model">
+        <input type="hidden" ng-model="telephone.id"/>
+        <div class="form-group">
+            <label for="telephoneNumber" class="col-md-2 control-label">Τηλέφωνο {{$index + 1}}</label>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="telephoneNumber" ng-model="telephone.number"
+                       ui-mask="{{'999 99 99 999'}}"/>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="telephoneType" ng-model="telephone.type"
+                        ng-options="type|telephoneTypeFilter for type in telephoneTypes">
+                    <option value="">--</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button class="btn-remove" ng-click="removeTelephone($index)">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</fieldset>

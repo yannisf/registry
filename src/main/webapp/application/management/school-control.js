@@ -10,7 +10,7 @@ angular.module('management')
                 schools: "=",
                 viewData: "="
             },
-            templateUrl: "management/school-control.tpl.html",
+            templateUrl: "application/management/school-control.tpl.html",
             link: function(scope, element, attrs, controllers) {
 
                 scope.remove = function() {

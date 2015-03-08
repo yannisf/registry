@@ -67,6 +67,14 @@ public class ChildServiceImpl implements ChildService {
         return dao.fetch(Group.class, id);
     }
 
+    @Override
+    public Child fetchWithRelationships(String id) {
+        String query = "select distinct c from Child c join fetch c.relationships where c.id= :childId";
+        Map<String, Object> params = new HashMap<>();
+        params.put("childId", id);
+        return dao.findByQuery(Child.class, query, params).get(0);
+    }
+
     private void updateGroupMembersNum(Group group) {
         String query = "update Group g set g.members=(select count(c) from Child c where c.group=:group) where g=:group";
         Map<String, Object> params = new HashMap<>();

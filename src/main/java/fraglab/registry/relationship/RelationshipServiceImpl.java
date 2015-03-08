@@ -4,6 +4,7 @@ import fraglab.data.GenericDao;
 import fraglab.registry.address.Address;
 import fraglab.registry.child.Child;
 import fraglab.registry.guardian.Guardian;
+import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +35,16 @@ public class RelationshipServiceImpl implements RelationshipService {
     }
 
     @Override
-    public Relationship fetch(String id) {
-        return dao.fetch(Relationship.class, id);
+    public Relationship fetch(String id) throws NotFoundException {
+        Relationship relationship = dao.fetch(Relationship.class, id);
+        if (relationship == null) {
+            throw new NotFoundException("Relationship not found");
+        }
+        return relationship;
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws NotFoundException {
         Relationship relationship = fetch(id);
         dao.delete(relationship);
     }

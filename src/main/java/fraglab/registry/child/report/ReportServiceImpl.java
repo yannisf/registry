@@ -1,6 +1,7 @@
 package fraglab.registry.child.report;
 
 import fraglab.registry.child.Child;
+import fraglab.registry.child.ChildService;
 import fraglab.registry.relationship.Relationship;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.foundation.FoundationService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,13 +23,17 @@ public class ReportServiceImpl implements ReportService {
     FoundationService foundationService;
 
     @Autowired
+    ChildService childService;
+
+    @Autowired
     GuardianService guardianService;
 
     @Override
     public List<ReportChild> getReportChildrenForChildGroup(String groupId) throws NotFoundException {
         List<ReportChild> reportChildren = new ArrayList<>();
-        List<Child> children = foundationService.fetchChildrenForGroup(groupId);
-        for (Child child : children) {
+        List<String> ids = foundationService.fetchChildrenIdsForGroup(groupId);
+        for (String id : ids) {
+            Child child = childService.fetchWithRelationships(id);
             reportChildren.add(mapChild(child));
         }
 
@@ -37,6 +43,7 @@ public class ReportServiceImpl implements ReportService {
     private ReportChild mapChild(Child child) throws NotFoundException {
         ReportChild reportChild = new ReportChild(child.getInformalFullName());
         reportChild.setNotes(child.getNotes());
+        Collections.sort(child.getRelationships());
         for (Relationship relationship : child.getRelationships()) {
             mapRelationship(reportChild, relationship);
         }

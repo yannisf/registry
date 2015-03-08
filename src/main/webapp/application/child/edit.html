@@ -1,6 +1,5 @@
 <div class="page-header">
-    <h2>
-        {{viewData.submitLabel}} παιδιού
+    <h2> {{viewData.submitLabel}} παιδιού
         <small>
             <person-name person="data.child"></person-name>
         </small>
@@ -10,102 +9,119 @@
 <form class="form-horizontal well" name="childForm" role="form" novalidate="novalidate"
       ui-keypress="{'enter':'submit()', 'esc':'toScopedChild()'}">
 
-    <div class="form-group" ng-class="{ 'has-error': childForm.firstName.$invalid && childForm.$dirty}">
-        <label for="firstName" class="col-sm-2 control-label">Όνομα</label>
-
-        <div class="col-sm-3">
-            <input type="text" class="form-control loader-input" id="firstName" name="firstName" autocomplete="off"
-                   focus ng-model="data.child.firstName" ng-required="!data.child.lastName"
-                   typeahead="firstName for firstName in typeaheads.getFirstNames($viewValue)"
-                   typeahead-min-length="1" typeahead-wait-ms="500"
-                   typeahead-loading="loadingFirstNames"/>
-            <img src="images/loader.gif" ng-show="loadingFirstNames" class="loader-img"/>
-        </div>
-
-    </div>
-
-    <div class="form-group" ng-class="{ 'has-error': childForm.lastName.$invalid && childForm.$dirty}">
-        <label for="lastName" class="col-sm-2 control-label">Επώνυμο</label>
-
-        <div class="col-sm-3">
-            <input type="text" class="form-control loader-input" id="lastName" name="lastName"
-                   ng-model="data.child.lastName" ng-required="!data.child.firstName"
-                   autocomplete="off" typeahead="lastName for lastName in typeaheads.getLastNames($viewValue)"
-                   typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingLastNames"/>
-            <img src="images/loader.gif" ng-show="loadingLastNames" class="loader-img"/>
+    <div class="row">
+        <div class="form-group" ng-class="{ 'has-error': childForm.firstName.$invalid && childForm.$dirty}">
+            <label for="firstName" class="col-md-2 control-label">Όνομα</label>
+    
+            <div class="col-md-4">
+                <input type="text" class="form-control loader-input" id="firstName" name="firstName" autocomplete="off"
+                       focus ng-model="data.child.firstName" ng-required="!data.child.lastName"
+                       typeahead="firstName for firstName in typeaheads.getFirstNames($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500"
+                       typeahead-loading="loadingFirstNames"/>
+                <img src="images/loader.gif" ng-show="loadingFirstNames" class="loader-img"/>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="callName" class="col-sm-2 control-label">Χαϊδευτικό</label>
+    <div class="row">
+        <div class="form-group" ng-class="{ 'has-error': childForm.lastName.$invalid && childForm.$dirty}">
+            <label for="lastName" class="col-md-2 control-label">Επώνυμο</label>
 
-        <div class="col-sm-3">
-            <input type="text" class="form-control" id="callName" ng-model="data.child.callName"/>
+            <div class="col-md-4">
+                <input type="text" class="form-control loader-input" id="lastName" name="lastName"
+                       ng-model="data.child.lastName" ng-required="!data.child.firstName"
+                       autocomplete="off" typeahead="lastName for lastName in typeaheads.getLastNames($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingLastNames"/>
+                <img src="images/loader.gif" ng-show="loadingLastNames" class="loader-img"/>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="dateOfBirth" class="col-sm-2 control-label">Ημ/νία γεν.</label>
+    <div class="row">        
+        <div class="form-group">
+            <label for="callName" class="col-md-2 control-label">Χαϊδευτικό</label>
 
-        <div class="col-sm-3">
-            <input type="text" class="form-control" id="dateOfBirth" ng-model="data.child.dateOfBirth"
-                   placeholder="ΗΗ-ΜΜ-ΧΧΧΧ"/>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="callName" ng-model="data.child.callName"/>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Τάξη</label>
+    <div class="row">
+        <div class="form-group">
+            <label for="dateOfBirth" class="col-md-2 control-label">Ημ/νία γεν.</label>
 
-        <div class="col-sm-3">
-            <label class="radio-inline">
-                <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_B"/> Νήπιο
-            </label>
-            <label class="radio-inline">
-                <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_A"/> Προνήπιο
-            </label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="dateOfBirth" ng-model="data.child.dateOfBirth"
+                       placeholder="ΗΗ-ΜΜ-ΧΧΧΧ"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            <label class="col-md-2 control-label">Τάξη</label>
+
+            <div class="col-md-4">
+                <label class="radio-inline">
+                    <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_B"/> Νήπιο
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" ng-model="data.child.level" value="PRE_SCHOOL_LEVEL_A"/> Προνήπιο
+                </label>
+            </div>
         </div>
     </div>
 
 
-    <div class="form-group">
-        <label for="genre" class="col-sm-2 control-label">Φύλο</label>
+    <div class="row">
+        <div class="form-group">
+            <label for="gender" class="col-md-2 control-label">Φύλο</label>
 
-        <div class="col-sm-3">
-            <select class="form-control" id="genre" ng-model="data.child.genre"
-                    ng-keyup="$event.keyCode == 13 ? alert('Hi') : null">
-                <option value="MALE">Αγόρι</option>
-                <option value="FEMALE">Κορίτσι</option>
-            </select>
+            <div class="col-md-4">
+                <select class="form-control" id="gender" ng-model="data.child.gender"
+                        ng-keyup="$event.keyCode == 13 ? alert('Hi') : null">
+                    <option value="MALE">Αγόρι</option>
+                    <option value="FEMALE">Κορίτσι</option>
+                </select>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="nationality" class="col-sm-2 control-label">Υπηκοότητα</label>
+    <div class="row">
+        <div class="form-group">
+            <label for="nationality" class="col-md-2 control-label">Υπηκοότητα</label>
 
-        <div class="col-sm-3">
-            <input type="text" class="form-control loader-input" id="nationality" ng-model="data.child.nationality"
-                   autocomplete="off" typeahead="nationality for nationality in typeaheads.getNationalities($viewValue)"
-                   typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingNationalities"/>
-            <img src="images/loader.gif" ng-show="loadingNationalities" class="loader-img"/>
+            <div class="col-md-4">
+                <input type="text" class="form-control loader-input" id="nationality" ng-model="data.child.nationality"
+                       autocomplete="off" typeahead="nationality for nationality in typeaheads.getNationalities($viewValue)"
+                       typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingNationalities"/>
+                <img src="images/loader.gif" ng-show="loadingNationalities" class="loader-img"/>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="notes" class="col-sm-2 control-label">Σημειώσεις</label>
+    <div class="row">
+        <div class="form-group">
+            <label for="notes" class="col-md-2 control-label">Σημειώσεις</label>
 
-        <div class="col-sm-3">
-            <textarea rows="3" class="form-control" id="notes" ng-model="data.child.notes"></textarea>
+            <div class="col-md-4">
+                <textarea rows="3" class="form-control" id="notes" ng-model="data.child.notes"></textarea>
+            </div>
         </div>
     </div>
 
     <input-address address="data.address" share-option="false" typeaheads="typeaheads"></input-address>
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-success" ng-click="submit()" ng-disabled="childForm.$invalid"
-                    type="submit">{{viewData.submitLabel}}
-            </button>
-            <button class="btn btn-primary" ng-click="toScopedChild()">Ακύρωση</button>
+    <div class="row">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-success" ng-click="submit()" ng-disabled="childForm.$invalid"
+                        type="submit">{{viewData.submitLabel}}
+                </button>
+                <button class="btn btn-primary" ng-click="toScopedChild()">Ακύρωση</button>
+            </div>
         </div>
     </div>
 

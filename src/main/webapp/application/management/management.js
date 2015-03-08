@@ -5,7 +5,7 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/management', {
-                templateUrl: 'management/management.html',
+                templateUrl: 'application/management/management.html',
                 controller: 'manageSchools'
             });
     }])

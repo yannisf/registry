@@ -61,6 +61,7 @@ public class CommunicationReportController {
         context.put("children", reportService.getReportChildrenForChildGroup(id));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
+        System.out.println(writer.toString());
         return writer.toString();
     }
 

@@ -1,6 +1,5 @@
 module.exports = function(grunt) {
   	var scripts = [
-  		"scripts/lib/jquery.js",
   		"scripts/lib/angular.js",
   		"scripts/lib/angular-route.js",
   		"scripts/lib/angular-resource.js",
@@ -28,6 +27,7 @@ module.exports = function(grunt) {
   		"application/child/previousNext.js",
   		"application/guardian/guardian.js",
   		"application/guardian/displayGuardian.js",
+  		"application/guardian/telephones.js",
   		"application/guardian/createGuardianController.js",
   		"application/guardian/updateGuardianController.js"
   	];
@@ -44,6 +44,14 @@ module.exports = function(grunt) {
     		},
     		sources: ['src/main/webapp/**/*.js', '!src/main/webapp/scripts/lib/**']
     	},
+    	htmlhint: {
+			options: {
+				'tag-pair': true,
+				'tag-self-close': true,
+				'attr-no-duplication': true,
+			},
+			src: ['src/main/webapp/application/**/*.html']
+		},
 		copy: {
 			main: {
 				src: 'src/main/webapp/application/index.tpl.html',
@@ -92,11 +100,12 @@ module.exports = function(grunt) {
     	}
   	});
 
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-htmlhint');
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-less");
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks("grunt-contrib-watch");
 
-	grunt.registerTask("default", ["jshint", "copy", "less"]);
+	grunt.registerTask("default", ["htmlhint", "jshint", "copy", "less"]);
 
 };

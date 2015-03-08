@@ -36,7 +36,7 @@ public class RelationshipController extends BaseRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id) throws NotFoundException {
         relationshipService.delete(id);
     }
 

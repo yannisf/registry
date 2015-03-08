@@ -2,6 +2,6 @@
     <li ng-if="school.name"><a href ng-click="toChildList(group.id)">{{school.name}}</a></li>
     <li ng-if="classroom.name"><a href ng-click="toChildList(group.id)">{{classroom.name}}</a></li>
     <li ng-if="term.name"><a href ng-click="toChildList(group.id)">{{term.name}}</a></li>
-    <li ng-if="formattedName"><a href>{{formattedName}}</a></li>
+    <li ng-if="formattedName"><a href ng-click="toScopedChild()">{{formattedName}}</a></li>
 </ol>
 

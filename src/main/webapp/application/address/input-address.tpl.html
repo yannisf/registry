@@ -1,68 +1,77 @@
 <fieldset>
-    <legend>Διεύθυνση
+    <legend><span class="clickable" ng-click="viewData.isAddressOpen = !viewData.isAddressOpen">Διεύθυνση</span>
         <span class="collapsable-close" aria-hidden="true"
               ng-click="viewData.isAddressOpen = !viewData.isAddressOpen" ng-show="viewData.isAddressOpen"></span>
         <span class="collapsable-open" aria-hidden="true"
               ng-click="viewData.isAddressOpen = !viewData.isAddressOpen"  ng-show="!viewData.isAddressOpen"></span>
-        <button class="btn btn-xs btn-success" ng-if="shareOption" ng-model="viewData.commonAddress"
-                btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false" ng-show="viewData.isAddressOpen">
-            <span class="glyphicon glyphicon-share"></span> Ίδια με του παιδιού
+
+        <button class="btn btn-xs btn-info" ng-if="allowCopy" ng-show="viewData.isAddressOpen" ng-click="copyFromChild()">
+            <span class="glyphicon glyphicon-share"></span> Αντιγραφή από το παιδί
         </button>
+
+        <button class="btn btn-xs btn-warning" ng-show="viewData.isAddressOpen" ng-click="clear()">
+            <span class="glyphicon glyphicon-alert"></span> Καθαρισμός
+        </button>
+        
     </legend>
+
     <input type="hidden" ng-model="address.id"/>
 
     <div ng-show="viewData.isAddressOpen">
+
+        <div class="row">
+            <div class="form-group">
+                <label for="address.streetName" class="col-md-2 control-label">Οδός</label>
+    
+                <div class="col-md-4">
+                    <input type="text" class="form-control loader-input" id="address.streetName" 
+                           ng-model="address.streetName" autocomplete="off"
+                           typeahead="streetName for streetName in typeaheads.getStreetNames($viewValue)"
+                           typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingStreetNames"/>
+                    <img src="images/loader.gif" ng-show="loadingStreetNames" class="loader-img"/>
+                </div>
+    
+                <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
+    
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="address.streetNumber" 
+                           ng-model="address.streetNumber" autocomplete="off"/>
+                </div>
+            </div>
+        </div>
         
-        <div class="form-group">
-            <label for="address.streetName" class="col-md-2 control-label">Οδός</label>
-
-            <div class="col-md-3">
-                <input type="text" class="form-control loader-input" id="address.streetName" ng-model="address.streetName"
-                       autocomplete="off" ng-readonly="viewData.commonAddress"
-                       typeahead="streetName for streetName in typeaheads.getStreetNames($viewValue)"
-                       typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingStreetNames"/>
-                <img src="images/loader.gif" ng-show="loadingStreetNames" class="loader-img"/>
-            </div>
-
-            <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
-
-            <div class="col-md-2">
-                <input type="text" class="form-control" id="address.streetNumber" ng-model="address.streetNumber"
-                       autocomplete="off" ng-readonly="viewData.commonAddress"/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="address.neighbourhood" class="col-md-2 control-label">Περιοχή</label>
-
-            <div class="col-md-3">
-                <input type="text" class="form-control loader-input" id="address.neighbourhood"
-                       ng-model="address.neighbourhood"
-                       autocomplete="off" ng-readonly="viewData.commonAddress"
-                       typeahead="neighbourhood for neighbourhood in typeaheads.getNeighbourhoods($viewValue)"
-                       typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingNeighbourhoods"/>
-                <img src="images/loader.gif" ng-show="loadingNeighbourhoods" class="loader-img"/>
-            </div>
-
-            <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
-
-            <div class="col-md-2">
-                <input type="text" class="form-control" id="address.postalCode" ng-model="address.postalCode"
-                       ui-mask="{{'999 99'}}" ng-readonly="viewData.commonAddress"/>
+        <div class="row">
+            <div class="form-group">
+                <label for="address.neighbourhood" class="col-md-2 control-label">Περιοχή</label>
+    
+                <div class="col-md-4">
+                    <input type="text" class="form-control loader-input" id="address.neighbourhood"
+                           ng-model="address.neighbourhood" autocomplete="off"
+                           typeahead="neighbourhood for neighbourhood in typeaheads.getNeighbourhoods($viewValue)"
+                           typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingNeighbourhoods"/>
+                    <img src="images/loader.gif" ng-show="loadingNeighbourhoods" class="loader-img"/>
+                </div>
+    
+                <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
+    
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="address.postalCode" 
+                           ng-model="address.postalCode" ui-mask="{{'999 99'}}"/>
+                </div>
             </div>
         </div>
+        
+        <div class="row">
+            <div class="form-group">
+                <label for="address.city" class="col-md-2 control-label">Πόλη</label>
 
-        <div class="form-group">
-            <label for="address.city" class="col-md-2 control-label">Πόλη</label>
-
-            <div class="col-md-3">
-                <input type="text" class="form-control loader-input" id="address.city" ng-model="address.city"
-                       autocomplete="off" ng-readonly="viewData.commonAddress"
-                       typeahead="city for city in typeaheads.getCities($viewValue)" typeahead-min-length="1"
-                       typeahead-wait-ms="500" typeahead-loading="loadingCities"/>
-                <img src="images/loader.gif" ng-show="loadingCities" class="loader-img"/>
+                <div class="col-md-4">
+                    <input type="text" class="form-control loader-input" id="address.city" ng-model="address.city"
+                           typeahead="city for city in typeaheads.getCities($viewValue)" typeahead-min-length="1"
+                           typeahead-wait-ms="500" typeahead-loading="loadingCities" autocomplete="off"/>
+                    <img src="images/loader.gif" ng-show="loadingCities" class="loader-img"/>
+                </div>
             </div>
         </div>
-
     </div>
 </fieldset>

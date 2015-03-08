@@ -2,8 +2,8 @@
 
 angular.module('child')
 
-    .service('ChildService', ['$rootScope', 'FoundationService', 'Child', 'Address', 
-        function ($rootScope, FoundationService,  Child, Address) {
+    .service('ChildService', ['$rootScope', 'FoundationService', 'Child', 'AddressService',
+        function ($rootScope, FoundationService,  Child, AddressService) {
 
             this.child = {};
 
@@ -25,17 +25,12 @@ angular.module('child')
 
             this.save = function(child, address) {
                 var self = this;
-                Address.save(address).$promise.then(
+                AddressService.save(address).$promise.then(
                 	function (response) {
-						console.log("[ChildService] Saving child");
-						return Child.save({
-							addressId: address.id,
-							groupId: FoundationService.group.id
-                    	}, child).$promise;
+						return Child.save({addressId: address.id, groupId: FoundationService.group.id}, child).$promise;
                 	}
 				).then(
 					function (response) {
-						console.log("[ChildService] Saved child");
 						self.child = child;
 						$rootScope.toScopedChild();
 					}

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-
+@Transactional
 public class GuardianServiceImpl implements GuardianService {
 
     private static final Logger LOG = LoggerFactory.getLogger(GuardianServiceImpl.class);
@@ -25,14 +25,10 @@ public class GuardianServiceImpl implements GuardianService {
     AddressService addressService;
 
     @Override
-    @Transactional
     public void delete(String id) throws NotFoundException {
         Guardian guardian = fetch(id);
-        boolean sharedAddress = addressService.isSharedAddress(guardian.getAddress().getId());
         dao.delete(guardian);
-        if (!sharedAddress) {
-            addressService.delete(guardian.getAddress().getId());
-        }
+        addressService.delete(guardian.getAddress().getId());
     }
 
     @Override

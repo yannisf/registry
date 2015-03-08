@@ -1,4 +1,3 @@
-<!--
 <div class="page-header">
     <h2>
         Κατάλογος παιδιών
@@ -6,10 +5,9 @@
         <img src="images/loader.gif" ng-hide="data.children.$resolved"/>
     </h2>
 </div>
--->
 
-<div ng-show="data.children.$resolved && viewData.noChildren" style="padding-bottom: 1em">
-Δεν έχει εισαχθεί κανένα παιδί ακόμα.
+<div ng-show="data.children.$resolved && viewData.noChildren" class="submessage">
+    Δεν έχει εισαχθεί κανένα παιδί ακόμα.
 </div>
 
 <table class="table table-striped table-hover table-condensed" ng-show="data.children.$resolved && !viewData.noChildren">
@@ -27,7 +25,7 @@
             <td>{{child|firstNameFilter}}</td>
             <td>{{child.lastName}}</td>
             <td>{{child.level|preSchoolLevelFilter}}</td>
-            <td>{{child.genre|childGenreTypeFilter}}</td>
+            <td>{{child.gender|childGenreTypeFilter}}</td>
             <td><span class="glyphicon glyphicon-info-sign" ng-if="child.notes" title="{{child.notes}}"></span></td>
         </tr>
     </tbody>
@@ -38,3 +36,6 @@
     </tfoot>
 </table>
 
+<button class="btn btn-primary btn-md" ng-click="go('/child/create')">
+    <span class="glyphicon glyphicon-flash"></span> Δημιουργία παιδιού
+</button>

@@ -9,7 +9,7 @@ angular.module('management')
                 group: "=groupControl",
                 groups: "="
             },
-            templateUrl: "management/group-control.tpl.html",
+            templateUrl: "application/management/group-control.tpl.html",
             link: function(scope, element, attrs, controllers) {
 
                 scope.remove = function() {

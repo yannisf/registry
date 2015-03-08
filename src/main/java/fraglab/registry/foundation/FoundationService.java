@@ -15,6 +15,8 @@ public interface FoundationService {
 
     List<Child> fetchChildrenForGroup(String groupId);
 
+    List<String> fetchChildrenIdsForGroup(String groupId);
+
     GroupStatistics fetchChildGroupStatistics(String childGroupId);
 
     void createOrUpdateSchool(School school);

@@ -21,13 +21,15 @@ public class Person extends BaseEntity {
 
     private Date dateOfBirth;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private Address address;
 
     private String nationality;
 
     @Enumerated(EnumType.STRING)
-    private Genre genre;
+    //TODO: Change this to gender
+    @Column(name = "GENRE")
+    private Gender gender;
 
     private String notes;
 
@@ -72,12 +74,12 @@ public class Person extends BaseEntity {
         this.nationality = nationality;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public Gender getGender() {
+        return gender;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public String getNotes() {
@@ -97,7 +99,7 @@ public class Person extends BaseEntity {
         this.address = address;
     }
 
-    public enum Genre {
+    public enum Gender {
         MALE, FEMALE, OTHER;
     }
 

@@ -16,4 +16,5 @@ public interface ChildService {
 
     Group fetchGroup(String id);
 
+    Child fetchWithRelationships(String id);
 }
