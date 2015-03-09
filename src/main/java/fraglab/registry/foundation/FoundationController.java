@@ -5,10 +5,8 @@ import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
 import fraglab.registry.foundation.meta.TreeElement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +36,22 @@ public class FoundationController {
     public List<Child> fetchChildGroup(@PathVariable String groupId) {
         return foundationService.fetchChildrenForGroup(groupId);
     }
+
+    @RequestMapping(value = "/school", method = RequestMethod.GET)
+    public List<School> fetchSchools() {
+        return foundationService.fetchSchools();
+    }
+
+    @RequestMapping(value = "/school", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void createOrUpdateSchool(@RequestBody School school) {
+        foundationService.createOrUpdateSchool(school);
+    }
+
+    @RequestMapping(value = "/school/{schoolId}/classroom", method = RequestMethod.GET)
+    public List<Classroom> fetchClassroomsForSchool(@PathVariable String schoolId) {
+        return foundationService.fetchClassroomsForSchool(schoolId);
+    }
+
 
 }

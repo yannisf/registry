@@ -26,4 +26,8 @@ public interface FoundationService {
     void createOrUpdateTerm(Term term);
 
     void createOrUpdateGroup(Group group);
+
+    List<School> fetchSchools();
+
+    List<Classroom> fetchClassroomsForSchool(String schoolId);
 }

@@ -17,8 +17,7 @@ public class School extends BaseEntity {
     @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Classroom> classrooms;
 
-    public School() {
-    }
+    public School() { }
 
     public School(String name) {
         this.name = name;

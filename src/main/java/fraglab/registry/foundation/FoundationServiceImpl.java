@@ -92,6 +92,19 @@ public class FoundationServiceImpl implements FoundationService {
         dao.createOrUpdate(group);
     }
 
+    @Override
+    public List<School> fetchSchools() {
+        return dao.findByQuery(School.class, "select s from School s order by s.name");
+    }
+
+    @Override
+    public List<Classroom> fetchClassroomsForSchool(String schoolId) {
+        String query = "select c from Classroom c where c.school.id=:schoolId order by c.name";
+        Map<String, Object> params = new HashMap<>();
+        params.put("schoolId", schoolId);
+        return  dao.findByQuery(Classroom.class, query, params);
+    }
+
 
     @Override
     public List<TreeElement> fetchSchoolTreeElements() {

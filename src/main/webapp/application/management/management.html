@@ -1,4 +1,4 @@
-<h2>Σχολείων και τμημάτων</h2>
+<h2>Σχολεία και τμημάτων</h2>
 
 <div class="row">
 
@@ -42,11 +42,11 @@
             Επιλέξτε πρώτα σχολείο
         </div>
 
-        <div class="management-msg" ng-if="viewData.activeSchool && !activeSchoolHasGroups()">
+        <div class="management-msg" ng-if="viewData.activeSchool && !viewData.activeSchoolHasGroups">
             Δεν έχει εισαχθεί κανένα τμήμα
         </div>
 
-        <table class="table table-hover" ng-if="viewData.activeSchool && activeSchoolHasGroups()">
+        <table class="table table-hover" ng-if="viewData.activeSchool && viewData.activeSchoolHasGroups">
             <thead>
                 <tr>
                     <th class="management-col1">Όνομα</th>
@@ -55,7 +55,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="clickable" ng-repeat="group in viewData.activeSchool.groups"
+                <tr class="clickable" ng-repeat="group in data.groups"
                     group-control="group" groups="viewData.activeSchool.groups"
                     ng-click="setActiveGroup(group, $event)"
                     ng-class="{'active': group === viewData.activeGroup}">

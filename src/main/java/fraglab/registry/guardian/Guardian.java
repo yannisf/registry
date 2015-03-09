@@ -12,7 +12,7 @@ import java.util.List;
 @DiscriminatorValue("GUARDIAN")
 public class Guardian extends Person {
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @OrderBy("type")
     private List<Telephone> telephones;
 
