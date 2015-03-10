@@ -4,6 +4,7 @@ import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
 import fraglab.registry.foundation.meta.TreeElement;
+import fraglab.web.NotFoundException;
 
 import java.util.List;
 
@@ -29,5 +30,11 @@ public interface FoundationService {
 
     List<School> fetchSchools();
 
+    School fetchSchool(String id) throws NotFoundException;
+
     List<Classroom> fetchClassroomsForSchool(String schoolId);
+
+    void deleteSchool(String id);
+
+    void createOrUpdateClassroomForSchool(String schoolId, Classroom classroom);
 }

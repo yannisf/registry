@@ -1,10 +1,14 @@
 package fraglab.registry.foundation;
 
 import fraglab.data.GenericDao;
+import fraglab.data.GenericDaoImpl;
 import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
 import fraglab.registry.foundation.meta.TreeElement;
+import fraglab.web.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +20,15 @@ import java.util.Map;
 @Service
 public class FoundationServiceImpl implements FoundationService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(FoundationServiceImpl.class);
+
     @Autowired
     private GenericDao dao;
 
     @Override
     public GroupDataTransfer fetchSchoolData(String groupId) {
-        String schoolDataQuery = "select new fraglab.registry.foundation.meta.GroupDataTransfer(g.id, s.name, cr.name, t.name, g.members) " +
+        String schoolDataQuery = "select new fraglab.registry.foundation.meta.GroupDataTransfer(" +
+                "g.id, s.name, cr.name, t.name, g.members) " +
                 "from Group g join g.term t join g.classroom cr join g.classroom.school s " +
                 "where g.id=:groupId order by t.name";
         Map<String, Object> params = new HashMap<>();
@@ -98,11 +105,37 @@ public class FoundationServiceImpl implements FoundationService {
     }
 
     @Override
+    public School fetchSchool(String id) throws NotFoundException {
+        School school = dao.fetch(School.class, id);
+        if (school == null) {
+            throw new NotFoundException();
+        }
+
+        return school;
+    }
+
+    @Override
     public List<Classroom> fetchClassroomsForSchool(String schoolId) {
         String query = "select c from Classroom c where c.school.id=:schoolId order by c.name";
         Map<String, Object> params = new HashMap<>();
         params.put("schoolId", schoolId);
         return  dao.findByQuery(Classroom.class, query, params);
+    }
+
+    @Override
+    public void deleteSchool(String id) {
+        School school;
+        try {
+            school = fetchSchool(id);
+            dao.delete(school);
+        } catch (NotFoundException e) {
+            LOG.info("Record does not exist", e);
+        }
+    }
+
+    @Override
+    public void createOrUpdateClassroomForSchool(String schoolId, Classroom classroom) {
+        //TODO:
     }
 
 

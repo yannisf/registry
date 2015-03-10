@@ -4,6 +4,7 @@ import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
 import fraglab.registry.foundation.meta.TreeElement;
+import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +38,21 @@ public class FoundationController {
         return foundationService.fetchChildrenForGroup(groupId);
     }
 
+    @RequestMapping(value = "/school", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void createOrUpdateSchool(@RequestBody School school) {
+        foundationService.createOrUpdateSchool(school);
+    }
+
     @RequestMapping(value = "/school", method = RequestMethod.GET)
     public List<School> fetchSchools() {
         return foundationService.fetchSchools();
     }
 
-    @RequestMapping(value = "/school", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdateSchool(@RequestBody School school) {
-        foundationService.createOrUpdateSchool(school);
+    @RequestMapping(value = "/school/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable String id) throws NotFoundException {
+        foundationService.deleteSchool(id);
     }
 
     @RequestMapping(value = "/school/{schoolId}/classroom", method = RequestMethod.GET)
@@ -53,5 +60,9 @@ public class FoundationController {
         return foundationService.fetchClassroomsForSchool(schoolId);
     }
 
+    @RequestMapping(value = "/school/{schoolId}/classroom", method = RequestMethod.PUT)
+    public void createOrUpdateClassroomForSchool(@PathVariable String schoolId, @RequestBody Classroom classroom) {
+        foundationService.createOrUpdateClassroomForSchool(schoolId, classroom);
+    }
 
 }
