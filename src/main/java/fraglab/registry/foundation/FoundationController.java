@@ -55,14 +55,23 @@ public class FoundationController {
         foundationService.deleteSchool(id);
     }
 
-    @RequestMapping(value = "/school/{schoolId}/classroom", method = RequestMethod.GET)
-    public List<Classroom> fetchClassroomsForSchool(@PathVariable String schoolId) {
-        return foundationService.fetchClassroomsForSchool(schoolId);
+    @RequestMapping(value = "/school/{schoolId}/department", method = RequestMethod.GET)
+    public List<Department> fetchDepartmentsForSchool(@PathVariable String schoolId) {
+        return foundationService.fetchDepartmentsForSchool(schoolId);
     }
 
-    @RequestMapping(value = "/school/{schoolId}/classroom", method = RequestMethod.PUT)
-    public void createOrUpdateClassroomForSchool(@PathVariable String schoolId, @RequestBody Classroom classroom) {
-        foundationService.createOrUpdateClassroomForSchool(schoolId, classroom);
+    @RequestMapping(value = "/school/{schoolId}/department", method = RequestMethod.PUT)
+    public void createOrUpdateDepartmentForSchool(@PathVariable String schoolId, @RequestBody Department department)
+            throws NotFoundException {
+        foundationService.createOrUpdateDepartmentForSchool(schoolId, department);
     }
+
+    @RequestMapping(value = "/school/{schoolId}/department/{departmentId}/group", method = RequestMethod.GET)
+    public List<Group> fetchGroupsForDepartment(@PathVariable String schoolId, @PathVariable String departmentId) 
+            throws NotFoundException {
+        return foundationService.fetchGroupsForDepartment(departmentId);
+    }
+
+    
 
 }

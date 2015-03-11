@@ -1,0 +1,39 @@
+<div class="col-md-4 management-area">
+    <h3>Τμήματα
+        <button class="btn btn-xs btn-primary" ng-click="addDepartment()" ng-disabled="!viewData.activeSchool">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </h3>
+
+    <img src="images/loader.gif" ng-show="viewData.departmentsLoading" class="center-block"/>
+
+
+    <div class="management-msg" ng-if="!viewData.activeSchool">
+        Επιλέξτε πρώτα σχολείο
+    </div>
+
+    <div class="management-msg" ng-if="viewData.activeSchool && !viewData.activeSchoolHasDepartments">
+        Δεν έχει εισαχθεί κανένα τμήμα
+    </div>
+
+    <table class="table table-hover" ng-if="viewData.activeSchool && viewData.activeSchoolHasDepartments">
+
+        <thead>
+            <tr>
+                <th class="management-col1">Όνομα</th>
+                <th class="management-col2">Ανανέωση</th>
+                <th class="management-col3">Διαγραφή</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr class="clickable" ng-repeat="department in data.departments"
+                department-control="department" groups="viewData.activeSchool.departments"
+                ng-click="setActiveDepartment(department)"
+                ng-class="{'active': department === viewData.activeDepartment}">
+            </tr>
+        </tbody>
+        
+    </table>
+    
+</div>

@@ -2,26 +2,24 @@
 
 angular.module('management')
 
-    .directive('schoolControl', ['School', function (School) {
+    .directive('departmentControl', [function () {
         return {
             restrict: 'A',
             scope: {
-                school: "=schoolControl",
-                schools: "=",
-                viewData: "="
+                department: "=departmentControl",
+                departments: "="
             },
-            templateUrl: "application/management/school-control.tpl.html",
+            templateUrl: "application/management/department-control.tpl.html",
             link: function(scope) {
             	scope.updating = false;
             	scope.removing = false;
 
                 scope.remove = function() {
 					scope.removing = true;
-                	School.remove(scope.school).$promise.then(
+                	School.removeDepartment(scope.department.id).$promise.then(
 						function() {
-							var index = scope.schools.indexOf(scope.school);
-							scope.schools.splice(index, 1);
-							scope.viewData.activeSchool = null;
+							var index = scope.departments.indexOf(scope.department);
+							scope.departments.splice(index, 1);
 							scope.viewData.activeDepartment = null;
 							scope.viewData.activeGroup = null;
 							scope.removing = false;
@@ -31,7 +29,7 @@ angular.module('management')
 
 				scope.update = function() {
 					scope.updating = true;
-					School.save(scope.school).$promise.then(
+					School.saveDepartment(scope.department.id).$promise.then(
 						function() {
 							scope.updating = false;
 						}

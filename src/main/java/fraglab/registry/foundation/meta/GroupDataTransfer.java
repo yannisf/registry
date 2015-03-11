@@ -6,16 +6,16 @@ public class GroupDataTransfer implements Serializable {
 
     private String id;
     private String school;
-    private String classroom;
+    private String department;
     private String group;
     private Integer members;
 
     public GroupDataTransfer() { }
 
-    public GroupDataTransfer(String id, String school, String classroom, String group, Integer members) {
+    public GroupDataTransfer(String id, String school, String department, String group, Integer members) {
         this.id = id;
         this.school = school;
-        this.classroom = classroom;
+        this.department = department;
         this.group = group;
         this.members = members;
     }
@@ -36,12 +36,12 @@ public class GroupDataTransfer implements Serializable {
         this.school = school;
     }
 
-    public String getClassroom() {
-        return classroom;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setClassroom(String classroom) {
-        this.classroom = classroom;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getGroup() {

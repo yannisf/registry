@@ -25,14 +25,14 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 
     .service('FoundationService', ['Foundation', function (Foundation) {
 		var school = { id: null, name: null };
-		var classroom = { id: null, name: null };
+		var department = { id: null, name: null };
 		var group = { id: null, name: null };
 		var initializeGroup = function(groupId) {
 			group.id = groupId;
 			var groupInfo = Foundation.groupInfo({groupId: groupId});
 			groupInfo.$promise.then(function(response) {
 				school.name = response.school;
-				classroom.name = response.classroom;
+				department.name = response.department;
 				group.name = response.group;
 			});
 		};
@@ -54,8 +54,8 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 		var reset = function() {
 			this.school.id = null;
 			this.school.name = null;
-			this.classroom.id = null;
-			this.classroom.name = null;
+			this.department.id = null;
+			this.department.name = null;
 			this.group.id = null;
 			this.group.name = null;
 			this.groupChildrenIds = [];
@@ -63,7 +63,7 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 
 		return {
 			school: school,
-			classroom: classroom,
+			department: department,
 			group: group,
 			reset: reset,
 			initializeGroup: initializeGroup,

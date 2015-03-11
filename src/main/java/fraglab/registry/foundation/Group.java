@@ -18,7 +18,7 @@ public class Group extends BaseEntity {
     private String name;
 
     @ManyToOne(optional = false)
-    private Classroom classroom;
+    private Department department;
 
     @OneToMany(mappedBy = "group")
     private List<Child> children;
@@ -41,12 +41,12 @@ public class Group extends BaseEntity {
     }
 
     @JsonIgnore
-    public Classroom getClassroom() {
-        return classroom;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @JsonIgnore

@@ -15,7 +15,7 @@ public class School extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "school")
-    private List<Classroom> classrooms;
+    private List<Department> departments;
 
     public School() { }
 
@@ -32,20 +32,20 @@ public class School extends BaseEntity {
     }
 
     @JsonIgnore
-    public List<Classroom> getClassrooms() {
-        return classrooms;
+    public List<Department> getDepartments() {
+        return departments;
     }
 
-    public void setClassrooms(List<Classroom> classrooms) {
-        this.classrooms = classrooms;
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
     }
 
-    public void addClassroom(Classroom classroom) {
-        if (classrooms == null) {
-            classrooms = new ArrayList<>();
+    public void addDepartment(Department department) {
+        if (departments == null) {
+            departments = new ArrayList<>();
         }
-        classroom.setSchool(this);
-        classrooms.add(classroom);
+        department.setSchool(this);
+        departments.add(department);
     }
 
 }

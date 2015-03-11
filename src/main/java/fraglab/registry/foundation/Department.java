@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Classroom extends BaseEntity {
+public class Department extends BaseEntity {
 
     private String name;
 
     @ManyToOne(optional = false)
     private School school;
 
-    @OneToMany(mappedBy = "classroom")
+    @OneToMany(mappedBy = "department")
     private List<Group> groups;
 
-    public Classroom() { }
+    public Department() { }
 
-    public Classroom(String name) {
+    public Department(String name) {
         this.name = name;
     }
 
@@ -57,6 +57,6 @@ public class Classroom extends BaseEntity {
             this.groups = new ArrayList<>();
         }
         this.groups.add(group);
-        group.setClassroom(this);
+        group.setDepartment(this);
     }
 }

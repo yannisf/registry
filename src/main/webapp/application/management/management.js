@@ -14,7 +14,9 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
         return $resource('api/foundation/school/:id', { }, {
             save: {method: 'PUT'},
             remove: {method: 'DELETE'},
-            fetchClassroomsForSchool: {method: 'GET', url: 'api/foundation/school/:schoolId/classroom', isArray: true},
+            fetchDepartmentsForSchool: {method: 'GET', url: 'api/foundation/school/:schoolId/department', isArray: true},
+            fetchGroupsForDepartment: {method: 'GET', url: 'api/foundation/school/:schoolId/department/:departmentId/group', isArray: true},
+            createOrUpdateDepartmentForSchool: {method: 'PUT', url: 'api/foundation/school/:schoolId/department'},
         });
     }])
 
@@ -22,13 +24,17 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
             angular.extend($scope, {
                 data: {
                     schools: [],
+                    departments: [],
                     groups: []
                 },
                 viewData: {
                     activeSchool: null,
+                    activeDepartment: null,
                     activeGroup: null,
-                    activeSchoolHasGroups: false,
+                    activeSchoolHasDepartments: false,
+                    activeDepartmentHasGroups: false,
                     schoolsLoading: true,
+                    departmentsLoading: false,
                     groupsLoading: false
                 }
             });
@@ -44,8 +50,23 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 function(newval) {
                     if (newval) {
                         console.log('Active school is now ', newval);
+                        $scope.viewData.departmentsLoading = true;
+                        School.fetchDepartmentsForSchool({schoolId: newval.id}).$promise.then(
+							function (response) {
+								$scope.data.departments = response;
+								$scope.viewData.departmentsLoading = false;
+							}
+                        );
+                    }
+                }
+            );
+            
+            $scope.$watch('viewData.activeDepartment', 
+                function(newval) {
+                    if (newval) {
+                        console.log('Active department is now ', newval);
                         $scope.viewData.groupsLoading = true;
-                        School.fetchClassroomsForSchool({schoolId: newval.id}).$promise.then(
+                        School.fetchGroupsForDepartment({schoolId: $scope.viewData.activeSchool.id, departmentId: newval.id}).$promise.then(
 							function (response) {
 								$scope.data.groups = response;
 								$scope.viewData.groupsLoading = false;
@@ -55,17 +76,27 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 }
             );
             
-            $scope.$watchCollection('data.groups',
+            $scope.$watchCollection('data.departments',
                 function(newval) {
-                    $scope.viewData.activeSchoolHasGroups = (newval && newval.length > 0);
+                    $scope.viewData.activeSchoolHasDepartments = (newval && newval.length > 0);
                 }
             );
             
-            $scope.setActive = function(school, event) {
+            $scope.$watchCollection('data.groups',
+                function(newval) {
+                    $scope.viewData.activeDepartmentHasGroups = (newval && newval.length > 0);
+                }
+            );
+            
+            $scope.setActive = function(school) {
                 $scope.viewData.activeSchool = school;
             };
             
-            $scope.setActiveGroup = function(group, event) {
+            $scope.setActiveDepartment = function(department) {
+                $scope.viewData.activeDepartment = department;
+            };
+
+            $scope.setActiveGroup = function(group) {
                 $scope.viewData.activeGroup = group;
             };
 
@@ -89,13 +120,42 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 );
             };
 
-            $scope.addGroup = function() {
-                var group = {
+            $scope.addDepartment = function() {
+                var department = {
                     id: uuid4.generate(),
                     name: 'Νεο τμήμα'
                 };
-                $scope.viewData.activeSchool.groups.push(group);
+                $scope.viewData.departmentsLoading = true;
+                School.createOrUpdateDepartmentForSchool({schoolId: $scope.viewData.activeSchool.id}, department).$promise.then(
+                    function(response) {
+                        School.fetchDepartmentsForSchool({schoolId: $scope.viewData.activeSchool.id}).$promise.then(
+                            function(response) {
+                                $scope.data.departments = response;
+                                $scope.viewData.departmentsLoading = false;
+                            }
+                        );
+                    }
+                );
+            };            
+            
+            $scope.addGroup = function() {
+                var department = {
+                    id: uuid4.generate(),
+                    name: 'Νεα χρόνια'
+                };
+                $scope.viewData.groupsLoading = true;
+                School.createOrUpdateGroupForDepartment({departmentId: $scope.viewData.activeDepartment.id}, group).$promise.then(
+                    function(response) {
+                        School.fetchGroupsForDepartment({schoolId: $scope.viewData.activeSchool.id, departmentId: $scope.viewData.activeDepartment.id}).$promise.then(
+                            function(response) {
+                                $scope.data.groups = response;
+                                $scope.viewData.groupsLoading = false;
+                            }
+                        );
+                    }
+                );
             };
+            
         }
 
     ]);

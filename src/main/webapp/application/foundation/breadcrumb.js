@@ -22,7 +22,7 @@ angular.module('foundation')
             templateUrl: "application/foundation/breadcrumb.tpl.html",
             link: function(scope) {
                 scope.school = FoundationService.school;
-                scope.classroom = FoundationService.classroom;
+                scope.department = FoundationService.department;
                 scope.group = FoundationService.group;
                 scope.$watch(
                 	function() {

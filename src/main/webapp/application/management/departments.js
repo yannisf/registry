@@ -2,10 +2,10 @@
 
 angular.module('management')
 
-    .directive('classrooms', [function () {
+    .directive('departments', [function () {
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: "application/management/classrooms.tpl.html"
+            templateUrl: "application/management/departments.tpl.html"
 		};
 	}]);

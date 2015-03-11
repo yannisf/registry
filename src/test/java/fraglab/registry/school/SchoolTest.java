@@ -1,7 +1,7 @@
 package fraglab.registry.school;
 
 import fraglab.registry.child.ChildService;
-import fraglab.registry.foundation.Classroom;
+import fraglab.registry.foundation.Department;
 import fraglab.registry.foundation.FoundationService;
 import fraglab.registry.foundation.Group;
 import fraglab.registry.foundation.School;
@@ -25,8 +25,8 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
     private ChildService childService;
     
     private String schoolId;
-    private String classroomId1;
-    private String classroomId2;
+    private String departmentId1;
+    private String departmentId2;
     private String groupId;
 
     @Test
@@ -38,22 +38,22 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
         schoolId = school.getId();
         foundationService.createOrUpdateSchool(school);
         
-        Classroom classroom1 = new Classroom("My classroom 1");
-        classroom1.setId(generateUuid());
-        classroomId1 = classroom1.getId();
-        classroom1.setSchool(school);
-        foundationService.createOrUpdateClassroom(classroom1);
+        Department department1 = new Department("My department 1");
+        department1.setId(generateUuid());
+        departmentId1 = department1.getId();
+        department1.setSchool(school);
+        foundationService.createOrUpdateDepartment(department1);
         
-        Classroom classroom2 = new Classroom("My classroom 2");
-        classroom2.setId(generateUuid());
-        classroomId2 = classroom2.getId();
-        classroom2.setSchool(school);
-        foundationService.createOrUpdateClassroom(classroom2);
+        Department department2 = new Department("My department 2");
+        department2.setId(generateUuid());
+        departmentId2 = department2.getId();
+        department2.setSchool(school);
+        foundationService.createOrUpdateDepartment(department2);
 
         Group group = new Group("2013-2014");
         group.setId(generateUuid());
         groupId = group.getId();
-        group.setClassroom(classroom2);
+        group.setDepartment(department2);
         foundationService.createOrUpdateGroup(group);
     }
 
@@ -62,8 +62,8 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
     @Rollback(false)
     public void testSchoolSystem() {
         Group group = childService.fetchGroup(groupId);
-        Assert.assertEquals(group.getClassroom().getId(), classroomId2);
-        Assert.assertEquals(group.getClassroom().getSchool().getId(), schoolId);
+        Assert.assertEquals(group.getDepartment().getId(), departmentId2);
+        Assert.assertEquals(group.getDepartment().getSchool().getId(), schoolId);
     }
 
     private String generateUuid() {
