@@ -23,7 +23,6 @@ angular.module('foundation')
             link: function(scope) {
                 scope.school = FoundationService.school;
                 scope.classroom = FoundationService.classroom;
-                scope.term = FoundationService.term;
                 scope.group = FoundationService.group;
                 scope.$watch(
                 	function() {

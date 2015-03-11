@@ -1,7 +1,6 @@
 package fraglab.registry.foundation;
 
 import fraglab.data.GenericDao;
-import fraglab.data.GenericDaoImpl;
 import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
@@ -28,8 +27,8 @@ public class FoundationServiceImpl implements FoundationService {
     @Override
     public GroupDataTransfer fetchSchoolData(String groupId) {
         String schoolDataQuery = "select new fraglab.registry.foundation.meta.GroupDataTransfer(" +
-                "g.id, s.name, cr.name, t.name, g.members) " +
-                "from Group g join g.term t join g.classroom cr join g.classroom.school s " +
+                "g.id, s.name, cr.name, g.name, g.members) " +
+                "from Group g join g.classroom cr join g.classroom.school s " +
                 "where g.id=:groupId order by t.name";
         Map<String, Object> params = new HashMap<>();
         params.put("groupId", groupId);
@@ -90,11 +89,6 @@ public class FoundationServiceImpl implements FoundationService {
     }
 
     @Override
-    public void createOrUpdateTerm(Term term) {
-        dao.createOrUpdate(term);
-    }
-
-    @Override
     public void createOrUpdateGroup(Group group) {
         dao.createOrUpdate(group);
     }
@@ -143,7 +137,7 @@ public class FoundationServiceImpl implements FoundationService {
     public List<TreeElement> fetchSchoolTreeElements() {
         List<TreeElement> schoolNodes = getSchoolNodes();
         List<TreeElement> classroomNodes = getClassroomNodes();
-        List<TreeElement> termNodes = getTermNodes();
+        List<TreeElement> groupNodes = getGroupNodes();
 
         for (TreeElement schoolNode : schoolNodes) {
             schoolNode.setType(TreeElement.Type.SCHOOL);
@@ -151,10 +145,10 @@ public class FoundationServiceImpl implements FoundationService {
                 classroomNode.setType(TreeElement.Type.CLASSROOM);
                 if (classroomNode.getParentId().equals(schoolNode.getId())) {
                     schoolNode.addChild(classroomNode);
-                    for (TreeElement termNode : termNodes) {
-                        termNode.setType(TreeElement.Type.TERM);
-                        if (termNode.getParentId().equals(classroomNode.getId())) {
-                            classroomNode.addChild(termNode);
+                    for (TreeElement groupNode : groupNodes) {
+                        groupNode.setType(TreeElement.Type.GROUP);
+                        if (groupNode.getParentId().equals(classroomNode.getId())) {
+                            classroomNode.addChild(groupNode);
                         }
                     }
                 }
@@ -175,9 +169,9 @@ public class FoundationServiceImpl implements FoundationService {
         return dao.findByQuery(TreeElement.class, query);
     }
 
-    private List<TreeElement> getTermNodes() {
-        String query = "select new fraglab.registry.foundation.meta.TreeElement(g.id, t.name, cr.id, g.members) " +
-                "from Group g join g.term t join g.classroom cr order by t.name";
+    private List<TreeElement> getGroupNodes() {
+        String query = "select new fraglab.registry.foundation.meta.TreeElement(g.id, g.name, cr.id, g.members) " +
+                "from Group g join g.classroom cr order by t.name";
         return dao.findByQuery(TreeElement.class, query);
     }
 

@@ -75,7 +75,7 @@ public class TreeElement implements Serializable {
     }
 
     public static enum Type {
-        SCHOOL, CLASSROOM, TERM;
+        SCHOOL, CLASSROOM, GROUP;
     }
 
 }

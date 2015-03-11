@@ -5,6 +5,9 @@ import fraglab.registry.common.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Classroom extends BaseEntity {
@@ -13,6 +16,9 @@ public class Classroom extends BaseEntity {
 
     @ManyToOne(optional = false)
     private School school;
+
+    @OneToMany(mappedBy = "classroom")
+    private List<Group> groups;
 
     public Classroom() { }
 
@@ -36,5 +42,21 @@ public class Classroom extends BaseEntity {
     public void setSchool(School school) {
         this.school = school;
     }
-    
+
+    @JsonIgnore
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
+    public void addGroup(Group group) {
+        if (this.groups == null) {
+            this.groups = new ArrayList<>();
+        }
+        this.groups.add(group);
+        group.setClassroom(this);
+    }
 }

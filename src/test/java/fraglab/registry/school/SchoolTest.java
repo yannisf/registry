@@ -1,7 +1,10 @@
 package fraglab.registry.school;
 
 import fraglab.registry.child.ChildService;
-import fraglab.registry.foundation.*;
+import fraglab.registry.foundation.Classroom;
+import fraglab.registry.foundation.FoundationService;
+import fraglab.registry.foundation.Group;
+import fraglab.registry.foundation.School;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,7 +15,7 @@ import org.testng.annotations.Test;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
-@ContextConfiguration(locations = {"file:///home/yannis/development/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
+@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
@@ -24,45 +27,33 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
     private String schoolId;
     private String classroomId1;
     private String classroomId2;
-    private String termId1;
-    private String termId2;
     private String groupId;
 
     @Test
     @Transactional
     @Rollback(false)
     public void testAddSchoolSystem() {
-        School school = new School("My other school");
+        School school = new School("My school");
         school.setId(generateUuid());
         schoolId = school.getId();
-        
-        Classroom classroom1 = new Classroom("My other classroom 1");
-        classroom1.setId(generateUuid());
-        classroomId1 = classroom1.getId();
-        
-        Classroom classroom2 = new Classroom("My other classroom 2");
-        classroom2.setId(generateUuid());
-        classroomId2 = classroom2.getId();
-        
-        school.addClassroom(classroom1);
-        school.addClassroom(classroom2);
         foundationService.createOrUpdateSchool(school);
         
-        Term term1 = new Term("2013-2014");
-        term1.setId(generateUuid());
-        termId1 = term1.getId();
-        foundationService.createOrUpdateTerm(term1);
+        Classroom classroom1 = new Classroom("My classroom 1");
+        classroom1.setId(generateUuid());
+        classroomId1 = classroom1.getId();
+        classroom1.setSchool(school);
+        foundationService.createOrUpdateClassroom(classroom1);
         
-        Term term2 = new Term("2014-2015");
-        term2.setId(generateUuid());
-        termId2 = term2.getId();
-        foundationService.createOrUpdateTerm(term2);
-        
-        Group group = new Group();
+        Classroom classroom2 = new Classroom("My classroom 2");
+        classroom2.setId(generateUuid());
+        classroomId2 = classroom2.getId();
+        classroom2.setSchool(school);
+        foundationService.createOrUpdateClassroom(classroom2);
+
+        Group group = new Group("2013-2014");
         group.setId(generateUuid());
         groupId = group.getId();
         group.setClassroom(classroom2);
-        group.setTerm(term2);
         foundationService.createOrUpdateGroup(group);
     }
 
@@ -73,7 +64,6 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
         Group group = childService.fetchGroup(groupId);
         Assert.assertEquals(group.getClassroom().getId(), classroomId2);
         Assert.assertEquals(group.getClassroom().getSchool().getId(), schoolId);
-        Assert.assertEquals(group.getTerm().getId(), termId1);
     }
 
     private String generateUuid() {

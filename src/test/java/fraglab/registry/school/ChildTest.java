@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
-@ContextConfiguration(locations = {"file:///home/yannis/development/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
+@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
@@ -34,7 +34,7 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
     
     private String addressId;
 
-    private String groupId = "14fbd8de-9eb7-4487-bdee-b4412cec43a2";
+    private String groupId = "fa4e2ded-0dc2-410a-8f32-9c9fc308151a";
 
     @Test
     @Transactional
