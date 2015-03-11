@@ -2,14 +2,14 @@
 
 angular.module('management')
 
-    .directive('groupControl', [function () {
+    .directive('classroomControl', [function () {
         return {
             restrict: 'A',
             scope: {
                 group: "=groupControl",
                 groups: "="
             },
-            templateUrl: "application/management/group-control.tpl.html",
+            templateUrl: "application/management/classroom-control.tpl.html",
             link: function(scope, element, attrs, controllers) {
 
                 scope.remove = function() {

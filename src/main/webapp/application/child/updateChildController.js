@@ -44,7 +44,7 @@ angular.module('child')
 
             $scope.confirmRemoveChild = function () {
                 $modal.open({
-                    templateUrl: 'application/templates/remove-child.tpl.html',
+                    templateUrl: 'application/child/remove-child.tpl.html',
                     controller: 'removeChildModalController',
                     resolve: {
                         childId: function () {
@@ -57,7 +57,7 @@ angular.module('child')
             $scope.confirmRemoveRelationship = function (relationshipId, $event) {
                 $event.stopPropagation();
                 $modal.open({
-                    templateUrl: 'application/templates/remove-guardian.tpl.html',
+                    templateUrl: 'application/child/remove-guardian.tpl.html',
                     controller: 'removeRelationshipModalController',
                     scope: $scope,
                     resolve: {

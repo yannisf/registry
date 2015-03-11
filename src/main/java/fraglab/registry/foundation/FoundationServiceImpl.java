@@ -29,7 +29,7 @@ public class FoundationServiceImpl implements FoundationService {
         String schoolDataQuery = "select new fraglab.registry.foundation.meta.GroupDataTransfer(" +
                 "g.id, s.name, cr.name, g.name, g.members) " +
                 "from Group g join g.classroom cr join g.classroom.school s " +
-                "where g.id=:groupId order by t.name";
+                "where g.id=:groupId order by g.name";
         Map<String, Object> params = new HashMap<>();
         params.put("groupId", groupId);
 
@@ -171,7 +171,7 @@ public class FoundationServiceImpl implements FoundationService {
 
     private List<TreeElement> getGroupNodes() {
         String query = "select new fraglab.registry.foundation.meta.TreeElement(g.id, g.name, cr.id, g.members) " +
-                "from Group g join g.classroom cr order by t.name";
+                "from Group g join g.classroom cr order by g.name";
         return dao.findByQuery(TreeElement.class, query);
     }
 

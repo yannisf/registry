@@ -23,7 +23,7 @@
         </thead>
         <tbody>
         <tr class="clickable" ng-repeat="group in data.groups"
-            group-control="group" groups="viewData.activeSchool.groups"
+            classroom-control="group" groups="viewData.activeSchool.groups"
             ng-click="setActiveGroup(group, $event)"
             ng-class="{'active': group === viewData.activeGroup}">
         </tr>
