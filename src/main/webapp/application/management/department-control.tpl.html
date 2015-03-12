@@ -2,16 +2,20 @@
     <span ng-show="!editMode">{{department.name}}</span>
     <input type="text" ng-model="department.name" ng-show="editMode" style="width:100%"/>
 </td>
+
 <td style="text-align: center">
-    <button class="btn btn-xs btn-warning" ng-show="!editMode" ng-click="editMode = true">
+    <button class="btn btn-xs btn-warning" ng-show="!editMode && !updating" ng-click="editMode = true">
         <span class="glyphicon glyphicon-edit"></span>
     </button>
-    <button class="btn btn-xs btn-success" ng-show="editMode" ng-click="editMode = false">
+    <button class="btn btn-xs btn-success" ng-show="editMode" ng-click="update(); editMode = false">
         <span class="glyphicon glyphicon-ok"></span>
     </button>
+    <img src="images/loader.gif" ng-show="updating"/>
 </td>
+
 <td style="text-align: center">
     <button class="btn btn-xs btn-danger" ng-click="remove()">
         <span class="glyphicon glyphicon-remove"></span>
     </button>
+    <img src="images/loader.gif" ng-show="removing"/>
 </td>

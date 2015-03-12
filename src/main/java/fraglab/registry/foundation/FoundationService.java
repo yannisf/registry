@@ -39,4 +39,6 @@ public interface FoundationService {
     void createOrUpdateDepartmentForSchool(String schoolId, Department department) throws NotFoundException;
 
     List<Group> fetchGroupsForDepartment(String departmentId) throws NotFoundException;
+
+    void deleteDepartment(String departmentId) throws NotFoundException;
 }

@@ -4,6 +4,7 @@ import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
 import fraglab.registry.foundation.meta.TreeElement;
+import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/foundation")
-public class FoundationController {
+public class FoundationController extends BaseRestController {
 
     @Autowired
     private FoundationService foundationService;
@@ -70,6 +71,12 @@ public class FoundationController {
     public List<Group> fetchGroupsForDepartment(@PathVariable String schoolId, @PathVariable String departmentId) 
             throws NotFoundException {
         return foundationService.fetchGroupsForDepartment(departmentId);
+    }
+
+    @RequestMapping(value = "/school/{schoolId}/department/{departmentId}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteDepartment(@PathVariable String departmentId) throws NotFoundException {
+        foundationService.deleteDepartment(departmentId);
     }
 
     

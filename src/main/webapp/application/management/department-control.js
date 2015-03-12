@@ -7,7 +7,8 @@ angular.module('management')
             restrict: 'A',
             scope: {
                 department: "=departmentControl",
-                departments: "="
+                departments: "=",
+                viewData: "="
             },
             templateUrl: "application/management/department-control.tpl.html",
             link: function(scope) {
@@ -16,7 +17,10 @@ angular.module('management')
 
                 scope.remove = function() {
 					scope.removing = true;
-                	School.removeDepartment(scope.department.id).$promise.then(
+                	School.removeDepartment({
+                		schoolId: scope.viewData.activeSchool.id,
+                		departmentId: scope.department.id
+					}).$promise.then(
 						function() {
 							var index = scope.departments.indexOf(scope.department);
 							scope.departments.splice(index, 1);
@@ -29,7 +33,12 @@ angular.module('management')
 
 				scope.update = function() {
 					scope.updating = true;
-					School.saveDepartment(scope.department.id).$promise.then(
+					console.log("Updating...");
+					console.log("activeSchool: ", scope.viewData.activeSchool);
+
+					School.createOrUpdateDepartmentForSchool({
+						schoolId: scope.viewData.activeSchool.id
+					}, scope.department).$promise.then(
 						function() {
 							scope.updating = false;
 						}

@@ -1,4 +1,5 @@
 <div class="col-md-4 management-area">
+
     <h3>Τμήματα
         <button class="btn btn-xs btn-primary" ng-click="addDepartment()" ng-disabled="!viewData.activeSchool">
             <span class="glyphicon glyphicon-plus"></span>
@@ -12,7 +13,7 @@
         Επιλέξτε πρώτα σχολείο
     </div>
 
-    <div class="management-msg" ng-if="viewData.activeSchool && !viewData.activeSchoolHasDepartments">
+    <div class="management-msg" ng-if="!viewData.departmentsLoading && (viewData.activeSchool && !viewData.activeSchoolHasDepartments)">
         Δεν έχει εισαχθεί κανένα τμήμα
     </div>
 
@@ -28,7 +29,7 @@
         
         <tbody>
             <tr class="clickable" ng-repeat="department in data.departments"
-                department-control="department" groups="viewData.activeSchool.departments"
+                department-control="department" departments="data.departments" view-data="viewData"
                 ng-click="setActiveDepartment(department)"
                 ng-class="{'active': department === viewData.activeDepartment}">
             </tr>

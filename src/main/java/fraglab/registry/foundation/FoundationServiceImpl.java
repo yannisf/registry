@@ -153,6 +153,11 @@ public class FoundationServiceImpl implements FoundationService {
         return department.getGroups();
     }
 
+    @Override
+    public void deleteDepartment(String departmentId) throws NotFoundException {
+        Department department = fetchDepartment(departmentId);
+        dao.delete(department);
+    }
 
     @Override
     public List<TreeElement> fetchSchoolTreeElements() {
