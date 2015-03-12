@@ -2,7 +2,7 @@
 
 angular.module('management')
 
-    .directive('departmentControl', [function () {
+    .directive('departmentControl', ['School', function (School) {
         return {
             restrict: 'A',
             scope: {

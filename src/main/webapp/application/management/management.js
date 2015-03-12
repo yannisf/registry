@@ -139,7 +139,7 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
             };            
             
             $scope.addGroup = function() {
-                var department = {
+                var group = {
                     id: uuid4.generate(),
                     name: 'Νεα χρόνια'
                 };
