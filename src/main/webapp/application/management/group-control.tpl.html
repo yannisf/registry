@@ -3,15 +3,16 @@
     <input type="text" ng-model="group.name" ng-show="editMode" style="width:100%"/>
 </td>
 <td style="text-align: center">
-    <button class="btn btn-xs btn-warning" ng-show="!editMode" ng-click="editMode = true">
+    <button class="btn btn-xs btn-warning"  title="Ανανέωση"
+            ng-show="!editMode" ng-click="editMode = true">
         <span class="glyphicon glyphicon-edit"></span>
     </button>
-    <button class="btn btn-xs btn-success" ng-show="editMode" ng-click="editMode = false">
+    <button class="btn btn-xs btn-success"  title="Αποθήκευση"
+            ng-show="editMode" ng-click="editMode = false">
         <span class="glyphicon glyphicon-ok"></span>
     </button>
-</td>
-<td style="text-align: center">
-    <button class="btn btn-xs btn-danger" ng-click="remove()">
+
+    <button class="btn btn-xs btn-danger" ng-click="remove()" title="Διαγραφή">
         <span class="glyphicon glyphicon-remove"></span>
     </button>
 </td>
