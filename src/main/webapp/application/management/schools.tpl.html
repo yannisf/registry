@@ -8,11 +8,11 @@
 
     <img src="images/loader.gif" ng-show="viewData.schoolsLoading" class="center-block"/>
 
-    <div class="management-msg" ng-if="data.schools.length === 0" ng-hide="viewData.schoolsLoading">
+    <div class="management-msg" ng-if="!data.schools.length" ng-hide="viewData.schoolsLoading">
         Δεν έχει εισαχθεί κανένα σχολείο
     </div>
 
-    <table class="table table-hover" ng-if="data.schools.length > 0" ng-hide="viewData.schoolsLoading">
+    <table class="table table-condensed" ng-if="data.schools.length" ng-hide="viewData.schoolsLoading">
 
         <thead>
             <tr>

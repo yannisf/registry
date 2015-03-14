@@ -66,10 +66,13 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 function(newval) {
                     if (newval) {
                         console.log('Active school is now ', newval);
+                        $scope.data.departments = [];
+                        $scope.viewData.activeDepartment = null;
                         $scope.viewData.departmentsLoading = true;
                         School.fetchDepartmentsForSchool({schoolId: newval.id}).$promise.then(
 							function (response) {
 								$scope.data.departments = response;
+								$scope.viewData.activeSchool.departments = response;
 								$scope.viewData.departmentsLoading = false;
 							}
                         );
@@ -81,6 +84,7 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 function(newval) {
                     if (newval) {
                         console.log('Active department is now ', newval);
+                        $scope.data.groups = [];
                         $scope.viewData.activeGroup = null;
                         $scope.viewData.groupsLoading = true;
                         School.fetchGroupsForDepartment({
@@ -89,6 +93,7 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
 							function (response) {
 							    console.log('Setting as groups ', response);
 								$scope.data.groups = response;
+								$scope.viewData.activeDepartment.groups = response;
 								$scope.viewData.groupsLoading = false;
 							}
                         );
@@ -96,26 +101,6 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 }
             );
             
-            $scope.$watch('viewData.activeGroup',
-                function(newval) {
-                    if (newval) {
-                        console.log('Active group is now ', newval);
-                    }
-                }
-            );
-
-            $scope.$watchCollection('data.departments',
-                function(newval) {
-                    $scope.viewData.activeSchoolHasDepartments = (newval && newval.length > 0);
-                }
-            );
-
-            $scope.$watchCollection('data.groups',
-                function(newval) {
-                    $scope.viewData.activeDepartmentHasGroups = (newval && newval.length > 0);
-                }
-            );
-
             $scope.setActiveSchool = function(school) {
                 $scope.viewData.activeSchool = school;
                 $scope.viewData.activeDepartment = null;
@@ -137,9 +122,7 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 };
 
 				$scope.data.schools = [];
-				$scope.viewData.activeSchool = null;
-				$scope.viewData.activeDepartment = null;
-				$scope.viewData.activeGroup = null;
+				$scope.setActiveSchool(null);
 				$scope.viewData.schoolsLoading = true;
                 School.save(school).$promise.then(
                     function(response) {
@@ -159,7 +142,7 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                     name: 'Νεο τμήμα'
                 };
                 $scope.viewData.departmentsLoading = true;
-                $scope.viewData.activeDepartment = null;
+                $scope.setActiveDepartment(null);
                 School.createOrUpdateDepartmentForSchool({schoolId: $scope.viewData.activeSchool.id}, department).$promise.then(
                     function(response) {
                         School.fetchDepartmentsForSchool({schoolId: $scope.viewData.activeSchool.id}).$promise.then(

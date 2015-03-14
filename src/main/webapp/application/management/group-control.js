@@ -2,7 +2,7 @@
 
 angular.module('management')
 
-    .directive('groupControl', ['Group', function (Group) {
+    .directive('groupControl', ['$rootScope', 'Group', function ($rootScope, Group) {
         return {
             restrict: 'A',
             scope: {
@@ -14,6 +14,8 @@ angular.module('management')
             link: function(scope) {
             	scope.updating = false;
             	scope.removing = false;
+            	
+            	scope.toChildList = $rootScope.toChildList;
 
                 scope.remove = function() {
 					scope.removing = true;
