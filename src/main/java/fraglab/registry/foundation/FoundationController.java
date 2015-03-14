@@ -75,10 +75,21 @@ public class FoundationController extends BaseRestController {
 
     @RequestMapping(value = "/school/{schoolId}/department/{departmentId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteDepartment(@PathVariable String departmentId) throws NotFoundException {
+    public void deleteDepartment(@PathVariable String departmentId) {
         foundationService.deleteDepartment(departmentId);
     }
 
-    
+    @RequestMapping(value = "/group", method = RequestMethod.PUT)
+    public void createOrUpdateGroup(@RequestParam String departmentId, @RequestBody Group group)
+            throws NotFoundException {
+        foundationService.createOrUpdateGroupForDepartment(group, departmentId);
+    }
+
+    @RequestMapping(value = "/group/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteGroup(@PathVariable String id) {
+        foundationService.deleteGroup(id);
+    }
+
 
 }

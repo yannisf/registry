@@ -40,5 +40,9 @@ public interface FoundationService {
 
     List<Group> fetchGroupsForDepartment(String departmentId) throws NotFoundException;
 
-    void deleteDepartment(String departmentId) throws NotFoundException;
+    void deleteDepartment(String departmentId);
+
+    void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException;
+
+    void deleteGroup(String groupId);
 }

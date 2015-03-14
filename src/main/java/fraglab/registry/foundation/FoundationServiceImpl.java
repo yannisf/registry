@@ -154,9 +154,41 @@ public class FoundationServiceImpl implements FoundationService {
     }
 
     @Override
-    public void deleteDepartment(String departmentId) throws NotFoundException {
-        Department department = fetchDepartment(departmentId);
-        dao.delete(department);
+    public void deleteDepartment(String departmentId){
+        Department department = null;
+        try {
+            department = fetchDepartment(departmentId);
+            dao.delete(department);
+        } catch (NotFoundException e) {
+            LOG.info("Department [{}] not found. ", departmentId);
+        }
+    }
+
+    @Override
+    public void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException {
+        if (departmentId != null) {
+            Department department = fetchDepartment(departmentId);
+            group.setDepartment(department);
+        }
+        dao.createOrUpdate(group);
+    }
+
+    @Override
+    public void deleteGroup(String id) {
+        try {
+            Group group = fetchGroup(id);
+            dao.delete(group);
+        } catch (NotFoundException e) {
+            LOG.info("Group [{}] not found. ", id);
+        }
+    }
+    
+    private Group fetchGroup(String groupId) throws NotFoundException {
+        Group group = dao.fetch(Group.class, groupId);
+        if (group == null) {
+            throw new NotFoundException("Group " + groupId + " not found. ");
+        }
+        return group;
     }
 
     @Override

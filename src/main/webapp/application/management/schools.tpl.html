@@ -1,4 +1,4 @@
-<div class="col-md-5 management-area">
+<div class="col-md-4 management-area">
 
     <h3>Σχολεία
         <button class="btn btn-xs btn-primary" ng-click="addSchool()">
@@ -17,15 +17,14 @@
         <thead>
             <tr>
                 <th class="management-col1">Όνομα</th>
-                <th class="management-col2">Ανανέωση</th>
-                <th class="management-col3">Διαγραφή</th>
+                <th class="management-col2">&nbsp;</th>
             </tr>
         </thead>
 
         <tbody>
             <tr class="clickable" ng-repeat="school in data.schools"
                 school-control="school" schools="data.schools" view-data="viewData"
-                ng-click="setActive(school, $event)"
+                ng-click="setActiveSchool(school)"
                 ng-class="{ 'active': school === viewData.activeSchool}">
             </tr>
         </tbody>
