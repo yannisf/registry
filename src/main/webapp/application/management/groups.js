@@ -2,10 +2,10 @@
 
 angular.module('management')
 
-    .directive('terms', [function () {
+    .directive('groups', [function () {
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: "application/management/terms.tpl.html"
+            templateUrl: "application/management/groups.tpl.html"
 		};
 	}]);

@@ -22,9 +22,7 @@ public interface FoundationService {
 
     void createOrUpdateSchool(School school);
 
-    void createOrUpdateClassroom(Classroom classroom);
-
-    void createOrUpdateTerm(Term term);
+    void createOrUpdateDepartment(Department department);
 
     void createOrUpdateGroup(Group group);
 
@@ -32,9 +30,19 @@ public interface FoundationService {
 
     School fetchSchool(String id) throws NotFoundException;
 
-    List<Classroom> fetchClassroomsForSchool(String schoolId);
+    Department fetchDepartment(String id) throws NotFoundException;
+
+    List<Department> fetchDepartmentsForSchool(String schoolId);
 
     void deleteSchool(String id);
 
-    void createOrUpdateClassroomForSchool(String schoolId, Classroom classroom);
+    void createOrUpdateDepartmentForSchool(String schoolId, Department department) throws NotFoundException;
+
+    List<Group> fetchGroupsForDepartment(String departmentId) throws NotFoundException;
+
+    void deleteDepartment(String departmentId);
+
+    void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException;
+
+    void deleteGroup(String groupId);
 }

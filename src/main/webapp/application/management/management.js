@@ -14,21 +14,43 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
         return $resource('api/foundation/school/:id', { }, {
             save: {method: 'PUT'},
             remove: {method: 'DELETE'},
-            fetchClassroomsForSchool: {method: 'GET', url: 'api/foundation/school/:schoolId/classroom', isArray: true},
+            fetchDepartmentsForSchool: {method: 'GET', url: 'api/foundation/school/:schoolId/department', isArray: true},
+            fetchGroupsForDepartment: {method: 'GET', url: 'api/foundation/school/:schoolId/department/:departmentId/group', isArray: true},
+            createOrUpdateDepartmentForSchool: {method: 'PUT', url: 'api/foundation/school/:schoolId/department'},
+            removeDepartment: {method: 'DELETE', url: 'api/foundation/school/:schoolId/department/:departmentId'},
+            createOrUpdateGroup: {method: 'GET', url: 'api/foundation/group'}
         });
     }])
+    
+    .factory('Department', ['$resource', 
+        function($resource) {
+            return $resource('api/foundation/group/:id', { }, {
+                save: {method: 'PUT'}
+            });
+        }
+    ])
 
-    .controller('manageSchools', ['$scope', 'uuid4', 'School', function ($scope, uuid4, School) {
+    .factory('Group', ['$resource', 
+        function($resource) {
+            return $resource('api/foundation/group/:id', { }, {
+                save: {method: 'PUT'}
+            });
+        }
+    ])
+
+    .controller('manageSchools', ['$scope', 'uuid4', 'School', 'Group', function ($scope, uuid4, School, Group) {
             angular.extend($scope, {
                 data: {
                     schools: [],
+                    departments: [],
                     groups: []
                 },
                 viewData: {
                     activeSchool: null,
+                    activeDepartment: null,
                     activeGroup: null,
-                    activeSchoolHasGroups: false,
                     schoolsLoading: true,
+                    departmentsLoading: false,
                     groupsLoading: false
                 }
             });
@@ -44,9 +66,28 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 function(newval) {
                     if (newval) {
                         console.log('Active school is now ', newval);
-                        $scope.viewData.groupsLoading = true;
-                        School.fetchClassroomsForSchool({schoolId: newval.id}).$promise.then(
+                        $scope.viewData.departmentsLoading = true;
+                        School.fetchDepartmentsForSchool({schoolId: newval.id}).$promise.then(
 							function (response) {
+								$scope.data.departments = response;
+								$scope.viewData.departmentsLoading = false;
+							}
+                        );
+                    }
+                }
+            );
+            
+            $scope.$watch('viewData.activeDepartment', 
+                function(newval) {
+                    if (newval) {
+                        console.log('Active department is now ', newval);
+                        $scope.viewData.activeGroup = null;
+                        $scope.viewData.groupsLoading = true;
+                        School.fetchGroupsForDepartment({
+                                schoolId: $scope.viewData.activeSchool.id, 
+                                departmentId: newval.id}).$promise.then(
+							function (response) {
+							    console.log('Setting as groups ', response);
 								$scope.data.groups = response;
 								$scope.viewData.groupsLoading = false;
 							}
@@ -55,17 +96,37 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 }
             );
             
-            $scope.$watchCollection('data.groups',
+            $scope.$watch('viewData.activeGroup',
                 function(newval) {
-                    $scope.viewData.activeSchoolHasGroups = (newval && newval.length > 0);
+                    if (newval) {
+                        console.log('Active group is now ', newval);
+                    }
                 }
             );
-            
-            $scope.setActive = function(school, event) {
+
+            $scope.$watchCollection('data.departments',
+                function(newval) {
+                    $scope.viewData.activeSchoolHasDepartments = (newval && newval.length > 0);
+                }
+            );
+
+            $scope.$watchCollection('data.groups',
+                function(newval) {
+                    $scope.viewData.activeDepartmentHasGroups = (newval && newval.length > 0);
+                }
+            );
+
+            $scope.setActiveSchool = function(school) {
                 $scope.viewData.activeSchool = school;
+                $scope.viewData.activeDepartment = null;
             };
             
-            $scope.setActiveGroup = function(group, event) {
+            $scope.setActiveDepartment = function(department) {
+                $scope.viewData.activeDepartment = department;
+                $scope.viewData.activeGroup = null;
+            };
+
+            $scope.setActiveGroup = function(group) {
                 $scope.viewData.activeGroup = group;
             };
 
@@ -76,6 +137,9 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 };
 
 				$scope.data.schools = [];
+				$scope.viewData.activeSchool = null;
+				$scope.viewData.activeDepartment = null;
+				$scope.viewData.activeGroup = null;
 				$scope.viewData.schoolsLoading = true;
                 School.save(school).$promise.then(
                     function(response) {
@@ -89,12 +153,44 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                 );
             };
 
-            $scope.addGroup = function() {
-                var group = {
+            $scope.addDepartment = function() {
+                var department = {
                     id: uuid4.generate(),
                     name: 'Νεο τμήμα'
                 };
-                $scope.viewData.activeSchool.groups.push(group);
+                $scope.viewData.departmentsLoading = true;
+                $scope.viewData.activeDepartment = null;
+                School.createOrUpdateDepartmentForSchool({schoolId: $scope.viewData.activeSchool.id}, department).$promise.then(
+                    function(response) {
+                        School.fetchDepartmentsForSchool({schoolId: $scope.viewData.activeSchool.id}).$promise.then(
+                            function(response) {
+                                $scope.data.departments = response;
+                                $scope.viewData.departmentsLoading = false;
+                            }
+                        );
+                    }
+                );
+            };            
+            
+            $scope.addGroup = function() {
+                var group = {
+                    id: uuid4.generate(),
+                    name: 'Νεα χρόνια'
+                };
+                $scope.viewData.groupsLoading = true;
+                Group.save({departmentId: $scope.viewData.activeDepartment.id}, group).$promise.then(
+                    function(response) {
+                        School.fetchGroupsForDepartment({
+                                schoolId: $scope.viewData.activeSchool.id, 
+                                departmentId: $scope.viewData.activeDepartment.id}).$promise.then(
+                            function(response) {
+                                console.log('The groups are: ', response);
+                                $scope.data.groups = response;
+                                $scope.viewData.groupsLoading = false;
+                            }
+                        );
+                    }
+                );
             };
         }
 

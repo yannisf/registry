@@ -1,7 +1,6 @@
 package fraglab.registry.foundation;
 
 import fraglab.data.GenericDao;
-import fraglab.data.GenericDaoImpl;
 import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
@@ -12,12 +11,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class FoundationServiceImpl implements FoundationService {
 
     private static final Logger LOG = LoggerFactory.getLogger(FoundationServiceImpl.class);
@@ -28,9 +29,9 @@ public class FoundationServiceImpl implements FoundationService {
     @Override
     public GroupDataTransfer fetchSchoolData(String groupId) {
         String schoolDataQuery = "select new fraglab.registry.foundation.meta.GroupDataTransfer(" +
-                "g.id, s.name, cr.name, t.name, g.members) " +
-                "from Group g join g.term t join g.classroom cr join g.classroom.school s " +
-                "where g.id=:groupId order by t.name";
+                "g.id, s.name, cr.name, g.name, g.members) " +
+                "from Group g join g.department cr join g.department.school s " +
+                "where g.id=:groupId order by g.name";
         Map<String, Object> params = new HashMap<>();
         params.put("groupId", groupId);
 
@@ -85,13 +86,8 @@ public class FoundationServiceImpl implements FoundationService {
     }
 
     @Override
-    public void createOrUpdateClassroom(Classroom classroom) {
-        dao.createOrUpdate(classroom);
-    }
-
-    @Override
-    public void createOrUpdateTerm(Term term) {
-        dao.createOrUpdate(term);
+    public void createOrUpdateDepartment(Department department) {
+        dao.createOrUpdate(department);
     }
 
     @Override
@@ -115,11 +111,21 @@ public class FoundationServiceImpl implements FoundationService {
     }
 
     @Override
-    public List<Classroom> fetchClassroomsForSchool(String schoolId) {
-        String query = "select c from Classroom c where c.school.id=:schoolId order by c.name";
+    public Department fetchDepartment(String id) throws NotFoundException {
+        Department department = dao.fetch(Department.class, id);
+        if (department == null) {
+            throw new NotFoundException();
+        }
+
+        return department;
+    }
+
+    @Override
+    public List<Department> fetchDepartmentsForSchool(String schoolId) {
+        String query = "select c from Department c where c.school.id=:schoolId order by c.name";
         Map<String, Object> params = new HashMap<>();
         params.put("schoolId", schoolId);
-        return  dao.findByQuery(Classroom.class, query, params);
+        return  dao.findByQuery(Department.class, query, params);
     }
 
     @Override
@@ -134,27 +140,73 @@ public class FoundationServiceImpl implements FoundationService {
     }
 
     @Override
-    public void createOrUpdateClassroomForSchool(String schoolId, Classroom classroom) {
-        //TODO:
+    public void createOrUpdateDepartmentForSchool(String schoolId, Department department) throws NotFoundException {
+        School school = fetchSchool(schoolId);
+        school.addDepartment(department);
+        dao.createOrUpdate(department);
     }
 
+    @Override
+    public List<Group> fetchGroupsForDepartment(String departmentId) throws NotFoundException {
+        Department department = fetchDepartment(departmentId);
+        department.getGroups().size();
+        return department.getGroups();
+    }
+
+    @Override
+    public void deleteDepartment(String departmentId){
+        Department department = null;
+        try {
+            department = fetchDepartment(departmentId);
+            dao.delete(department);
+        } catch (NotFoundException e) {
+            LOG.info("Department [{}] not found. ", departmentId);
+        }
+    }
+
+    @Override
+    public void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException {
+        if (departmentId != null) {
+            Department department = fetchDepartment(departmentId);
+            group.setDepartment(department);
+        }
+        dao.createOrUpdate(group);
+    }
+
+    @Override
+    public void deleteGroup(String id) {
+        try {
+            Group group = fetchGroup(id);
+            dao.delete(group);
+        } catch (NotFoundException e) {
+            LOG.info("Group [{}] not found. ", id);
+        }
+    }
+    
+    private Group fetchGroup(String groupId) throws NotFoundException {
+        Group group = dao.fetch(Group.class, groupId);
+        if (group == null) {
+            throw new NotFoundException("Group " + groupId + " not found. ");
+        }
+        return group;
+    }
 
     @Override
     public List<TreeElement> fetchSchoolTreeElements() {
         List<TreeElement> schoolNodes = getSchoolNodes();
-        List<TreeElement> classroomNodes = getClassroomNodes();
-        List<TreeElement> termNodes = getTermNodes();
+        List<TreeElement> departmentNodes = getDepartmentNodes();
+        List<TreeElement> groupNodes = getGroupNodes();
 
         for (TreeElement schoolNode : schoolNodes) {
             schoolNode.setType(TreeElement.Type.SCHOOL);
-            for (TreeElement classroomNode : classroomNodes) {
-                classroomNode.setType(TreeElement.Type.CLASSROOM);
-                if (classroomNode.getParentId().equals(schoolNode.getId())) {
-                    schoolNode.addChild(classroomNode);
-                    for (TreeElement termNode : termNodes) {
-                        termNode.setType(TreeElement.Type.TERM);
-                        if (termNode.getParentId().equals(classroomNode.getId())) {
-                            classroomNode.addChild(termNode);
+            for (TreeElement departmentNode : departmentNodes) {
+                departmentNode.setType(TreeElement.Type.DEPARTMENT);
+                if (departmentNode.getParentId().equals(schoolNode.getId())) {
+                    schoolNode.addChild(departmentNode);
+                    for (TreeElement groupNode : groupNodes) {
+                        groupNode.setType(TreeElement.Type.GROUP);
+                        if (groupNode.getParentId().equals(departmentNode.getId())) {
+                            departmentNode.addChild(groupNode);
                         }
                     }
                 }
@@ -169,15 +221,15 @@ public class FoundationServiceImpl implements FoundationService {
         return dao.findByQuery(TreeElement.class, query);
     }
 
-    private List<TreeElement> getClassroomNodes() {
+    private List<TreeElement> getDepartmentNodes() {
         String query = "select new fraglab.registry.foundation.meta.TreeElement(cr.id, cr.name, s.id) " +
-                "from Classroom cr join cr.school s order by cr.name";
+                "from Department cr join cr.school s order by cr.name";
         return dao.findByQuery(TreeElement.class, query);
     }
 
-    private List<TreeElement> getTermNodes() {
-        String query = "select new fraglab.registry.foundation.meta.TreeElement(g.id, t.name, cr.id, g.members) " +
-                "from Group g join g.term t join g.classroom cr order by t.name";
+    private List<TreeElement> getGroupNodes() {
+        String query = "select new fraglab.registry.foundation.meta.TreeElement(g.id, g.name, cr.id, g.members) " +
+                "from Group g join g.department cr order by g.name";
         return dao.findByQuery(TreeElement.class, query);
     }
 

@@ -24,7 +24,7 @@
         </div>
 
         <div style="float: right">
-            <span>Τάξη ${schoolData.term}</span>
+            <span>Τάξη ${schoolData.group}</span>
         </div>
     </div>
 

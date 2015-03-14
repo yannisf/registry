@@ -24,7 +24,7 @@
         <tbody>
             <tr class="clickable" ng-repeat="school in data.schools"
                 school-control="school" schools="data.schools" view-data="viewData"
-                ng-click="setActive(school, $event)"
+                ng-click="setActiveSchool(school)"
                 ng-class="{ 'active': school === viewData.activeSchool}">
             </tr>
         </tbody>

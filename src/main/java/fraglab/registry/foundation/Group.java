@@ -1,5 +1,6 @@
 package fraglab.registry.foundation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
 
@@ -14,35 +15,41 @@ import java.util.List;
 @Table(name = "CGROUP")
 public class Group extends BaseEntity {
 
-    @ManyToOne(optional = false)
-    private Classroom classroom;
+    private String name;
 
     @ManyToOne(optional = false)
-    private Term term;
+    private Department department;
 
     @OneToMany(mappedBy = "group")
     private List<Child> children;
 
     private Integer members;
 
-    public Group() { }
-
-    public Classroom getClassroom() {
-        return classroom;
+    public Group() {
     }
 
-    public void setClassroom(Classroom classroom) {
-        this.classroom = classroom;
+    public Group(String name) {
+        this.name = name;
     }
 
-    public Term getTerm() {
-        return term;
+    public String getName() {
+        return name;
     }
 
-    public void setTerm(Term term) {
-        this.term = term;
+    public void setName(String name) {
+        this.name = name;
     }
 
+    @JsonIgnore
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    @JsonIgnore
     public List<Child> getChildren() {
         return children;
     }

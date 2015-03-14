@@ -11,8 +11,7 @@ angular.module('management')
                 viewData: "="
             },
             templateUrl: "application/management/school-control.tpl.html",
-            link: function(scope, element, attrs, controllers) {
-
+            link: function(scope) {
             	scope.updating = false;
             	scope.removing = false;
 
@@ -23,6 +22,7 @@ angular.module('management')
 							var index = scope.schools.indexOf(scope.school);
 							scope.schools.splice(index, 1);
 							scope.viewData.activeSchool = null;
+							scope.viewData.activeDepartment = null;
 							scope.viewData.activeGroup = null;
 							scope.removing = false;
 						}
