@@ -1,24 +1,30 @@
 <td>
+    
     <span ng-show="!editMode">{{school.name}}</span>
     <input type="text" ng-model="school.name" ng-show="editMode" style="width:100%"/>
+    
 </td>
 
 <td>
     
     <button class="btn btn-xs btn-warning" title = "Ανανέωση"
-            ng-show="!editMode && !updating" ng-click="editMode = true">
+            ng-show="!editMode && !updating" ng-click="edit()">
         <span class="glyphicon glyphicon-edit"></span>
     </button>
     
     <button class="btn btn-xs btn-success" title = "Αποθήκευση"
-            ng-show="editMode" ng-click="update(); editMode = false">
+            ng-show="editMode" ng-click="update()">
         <span class="glyphicon glyphicon-ok"></span>
     </button>
+    
     <img src="images/loader.gif" ng-show="updating"/>
     
-    <button class="btn btn-xs btn-danger" title = "Διαγραφή" ng-show="!removing" ng-click="remove()">
+    <button class="btn btn-xs btn-link" title = "Ακύρωση" ng-show="editMode" ng-click="cancel()">Άκυρο</button>
+    
+    <button class="btn btn-xs btn-danger" title = "Διαγραφή" ng-show="!removing && !editMode" ng-click="remove()">
         <span class="glyphicon glyphicon-remove"></span>
     </button>
+    
     <img src="images/loader.gif" ng-show="removing"/>
     
 </td>

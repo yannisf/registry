@@ -23,6 +23,7 @@ module.exports = function(grunt) {
   		"application/management/school-control.js",
   		"application/management/department-control.js",
   		"application/management/group-control.js",
+  		"application/management/focusAndSelect.js",
   		"application/child/child.js",
   		"application/child/childService.js",
   		"application/child/createChildController.js",

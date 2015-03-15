@@ -11,29 +11,40 @@ angular.module('management')
                 viewData: "="
             },
             templateUrl: "application/management/group-control.tpl.html",
-            link: function(scope) {
-            	scope.updating = false;
-            	scope.removing = false;
+            controller: function($scope) {
+            	$scope.updating = false;
+            	$scope.removing = false;
             	
-            	scope.toChildList = $rootScope.toChildList;
+            	$scope.toChildList = $rootScope.toChildList;
 
-                scope.remove = function() {
-					scope.removing = true;
-                	Group.remove({ id: scope.group.id }).$promise.then(
+                $scope.remove = function() {
+					$scope.removing = true;
+                	Group.remove({ id: $scope.group.id }).$promise.then(
 						function() {
-							var index = scope.groups.indexOf(scope.group);
-							scope.groups.splice(index, 1);
-							scope.viewData.activeGroup = null;
-							scope.removing = false;
+							var index = $scope.groups.indexOf($scope.group);
+							$scope.groups.splice(index, 1);
+							$scope.viewData.activeGroup = null;
+							$scope.removing = false;
 						}
                 	);
                 };
+                
+				var oldValue = $scope.group.name;
+				$scope.edit = function() {
+					$scope.editMode = true;
+				};
 
-				scope.update = function() {
-					scope.updating = true;
-					Group.save({departmentId: scope.viewData.activeDepartment.id}, scope.group).$promise.then(
+				$scope.cancel = function() {
+					$scope.editMode = false;
+					$scope.group.name = oldValue;
+				};
+
+				$scope.update = function() {
+					$scope.updating = true;
+					$scope.editMode = false;
+					Group.save({departmentId: $scope.viewData.activeDepartment.id}, $scope.group).$promise.then(
 						function() {
-							scope.updating = false;
+							$scope.updating = false;
 						}
 					);
 				};

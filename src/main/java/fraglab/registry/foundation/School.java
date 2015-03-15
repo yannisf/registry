@@ -3,7 +3,6 @@ package fraglab.registry.foundation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.BaseEntity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;

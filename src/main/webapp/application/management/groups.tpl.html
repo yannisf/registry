@@ -27,7 +27,7 @@
         </thead>
 
         <tbody>
-            <tr class="clickable" ng-repeat="group in data.groups"
+            <tr class="clickable" ng-repeat="group in data.groups" focus-and-select
                 group-control="group" groups="data.groups" view-data="viewData"
                 ng-click="setActiveGroup (group)"
                 ng-class="{'active': group === viewData.activeGroup }">

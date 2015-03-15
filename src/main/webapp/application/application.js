@@ -5,7 +5,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({
-            redirectTo: '/foundation/list'
+            redirectTo: '/management'
         });
     }])
 

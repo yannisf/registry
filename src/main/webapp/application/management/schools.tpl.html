@@ -22,7 +22,7 @@
         </thead>
 
         <tbody>
-            <tr class="clickable" ng-repeat="school in data.schools"
+            <tr class="clickable" ng-repeat="school in data.schools" focus-and-select
                 school-control="school" schools="data.schools" view-data="viewData"
                 ng-click="setActiveSchool(school)"
                 ng-class="{ 'active': school === viewData.activeSchool}">

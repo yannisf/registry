@@ -14,13 +14,12 @@
 
         <div collapse="navCollapsed">
             <ul class="nav navbar-nav">
-                <li><a href ng-click="toSchoolList()">Σχολεία</a></li>
                 <li><a href ng-click="go('management')">Διαχείριση</a></li>
                 <li ng-if="group.id" dropdown>
-                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" dropdown-toggle> Διαχείριση τάξης <span class="caret"></span></a>
+                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" dropdown-toggle>Tάξη<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href ng-click="toChildList(group.id)">Κατάλογος παιδιών</a></li>
-                        <li><a href ng-click="go('/child/create')" ng-disabled="! group.id">Δημιουργία παιδιού</a> </li>
+                        <li><a href ng-click="toChildList(group.id)">Παιδιά</a></li>
+                        <li><a href ng-click="go('/child/create')" ng-disabled="! group.id">Νέο παιδί</a> </li>
                     </ul>
                 </li>
                 <li ng-if="group.id" dropdown>

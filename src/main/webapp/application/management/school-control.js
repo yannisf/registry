@@ -2,7 +2,7 @@
 
 angular.module('management')
 
-    .directive('schoolControl', ['School', function (School) {
+    .directive('schoolControl', ['$timeout', 'School', function ($timeout, School) {
         return {
             restrict: 'A',
             scope: {
@@ -11,29 +11,46 @@ angular.module('management')
                 viewData: "="
             },
             templateUrl: "application/management/school-control.tpl.html",
-            link: function(scope) {
-            	scope.updating = false;
-            	scope.removing = false;
+            controller: function($scope) {
+            	$scope.updating = false;
+            	$scope.removing = false;
 
-                scope.remove = function() {
-					scope.removing = true;
-                	School.remove(scope.school).$promise.then(
+                $scope.remove = function() {
+					$scope.removing = true;
+                	School.remove({id: $scope.school.id}).$promise.then(
 						function() {
-							var index = scope.schools.indexOf(scope.school);
-							scope.schools.splice(index, 1);
-							scope.viewData.activeSchool = null;
-							scope.viewData.activeDepartment = null;
-							scope.viewData.activeGroup = null;
-							scope.removing = false;
+							var index = $scope.schools.indexOf($scope.school);
+							$scope.schools.splice(index, 1);
+							$scope.viewData.activeSchool = null;
+							$scope.viewData.activeDepartment = null;
+							$scope.viewData.activeGroup = null;
+							$scope.removing = false;
+						},
+						function() {
+							$scope.removing = false;
+							$timeout(function () {
+                                alert('Το σχολείο δε μπόρεσε να διαγραφεί. Βεβαιωθείτε ότι δεν υπάρχουν υφιστάμενα τμήματα. ');
+							});
 						}
                 	);
                 };
-
-				scope.update = function() {
-					scope.updating = true;
-					School.save(scope.school).$promise.then(
+                
+                var oldValue = $scope.school.name;
+                $scope.edit = function() {
+					$scope.editMode = true;
+                };
+                
+				$scope.cancel = function() {
+					$scope.editMode = false;
+					$scope.school.name = oldValue;
+				};
+                
+				$scope.update = function() {
+					$scope.updating = true;
+					$scope.editMode = false;
+					School.save($scope.school).$promise.then(
 						function() {
-							scope.updating = false;
+							$scope.updating = false;
 						}
 					);
 				};

@@ -28,7 +28,7 @@
         </thead>
         
         <tbody>
-            <tr class="clickable" ng-repeat="department in data.departments"
+            <tr class="clickable" ng-repeat="department in data.departments" focus-and-select
                 department-control="department" departments="data.departments" view-data="viewData"
                 ng-click="setActiveDepartment(department)"
                 ng-class="{'active': department === viewData.activeDepartment}">
