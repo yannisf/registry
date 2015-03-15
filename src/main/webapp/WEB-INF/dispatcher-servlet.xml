@@ -16,10 +16,10 @@
     <bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url" value="jdbc:hsqldb:hsql://localhost/school"/>
-        <property name="username" value="SA"/>
-        <property name="password" value=""/>
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://192.168.1.13:5432/registry"/>
+        <property name="username" value="registry"/>
+        <property name="password" value="registry"/>
     </bean>
 
     <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

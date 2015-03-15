@@ -61,13 +61,13 @@ public class FoundationServiceImpl implements FoundationService {
                 "GIRLS.GIRLS_NUMBER, " +
                 "PRESCHOOL_LEVEL_A.PRESCHOOL_LEVEL_A_NUMBER, " +
                 "PRESCHOOL_LEVEL_B.PRESCHOOL_LEVEL_B_NUMBER from " +
-                "(select count(*) AS BOYS_NUMBER from person p " +
+                "(select count(*) AS BOYS_NUMBER from Person p " +
                 "where p.group_id = :groupId and p.genre = 'MALE') BOYS, " +
-                "(select count(*) AS GIRLS_NUMBER from person p " +
+                "(select count(*) AS GIRLS_NUMBER from Person p " +
                 "where p.group_id = :groupId and p.genre = 'FEMALE') GIRLS, " +
-                "(select count(*) AS PRESCHOOL_LEVEL_A_NUMBER from person p " +
+                "(select count(*) AS PRESCHOOL_LEVEL_A_NUMBER from Person p " +
                 "where p.group_id = :groupId and p.PRESCHOOL_LEVEL = 'PRE_SCHOOL_LEVEL_A') PRESCHOOL_LEVEL_A, " +
-                "(select count(*)AS PRESCHOOL_LEVEL_B_NUMBER from person p " +
+                "(select count(*)AS PRESCHOOL_LEVEL_B_NUMBER from Person p " +
                 "where p.group_id = :groupId and p.PRESCHOOL_LEVEL = 'PRE_SCHOOL_LEVEL_B') PRESCHOOL_LEVEL_B ";
         Map<String, Object> params = new HashMap<>();
         params.put("groupId", groupId);
