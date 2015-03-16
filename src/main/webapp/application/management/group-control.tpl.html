@@ -7,29 +7,26 @@
 
 <td>
     
-    <button class="btn btn-xs btn-warning" title = "Ανανέωση"
-            ng-show="!editMode && !updating" ng-click="edit()">
+    <button class="btn btn-xs btn-primary" title = "Ανανέωση" ng-show="!editMode && !updating" ng-click="edit()">
         <span class="glyphicon glyphicon-edit"></span>
     </button>
     
-    <button class="btn btn-xs btn-success" title = "Αποθήκευση" 
-            ng-show="editMode" ng-click="update()">
+    <button class="btn btn-xs btn-success" title = "Αποθήκευση" ng-show="editMode" ng-click="update()">
         <span class="glyphicon glyphicon-ok"></span>
     </button>
 
-    <img src="images/loader.gif" ng-show="updating"/>
+    <img src="images/loader.png" class="loader-small" ng-show="updating"/>
 
     <button class="btn btn-xs btn-link" title="Ακύρωση" ng-show="editMode" ng-click="cancel()">Άκυρο</button>
-
 
     <button class="btn btn-xs btn-danger" title = "Διαγραφή" ng-show="!removing && !editMode"
             ng-disabled="group.members" ng-click="remove()">
         <span class="glyphicon glyphicon-remove"></span>
     </button>
+
+    <img src="images/loader.png" class="loader-small" ng-show="removing"/>
     
-    <img src="images/loader.gif" ng-show="removing"/>
-    
-    <button class="btn btn-xs btn-primary" title = "Μετάβαση" 
+    <button class="btn btn-xs btn-success" title = "Μετάβαση"
             ng-show="!removing && !editMode" ng-click="toChildList(group.id)">
         <span class="glyphicon glyphicon-new-window"></span>
     </button>

@@ -2,6 +2,7 @@ package fraglab.registry.foundation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.BaseEntity;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -15,6 +16,9 @@ public class School extends BaseEntity {
 
     @OneToMany(mappedBy = "school")
     private List<Department> departments;
+    
+    @Formula(value = "(select count(*) from department d where d.school_id = id)")
+    private Long numberOfDepartments;
 
     public School() { }
 
@@ -47,4 +51,8 @@ public class School extends BaseEntity {
         departments.add(department);
     }
 
+    public Long getNumberOfDepartments() {
+        return numberOfDepartments;
+    }
+    
 }

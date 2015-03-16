@@ -2,6 +2,7 @@ package fraglab.registry.foundation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.BaseEntity;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -21,6 +22,9 @@ public class Department extends BaseEntity {
     @OneToMany(mappedBy = "department")
     @OrderBy(value = "name desc")
     private List<Group> groups;
+
+    @Formula(value = "(select count(*) from CGROUP g where g.department_id = id)")
+    private Long numberOfGroups;
 
     public Department() { }
 
@@ -61,4 +65,9 @@ public class Department extends BaseEntity {
         this.groups.add(group);
         group.setDepartment(this);
     }
+
+    public Long getNumberOfGroups() {
+        return numberOfGroups;
+    }
+    
 }

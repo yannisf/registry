@@ -25,6 +25,7 @@ angular.module('management')
 							$scope.groups.splice(index, 1);
 							$scope.viewData.activeGroup = null;
 							$scope.removing = false;
+							$scope.viewData.activeDepartment.numberOfGroups--;
 						}
                 	);
                 };

@@ -20,9 +20,9 @@ angular.module('management')
                                     schoolId: $scope.viewData.activeSchool.id,
                                     departmentId: $scope.viewData.activeDepartment.id}).$promise.then(
                                 function(response) {
-                                    console.log('The groups are: ', response);
                                     $scope.data.groups = response;
                                     $scope.viewData.groupsLoading = false;
+                                    $scope.viewData.activeDepartment.numberOfGroups++;
                                 }
                             );
                         }

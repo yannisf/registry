@@ -1,13 +1,13 @@
 <div class="col-md-4 management-area-last">
 
     <h3>Χρονιές
-        <button class="btn btn-xs btn-primary" title="Νέο χρονιά"
+        <button class="btn btn-xs btn-default" title="Νέο χρονιά"
                 ng-click="addGroup()" ng-disabled="!viewData.activeDepartment">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </h3>
 
-    <img src="images/loader.gif" ng-show="viewData.groupsLoading" class="center-block"/>
+    <img src="images/loader.png"  ng-show="viewData.groupsLoading" class="center-block loader-medium"/>
 
     <div class="management-msg" ng-if="!viewData.activeDepartment">
         Επιλέξτε πρώτα τμήμα
@@ -17,7 +17,7 @@
         Δεν έχει εισαχθεί καμιά χρονιά
     </div>
 
-    <table class="table table-condensed" ng-if="!viewData.groupsLoading && viewData.activeDepartment && data.groups.length">
+    <table class="table table-hover" ng-if="!viewData.groupsLoading && viewData.activeDepartment && data.groups.length">
 
         <thead>
             <tr>

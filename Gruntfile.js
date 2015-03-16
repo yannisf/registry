@@ -44,6 +44,7 @@ module.exports = function(grunt) {
     			globalstrict: true,
     			globals: {
     				angular: true,
+					alert: true,
     				console: true
     			}
     		},

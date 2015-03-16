@@ -58,7 +58,6 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
             $scope.$watch('viewData.activeSchool', 
                 function(newval) {
                     if (newval) {
-                        console.log('Active school is now ', newval);
                         $scope.data.departments = [];
                         $scope.viewData.activeDepartment = null;
                         $scope.viewData.departmentsLoading = true;
@@ -76,7 +75,6 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
             $scope.$watch('viewData.activeDepartment', 
                 function(newval) {
                     if (newval) {
-                        console.log('Active department is now ', newval);
                         $scope.data.groups = [];
                         $scope.viewData.activeGroup = null;
                         $scope.viewData.groupsLoading = true;
@@ -84,9 +82,7 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                                 schoolId: $scope.viewData.activeSchool.id, 
                                 departmentId: newval.id}).$promise.then(
 							function (response) {
-							    console.log('Setting as groups ', response);
 								$scope.data.groups = response;
-								//$scope.viewData.activeDepartment.groups = response;
 								$scope.viewData.groupsLoading = false;
 							}
                         );

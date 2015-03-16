@@ -8,6 +8,7 @@ angular.module('management')
             replace: true,
             templateUrl: "application/management/departments.tpl.html",
             controller: function($scope) {
+            
                 $scope.addDepartment = function() {
                     var department = {
                         id: uuid4.generate(),
@@ -21,6 +22,7 @@ angular.module('management')
                                 function(response) {
                                     $scope.data.departments = response;
                                     $scope.viewData.departmentsLoading = false;
+                                    $scope.viewData.activeSchool.numberOfDepartments++;
                                 }
                             );
                         }

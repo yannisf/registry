@@ -1,14 +1,13 @@
 <div class="col-md-4 management-area">
 
     <h3>Τμήματα
-        <button class="btn btn-xs btn-primary" title="Νέο τμήμα"
+        <button class="btn btn-xs btn-default" title="Νέο τμήμα"
                 ng-click="addDepartment()" ng-disabled="!viewData.activeSchool">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </h3>
 
-    <img src="images/loader.gif" ng-show="viewData.departmentsLoading" class="center-block"/>
-
+    <img src="images/loader.png"  ng-show="viewData.departmentsLoading" class="center-block loader-medium"/>
 
     <div class="management-msg" ng-if="!viewData.activeSchool">
         Επιλέξτε πρώτα σχολείο
@@ -18,7 +17,7 @@
         Δεν έχει εισαχθεί κανένα τμήμα
     </div>
 
-    <table class="table table-condensed" ng-if="!viewData.departmentsLoading && viewData.activeSchool && data.departments.length">
+    <table class="table table-hover" ng-if="!viewData.departmentsLoading && viewData.activeSchool && data.departments.length">
 
         <thead>
             <tr>

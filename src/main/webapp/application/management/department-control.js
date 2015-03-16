@@ -27,6 +27,7 @@ angular.module('management')
 							$scope.viewData.activeDepartment = null;
 							$scope.viewData.activeGroup = null;
 							$scope.removing = false;
+							$scope.viewData.activeSchool.numberOfDepartments--;
 						}
                 	);
                 };
