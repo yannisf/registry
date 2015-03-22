@@ -10,7 +10,7 @@ angular.module('management')
                 groups: "=",
                 viewData: "="
             },
-            templateUrl: "application/management/group-control.tpl.html",
+            templateUrl: "application/foundation/group-control.tpl.html",
             controller: function($scope) {
             	$scope.updating = false;
             	$scope.removing = false;

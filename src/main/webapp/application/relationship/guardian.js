@@ -5,15 +5,15 @@ angular.module('guardian', ['ngRoute', 'ui.bootstrap', 'uuid4', 'child', 'relati
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/guardian/create', {
-                templateUrl: 'application/guardian/edit.html',
+                templateUrl: 'application/relationship/edit.html',
                 controller: 'createGuardianController'
             })
             .when('/guardian/:guardianId/edit', {
-                templateUrl: 'application/guardian/edit.html',
+                templateUrl: 'application/relationship/edit.html',
                 controller: 'updateGuardianController'
             })
             .when('/guardian/:guardianId/view', {
-                templateUrl: 'application/guardian/view.html',
+                templateUrl: 'application/relationship/view.html',
                 controller: 'updateGuardianController'
             });
         }

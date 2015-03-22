@@ -17,19 +17,16 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
     .factory('Foundation', ['$resource', function($resource) {
         return $resource('api/foundation', { }, {
             system: {method: 'GET', isArray: true},
-            groupInfo: {method: 'GET', url: 'api/foundation/group/:groupId/info'},
-            groupChildren: {method: 'GET', url: 'api/foundation/group/:groupId/children', isArray: true},
-            groupStatistics: {method: 'GET', url: 'api/foundation/group/:groupId/statistics'}
         });
     }])
 
-    .service('FoundationService', ['Foundation', function (Foundation) {
+    .service('FoundationService', ['Foundation', 'Group', function (Foundation, Group) {
 		var school = { id: null, name: null };
 		var department = { id: null, name: null };
 		var group = { id: null, name: null };
 		var initializeGroup = function(groupId) {
 			group.id = groupId;
-			var groupInfo = Foundation.groupInfo({groupId: groupId});
+			var groupInfo = Group.info({id: groupId});
 			groupInfo.$promise.then(function(response) {
 				school.name = response.school;
 				department.name = response.department;
@@ -38,7 +35,7 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 		};
 		var groupChildren = function() {
 			var self = this;
-			var children = Foundation.groupChildren({groupId: group.id});
+			var children = Group.children({id: group.id});
 			children.$promise.then(function(response) {
 				self.groupChildrenIds = response.map(function (child) {
 				   return child.id;

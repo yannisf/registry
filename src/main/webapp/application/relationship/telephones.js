@@ -13,7 +13,7 @@ angular.module('guardian')
                 scope: {
                     model: "=",
                 },
-                templateUrl: "application/guardian/telephones.tpl.html",
+                templateUrl: "application/relationship/telephones.tpl.html",
                 link: function(scope) {
                     scope.addTelephone = function () {
                         var telephone = { id: uuid4.generate() };

@@ -6,7 +6,7 @@ angular.module('schoolApp')
             restrict: 'E',
             replace: true,
             scope: true,
-            templateUrl: "application/navbar/navbar.tpl.html",
+            templateUrl: "application/components/navbar.tpl.html",
             link: function(scope, element) {
                 scope.group = FoundationService.group;
             }

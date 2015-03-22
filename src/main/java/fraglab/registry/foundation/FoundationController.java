@@ -24,21 +24,6 @@ public class FoundationController extends BaseRestController {
         return foundationService.fetchSchoolTreeElements();
     }
 
-    @RequestMapping(value = "/group/{groupId}/info", method = RequestMethod.GET)
-    public GroupDataTransfer fetchSchoolData(@PathVariable String groupId) {
-        return foundationService.fetchSchoolData(groupId);
-    }
-
-    @RequestMapping(value = "/group/{groupId}/statistics", method = RequestMethod.GET)
-    public GroupStatistics fetchChildGroupStatistics(@PathVariable String groupId) {
-        return foundationService.fetchChildGroupStatistics(groupId);
-    }
-
-    @RequestMapping(value = "/group/{groupId}/children", method = RequestMethod.GET)
-    public List<Child> fetchChildGroup(@PathVariable String groupId) {
-        return foundationService.fetchChildrenForGroup(groupId);
-    }
-
     @RequestMapping(value = "/school", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdateSchool(@RequestBody School school) {
@@ -56,31 +41,33 @@ public class FoundationController extends BaseRestController {
         foundationService.deleteSchool(id);
     }
 
-    @RequestMapping(value = "/school/{schoolId}/department", method = RequestMethod.GET)
-    public List<Department> fetchDepartmentsForSchool(@PathVariable String schoolId) {
-        return foundationService.fetchDepartmentsForSchool(schoolId);
+    @RequestMapping(value = "/school/{id}/department", method = RequestMethod.GET)
+    public List<Department> fetchDepartmentsForSchool(@PathVariable String id) {
+        return foundationService.fetchDepartmentsForSchool(id);
     }
 
-    @RequestMapping(value = "/school/{schoolId}/department", method = RequestMethod.PUT)
-    public void createOrUpdateDepartmentForSchool(@PathVariable String schoolId, @RequestBody Department department)
+    @RequestMapping(value = "/department", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void createOrUpdateDepartmentForSchool(@RequestParam String schoolId, @RequestBody Department department)
             throws NotFoundException {
         foundationService.createOrUpdateDepartmentForSchool(schoolId, department);
     }
 
-    @RequestMapping(value = "/school/{schoolId}/department/{departmentId}/group", method = RequestMethod.GET)
-    public List<Group> fetchGroupsForDepartment(@PathVariable String schoolId, @PathVariable String departmentId) 
-            throws NotFoundException {
-        return foundationService.fetchGroupsForDepartment(departmentId);
+    @RequestMapping(value = "/department/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteDepartment(@PathVariable String id) {
+        foundationService.deleteDepartment(id);
     }
 
-    @RequestMapping(value = "/school/{schoolId}/department/{departmentId}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteDepartment(@PathVariable String departmentId) {
-        foundationService.deleteDepartment(departmentId);
+    @RequestMapping(value = "/department/{id}/group", method = RequestMethod.GET)
+    public List<Group> fetchGroupsForDepartment(@PathVariable String id)
+            throws NotFoundException {
+        return foundationService.fetchGroupsForDepartment(id );
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.PUT)
-    public void createOrUpdateGroup(@RequestParam String departmentId, @RequestBody Group group)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void createOrUpdateGroup(@RequestBody Group group, @RequestParam String departmentId)
             throws NotFoundException {
         foundationService.createOrUpdateGroupForDepartment(group, departmentId);
     }
@@ -91,5 +78,19 @@ public class FoundationController extends BaseRestController {
         foundationService.deleteGroup(id);
     }
 
+    @RequestMapping(value = "/group/{id}/child", method = RequestMethod.GET)
+    public List<Child> fetchChildrenForGroup(@PathVariable String id) {
+        return foundationService.fetchChildrenForGroup(id);
+    }
+
+    @RequestMapping(value = "/group/{id}/info", method = RequestMethod.GET)
+    public GroupDataTransfer fetchSchoolData(@PathVariable String id) {
+        return foundationService.fetchSchoolData(id);
+    }
+
+    @RequestMapping(value = "/group/{id}/statistics", method = RequestMethod.GET)
+    public GroupStatistics fetchChildGroupStatistics(@PathVariable String id) {
+        return foundationService.fetchChildGroupStatistics(id);
+    }
 
 }
