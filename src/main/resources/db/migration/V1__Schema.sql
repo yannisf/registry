@@ -1,163 +1,128 @@
-CREATE TABLE ADDRESS (
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	CITY VARCHAR(255),
-	NEIGHBOURHOOD VARCHAR(255),
-	POSTALCODE VARCHAR(255),
-	STREETNAME VARCHAR(255),
-	STREETNUMBER VARCHAR(255),
-	PRIMARY KEY (ID)
+CREATE TABLE address (
+    id character varying(255) NOT NULL,
+    datecreated timestamp without time zone,
+    datemodified timestamp without time zone,
+    city character varying(255),
+    neighbourhood character varying(255),
+    postalcode character varying(255),
+    streetname character varying(255),
+    streetnumber character varying(255)
 );
 
-CREATE TABLE CHILD_GROUP (
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	MEMBERS INTEGER,
-	CLASSROOM_ID VARCHAR(255) NOT NULL,
-	TERM_ID VARCHAR(255) NOT NULL,
-	PRIMARY KEY (ID)
+CREATE TABLE cgroup (
+    id character varying(255) NOT NULL,
+    datecreated timestamp without time zone,
+    datemodified timestamp without time zone,
+    members integer,
+    name character varying(255),
+    department_id character varying(255) NOT NULL
 );
 
-CREATE TABLE CHILD_GUARDIAN (
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	CHILD_ID VARCHAR(255),
-	GUARDIAN_ID VARCHAR(255),
-	NOTES VARCHAR(255),
-	PICKUP BOOLEAN NOT NULL,
-	TYPE VARCHAR(255),
-	PRIMARY KEY (ID)
+CREATE TABLE department (
+    id character varying(255) NOT NULL,
+    datecreated timestamp without time zone,
+    datemodified timestamp without time zone,
+    name character varying(255),
+    school_id character varying(255) NOT NULL
 );
 
-CREATE TABLE CLASSROOM (
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	NAME VARCHAR(255),
-	SCHOOL_ID VARCHAR(255) NOT NULL,
-	PRIMARY KEY (ID)
+CREATE TABLE person (
+    dtype character varying(31) NOT NULL,
+    id character varying(255) NOT NULL,
+    datecreated timestamp without time zone,
+    datemodified timestamp without time zone,
+    dateofbirth timestamp without time zone,
+    firstname character varying(255),
+    genre character varying(255),
+    lastname character varying(255),
+    nationality character varying(255),
+    notes character varying(255),
+    callname character varying(255),
+    preschool_level character varying(255),
+    email character varying(255),
+    profession character varying(255),
+    address_id character varying(255),
+    group_id character varying(255)
 );
 
-CREATE TABLE PERSON (
-	DTYPE VARCHAR(31) NOT NULL,
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	ADDRESS_ID VARCHAR(255),
-	DATEOFBIRTH TIMESTAMP,
-	FIRSTNAME VARCHAR(255),
-	GENRE VARCHAR(255),
-	LASTNAME VARCHAR(255),
-	NATIONALITY VARCHAR(255),
-	NOTES VARCHAR(255),
-	CALLNAME VARCHAR(255),
-	CHILD_GROUP_ID VARCHAR(255),
-	LEVEL VARCHAR(255),
-	EMAIL VARCHAR(255),
-	PROFESSION VARCHAR(255),
-	PRIMARY KEY (ID)
+CREATE TABLE person_telephone (
+    person_id character varying(255) NOT NULL,
+    telephones_id character varying(255) NOT NULL
 );
 
-CREATE TABLE PERSON_TELEPHONE (
-	PERSON_ID VARCHAR(255) NOT NULL,
-	TELEPHONES_ID VARCHAR(255) NOT NULL
+CREATE TABLE relationship (
+    id character varying(255) NOT NULL,
+    datecreated timestamp without time zone,
+    datemodified timestamp without time zone,
+    notes character varying(255),
+    pickup boolean NOT NULL,
+    type character varying(255),
+    child_id character varying(255) NOT NULL,
+    guardian_id character varying(255) NOT NULL
 );
 
-CREATE TABLE SCHOOL (
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	NAME VARCHAR(255),
-	PRIMARY KEY (ID)
+CREATE TABLE school (
+    id character varying(255) NOT NULL,
+    datecreated timestamp without time zone,
+    datemodified timestamp without time zone,
+    name character varying(255)
 );
 
-CREATE TABLE TELEPHONE (
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	NUMBER VARCHAR(255) NOT NULL,
-	TYPE VARCHAR(255) NOT NULL,
-	PRIMARY KEY (ID)
+CREATE TABLE telephone (
+    id character varying(255) NOT NULL,
+    datecreated timestamp without time zone,
+    datemodified timestamp without time zone,
+    num character varying(255) NOT NULL,
+    type character varying(255) NOT NULL
 );
 
-CREATE TABLE TERM (
-	ID VARCHAR(255) NOT NULL,
-	DATECREATED TIMESTAMP,
-	DATEMODIFIED TIMESTAMP,
-	NAME VARCHAR(255),
-	PRIMARY KEY (ID)
-);
+ALTER TABLE ONLY address
+    ADD CONSTRAINT address_pkey PRIMARY KEY (id);
 
-ALTER TABLE CHILD_GROUP
-	ADD FOREIGN KEY (CLASSROOM_ID) 
-	REFERENCES CLASSROOM (ID);
+ALTER TABLE ONLY cgroup
+    ADD CONSTRAINT cgroup_pkey PRIMARY KEY (id);
 
-ALTER TABLE CHILD_GROUP
-	ADD FOREIGN KEY (TERM_ID) 
-	REFERENCES TERM (ID);
+ALTER TABLE ONLY department
+    ADD CONSTRAINT department_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY person
+    ADD CONSTRAINT person_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY relationship
+    ADD CONSTRAINT relationship_pkey PRIMARY KEY (id);
 
-ALTER TABLE CLASSROOM
-	ADD FOREIGN KEY (SCHOOL_ID) 
-	REFERENCES SCHOOL (ID);
+ALTER TABLE ONLY school
+    ADD CONSTRAINT school_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY telephone
+    ADD CONSTRAINT telephone_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY person_telephone
+    ADD CONSTRAINT uk_iya4y7corurtm2y1lf7j8p11l UNIQUE (telephones_id);
 
-ALTER TABLE PERSON
-	ADD FOREIGN KEY (ADDRESS_ID) 
-	REFERENCES ADDRESS (ID);
+ALTER TABLE ONLY relationship
+    ADD CONSTRAINT uk_ogykh9xrtq1g03vdv83jphp7s UNIQUE (guardian_id);
 
-ALTER TABLE PERSON
-	ADD FOREIGN KEY (CHILD_GROUP_ID) 
-	REFERENCES CHILD_GROUP (ID);
+ALTER TABLE ONLY department
+    ADD CONSTRAINT fk_1sceqtw632py1jkn13if2olft FOREIGN KEY (school_id) REFERENCES school(id);
 
+ALTER TABLE ONLY person
+    ADD CONSTRAINT fk_7j2gl0o2biopkiearvd8v7abe FOREIGN KEY (group_id) REFERENCES cgroup(id);
 
+ALTER TABLE ONLY relationship
+    ADD CONSTRAINT fk_bpwxw3lpld7mv03r30ryuy0wp FOREIGN KEY (child_id) REFERENCES person(id);
 
-ALTER TABLE PERSON_TELEPHONE
-	ADD FOREIGN KEY (PERSON_ID) 
-	REFERENCES PERSON (ID);
+ALTER TABLE ONLY cgroup
+    ADD CONSTRAINT fk_c95t3x7impgy3jwss4nu5uton FOREIGN KEY (department_id) REFERENCES department(id);
 
-ALTER TABLE PERSON_TELEPHONE
-	ADD FOREIGN KEY (TELEPHONES_ID) 
-	REFERENCES TELEPHONE (ID);
+ALTER TABLE ONLY person_telephone
+    ADD CONSTRAINT fk_iya4y7corurtm2y1lf7j8p11l FOREIGN KEY (telephones_id) REFERENCES telephone(id);
 
+ALTER TABLE ONLY person_telephone
+    ADD CONSTRAINT fk_k0nqv58h7r4nkbc7l7d5lioj2 FOREIGN KEY (person_id) REFERENCES person(id);
 
+ALTER TABLE ONLY relationship
+    ADD CONSTRAINT fk_ogykh9xrtq1g03vdv83jphp7s FOREIGN KEY (guardian_id) REFERENCES person(id);
 
-CREATE INDEX SYS_IDX_11480 ON CHILD_GROUP (CLASSROOM_ID);
-
-CREATE INDEX SYS_IDX_11485 ON CHILD_GROUP (TERM_ID);
-
-CREATE INDEX SYS_IDX_11490 ON CLASSROOM (SCHOOL_ID);
-
-CREATE INDEX SYS_IDX_11494 ON PERSON (ADDRESS_ID);
-
-CREATE INDEX SYS_IDX_11498 ON PERSON (CHILD_GROUP_ID);
-
-CREATE INDEX SYS_IDX_11502 ON PERSON_TELEPHONE (TELEPHONES_ID);
-
-CREATE INDEX SYS_IDX_11506 ON PERSON_TELEPHONE (PERSON_ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11424_11425 ON ADDRESS (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11430_11431 ON CHILD_GROUP (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11437_11438 ON CHILD_GUARDIAN (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11443_11444 ON CLASSROOM (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11449_11450 ON PERSON (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11459_11460 ON SCHOOL (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11465_11466 ON TELEPHONE (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_SYS_PK_11471_11472 ON TERM (ID);
-
-CREATE UNIQUE INDEX SYS_IDX_UK_DTXUUVKQ579EYQRPVLP998W1D_11474 ON CHILD_GUARDIAN (CHILD_ID,GUARDIAN_ID);
-
-CREATE UNIQUE INDEX SYS_IDX_UK_IYA4Y7CORURTM2Y1LF7J8P11L_11477 ON PERSON_TELEPHONE (TELEPHONES_ID);
-
+ALTER TABLE ONLY person
+    ADD CONSTRAINT fk_tagx64iglr1dxpalbgothv83r FOREIGN KEY (address_id) REFERENCES address(id);

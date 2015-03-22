@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -69,10 +68,10 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public Child fetchWithRelationships(String id) {
-        String query = "select distinct c from Child c join fetch c.relationships where c.id= :childId";
+        String query = "select distinct c from Child c left join fetch c.relationships where c.id= :childId";
         Map<String, Object> params = new HashMap<>();
         params.put("childId", id);
-        return dao.findByQuery(Child.class, query, params).get(0);
+        return dao.findSingleByQuery(Child.class, query, params);
     }
 
     private void updateGroupMembersNum(Group group) {

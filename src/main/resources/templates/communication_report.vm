@@ -20,7 +20,7 @@
     <div id="header">
         <div style="float: left">
             <span>${schoolData.school}</span><br/>
-            <span>${schoolData.department}</span>
+            <span>Τμήμα: ${schoolData.department}</span>
         </div>
 
         <div style="float: right">
