@@ -38,7 +38,7 @@ angular.module('management').directive('departmentControl', ['Department',
 				$scope.update = function() {
 					$scope.editMode = false;
 					$scope.working = true;
-					$scope.department.$save({}, function() {
+					$scope.department.$save({schoolId: $scope.viewData.activeSchool.id}, function() {
 						$scope.working = false;
 					});
 				};

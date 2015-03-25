@@ -1,55 +1,47 @@
 'use strict';
 
-angular.module('management')
+angular.module('management').directive('groupControl', ['$rootScope', 'Group', function ($rootScope, Group) {
+	return {
+		restrict: 'A',
+		scope: {
+			group: "=groupControl",
+			groups: "=",
+			viewData: "="
+		},
+		templateUrl: "application/foundation/group-control.tpl.html",
+		controller: function($scope) {
+			$scope.working = false;
 
-    .directive('groupControl', ['$rootScope', 'Group', function ($rootScope, Group) {
-        return {
-            restrict: 'A',
-            scope: {
-                group: "=groupControl",
-                groups: "=",
-                viewData: "="
-            },
-            templateUrl: "application/foundation/group-control.tpl.html",
-            controller: function($scope) {
-            	$scope.updating = false;
-            	$scope.removing = false;
-            	
-            	$scope.toChildList = $rootScope.toChildList;
+			$scope.toChildList = $rootScope.toChildList;
 
-                $scope.remove = function() {
-					$scope.removing = true;
-                	Group.remove({ id: $scope.group.id }).$promise.then(
-						function() {
-							var index = $scope.groups.indexOf($scope.group);
-							$scope.groups.splice(index, 1);
-							$scope.viewData.activeGroup = null;
-							$scope.removing = false;
-							$scope.viewData.activeDepartment.numberOfGroups--;
-						}
-                	);
-                };
-                
-				var oldValue = $scope.group.name;
-				$scope.edit = function() {
-					$scope.editMode = true;
-				};
+			$scope.remove = function() {
+				$scope.working = true;
+				$scope.group.$remove({}, function() {
+					var index = $scope.groups.indexOf($scope.group);
+					$scope.groups.splice(index, 1);
+					$scope.viewData.activeGroup = null;
+					$scope.viewData.activeDepartment.numberOfGroups--;
+					$scope.working = false;
+				});
+			};
 
-				$scope.cancel = function() {
-					$scope.editMode = false;
-					$scope.group.name = oldValue;
-				};
+			var oldValue = $scope.group.name;
+			$scope.edit = function() {
+				$scope.editMode = true;
+			};
 
-				$scope.update = function() {
-					$scope.updating = true;
-					$scope.editMode = false;
-					Group.save({departmentId: $scope.viewData.activeDepartment.id}, $scope.group).$promise.then(
-						function() {
-							$scope.updating = false;
-						}
-					);
-				};
-            }
-        };
-    }]);
-    
+			$scope.cancel = function() {
+				$scope.editMode = false;
+				$scope.group.name = oldValue;
+			};
+
+			$scope.update = function() {
+				$scope.working = true;
+				$scope.editMode = false;
+				$scope.group.$save({departmentId: $scope.viewData.activeDepartment.id}, function() {
+					$scope.working = false;
+				});
+			};
+		}
+	};
+}]);

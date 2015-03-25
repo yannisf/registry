@@ -48,7 +48,7 @@ public class FoundationController extends BaseRestController {
 
     @RequestMapping(value = "/department", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdateDepartmentForSchool(@RequestParam String schoolId, @RequestBody Department department)
+    public void createOrUpdateDepartmentForSchool(@RequestParam(value = "schoolId") String schoolId, @RequestBody Department department)
             throws NotFoundException {
         foundationService.createOrUpdateDepartmentForSchool(schoolId, department);
     }
@@ -67,7 +67,7 @@ public class FoundationController extends BaseRestController {
 
     @RequestMapping(value = "/group", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdateGroup(@RequestBody Group group, @RequestParam String departmentId)
+    public void createOrUpdateGroup(@RequestBody Group group, @RequestParam(value = "departmentId") String departmentId)
             throws NotFoundException {
         foundationService.createOrUpdateGroupForDepartment(group, departmentId);
     }
