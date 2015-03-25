@@ -7,17 +7,18 @@
         </button>
     </h3>
 
-    <img src="images/loader.png"  ng-show="viewData.departmentsLoading" class="center-block loader-medium"/>
+    <img src="images/loader.png" class="center-block loader-medium"
+            ng-hide="!viewData.activeSchool || data.departments.$resolved" />
 
     <div class="management-msg" ng-if="!viewData.activeSchool">
         Επιλέξτε πρώτα σχολείο
     </div>
 
-    <div class="management-msg" ng-if="!viewData.departmentsLoading && viewData.activeSchool && !data.departments.length">
+    <div class="management-msg" ng-if="data.departments.$resolved && viewData.activeSchool && !data.departments.length">
         Δεν έχει εισαχθεί κανένα τμήμα
     </div>
 
-    <table class="table table-hover" ng-if="!viewData.departmentsLoading && viewData.activeSchool && data.departments.length">
+    <table class="table table-hover" ng-if="data.departments.$resolved && viewData.activeSchool && data.departments.length">
 
         <thead>
             <tr>

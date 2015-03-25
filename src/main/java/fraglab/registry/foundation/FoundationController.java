@@ -41,9 +41,9 @@ public class FoundationController extends BaseRestController {
         foundationService.deleteSchool(id);
     }
 
-    @RequestMapping(value = "/school/{id}/department", method = RequestMethod.GET)
-    public List<Department> fetchDepartmentsForSchool(@PathVariable String id) {
-        return foundationService.fetchDepartmentsForSchool(id);
+    @RequestMapping(value = "/department", method = RequestMethod.GET)
+    public List<Department> fetchDepartmentsForSchool(@RequestParam(value = "schoolId", required = true) String schoolId) {
+        return foundationService.fetchDepartmentsForSchool(schoolId);
     }
 
     @RequestMapping(value = "/department", method = RequestMethod.PUT)
@@ -59,10 +59,10 @@ public class FoundationController extends BaseRestController {
         foundationService.deleteDepartment(id);
     }
 
-    @RequestMapping(value = "/department/{id}/group", method = RequestMethod.GET)
-    public List<Group> fetchGroupsForDepartment(@PathVariable String id)
+    @RequestMapping(value = "/group", method = RequestMethod.GET)
+    public List<Group> fetchGroupsForDepartment(@RequestParam(value = "departmentId", required = true) String departmentId)
             throws NotFoundException {
-        return foundationService.fetchGroupsForDepartment(id );
+        return foundationService.fetchGroupsForDepartment(departmentId);
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.PUT)

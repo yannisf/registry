@@ -1,33 +1,22 @@
 'use strict';
 
-angular.module('management')
-
-    .directive('groups', ['uuid4', 'Department', 'Group',
-        function (uuid4,Department, Group) {
-            return {
-                restrict: 'E',
-                replace: true,
-                templateUrl: "application/foundation/groups.tpl.html",
-                controller: function($scope) {
-                    $scope.addGroup = function() {
-                        var group = {
-                            id: uuid4.generate(),
-                            name: 'Νεα χρόνια'
-                        };
-                        $scope.viewData.groupsLoading = true;
-                        Group.save({departmentId: $scope.viewData.activeDepartment.id}, group).$promise.then(
-                            function(response) {
-                                Department.groups({id: $scope.viewData.activeDepartment.id}).$promise.then(
-                                    function(response) {
-                                        $scope.data.groups = response;
-                                        $scope.viewData.groupsLoading = false;
-                                        $scope.viewData.activeDepartment.numberOfGroups++;
-                                    }
-                                );
-                            }
-                        );
-                    };
-                }
-            };
-    	}
-	]);
+angular.module('management').directive('groups', ['uuid4', 'Group',
+    function (uuid4, Group) {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: "application/foundation/groups.tpl.html",
+            controller: function($scope) {
+                $scope.addGroup = function() {
+                    $scope.data.groups.$resolved = false;
+                    var group = new Group({id: uuid4.generate(), name: 'Νεα χρόνια'});
+                    group.$save({departmentId: $scope.viewData.activeDepartment.id}, function() {
+                        $scope.data.groups = Group.query({departmentId: $scope.viewData.activeDepartment.id}, function() {
+                            $scope.viewData.activeDepartment.numberOfGroups++;
+                        });
+                    });
+                };
+            }
+        };
+    }
+]);
