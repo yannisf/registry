@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -34,6 +35,12 @@ public class CommunicationReportController {
 
     @Autowired
     private ResourceLoader resourceLoader;
+    
+    @Resource(name = "reportRelationshipTypesGreekMap")
+    Map<RelationshipType, String> reportRelationshipTypesGreekMap;
+
+    @Resource(name = "reportTelephoneTypeGreekMap")
+    Map<Telephone.Type, String> reportTelephoneTypeGreekMap;
 
     @PostConstruct
     private void initialize() {
@@ -61,7 +68,6 @@ public class CommunicationReportController {
         context.put("children", reportService.getReportChildrenForChildGroup(id));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
-        System.out.println(writer.toString());
         return writer.toString();
     }
 
@@ -76,8 +82,8 @@ public class CommunicationReportController {
         VelocityContext context = new VelocityContext();
         context.put("css", getClasspathResource("/templates/communication_report.css"));
         context.put("school", getClasspathResource("/templates/school.png"));
-        context.put("phoneTypeMap", getLocalizedTelephoneTypeMap());
-        context.put("relationshipTypeMap", getLocalizedRelationshipTypeMap());
+        context.put("relationshipTypeMap", reportRelationshipTypesGreekMap);
+        context.put("phoneTypeMap", reportTelephoneTypeGreekMap);
         return context;
     }
 
@@ -92,31 +98,6 @@ public class CommunicationReportController {
         renderer.getFontResolver().addFont("/fonts/OpenSans-Italic.ttf", BaseFont.IDENTITY_H, true);
         renderer.getFontResolver().addFont("/fonts/OpenSans-BoldItalic.ttf", BaseFont.IDENTITY_H, true);
         return renderer;
-    }
-
-    Map<Telephone.Type, String> getLocalizedTelephoneTypeMap() {
-        Map<Telephone.Type, String> map = new HashMap<>();
-        map.put(Telephone.Type.HOME, "ΣΠΙΤΙ");
-        map.put(Telephone.Type.MOBILE, "KINΗΤΟ");
-        map.put(Telephone.Type.WORK, "ΔΟΥΛΕΙΑ");
-        map.put(Telephone.Type.OTHER, "ΑΛΛΟ");
-        return map;
-    }
-
-    Map<RelationshipType, String> getLocalizedRelationshipTypeMap() {
-        Map<RelationshipType, String> map = new HashMap<>();
-        map.put(RelationshipType.FATHER, "ΠΑΤΕΡΑΣ");
-        map.put(RelationshipType.MOTHER, "ΜΗΤΕΡΑ");
-        map.put(RelationshipType.GRANDFATHER, "ΠΑΠΠΟΥΣ");
-        map.put(RelationshipType.GRANDMOTHER, "ΓΙΑΓΙΑ");
-        map.put(RelationshipType.BROTHER, "ΑΔΕΛΦΟΣ");
-        map.put(RelationshipType.SISTER, "ΑΔΕΛΦΗ");
-        map.put(RelationshipType.UNCLE, "ΘΕΙΟΣ");
-        map.put(RelationshipType.AUNT, "ΘΕΙΑ");
-        map.put(RelationshipType.GODFATHER, "ΝΟΝΟΣ");
-        map.put(RelationshipType.GODMOTHER, "ΝΟΝΑ");
-        map.put(RelationshipType.OTHER, "ΑΛΛΟΣ");
-        return map;
     }
 
 }

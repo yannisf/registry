@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
@@ -33,4 +35,36 @@
         <property name="entityManagerFactory" ref="emf"/>
     </bean>
 
+    <util:map id="reportRelationshipTypesGreekMap" key-type="fraglab.registry.relationship.RelationshipType">
+        <entry key="FATHER" value="ΠΑΤΕΡΑΣ"/>
+        <entry key="MOTHER" value="ΜΗΤΕΡΑ"/>
+        <entry key="GRANDFATHER" value="ΠΑΠΠΟΥΣ"/>
+        <entry key="GRANDMOTHER" value="ΓΙΑΓΙΑ"/>
+        <entry key="BROTHER" value="ΑΔΕΛΦΟΣ"/>
+        <entry key="SISTER" value="ΑΔΕΛΦΗ"/>
+        <entry key="UNCLE" value="ΘΕΙΟΣ"/>
+        <entry key="AUNT" value="ΘΕΙΑ"/>
+        <entry key="GODFATHER" value="ΝΟΝΟΣ"/>
+        <entry key="GODMOTHER" value="ΝΟΝΑ"/>
+        <entry key="OTHER" value="ΑΛΛΟΣ"/>
+    </util:map>
+
+    <util:map id="reportTelephoneTypeGreekMap" key-type="fraglab.registry.common.Telephone.Type">
+        <entry key="HOME" value="ΣΠΙΤΙ"/>
+        <entry key="MOBILE" value="ΚΙΝΗΤΟ"/>
+        <entry key="WORK" value="ΔΟΥΛΕΙΑ"/>
+        <entry key="OTHER" value="ΑΛΛΟ"/>
+    </util:map>
+
 </beans>
+
+
+
+
+
+
+
+
+
+
+
