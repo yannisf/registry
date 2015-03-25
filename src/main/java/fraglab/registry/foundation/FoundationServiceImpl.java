@@ -4,7 +4,6 @@ import fraglab.data.GenericDao;
 import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
-import fraglab.registry.foundation.meta.TreeElement;
 import fraglab.web.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -189,48 +188,6 @@ public class FoundationServiceImpl implements FoundationService {
             throw new NotFoundException("Group " + groupId + " not found. ");
         }
         return group;
-    }
-
-    @Override
-    public List<TreeElement> fetchSchoolTreeElements() {
-        List<TreeElement> schoolNodes = getSchoolNodes();
-        List<TreeElement> departmentNodes = getDepartmentNodes();
-        List<TreeElement> groupNodes = getGroupNodes();
-
-        for (TreeElement schoolNode : schoolNodes) {
-            schoolNode.setType(TreeElement.Type.SCHOOL);
-            for (TreeElement departmentNode : departmentNodes) {
-                departmentNode.setType(TreeElement.Type.DEPARTMENT);
-                if (departmentNode.getParentId().equals(schoolNode.getId())) {
-                    schoolNode.addChild(departmentNode);
-                    for (TreeElement groupNode : groupNodes) {
-                        groupNode.setType(TreeElement.Type.GROUP);
-                        if (groupNode.getParentId().equals(departmentNode.getId())) {
-                            departmentNode.addChild(groupNode);
-                        }
-                    }
-                }
-            }
-        }
-
-        return schoolNodes;
-    }
-
-    private List<TreeElement> getSchoolNodes() {
-        String query = "select new fraglab.registry.foundation.meta.TreeElement(s.id, s.name) from School s order by s.name";
-        return dao.findByQuery(TreeElement.class, query);
-    }
-
-    private List<TreeElement> getDepartmentNodes() {
-        String query = "select new fraglab.registry.foundation.meta.TreeElement(cr.id, cr.name, s.id) " +
-                "from Department cr join cr.school s order by cr.name";
-        return dao.findByQuery(TreeElement.class, query);
-    }
-
-    private List<TreeElement> getGroupNodes() {
-        String query = "select new fraglab.registry.foundation.meta.TreeElement(g.id, g.name, cr.id, g.members) " +
-                "from Group g join g.department cr order by g.name";
-        return dao.findByQuery(TreeElement.class, query);
     }
 
 }

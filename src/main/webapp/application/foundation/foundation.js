@@ -4,23 +4,13 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
-            .when('/foundation/list', {
-                templateUrl: 'application/foundation/list.html',
-                controller: 'foundationController'
-            })
             .when('/group/:groupId', {
                 templateUrl: 'application/foundation/group.html',
                 controller: 'listGroupController'
             });
     }])
 
-    .factory('Foundation', ['$resource', function($resource) {
-        return $resource('api/foundation', { }, {
-            system: {method: 'GET', isArray: true},
-        });
-    }])
-
-    .service('FoundationService', ['Foundation', 'Group', function (Foundation, Group) {
+    .service('FoundationService', ['Group', function (Group) {
 		var school = { id: null, name: null };
 		var department = { id: null, name: null };
 		var group = { id: null, name: null };
@@ -45,9 +35,6 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 			return children;
 		};
 		var groupChildrenIds = [];
-		var fetchSystem = function() {
-			return Foundation.system();
-		};
 		var reset = function() {
 			this.school.id = null;
 			this.school.name = null;
@@ -64,21 +51,10 @@ angular.module('foundation', ['ngRoute', 'ngResource', 'ui.bootstrap', 'child'])
 			group: group,
 			reset: reset,
 			initializeGroup: initializeGroup,
-			fetchSystem: fetchSystem,
 			groupChildren: groupChildren,
 			groupChildrenIds: groupChildrenIds
 		};
     }])
-
-    .controller('foundationController', ['$scope', 'FoundationService',
-        function ($scope, FoundationService) {
-            angular.extend($scope, {
-                data: {
-                    schools: FoundationService.fetchSystem()
-                }
-            });
-        }
-    ])
 
     .controller('listGroupController', ['$scope', 'FoundationService', 'ChildService',
         function ($scope, FoundationService, ChildService) {

@@ -3,7 +3,6 @@ package fraglab.registry.foundation;
 import fraglab.registry.child.Child;
 import fraglab.registry.foundation.meta.GroupDataTransfer;
 import fraglab.registry.foundation.meta.GroupStatistics;
-import fraglab.registry.foundation.meta.TreeElement;
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,6 @@ public class FoundationController extends BaseRestController {
 
     @Autowired
     private FoundationService foundationService;
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<TreeElement> fetchSchoolTreeElements() {
-        return foundationService.fetchSchoolTreeElements();
-    }
 
     @RequestMapping(value = "/school", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
