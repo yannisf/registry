@@ -35,14 +35,6 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public boolean isSharedAddress(String addressId) {
-        String query = "select count(p.address.id) from Person p where p.address.id = :addressId";
-        Map<String, Object> params = new HashMap<>();
-        params.put("addressId", addressId);
-        return dao.countByQuery(query, params) > 1;
-    }
-
-    @Override
     public Address fetchForPerson(String personId) {
         String query = "select a from Address a where a.id = (select p.address.id from Person p where p.id= :personId)";
         Map<String, Object> params = new HashMap<>();

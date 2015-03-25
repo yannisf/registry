@@ -10,7 +10,5 @@ public interface AddressService {
 
     void delete(String id) throws NotFoundException;
 
-    boolean isSharedAddress(String addressId);
-
     Address fetchForPerson(String childId);
 }
