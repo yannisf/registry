@@ -39,6 +39,9 @@
                                 <goals>
                                     <goal>deploy-only</goal>
                                 </goals>
+                                <configuration>
+                                    <update>true</update>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
