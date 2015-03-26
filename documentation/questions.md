@@ -1,2 +1,2 @@
-1. Why {{child.name}} works while {{name}} does not, given that all care has been taken?
-2. A service should return an object? When?
+1. Can I use link with controller?
+2. Why cancel does not work in school-control.tpl.html

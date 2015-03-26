@@ -10,6 +10,13 @@ angular.module('management').directive('departmentControl', ['Department', 'Acti
 				viewData: "="
 			},
 			templateUrl: "application/foundation/department-control.tpl.html",
+			link: function(scope, element) {
+				element.bind('keypress', function(e) {
+					if (e.keyCode === 13) {
+						scope.update();
+					}
+				});
+			},
 			controller: function($scope) {
 				$scope.working = false;
 
