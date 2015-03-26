@@ -2,29 +2,29 @@
 
     <h3>Χρονιές
         <button class="btn btn-xs btn-default" title="Νέο χρονιά"
-                ng-click="addGroup()" ng-disabled="!viewData.activeDepartment">
+                ng-click="addGroup()" ng-disabled="!viewData.active.department">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </h3>
 
     <img src="images/loader.png" class="center-block loader-medium"
-         ng-hide="!viewData.activeDepartment || data.groups.$resolved"/>
+         ng-hide="!viewData.active.department || data.groups.$resolved"/>
 
-    <div class="management-msg" ng-if="!viewData.activeDepartment">
+    <div class="management-msg" ng-if="!viewData.active.department">
         Επιλέξτε πρώτα τμήμα
     </div>
 
-    <div class="management-msg" ng-if="data.groups.$resolved && viewData.activeDepartment && !data.groups.length">
+    <div class="management-msg" ng-if="data.groups.$resolved && viewData.active.department && !data.groups.length">
         Δεν έχει εισαχθεί καμιά χρονιά
     </div>
 
-    <table class="table" ng-if="data.groups.$resolved && viewData.activeDepartment && data.groups.length">
+    <table class="table" ng-if="data.groups.$resolved && viewData.active.department && data.groups.length">
 
         <tbody>
             <tr class="clickable" ng-repeat="group in data.groups" focus-and-select
                 group-control="group" groups="data.groups" view-data="viewData"
                 ng-click="setActiveGroup (group)"
-                ng-class="{'active': group === viewData.activeGroup }">
+                ng-class="{'active': group.id === viewData.active.group.id }">
             </tr>
         </tbody>
 

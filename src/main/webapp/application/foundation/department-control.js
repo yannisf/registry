@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('management').directive('departmentControl', ['Department',
-	function (Department) {
+angular.module('management').directive('departmentControl', ['Department', 'ActiveCache',
+	function (Department, ActiveCache) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -18,9 +18,10 @@ angular.module('management').directive('departmentControl', ['Department',
 					$scope.department.$remove({}, function() {
 						var index = $scope.departments.indexOf($scope.department);
 						$scope.departments.splice(index, 1);
-						$scope.viewData.activeDepartment = null;
-						$scope.viewData.activeGroup = null;
-						$scope.viewData.activeSchool.numberOfDepartments--;
+						if ($scope.department.id === ActiveCache.department.id) {
+							ActiveCache.department = null;
+						}
+						$scope.viewData.active.school.numberOfDepartments--;
 						$scope.working = false;
 					});
 				};
@@ -38,7 +39,7 @@ angular.module('management').directive('departmentControl', ['Department',
 				$scope.update = function() {
 					$scope.editMode = false;
 					$scope.working = true;
-					$scope.department.$save({schoolId: $scope.viewData.activeSchool.id}, function() {
+					$scope.department.$save({schoolId: $scope.viewData.active.school.id}, function() {
 						$scope.working = false;
 					});
 				};

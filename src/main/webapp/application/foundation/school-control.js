@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('management').directive('schoolControl', ['School',
-	function (School) {
+angular.module('management').directive('schoolControl', ['School', 'ActiveCache',
+	function (School, ActiveCache) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -18,9 +18,9 @@ angular.module('management').directive('schoolControl', ['School',
 					$scope.school.$remove({}, function() {
 						var index = $scope.schools.indexOf($scope.school);
 						$scope.schools.splice(index, 1);
-						$scope.viewData.activeSchool = null;
-						$scope.viewData.activeDepartment = null;
-						$scope.viewData.activeGroup = null;
+						if ($scope.school.id === ActiveCache.school.id) {
+							ActiveCache.school = null;
+						}
 						$scope.working = false;
 					},
 					function() {

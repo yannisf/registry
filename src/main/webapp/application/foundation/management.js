@@ -34,8 +34,14 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
         });
     }])
 
-    .controller('manageSchools', ['$scope', 'uuid4', 'School', 'Department', 'Group', 
-        function ($scope, uuid4, School, Department, Group) {
+    .service('ActiveCache', [function() {
+    	var school;
+    	var department;
+    	var group;
+    }])
+
+    .controller('manageSchools', ['$scope', 'uuid4', 'School', 'Department', 'Group', 'ActiveCache',
+        function ($scope, uuid4, School, Department, Group, ActiveCache) {
             angular.extend($scope, {
                 data: {
                     schools: [],
@@ -43,36 +49,34 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
                     groups: []
                 },
                 viewData: {
-                    activeSchool: null,
-                    activeDepartment: null,
-                    activeGroup: null
+                    active: ActiveCache
                 }
             });
 
-            $scope.$watch('viewData.activeSchool', function(newval) {
+            $scope.$watch('viewData.active.school', function(newval) {
                 if (newval) {
                     $scope.data.departments = Department.query({schoolId: newval.id});
                 }
             });
             
-            $scope.$watch('viewData.activeDepartment', function(newval) {
+            $scope.$watch('viewData.active.department', function(newval) {
                 if (newval) {
                     $scope.data.groups = Group.query({departmentId: newval.id});
                 }
             });
             
             $scope.setActiveSchool = function(school) {
-                $scope.viewData.activeSchool = school;
-                $scope.viewData.activeDepartment = null;
+                $scope.viewData.active.school = school;
+                $scope.setActiveDepartment(null);
             };
             
             $scope.setActiveDepartment = function(department) {
-                $scope.viewData.activeDepartment = department;
-                $scope.viewData.activeGroup = null;
+                $scope.viewData.active.department = department;
+                $scope.setActiveGroup(null);
             };
 
             $scope.setActiveGroup = function(group) {
-                $scope.viewData.activeGroup = group;
+                $scope.viewData.active.group = group;
             };
         }
     ]);

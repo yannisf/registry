@@ -1,7 +1,6 @@
 'use strict';
-angular.module('foundation')
-
-    .directive('breadcrumb', ['FoundationService', 'ChildService', function (FoundationService, ChildService) {
+angular.module('foundation').directive('breadcrumb', ['FoundationService', 'ChildService', 'ActiveCache',
+    function (FoundationService, ChildService, ActiveCache) {
 
 		function formatName (child) {
 			var name = child.firstName ? child.firstName + " " : "";
@@ -21,9 +20,7 @@ angular.module('foundation')
             scope: true,
             templateUrl: "application/components/breadcrumb.tpl.html",
             link: function(scope) {
-                scope.school = FoundationService.school;
-                scope.department = FoundationService.department;
-                scope.group = FoundationService.group;
+				scope.active = ActiveCache;
                 scope.$watch(
                 	function() {
                 		return {
@@ -39,4 +36,5 @@ angular.module('foundation')
                 );
             }
         };
-    }]);
+    }
+]);

@@ -1,13 +1,18 @@
 'use strict';
 
-angular.module('management').directive('schools', ['uuid4', 'School',
-    function (uuid4, School) {
+angular.module('management').directive('schools', ['uuid4', 'School', 'ActiveCache',
+    function (uuid4, School, ActiveCache) {
         return {
             restrict: 'E',
             replace: true,
             templateUrl: "application/foundation/schools.tpl.html",
             controller: function($scope) {
-                $scope.data.schools = School.query();
+                $scope.data.schools = School.query({}, function() {
+                	if (ActiveCache.school) {
+                		console.log('Setting as active school: ', ActiveCache.school);
+                		$scope.viewData.active.school = ActiveCache.school;
+                	}
+                });
 
                 $scope.addSchool = function() {
                     $scope.data.schools.$resolved = false;
