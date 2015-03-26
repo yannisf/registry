@@ -180,9 +180,6 @@ body {
     input {
   	  width: 70%;
   	}
-  	.glyphicon {
-  	  font-size: 20px;
-  	}
   };
   .loader-small {
 	position: absolute;
@@ -193,10 +190,42 @@ body {
 div.controls {
   display: none;
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 3px;
+  right: 3px;
 }
 
 tr:hover div.controls {
   display: block;
+}
+
+.control-glyphicon {
+  .glyphicon;
+  font-size: 16px;
+}
+
+span.remove {
+  .control-glyphicon;
+  .glyphicon-remove;
+}
+
+span.ok {
+  .control-glyphicon;
+  .glyphicon-ok;
+}
+
+span.edit {
+  .control-glyphicon;
+  .glyphicon-edit;
+}
+
+span.new-window {
+  .control-glyphicon;
+  .glyphicon-new-window;
+}
+
+.cancel-link {
+  .btn;
+  .btn-xs;
+  .btn-link;
+  font-size: 14px;
 }

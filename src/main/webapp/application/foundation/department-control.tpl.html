@@ -4,18 +4,18 @@
 
     <div class="controls">
         <button class="btn btn-xs btn-primary" title="Ανανέωση" ng-show="!editMode && !working" ng-click="edit()">
-            <span class="glyphicon glyphicon-pencil"></span>
+            <span class="edit"></span>
         </button>
         <button class="btn btn-xs btn-danger" title="Διαγραφή" ng-disabled="department.numberOfGroups"
                 ng-show="!working && !editMode" ng-click="remove()">
-            <span class="glyphicon glyphicon-remove"></span>
+            <span class="remove"></span>
         </button>
     </div>
 
     <button class="btn btn-xs btn-success" title="Αποθήκευση" ng-show="editMode" ng-click="update()">
-        <span class="glyphicon glyphicon-ok"></span>
+        <span class="ok"></span>
     </button>
-    <button class="btn btn-xs btn-link" title="Ακύρωση" ng-show="editMode" ng-click="cancel()">Άκυρο</button>
+    <button class="cancel-link" title="Ακύρωση" ng-show="editMode" ng-click="cancel()">Άκυρο</button>
 
     <img src="images/loader.png" class="loader-small" ng-show="working"/>
 </td>
