@@ -171,3 +171,28 @@ body {
   font-weight: 700;
   src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url('fonts/opensans-bolditalic.woff') format('woff');
 }
+
+.management-area table, .management-area-last table {
+  .table-hover;
+  font-size: 14px;
+  td {
+	position: relative;
+    input {
+  	  width: 70%;
+  	}
+  	.glyphicon {
+  	  font-size: 20px;
+  	}
+  }
+}
+
+div.controls {
+  display: none;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+tr:hover div.controls {
+  display: block;
+}

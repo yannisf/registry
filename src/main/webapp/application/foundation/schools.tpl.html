@@ -12,14 +12,7 @@
         Δεν έχει εισαχθεί κανένα σχολείο
     </div>
 
-    <table class="table table-hover" ng-if="data.schools.length" ng-show="data.schools.$resolved">
-
-        <thead>
-            <tr>
-                <th class="management-col1">Όνομα</th>
-                <th class="management-col2">&nbsp;</th>
-            </tr>
-        </thead>
+    <table class="table" ng-if="data.schools.length" ng-show="data.schools.$resolved">
 
         <tbody>
             <tr class="clickable" ng-repeat="school in data.schools" focus-and-select
