@@ -32,7 +32,7 @@
             </td>
             <td class="text-right">
                 <button class="btn btn-primary btn-xs" ng-click="go('/guardian/' + relationship.guardian.id + '/edit', $event)">
-                    <span class="glyphicon glyphicon-edit"></span> Ανανέωση
+                    <span class="glyphicon glyphicon-edit"></span> Επεξεργασία
                 </button>
                 <button class="btn btn-danger btn-xs" ng-click="confirmRemoveRelationship(relationship.id, $event)">
                     <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
@@ -48,7 +48,7 @@
         <span class="glyphicon glyphicon-flash"></span> Δημιουργία σχέσης
     </button>
     <button class="btn btn-md btn-primary" ng-click="go('/child/' + data.child.id  + '/update')">
-        <span class="glyphicon glyphicon-edit"></span> Ανανέωση
+        <span class="glyphicon glyphicon-edit"></span> Επεξεργασία
     </button>
     <button class="btn btn-md btn-danger" ng-click="confirmRemoveChild()">
         <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή

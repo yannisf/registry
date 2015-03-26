@@ -14,7 +14,7 @@ angular.module('child')
                     relationships: RelationshipService.fetchRelationships($routeParams.childId)
                 },
                 viewData: {
-                    submitLabel: 'Ανανέωση',
+                    submitLabel: 'Επεξεργασία',
                     hasChildrenIdsInScope: FoundationService.groupChildrenIds.length > 1
                 }
             });

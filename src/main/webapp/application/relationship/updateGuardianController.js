@@ -17,7 +17,7 @@ angular.module('guardian')
                 },
                 viewData: {
                     guardianId: $routeParams.guardianId,
-                    submitLabel: "Ανανέωση"
+                    submitLabel: "Επεξεργασία"
                 }
             });
 
