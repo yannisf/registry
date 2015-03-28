@@ -1,5 +1,5 @@
 <td>
-    <span ng-show="!editMode">{{department.name}}</span>
+    <span ng-dblclick="edit()" ng-show="!editMode">{{department.name}}</span>
     <input type="text" ng-model="department.name" ng-show="editMode"/>
 
     <div class="controls">

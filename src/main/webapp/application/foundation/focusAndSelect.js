@@ -6,7 +6,7 @@ angular.module('management')
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
-                element.on('click', function ($event) {
+                element.on('click dblclick', function ($event) {
                     if ($event.target.nodeName !== 'INPUT') {
                         element.find('input')[0].select();
                     }

@@ -12,13 +12,13 @@ angular.module('management').directive('schoolControl', ['School', 'ActiveCache'
 			templateUrl: "application/foundation/school-control.tpl.html",
 			link: function(scope, element) {
 				element.bind('keypress', function(e) {
-					console.log(e)
-					if (e.keyCode === 13) {
-						scope.update();
-					} else if (e.keyCode === 27) {
-						console.log('Canceling')
-						scope.cancel();
-					}
+					scope.$apply(function () {
+						if (e.keyCode === 13) {
+							scope.update();
+						} else if (e.keyCode === 27) {
+							scope.cancel();
+						}
+					});
 				});
 			},
 			controller: function($scope) {
@@ -45,7 +45,6 @@ angular.module('management').directive('schoolControl', ['School', 'ActiveCache'
 				};
 
 				$scope.cancel = function() {
-					console.log('Invoked cancel');
 					$scope.editMode = false;
 					$scope.school.name = oldValue;
 				};

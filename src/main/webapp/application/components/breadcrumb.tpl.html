@@ -1,6 +1,9 @@
-<ol class="breadcrumb" ng-if="active.school">
-    <li ng-if="active.school"><a href ng-click="">{{active.school.name}}</a></li>
-    <li ng-if="active.department"><a href ng-click="">{{active.department.name}}</a></li>
-    <li ng-if="active.group"><a href ng-click="toChildList(active.group.id)">{{active.group.name}}</a></li>
-    <li ng-if="formattedName"><a href ng-click="toScopedChild()">{{formattedName}}</a></li>
-</ol>
+<div>
+    <div ng-if="!active.school" style="line-height: 20px; padding: 8px 15px; margin-bottom: 20px">&nbsp;</div>
+    <ol class="breadcrumb" ng-if="active.school">
+        <li ng-if="active.school"><a href ng-click="">{{active.school.name}}</a></li>
+        <li ng-if="active.department"><a href ng-click="">{{active.department.name}}</a></li>
+        <li ng-if="active.group"><a href ng-click="toChildList(active.group.id)">{{active.group.name}}</a></li>
+        <li ng-if="formattedName"><a href ng-click="toScopedChild()">{{formattedName}}</a></li>
+    </ol>
+</div>

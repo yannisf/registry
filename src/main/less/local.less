@@ -188,14 +188,15 @@ body {
 }
 
 div.controls {
-  display: none;
+  visibility: hidden;
   position: absolute;
   top: 3px;
   right: 3px;
 }
 
 tr:hover div.controls {
-  display: block;
+  visibility: visible;
+  transition-delay: 0.5s;
 }
 
 .control-glyphicon {
