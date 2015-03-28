@@ -3,9 +3,9 @@
 angular.module('guardian')
 
     .controller('updateGuardianController', ['$scope', '$routeParams', 'ChildService', 'Guardian', 'Relationship', 
-            'AddressService', 'RelationshipService',
+            'Address', 'RelationshipService',
             
-        function ($scope, $routeParams, ChildService, Guardian, Relationship, AddressService, RelationshipService) {
+        function ($scope, $routeParams, ChildService, Guardian, Relationship, Address, RelationshipService) {
             angular.extend($scope, {
                 data: {
                     guardian: Guardian.get({guardianId: $routeParams.guardianId}),
@@ -22,7 +22,7 @@ angular.module('guardian')
             });
 
             $scope.data.guardian.$promise.then(function (response) {
-                $scope.data.address = AddressService.getForPerson($routeParams.guardianId);
+                $scope.data.address = Address.getForPerson({personId: $routeParams.guardianId});
             });
 
             $scope.submit = function () {

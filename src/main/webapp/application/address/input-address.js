@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('schoolApp').directive('inputAddress', ['$rootScope', 'uuid4', 'ChildService', 'AddressService',
-    function ($rootScope, uuid4, ChildService, AddressService) {
+angular.module('schoolApp').directive('inputAddress', ['$rootScope', 'uuid4', 'ChildService', 'Address',
+    function ($rootScope, uuid4, ChildService, Address) {
         return {
             replace: true,
             restrict: 'E',
@@ -22,12 +22,10 @@ angular.module('schoolApp').directive('inputAddress', ['$rootScope', 'uuid4', 'C
                 };
 
                 scope.copyFromChild = function() {
-                    AddressService.getForPerson(ChildService.child.id).$promise.then(
-                        function(response) {
-                            response.id = scope.address.id;
-                             scope.address = response;
-                        }
-                    );
+                    var id = scope.address.id;
+                    scope.address = Address.getForPerson({personId: ChildService.child.id}, function() {
+                        scope.address.id = id;
+                    });
                 };
             }
         };
