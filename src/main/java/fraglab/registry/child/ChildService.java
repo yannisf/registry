@@ -1,6 +1,6 @@
 package fraglab.registry.child;
 
-import fraglab.registry.foundation.Group;
+import fraglab.registry.overview.Group;
 import fraglab.web.NotFoundException;
 import fraglab.web.NotIdentifiedException;
 

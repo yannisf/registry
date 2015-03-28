@@ -2,7 +2,7 @@
 
 angular.module('child')
 
-    .directive('previousNext', ['$location', 'FoundationService', 'ChildService', function ($location, FoundationService, ChildService) {
+    .directive('previousNext', ['$location', 'ActiveCache', function ($location, ActiveCache) {
         return {
             restrict: 'E',
             replace: true,
@@ -10,7 +10,7 @@ angular.module('child')
             },
             templateUrl: "application/child/previousNext.tpl.html",
             link: function(scope) {
-                scope.groupHasMoreThanOneChildren = FoundationService.groupChildrenIds.length > 1;
+                scope.groupHasMoreThanOneChildren = ActiveCache.childIds.length > 1;
                 scope.nextChild = function () {
                     var next = findNextChild();
                     if (next.rollover) {
@@ -29,13 +29,13 @@ angular.module('child')
     
                 function findNextChild() {
                     var result = {};
-                    var numberOfChildren = FoundationService.groupChildrenIds.length;
-                    var currentChildId = ChildService.child.id;
-                    var currentChildIdIndex = FoundationService.groupChildrenIds.indexOf(currentChildId);
+                    var numberOfChildren = ActiveCache.childIds.length;
+                    var currentChildId = ActiveCache.child.id;
+                    var currentChildIdIndex = ActiveCache.childIds.indexOf(currentChildId);
                     if (currentChildIdIndex + 1 < numberOfChildren) {
-                        result.id = FoundationService.groupChildrenIds[currentChildIdIndex + 1];
+                        result.id = ActiveCache.childIds[currentChildIdIndex + 1];
                     } else {
-                        result.id = FoundationService.groupChildrenIds[0];
+                        result.id = ActiveCache.childIds[0];
                         result.rollover = true;
                     }
                     return result;
@@ -43,13 +43,13 @@ angular.module('child')
     
                 function findPreviousChild() {
                     var result = {};
-                    var numberOfChildren = FoundationService.groupChildrenIds.length;
-                    var currentChildId = ChildService.child.id;
-                    var currentChildIdIndex = FoundationService.groupChildrenIds.indexOf(currentChildId);
+                    var numberOfChildren = ActiveCache.childIds.length;
+                    var currentChildId = ActiveCache.child.id;
+                    var currentChildIdIndex = ActiveCache.childIds.indexOf(currentChildId);
                     if (currentChildIdIndex !== 0) {
-                        result.id = FoundationService.groupChildrenIds[currentChildIdIndex - 1];
+                        result.id = ActiveCache.childIds[currentChildIdIndex - 1];
                     } else {
-                        result.id = FoundationService.groupChildrenIds[numberOfChildren - 1];
+                        result.id = ActiveCache.childIds[numberOfChildren - 1];
                         result.rollover = true;
                     }
                     return result;

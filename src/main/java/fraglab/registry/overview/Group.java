@@ -1,4 +1,4 @@
-package fraglab.registry.foundation;
+package fraglab.registry.overview;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.child.Child;

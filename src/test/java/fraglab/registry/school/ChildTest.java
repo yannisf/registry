@@ -4,8 +4,8 @@ import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildService;
-import fraglab.registry.foundation.FoundationService;
-import fraglab.registry.foundation.Group;
+import fraglab.registry.overview.OverviewService;
+import fraglab.registry.overview.Group;
 import fraglab.web.NotFoundException;
 import fraglab.web.NotIdentifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ChildTest extends AbstractTransactionalTestNGSpringContextTests {
     private AddressService addressService;
 
     @Autowired
-    private FoundationService foundationService;
+    private OverviewService overviewService;
     
     private String childId;
     

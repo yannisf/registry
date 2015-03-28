@@ -1,13 +1,13 @@
-package fraglab.registry.foundation;
+package fraglab.registry.overview;
 
 import fraglab.registry.child.Child;
-import fraglab.registry.foundation.meta.GroupDataTransfer;
-import fraglab.registry.foundation.meta.GroupStatistics;
+import fraglab.registry.overview.meta.GroupDataTransfer;
+import fraglab.registry.overview.meta.GroupStatistics;
 import fraglab.web.NotFoundException;
 
 import java.util.List;
 
-public interface FoundationService {
+public interface OverviewService {
 
     GroupDataTransfer fetchSchoolData(String childGroupId);
 

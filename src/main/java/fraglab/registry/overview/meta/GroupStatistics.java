@@ -1,4 +1,4 @@
-package fraglab.registry.foundation.meta;
+package fraglab.registry.overview.meta;
 
 import java.io.Serializable;
 

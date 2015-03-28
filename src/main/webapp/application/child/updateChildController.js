@@ -3,9 +3,9 @@
 angular.module('child')
 
     .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Child',
-                'ChildService', 'Address', 'RelationshipService', 'FoundationService',
+                'ChildService', 'Address', 'RelationshipService', 'ActiveCache',
         function ($scope, $routeParams, $window, $location, $modal, Child,
-                ChildService, Address, RelationshipService, FoundationService) {
+                ChildService, Address, RelationshipService, ActiveCache) {
 
             angular.extend($scope, {
                 data: {
@@ -15,7 +15,7 @@ angular.module('child')
                 },
                 viewData: {
                     submitLabel: 'Επεξεργασία',
-                    hasChildrenIdsInScope: FoundationService.groupChildrenIds.length > 1
+                    hasChildrenIdsInScope: ActiveCache.childIds.length > 1
                 }
             });
 
@@ -48,7 +48,7 @@ angular.module('child')
                     controller: 'removeChildModalController',
                     resolve: {
                         childId: function () {
-                            return ChildService.child.id;
+                            return $scope.data.child.id;
                         }
                     }
                 });

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('management').directive('groupControl', ['$rootScope', 'Group', 'ActiveCache',
-	function ($rootScope, Group, ActiveCache) {
+angular.module('management').directive('groupControl', ['$location', 'Group', 'ActiveCache',
+	function ($location, Group, ActiveCache) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -9,7 +9,7 @@ angular.module('management').directive('groupControl', ['$rootScope', 'Group', '
 				groups: "=",
 				viewData: "="
 			},
-			templateUrl: "application/foundation/group-control.tpl.html",
+			templateUrl: "application/overview/group-control.tpl.html",
 			link: function(scope, element) {
 				element.bind('keypress', function(e) {
 					scope.$apply(function () {
@@ -24,7 +24,9 @@ angular.module('management').directive('groupControl', ['$rootScope', 'Group', '
 			controller: function($scope) {
 				$scope.working = false;
 
-				$scope.toChildList = $rootScope.toChildList;
+				$scope.toChildList = function() {
+					$location.url('/group/' + ActiveCache.group.id );
+				}
 
 				$scope.remove = function() {
 					$scope.working = true;

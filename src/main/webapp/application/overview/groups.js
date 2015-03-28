@@ -5,7 +5,7 @@ angular.module('management').directive('groups', ['uuid4', 'Group', 'ActiveCache
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: "application/foundation/groups.tpl.html",
+            templateUrl: "application/overview/groups.tpl.html",
             controller: function($scope) {
 				if (ActiveCache.group) {
 					console.log('Setting as active group: ', ActiveCache.group);

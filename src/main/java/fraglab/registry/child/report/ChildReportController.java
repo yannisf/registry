@@ -1,8 +1,7 @@
 package fraglab.registry.child.report;
 
 import fraglab.registry.child.Child;
-import fraglab.registry.child.ChildService;
-import fraglab.registry.foundation.FoundationService;
+import fraglab.registry.overview.OverviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +17,12 @@ import java.util.List;
 public class ChildReportController {
 
     @Autowired
-    FoundationService foundationService;
+    OverviewService overviewService;
 
     @RequestMapping(value = "/pdf/{mode}", method = RequestMethod.GET)
     public String report(@PathVariable(value = "mode") String mode, @RequestParam(value = "class") String clazz,
                          Model model) throws Exception {
-        List<Child> children = foundationService.fetchChildrenForGroup(clazz);
+        List<Child> children = overviewService.fetchChildrenForGroup(clazz);
         model.addAttribute("children", children);
         if (mode.equals("first")) {
             return "childrenFirstNamesPdf";

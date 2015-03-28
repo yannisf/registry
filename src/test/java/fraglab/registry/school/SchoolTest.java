@@ -1,10 +1,10 @@
 package fraglab.registry.school;
 
 import fraglab.registry.child.ChildService;
-import fraglab.registry.foundation.Department;
-import fraglab.registry.foundation.FoundationService;
-import fraglab.registry.foundation.Group;
-import fraglab.registry.foundation.School;
+import fraglab.registry.overview.Department;
+import fraglab.registry.overview.OverviewService;
+import fraglab.registry.overview.Group;
+import fraglab.registry.overview.School;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
-    private FoundationService foundationService;
+    private OverviewService overviewService;
     
     @Autowired
     private ChildService childService;
@@ -36,25 +36,25 @@ public class SchoolTest extends AbstractTransactionalTestNGSpringContextTests {
         School school = new School("My school");
         school.setId(generateUuid());
         schoolId = school.getId();
-        foundationService.createOrUpdateSchool(school);
+        overviewService.createOrUpdateSchool(school);
         
         Department department1 = new Department("My department 1");
         department1.setId(generateUuid());
         departmentId1 = department1.getId();
         department1.setSchool(school);
-        foundationService.createOrUpdateDepartment(department1);
+        overviewService.createOrUpdateDepartment(department1);
         
         Department department2 = new Department("My department 2");
         department2.setId(generateUuid());
         departmentId2 = department2.getId();
         department2.setSchool(school);
-        foundationService.createOrUpdateDepartment(department2);
+        overviewService.createOrUpdateDepartment(department2);
 
         Group group = new Group("2013-2014");
         group.setId(generateUuid());
         groupId = group.getId();
         group.setDepartment(department2);
-        foundationService.createOrUpdateGroup(group);
+        overviewService.createOrUpdateGroup(group);
     }
 
     @Test(dependsOnMethods = "testAddSchoolSystem")

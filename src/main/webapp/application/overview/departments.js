@@ -5,7 +5,7 @@ angular.module('management').directive('departments', ['uuid4', 'Department', 'A
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: "application/foundation/departments.tpl.html",
+            templateUrl: "application/overview/departments.tpl.html",
             controller: function($scope) {
 				if (ActiveCache.department) {
 					console.log('Setting as active department: ', ActiveCache.department);

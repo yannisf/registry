@@ -1,9 +1,9 @@
-package fraglab.registry.foundation;
+package fraglab.registry.overview;
 
 import fraglab.data.GenericDao;
 import fraglab.registry.child.Child;
-import fraglab.registry.foundation.meta.GroupDataTransfer;
-import fraglab.registry.foundation.meta.GroupStatistics;
+import fraglab.registry.overview.meta.GroupDataTransfer;
+import fraglab.registry.overview.meta.GroupStatistics;
 import fraglab.web.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +18,16 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class FoundationServiceImpl implements FoundationService {
+public class OverviewServiceImpl implements OverviewService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FoundationServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OverviewServiceImpl.class);
 
     @Autowired
     private GenericDao dao;
 
     @Override
     public GroupDataTransfer fetchSchoolData(String groupId) {
-        String schoolDataQuery = "select new fraglab.registry.foundation.meta.GroupDataTransfer(" +
+        String schoolDataQuery = "select new fraglab.registry.overview.meta.GroupDataTransfer(" +
                 "g.id, s.name, cr.name, g.name, g.members) " +
                 "from Group g join g.department cr join g.department.school s " +
                 "where g.id=:groupId order by g.name";
@@ -181,7 +181,7 @@ public class FoundationServiceImpl implements FoundationService {
             LOG.info("Group [{}] not found. ", id);
         }
     }
-    
+
     private Group fetchGroup(String groupId) throws NotFoundException {
         Group group = dao.fetch(Group.class, groupId);
         if (group == null) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'values', 
-        'child', 'guardian', 'typeaheads', 'foundation', 'management'])
+        'child', 'guardian', 'typeaheads', 'management'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({
@@ -116,24 +116,18 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     }])
 
-    .run(['$rootScope', '$location', '$window', 'ChildService', 'ListService', 'FoundationService',
-        function ($rootScope, $location, $window, ChildService, ListService, FoundationService) {
+    .run(['$rootScope', '$location', '$window', 'ChildService', 'ListService', 'ActiveCache',
+        function ($rootScope, $location, $window, ChildService, ListService, ActiveCache) {
             angular.extend($rootScope, {
                 scopedSchoolInfo: null,
                 toSchoolList: function() {
-                    FoundationService.reset();
-                    $location.url('/foundation/list');
+                    $location.url('/overview/list');
                 },
-				toChildList: function (groupId) {
-				    ChildService.reset();
-					FoundationService.initializeGroup(groupId);
-					$location.url('/group/' + groupId );
-				},
                 toScopedChild: function () {
-                    if (ChildService.child.id) {
-                        $location.url('/child/' + ChildService.child.id + '/view');
+                    if (ActiveCache.child.id) {
+                        $location.url('/child/' + ActiveCache.child.id + '/view');
                     } else {
-                        this.toChildList(FoundationService.group.id);
+                        this.toChildList(ActiveCache.group.id);
                     }
                 },
                 go: function (path, $event) {

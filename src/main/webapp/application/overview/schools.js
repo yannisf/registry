@@ -5,7 +5,7 @@ angular.module('management').directive('schools', ['uuid4', 'School', 'ActiveCac
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: "application/foundation/schools.tpl.html",
+            templateUrl: "application/overview/schools.tpl.html",
             controller: function($scope) {
                 $scope.data.schools = School.query({}, function() {
                 	if (ActiveCache.school) {

@@ -2,44 +2,28 @@
 
 angular.module('child')
 
-    .service('ChildService', ['$rootScope', 'FoundationService', 'Child', 'Address',
-        function ($rootScope, FoundationService,  Child, Address) {
-
-            this.child = {};
-
-            this.cache = {
-                child: {
-                    name: null
-                }
-            };
-
-            this.reset = function() {
-				this.child = {};
-				this.cache.child.name = null;
-            };
+    .service('ChildService', ['$rootScope', 'Child', 'Address', 'ActiveCache',
+        function ($rootScope, Child, Address, ActiveCache) {
 
             this.fetch = function(childId) {
-				this.child = Child.get({id: childId});
-                return this.child;
+				ActiveCache.child = Child.get({id: childId});
+                return ActiveCache.child;
             };
 
             this.save = function(child, address) {
-                var self = this;
                 address.$save(function () {
-                    return Child.save({addressId: address.id, groupId: FoundationService.group.id}, child).$promise;
+                    return Child.save({addressId: address.id, groupId: ActiveCache.group.id}, child).$promise;
                 }).then(function () {
-                    self.child = child;
+                    ActiveCache.child = child;
                     $rootScope.toScopedChild();
                 });
             };
 
             this.remove = function(childId) {
-                this.child = {};
-                Child.remove({id: childId}).$promise.then(
-					function (response) {
-						$rootScope.toChildList(FoundationService.group.id);
-					}
-				);
+                Child.remove({id: childId}).$promise.then(function (response) {
+                    ActiveCache.child = null;
+                    $rootScope.toChildList(ActiveCache.group.id);
+                });
             };
         }
     ]);

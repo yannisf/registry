@@ -1,36 +1,35 @@
 'use strict';
 
-angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'foundation'])
+angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/management', {
-                templateUrl: 'application/foundation/management.html',
+                templateUrl: 'application/overview/management.html',
                 controller: 'manageSchools'
             });
         }
     ])
     
     .factory('School', ['$resource', function($resource) {
-        return $resource('api/foundation/school/:id', {id: '@id'}, {
+        return $resource('api/overview/school/:id', {id: '@id'}, {
             save: {method: 'PUT', params: {id: null} },
         });
     }])
 
     .factory('Department', ['$resource', function($resource) {
-        return $resource('api/foundation/department/:id', {id: '@id'}, {
-            query: {method: 'GET', url: 'api/foundation/department', isArray: true},
+        return $resource('api/overview/department/:id', {id: '@id'}, {
+            query: {method: 'GET', url: 'api/overview/department', isArray: true},
             save: {method: 'PUT', params: {id: null} },
         });
     }])
 
     .factory('Group', ['$resource', function($resource) {
-        return $resource('api/foundation/group/:id', {id: '@id'}, {
-            query: {method: 'GET', url: 'api/foundation/group', isArray: true},
+        return $resource('api/overview/group/:id', {id: '@id'}, {
+            query: {method: 'GET', url: 'api/overview/group', isArray: true},
             save: {method: 'PUT', params: {id: null} },
-            children: {method: 'GET', url: 'api/foundation/group/:id/child', isArray: true},
-            info: {method: 'GET', url: 'api/foundation/group/:id/info'},
-            statistics: {method: 'GET', url: 'api/foundation/group/:id/statistics'},
+            children: {method: 'GET', url: 'api/overview/group/:id/child', isArray: true},
+            statistics: {method: 'GET', url: 'api/overview/group/:id/statistics'},
         });
     }])
 
@@ -38,6 +37,9 @@ angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 
     	var school;
     	var department;
     	var group;
+    	var child;
+    	var children;
+    	var childIds;
     }])
 
     .controller('manageSchools', ['$scope', 'uuid4', 'School', 'Department', 'Group', 'ActiveCache',

@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('management').directive('schoolControl', ['School', 'ActiveCache',
-	function (School, ActiveCache) {
+angular.module('management').directive('departmentControl', ['Department', 'ActiveCache',
+	function (Department, ActiveCache) {
 		return {
 			restrict: 'A',
 			scope: {
-				school: "=schoolControl",
-				schools: "=",
+				department: "=departmentControl",
+				departments: "=",
 				viewData: "="
 			},
-			templateUrl: "application/foundation/school-control.tpl.html",
+			templateUrl: "application/overview/department-control.tpl.html",
 			link: function(scope, element) {
 				element.bind('keypress', function(e) {
 					scope.$apply(function () {
@@ -26,33 +26,31 @@ angular.module('management').directive('schoolControl', ['School', 'ActiveCache'
 
 				$scope.remove = function() {
 					$scope.working = true;
-					$scope.school.$remove({}, function() {
-						var index = $scope.schools.indexOf($scope.school);
-						$scope.schools.splice(index, 1);
-						if ($scope.school.id === ActiveCache.school.id) {
-							ActiveCache.school = null;
+					$scope.department.$remove({}, function() {
+						var index = $scope.departments.indexOf($scope.department);
+						$scope.departments.splice(index, 1);
+						if ($scope.department.id === ActiveCache.department.id) {
+							ActiveCache.department = null;
 						}
-						$scope.working = false;
-					},
-					function() {
+						$scope.viewData.active.school.numberOfDepartments--;
 						$scope.working = false;
 					});
 				};
 
-				var oldValue = $scope.school.name;
+				var oldValue = $scope.department.name;
 				$scope.edit = function() {
 					$scope.editMode = true;
 				};
 
 				$scope.cancel = function() {
 					$scope.editMode = false;
-					$scope.school.name = oldValue;
+					$scope.department.name = oldValue;
 				};
 
 				$scope.update = function() {
 					$scope.editMode = false;
 					$scope.working = true;
-					$scope.school.$save({}, function() {
+					$scope.department.$save({schoolId: $scope.viewData.active.school.id}, function() {
 						$scope.working = false;
 					});
 				};
