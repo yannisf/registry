@@ -61,9 +61,9 @@ public class OverviewServiceImpl implements OverviewService {
                 "PRESCHOOL_LEVEL_A.PRESCHOOL_LEVEL_A_NUMBER, " +
                 "PRESCHOOL_LEVEL_B.PRESCHOOL_LEVEL_B_NUMBER from " +
                 "(select count(*) AS BOYS_NUMBER from Person p " +
-                "where p.group_id = :groupId and p.genre = 'MALE') BOYS, " +
+                "where p.group_id = :groupId and p.gender = 'MALE') BOYS, " +
                 "(select count(*) AS GIRLS_NUMBER from Person p " +
-                "where p.group_id = :groupId and p.genre = 'FEMALE') GIRLS, " +
+                "where p.group_id = :groupId and p.gender = 'FEMALE') GIRLS, " +
                 "(select count(*) AS PRESCHOOL_LEVEL_A_NUMBER from Person p " +
                 "where p.group_id = :groupId and p.PRESCHOOL_LEVEL = 'PRE_SCHOOL_LEVEL_A') PRESCHOOL_LEVEL_A, " +
                 "(select count(*)AS PRESCHOOL_LEVEL_B_NUMBER from Person p " +

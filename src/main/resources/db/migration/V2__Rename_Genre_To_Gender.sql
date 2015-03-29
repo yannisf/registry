@@ -1,0 +1,1 @@
+ALTER TABLE person RENAME COLUMN genre TO gender;

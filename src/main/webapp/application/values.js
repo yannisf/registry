@@ -23,13 +23,13 @@ angular.module('values', [])
         OTHER: "Άλλο"
     })
 
-    .value('childGenreTypeMap', {
+    .value('childGenderTypeMap', {
         MALE: "Αγόρι",
         FEMALE: "Κορίτσι",
         OTHER: "Άλλο"
     })
 
-    .value('guardianGenreTypeMap', {
+    .value('guardianGenderTypeMap', {
         MALE: "Άνδρας",
         FEMALE: "Γυναίκα",
         OTHER: "Άλλο"

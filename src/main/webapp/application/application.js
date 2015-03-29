@@ -31,15 +31,15 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     }])
 
-    .filter('childGenreTypeFilter', ['childGenreTypeMap', function (childGenreTypeMap) {
+    .filter('childGenderTypeFilter', ['childGenderTypeMap', function (childGenderTypeMap) {
         return function (value) {
-            return childGenreTypeMap[value];
+            return childGenderTypeMap[value];
         };
     }])
 
-    .filter('guardianGenreTypeFilter', ['guardianGenreTypeMap', function (guardianGenreTypeMap) {
+    .filter('guardianGenderTypeFilter', ['guardianGenderTypeMap', function (guardianGenderTypeMap) {
         return function (value) {
-            return guardianGenreTypeMap[value];
+            return guardianGenderTypeMap[value];
         };
     }])
 

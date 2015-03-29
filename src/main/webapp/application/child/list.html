@@ -25,7 +25,7 @@
             <td>{{child|firstNameFilter}}</td>
             <td>{{child.lastName}}</td>
             <td>{{child.level|preSchoolLevelFilter}}</td>
-            <td>{{child.gender|childGenreTypeFilter}}</td>
+            <td>{{child.gender|childGenderTypeFilter}}</td>
             <td><span class="glyphicon glyphicon-info-sign" ng-if="child.notes" title="{{child.notes}}"></span></td>
         </tr>
     </tbody>
@@ -37,5 +37,5 @@
 </table>
 
 <button class="btn btn-primary btn-md" ng-click="go('/child/create')">
-    <span class="glyphicon glyphicon-flash"></span> Δημιουργία παιδιού
+    <span class="glyphicon glyphicon-flash"></span> Νέο παιδί
 </button>

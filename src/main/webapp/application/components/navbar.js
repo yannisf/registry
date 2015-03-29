@@ -8,6 +8,11 @@ angular.module('schoolApp').directive('navbar', ['$location', 'ActiveCache', fun
         controller: function($scope) {
             $scope.active = ActiveCache;
             
+            $scope.toOverview = function() {
+                ActiveCache.clearChild();
+                $location.url('/overview');
+            }
+            
             $scope.toGroup = function() {
                 $location.url('/group/' + ActiveCache.group.id);
             };

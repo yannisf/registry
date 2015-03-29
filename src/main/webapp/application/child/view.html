@@ -14,7 +14,7 @@
 
     <div ng-if="data.relationships.length == 0" class="submessage">Δεν έχει εισαχθεί καμιά σχέση ακόμα</div>
 
-    <table class="table table-striped table-hover" ng-if="data.relationships.length > 0">
+    <table class="table table-hover" ng-if="data.relationships.length > 0">
         <thead>
         <tr>
             <th>Όνομα</th>
@@ -35,7 +35,7 @@
                     <span class="glyphicon glyphicon-edit"></span> Επεξεργασία
                 </button>
                 <button class="btn btn-danger btn-xs" ng-click="confirmRemoveRelationship(relationship, $event)">
-                    <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
+                    <span class="glyphicon glyphicon-remove"></span> Διαγραφή
                 </button>
             </td>
         </tr>
@@ -45,12 +45,12 @@
 
 <div style="padding-top: 1em">
     <button class="btn btn-primary btn-md" ng-click="addGuardian()">
-        <span class="glyphicon glyphicon-flash"></span> Δημιουργία σχέσης
+        <span class="glyphicon glyphicon-flash"></span> Νέα σχέση
     </button>
     <button class="btn btn-md btn-primary" ng-click="go('/child/' + data.child.id  + '/update')">
         <span class="glyphicon glyphicon-edit"></span> Επεξεργασία
     </button>
     <button class="btn btn-md btn-danger" ng-click="confirmRemoveChild()">
-        <span class="glyphicon glyphicon-remove-sign"></span> Διαγραφή
+        <span class="glyphicon glyphicon-remove"></span> Διαγραφή
     </button>
 </div>

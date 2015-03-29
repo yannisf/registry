@@ -27,8 +27,6 @@ public class Person extends BaseEntity {
     private String nationality;
 
     @Enumerated(EnumType.STRING)
-    //TODO: Change this to gender
-    @Column(name = "GENRE")
     private Gender gender;
 
     private String notes;
