@@ -8,7 +8,6 @@ angular.module('overview').directive('groups', ['uuid4', 'Group', 'ActiveCache',
             templateUrl: "application/overview/groups.tpl.html",
             controller: function($scope) {
 				if (ActiveCache.group) {
-					console.log('Setting as active group: ', ActiveCache.group);
 					$scope.viewData.active.group = ActiveCache.group;
 				}
 

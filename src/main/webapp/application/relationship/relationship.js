@@ -11,8 +11,8 @@ angular.module('relationship', ['ngResource'])
         });
     }])
 
-	.service('RelationshipService', ['$rootScope', 'ChildService', 'Relationship', 'Guardian', 'Address',
-		function ($rootScope, ChildService, Relationship, Guardian, Address) {
+	.service('RelationshipService', ['$rootScope', 'ActiveCache', 'Relationship', 'Guardian', 'Address',
+		function ($rootScope, ActiveCache, Relationship, Guardian, Address) {
 		
 			var fetchRelationships = function(childId) {
 				return Relationship.fetchRelationships({childId: childId});
@@ -25,7 +25,7 @@ angular.module('relationship', ['ngResource'])
 					}
 				).then(
 					function() {
-						return Relationship.save({childId: ChildService.child.id, guardianId: guardian.id }, relationship).$promise;
+						return Relationship.save({childId: ActiveCache.child.id, guardianId: guardian.id }, relationship).$promise;
 					}
 				).then(
 					function() {

@@ -116,19 +116,11 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     }])
 
-    .run(['$rootScope', '$location', '$window', 'ChildService', 'ListService', 'ActiveCache',
-        function ($rootScope, $location, $window, ChildService, ListService, ActiveCache) {
+    .run(['$rootScope', '$location', '$window', 'ListService', 'ActiveCache',
+        function ($rootScope, $location, $window, ListService, ActiveCache) {
             angular.extend($rootScope, {
-                scopedSchoolInfo: null,
                 toSchoolList: function() {
                     $location.url('/overview/list');
-                },
-                toScopedChild: function () {
-                    if (ActiveCache.child.id) {
-                        $location.url('/child/' + ActiveCache.child.id + '/view');
-                    } else {
-                        this.toChildList(ActiveCache.group.id);
-                    }
                 },
                 go: function (path, $event) {
                     if ($event) {

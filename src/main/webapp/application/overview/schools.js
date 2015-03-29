@@ -9,7 +9,6 @@ angular.module('overview').directive('schools', ['uuid4', 'School', 'ActiveCache
             controller: function($scope) {
                 $scope.data.schools = School.query({}, function() {
                 	if (ActiveCache.school) {
-                		console.log('Setting as active school: ', ActiveCache.school);
                 		$scope.viewData.active.school = ActiveCache.school;
                 	}
                 });

@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('schoolApp').directive('inputAddress', ['$rootScope', 'uuid4', 'ChildService', 'Address',
-    function ($rootScope, uuid4, ChildService, Address) {
+angular.module('schoolApp').directive('inputAddress', ['$rootScope', 'uuid4', 'ActiveCache', 'Address',
+    function ($rootScope, uuid4, ActiveCache, Address) {
         return {
             replace: true,
             restrict: 'E',
@@ -23,7 +23,7 @@ angular.module('schoolApp').directive('inputAddress', ['$rootScope', 'uuid4', 'C
 
                 scope.copyFromChild = function() {
                     var id = scope.address.id;
-                    scope.address = Address.getForPerson({personId: ChildService.child.id}, function() {
+                    scope.address = Address.getForPerson({personId: ActiveCache.child.id}, function() {
                         scope.address.id = id;
                     });
                 };

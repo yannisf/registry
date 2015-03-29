@@ -2,16 +2,16 @@
 
 angular.module('guardian')
 
-    .controller('updateGuardianController', ['$scope', '$routeParams', 'ChildService', 'Guardian', 'Relationship', 
+    .controller('updateGuardianController', ['$scope', '$routeParams', 'ActiveCache', 'Guardian', 'Relationship',
             'Address', 'RelationshipService',
             
-        function ($scope, $routeParams, ChildService, Guardian, Relationship, Address, RelationshipService) {
+        function ($scope, $routeParams, ActiveCache, Guardian, Relationship, Address, RelationshipService) {
             angular.extend($scope, {
                 data: {
                     guardian: Guardian.get({guardianId: $routeParams.guardianId}),
                     address: null,
                     relationship: Relationship.fetchRelationship({
-                        childId: ChildService.child.id,
+                        childId: ActiveCache.child.id,
                         guardianId: $routeParams.guardianId
 					})
                 },

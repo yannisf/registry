@@ -8,7 +8,6 @@ angular.module('overview').directive('departments', ['uuid4', 'Department', 'Act
             templateUrl: "application/overview/departments.tpl.html",
             controller: function($scope) {
 				if (ActiveCache.department) {
-					console.log('Setting as active department: ', ActiveCache.department);
 					$scope.viewData.active.department = ActiveCache.department;
 				}
 

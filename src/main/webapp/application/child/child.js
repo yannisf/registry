@@ -4,6 +4,10 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
+            .when('/group/:groupId', {
+                templateUrl: 'application/child/list.html',
+                controller: 'listGroupController'
+            })
             .when('/child/create', {
                 templateUrl: 'application/child/edit.html',
                 controller: 'createChildController'
@@ -19,35 +23,9 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
     }])
 
     .factory('Child', ['$resource', function($resource) {
-        return $resource('api/child/:id', { }, {
-            save: {method: 'PUT', url: 'api/child'},
+        return $resource('api/child/:id', {id: '@id' }, {
+            save: {method: 'PUT', params: {id: null} },
         });
-    }])
+    }
 
-    .controller('removeChildModalController', ['$scope', '$modalInstance', 'childId', 'ChildService',
-        function ($scope, $modalInstance, childId, ChildService) {
-            $scope.removeChild = function () {
-                ChildService.remove(childId);
-                $scope.dismiss();
-            };
-
-            $scope.dismiss = function () {
-                $modalInstance.dismiss();
-            };
-        }])
-
-    .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'ChildService', 'Relationship', 'relationshipId',
-        function ($scope, $modalInstance, ChildService, Relationship, relationshipId) {
-            $scope.removeRelationship = function () {
-                Relationship.remove({id: relationshipId}).$promise.then(function (response) {
-                    return Relationship.fetchRelationships({childId: ChildService.child.id}).$promise;
-                }).then(function (response) {
-                    $scope.dismiss();
-                    $scope.data.relationships = response;
-                });
-            };
-
-            $scope.dismiss = function () {
-                $modalInstance.dismiss();
-            };
-        }]);
+]);

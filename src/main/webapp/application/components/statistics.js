@@ -1,14 +1,12 @@
 'use strict';
-angular.module('overview').directive('groupStatistics', ['Group', function (Group) {
+angular.module('overview').directive('groupStatistics', ['ActiveCache', 'Group', function (ActiveCache, Group) {
     return {
         restrict: 'E',
         replace: true,
-        scope: {
-            groupId: "="
-        },
+        scope: true,
         templateUrl: "application/components/statistics.tpl.html",
         link: function(scope, element) {
-            scope.groupStatistics = Group.statistics({id: scope.groupId});
+            scope.statistics = Group.statistics({id: ActiveCache.group.id});
         }
     };
 }]);

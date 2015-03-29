@@ -40,6 +40,28 @@ angular.module('overview', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
     	var child;
     	var children;
     	var childIds;
+    	
+    	this.clearChild = function() {
+    	    this.child = null;
+    	};
+
+    	this.clearGroup = function() {
+    	    this.clearChild();
+    	    this.children = null;
+    	    this.childIds = null;
+    	    this.group = null;
+    	};
+    	
+    	this.clearDepartment = function() {
+    	    this.clearGroup();
+    	    this.department = null;
+    	};
+    	
+    	this.clearSchool = function() {
+    	    this.clearDepartment();
+    	    this.school = null;
+    	};
+    	
     }])
 
     .controller('manageSchools', ['$scope', 'uuid4', 'School', 'Department', 'Group', 'ActiveCache',
@@ -69,16 +91,17 @@ angular.module('overview', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
             
             $scope.setActiveSchool = function(school) {
                 $scope.viewData.active.school = school;
-                $scope.setActiveDepartment(null);
+                ActiveCache.clearDepartment();
             };
             
             $scope.setActiveDepartment = function(department) {
                 $scope.viewData.active.department = department;
-                $scope.setActiveGroup(null);
+                ActiveCache.clearGroup();
             };
 
             $scope.setActiveGroup = function(group) {
                 $scope.viewData.active.group = group;
+                ActiveCache.clearChild();
             };
         }
     ]);

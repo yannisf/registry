@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module('child')
-
-    .directive('displayChild', ['AddressService', function (AddressService) {
+angular.module('child').directive('displayChild', ['AddressService', function (AddressService) {
         return {
             restrict: 'E',
             replace: true,
