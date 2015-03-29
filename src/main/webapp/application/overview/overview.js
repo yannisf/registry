@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('management', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
+angular.module('overview', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
-            .when('/management', {
-                templateUrl: 'application/overview/management.html',
+            .when('/overview', {
+                templateUrl: 'application/overview/overview.html',
                 controller: 'manageSchools'
             });
         }

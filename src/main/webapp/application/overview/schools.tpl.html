@@ -1,4 +1,4 @@
-<div class="col-md-4 management-area">
+<div class="col-md-4 overview-area">
 
     <h3>Σχολεία
         <button class="btn btn-xs btn-default" ng-click="addSchool()" title="Νέο σχολείο">
@@ -8,7 +8,7 @@
 
     <img src="images/loader.png"  ng-hide="data.schools.$resolved" class="center-block loader-medium"/>
 
-    <div class="management-msg" ng-if="!data.schools.length" ng-show="data.schools.$resolved">
+    <div class="overview-msg" ng-if="!data.schools.length" ng-show="data.schools.$resolved">
         Δεν έχει εισαχθεί κανένα σχολείο
     </div>
 

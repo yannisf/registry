@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('management').directive('groups', ['uuid4', 'Group', 'ActiveCache',
+angular.module('overview').directive('groups', ['uuid4', 'Group', 'ActiveCache',
     function (uuid4, Group, ActiveCache) {
         return {
             restrict: 'E',

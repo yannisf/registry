@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'values', 
-        'child', 'guardian', 'typeaheads', 'management'])
+        'child', 'guardian', 'typeaheads', 'overview'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.otherwise({
-            redirectTo: '/management'
+            redirectTo: '/overview'
         });
     }])
 

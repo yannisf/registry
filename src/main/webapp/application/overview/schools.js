@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('management').directive('schools', ['uuid4', 'School', 'ActiveCache',
+angular.module('overview').directive('schools', ['uuid4', 'School', 'ActiveCache',
     function (uuid4, School, ActiveCache) {
         return {
             restrict: 'E',

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('management').directive('groupControl', ['$location', 'Group', 'ActiveCache',
+angular.module('overview').directive('groupControl', ['$location', 'Group', 'ActiveCache',
 	function ($location, Group, ActiveCache) {
 		return {
 			restrict: 'A',
@@ -26,7 +26,7 @@ angular.module('management').directive('groupControl', ['$location', 'Group', 'A
 
 				$scope.toChildList = function() {
 					$location.url('/group/' + ActiveCache.group.id );
-				}
+				};
 
 				$scope.remove = function() {
 					$scope.working = true;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('management').directive('schoolControl', ['School', 'ActiveCache',
+angular.module('overview').directive('schoolControl', ['School', 'ActiveCache',
 	function (School, ActiveCache) {
 		return {
 			restrict: 'A',

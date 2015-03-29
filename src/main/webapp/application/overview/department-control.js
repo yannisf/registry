@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('management').directive('departmentControl', ['Department', 'ActiveCache',
+angular.module('overview').directive('departmentControl', ['Department', 'ActiveCache',
 	function (Department, ActiveCache) {
 		return {
 			restrict: 'A',

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('management').directive('breadcrumb', ['ActiveCache', 'School', 'Department', 'Group',
+angular.module('overview').directive('breadcrumb', ['ActiveCache', 'School', 'Department', 'Group',
     function (ActiveCache, School, Department, Group) {
 
 		function formatName (child) {

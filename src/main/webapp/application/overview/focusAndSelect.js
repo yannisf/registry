@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('management')
+angular.module('overview')
 
     .directive('focusAndSelect', [function () {
         return {

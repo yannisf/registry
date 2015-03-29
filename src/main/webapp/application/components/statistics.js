@@ -1,5 +1,5 @@
 'use strict';
-angular.module('management').directive('groupStatistics', ['Group', function (Group) {
+angular.module('overview').directive('groupStatistics', ['Group', function (Group) {
     return {
         restrict: 'E',
         replace: true,

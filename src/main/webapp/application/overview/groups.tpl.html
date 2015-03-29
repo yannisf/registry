@@ -1,4 +1,4 @@
-<div class="col-md-4 management-area-last">
+<div class="col-md-4 overview-area-last">
 
     <h3>Χρονιές
         <button class="btn btn-xs btn-default" title="Νέο χρονιά"
@@ -10,11 +10,11 @@
     <img src="images/loader.png" class="center-block loader-medium"
          ng-hide="!viewData.active.department || data.groups.$resolved"/>
 
-    <div class="management-msg" ng-if="!viewData.active.department">
+    <div class="overview-msg" ng-if="!viewData.active.department">
         Επιλέξτε πρώτα τμήμα
     </div>
 
-    <div class="management-msg" ng-if="data.groups.$resolved && viewData.active.department && !data.groups.length">
+    <div class="overview-msg" ng-if="data.groups.$resolved && viewData.active.department && !data.groups.length">
         Δεν έχει εισαχθεί καμιά χρονιά
     </div>
 

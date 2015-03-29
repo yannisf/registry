@@ -1,4 +1,4 @@
-<div class="col-md-4 management-area">
+<div class="col-md-4 overview-area">
 
     <h3>Τμήματα
         <button class="btn btn-xs btn-default" title="Νέο τμήμα"
@@ -10,11 +10,11 @@
     <img src="images/loader.png" class="center-block loader-medium"
             ng-hide="!viewData.active.school || data.departments.$resolved" />
 
-    <div class="management-msg" ng-if="!viewData.active.school">
+    <div class="overview-msg" ng-if="!viewData.active.school">
         Επιλέξτε πρώτα σχολείο
     </div>
 
-    <div class="management-msg" ng-if="data.departments.$resolved && viewData.active.school && !data.departments.length">
+    <div class="overview-msg" ng-if="data.departments.$resolved && viewData.active.school && !data.departments.length">
         Δεν έχει εισαχθεί κανένα τμήμα
     </div>
 
