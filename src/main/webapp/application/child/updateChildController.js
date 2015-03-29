@@ -3,9 +3,9 @@
 angular.module('child')
 
     .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Child',
-                'Address', 'RelationshipService', 'ActiveCache',
+                'Address', 'Relationship', 'ActiveCache',
         function ($scope, $routeParams, $window, $location, $modal, Child,
-                Address, RelationshipService, ActiveCache) {
+                Address, Relationship, ActiveCache) {
 
             angular.extend($scope, {
                 data: {
@@ -13,7 +13,7 @@ angular.module('child')
                         ActiveCache.child = response;
                     }),
                     address: Address.getForPerson({personId: $routeParams.childId}),
-                    relationships: RelationshipService.fetchRelationships($routeParams.childId)
+                    relationships: Relationship.query({childId: $routeParams.childId})
                 },
                 viewData: {
                     submitLabel: 'Επεξεργασία',
@@ -24,11 +24,11 @@ angular.module('child')
             $scope.cancel = function() {
                 $location.url('/child/' + ActiveCache.child.id + '/view');
             };
-
+            
             $scope.submit = function () {
                 if ($scope.childForm.$pristine) {
                     console.log('Form is pristine');
-                    $scope.toScopedChild();
+                    $location.url('/child/' + ActiveCache.child.id + '/view');
                 } else if ($scope.childForm.$invalid) {
                     console.log('Form is invalid');
                 } else {
@@ -65,15 +65,15 @@ angular.module('child')
                 });
             };
 
-            $scope.confirmRemoveRelationship = function (relationshipId, $event) {
+            $scope.confirmRemoveRelationship = function (relationship, $event) {
                 $event.stopPropagation();
                 $modal.open({
                     templateUrl: 'application/child/remove-relationship.tpl.html',
                     controller: 'removeRelationshipModalController',
                     scope: $scope,
                     resolve: {
-                        relationshipId: function () {
-                            return relationshipId;
+                        relationship: function () {
+                            return relationship;
                         }
                     }
                 });
@@ -96,17 +96,16 @@ angular.module('child')
             }
         ])
     
-        .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'ActiveCache', 'Relationship', 'relationshipId',
-            function ($scope, $modalInstance, ActiveCache, Relationship, relationshipId) {
+        .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'ActiveCache', 'Relationship', 'relationship',
+            function ($scope, $modalInstance, ActiveCache, Relationship, relationship) {
                 $scope.removeRelationship = function () {
-                    Relationship.remove({id: relationshipId}).$promise.then(function (response) {
-                        return Relationship.fetchRelationships({childId: ActiveCache.child.id}).$promise;
-                    }).then(function (response) {
-                        $scope.dismiss();
-                        $scope.data.relationships = response;
+                    relationship.$remove(function () {
+                        $scope.data.relationships = Relationship.query({childId: ActiveCache.child.id}, function() {
+                            $scope.dismiss();
+                        });
                     });
                 };
-    
+
                 $scope.dismiss = function () {
                     $modalInstance.dismiss();
                 };

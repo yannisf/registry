@@ -119,9 +119,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
     .run(['$rootScope', '$location', '$window', 'ListService', 'ActiveCache',
         function ($rootScope, $location, $window, ListService, ActiveCache) {
             angular.extend($rootScope, {
-                toSchoolList: function() {
-                    $location.url('/overview/list');
-                },
                 go: function (path, $event) {
                     if ($event) {
                         $event.stopPropagation();
@@ -136,4 +133,3 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
             });
 
         }]);
-

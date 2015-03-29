@@ -39,7 +39,6 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
         this.child = child;
     }
 
-//    @JsonIgnore
     public Guardian getGuardian() {
         return guardian;
     }

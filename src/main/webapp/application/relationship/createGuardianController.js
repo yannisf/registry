@@ -2,33 +2,38 @@
 
 angular.module('guardian')
 
-    .controller('createGuardianController', ['$scope', 'uuid4', 'RelationshipService',
+    .controller('createGuardianController', ['$location', '$scope', 'uuid4', 'ActiveCache', 'Guardian', 'Address', 'Relationship',
     
-        function ($scope, uuid4, RelationshipService) {
+        function ($location, $scope, uuid4, ActiveCache, Guardian, Address, Relationship) {
             angular.extend($scope, {
                 data: {
-                    guardian: {
-                        id: uuid4.generate(),
-                        telephones: []
-                    },
-                    address: {
-                        id: uuid4.generate()
-                    },
-                    relationship: {
-                        id: uuid4.generate(),
-                        metadata: {
-                            type: null
-                        }
-                    }
+                    guardian: new Guardian( { id: uuid4.generate(), telephones: [] } ),
+                    address: new Address( { id: uuid4.generate() } ),
+                    relationship: new Relationship( { id: uuid4.generate(), metadata: { type: null } } )
                 },
                 viewData: {
                     submitLabel: "Δημιουργία",
                     sharedAddress: false
                 }
             });
+            
+            $scope.cancel = function () {
+                $scope.go('/child/' + ActiveCache.child.id + '/view');
+            };
 
             $scope.submit = function () {
-                RelationshipService.saveWithAddress($scope.data.address, $scope.data.guardian, $scope.data.relationship);
+                $scope.data.address.$save().then(function() {
+                    return $scope.data.guardian.$save({
+                        addressId: $scope.data.address.id
+                    });
+                }).then(function() {
+                    return $scope.data.relationship.$save({
+                        childId: ActiveCache.child.id,
+                        guardianId: $scope.data.guardian.id
+                    });
+                }).then(function() {
+                    $location.url('/child/' + ActiveCache.child.id + '/view');
+                });
             };
         }
         
