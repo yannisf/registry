@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('overview', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
+angular.module('overview', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap', 'uuid4'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/overview', {
                 templateUrl: 'application/overview/overview.html',
-                controller: 'manageSchools'
+                controller: 'overviewController'
             });
         }
     ])
@@ -64,7 +64,7 @@ angular.module('overview', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4'])
     	
     }])
 
-    .controller('manageSchools', ['$scope', 'uuid4', 'School', 'Department', 'Group', 'ActiveCache',
+    .controller('overviewController', ['$scope', 'uuid4', 'School', 'Department', 'Group', 'ActiveCache',
         function ($scope, uuid4, School, Department, Group, ActiveCache) {
             angular.extend($scope, {
                 data: {
