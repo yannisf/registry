@@ -24,7 +24,8 @@ angular.module('overview').directive('groupControl', ['$location', 'Group', 'Act
 			controller: function($scope) {
 				$scope.working = false;
 
-				$scope.toChildList = function() {
+				$scope.toGroup = function() {
+					ActiveCache.group = $scope.group;
 					$location.url('/group/' + ActiveCache.group.id );
 				};
 
