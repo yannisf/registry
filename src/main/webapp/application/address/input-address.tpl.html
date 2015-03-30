@@ -28,7 +28,7 @@
                            ng-model="address.streetName" autocomplete="off"
                            typeahead="streetName for streetName in typeaheads.getStreetNames($viewValue)"
                            typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingStreetNames"/>
-                    <img src="images/loader.gif" ng-show="loadingStreetNames" class="loader-img"/>
+                    <img src="images/loader.png" ng-show="loadingStreetNames" class="loader-img"/>
                 </div>
     
                 <label for="address.streetName" class="col-md-1 control-label">Αριθ.</label>
@@ -49,7 +49,7 @@
                            ng-model="address.neighbourhood" autocomplete="off"
                            typeahead="neighbourhood for neighbourhood in typeaheads.getNeighbourhoods($viewValue)"
                            typeahead-min-length="1" typeahead-wait-ms="500" typeahead-loading="loadingNeighbourhoods"/>
-                    <img src="images/loader.gif" ng-show="loadingNeighbourhoods" class="loader-img"/>
+                    <img src="images/loader.png" ng-show="loadingNeighbourhoods" class="loader-img"/>
                 </div>
     
                 <label for="address.postalCode" class="col-md-1 control-label">Τ.Κ.</label>
@@ -69,7 +69,7 @@
                     <input type="text" class="form-control loader-input" id="address.city" ng-model="address.city"
                            typeahead="city for city in typeaheads.getCities($viewValue)" typeahead-min-length="1"
                            typeahead-wait-ms="500" typeahead-loading="loadingCities" autocomplete="off"/>
-                    <img src="images/loader.gif" ng-show="loadingCities" class="loader-img"/>
+                    <img src="images/loader.png" ng-show="loadingCities" class="loader-img"/>
                 </div>
             </div>
         </div>
