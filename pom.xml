@@ -10,16 +10,23 @@
     <packaging>war</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
         <spring.version>4.1.1.RELEASE</spring.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <postgres.jdbc.version>9.4-1201-jdbc41</postgres.jdbc.version>
+
         <tomcat.manager.url>http://telesto.fraglab.net:8080/manager/text</tomcat.manager.url>
         <tomcat.manager.user>manager</tomcat.manager.user>
         <tomcat.manager.password>secret</tomcat.manager.password>
-        <postgres.jdbc.version>9.1-901-1.jdbc4</postgres.jdbc.version>
+
+        <datasource.url>jdbc:postgresql://192.168.1.13:5432/registry</datasource.url>
+        <datasource.user>registry</datasource.user>
+        <datasource.password>registry</datasource.password>
     </properties>
     
     <profiles>
+
         <profile>
             <id>dev</id>
             <activation>
@@ -28,28 +35,15 @@
             <properties>
                 <spring.profile>dev</spring.profile>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>${postgres.jdbc.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
+
         <profile>
             <id>prod</id>
             <properties>
-                <spring.profile>dev</spring.profile>
+                <spring.profile>prod</spring.profile>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>${postgres.jdbc.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
         </profile>
+        
         <profile>
             <id>deploy</id>
             <build>
@@ -79,6 +73,29 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>jrebel</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.zeroturnaround</groupId>
+                        <artifactId>jrebel-maven-plugin</artifactId>
+                        <version>1.1.5</version>
+                        <executions>
+                            <execution>
+                                <id>generate-rebel-xml</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
     </profiles>
 
     <build>
@@ -103,6 +120,13 @@
                 <version>2.4</version>
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp/META-INF</directory>
+                            <filtering>true</filtering>
+                            <targetPath>META-INF</targetPath>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
@@ -111,7 +135,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/registry</url>
+                    <url>jdbc:postgresql://192.168.1.13:5432/registry</url>
                     <user>registry</user>
                     <password>registry</password>
                 </configuration>
@@ -124,21 +148,6 @@
                 </dependencies>
             </plugin>
             
-            <plugin>
-                <groupId>org.zeroturnaround</groupId>
-                <artifactId>jrebel-maven-plugin</artifactId>
-                <version>1.1.5</version>
-                <executions>
-                    <execution>
-                        <id>generate-rebel-xml</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
@@ -235,6 +244,16 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.3.5</version>
         </dependency>
     </dependencies>
 

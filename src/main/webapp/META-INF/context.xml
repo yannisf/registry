@@ -1,3 +1,12 @@
 <Context>
-    <ResourceLink global="RegistryDatasource" name="jdbc/registry" type="javax.sql.DataSource"/>
+    <Resource name="jdbc/registry" auth="Container"
+              factory="com.zaxxer.hikari.HikariJNDIFactory"
+              type="javax.sql.DataSource"
+              minimumIdle="5"
+              maximumPoolSize="20"
+              connectionTimeout="300000"
+              dataSourceClassName="org.postgresql.ds.PGSimpleDataSource"
+              dataSource.user="${datasource.user}"
+              dataSource.password="${datasource.password}"
+              dataSource.url="${datasource.url}"/>
 </Context>

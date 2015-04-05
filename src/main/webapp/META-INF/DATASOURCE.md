@@ -1,6 +1,7 @@
 Production datasource
 =====================
 
+Mode 1 (
 When deploying into production, and JNDI datasource is required. For tomcat installations make sure to satisfy the following:
 
 1. Add the PostgreSQL JDBC driver into Tomcat lib.
