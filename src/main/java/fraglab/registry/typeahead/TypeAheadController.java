@@ -13,49 +13,44 @@ import java.util.List;
 @RequestMapping("/typeahead")
 public class TypeAheadController {
 
+    //String reEncodedStartsWith = Utils.reEncodeString(startsWith);
+    
     @Autowired
     TypeAheadService typeAheadService;
 
     @RequestMapping(value = "/firstnames", method = RequestMethod.GET)
     public List<String> getMatchingFirstNames(@RequestParam(value = "search", required = true) String startsWith) {
-        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-        return typeAheadService.findMatchingFirstNames(reEncodedStartsWith);
+        return typeAheadService.findMatchingFirstNames(startsWith);
     }
 
     @RequestMapping(value = "/lastnames", method = RequestMethod.GET)
     public List<String> getMatchingLastNames(@RequestParam(value = "search", required = true) String startsWith) {
-        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-        return typeAheadService.findMatchingLastNames(reEncodedStartsWith);
+        return typeAheadService.findMatchingLastNames(startsWith);
     }
 
     @RequestMapping(value = "/professions", method = RequestMethod.GET)
     public List<String> getMatchingProfessions(@RequestParam(value = "search", required = true) String startsWith) {
-        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-        return typeAheadService.findMatchingProfessions(reEncodedStartsWith);
+        return typeAheadService.findMatchingProfessions(startsWith);
     }
 
     @RequestMapping(value = "/nationalities", method = RequestMethod.GET)
     public List<String> getMatchingNationalities(@RequestParam(value = "search", required = true) String startsWith) {
-        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-        return typeAheadService.findMatchingNationalities(reEncodedStartsWith);
+        return typeAheadService.findMatchingNationalities(startsWith);
     }
 
     @RequestMapping(value = "/streetnames", method = RequestMethod.GET)
     public List<String> getMatchingStreetNames(@RequestParam(value = "search", required = true) String startsWith) {
-        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-        return typeAheadService.findMatchingStreetNames(reEncodedStartsWith);
+        return typeAheadService.findMatchingStreetNames(startsWith);
     }
 
     @RequestMapping(value = "/neighbourhoods", method = RequestMethod.GET)
     public List<String> getMatchingNeighbourhoods(@RequestParam(value = "search", required = true) String startsWith) {
-        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-        return typeAheadService.findMatchingNeighbourhoods(reEncodedStartsWith);
+        return typeAheadService.findMatchingNeighbourhoods(startsWith);
     }
 
     @RequestMapping(value = "/cities", method = RequestMethod.GET)
     public List<String> getMatchingCities(@RequestParam(value = "search", required = true) String startsWith) {
-        String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-        return typeAheadService.findMatchingCities(reEncodedStartsWith);
+        return typeAheadService.findMatchingCities(startsWith);
     }
 
 }
