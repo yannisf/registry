@@ -4,11 +4,13 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:security="http://www.springframework.org/schema/security"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:component-scan base-package="fraglab.registry, fraglab.data"/>
@@ -41,7 +43,7 @@
         <entry key="AUNT" value="ΘΕΙΑ"/>
         <entry key="GODFATHER" value="ΝΟΝΟΣ"/>
         <entry key="GODMOTHER" value="ΝΟΝΑ"/>
-        <entry key="OTHER" value="ΑΛΛΟΣ"/>
+        <entry key="OTHER" value="ΑΛΛΟ"/>
     </util:map>
 
     <util:map id="reportTelephoneTypeGreekMap" key-type="fraglab.registry.common.Telephone.Type">
@@ -52,14 +54,3 @@
     </util:map>
 
 </beans>
-
-
-
-
-
-
-
-
-
-
-

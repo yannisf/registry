@@ -16,14 +16,14 @@
             <ul class="nav navbar-nav">
                 <li><a href ng-click="toOverview()">Επισκόπιση</a></li>
                 <li ng-if="active.group" dropdown>
-                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" dropdown-toggle>Tάξη<span class="caret"></span></a>
+                    <a href="#" role="button" aria-expanded="false" dropdown-toggle>Tάξη<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href ng-click="toGroup()">Παιδιά</a></li>
                         <li><a href ng-click="go('/child/create')">Νέο παιδί</a> </li>
                     </ul>
                 </li>
                 <li ng-if="active.group" dropdown>
-                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" dropdown-toggle> Εκτυπώσεις <span class="caret"></span></a>
+                    <a href="#" role="button" aria-expanded="false" dropdown-toggle> Εκτυπώσεις <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="api/child/report/pdf/first?class={{active.group.id}}" target="_blank">Μικρά ονόματα</a></li>
                         <li><a href="api/child/report/pdf/full?class={{active.group.id}}" target="_blank">Ολόκληρα ονόματα</a></li>
@@ -46,22 +46,7 @@
                 </div>
             </form>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li dropdown>
-                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" dropdown-toggle>Σύνδεση<span class="caret"></span></a>
-                    <div class="dropdown-menu" style="padding: 10px; width: 200px">
-                        <form class="form" id="formLogin" stopit>
-                            <div class="form-group">
-                                <input name="username" id="username" type="text" placeholder="Χρήστης" class="form-control input-sm">
-                            </div>
-                            <div class="form-group">
-                                <input name="password" id="password" type="password" placeholder="Κωδικός" class="form-control input-sm">
-                            </div>
-                            <button type="button" id="btnLogin" class="btn btn-sm btn-success">Eίσοδος</button>
-                        </form>
-                    </div>
-                </li>
-            </ul>
+            <login></login>
 
         </div>
 

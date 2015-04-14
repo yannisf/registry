@@ -6,9 +6,13 @@ import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/overview")
@@ -16,6 +20,17 @@ public class OverviewController extends BaseRestController {
 
     @Autowired
     private OverviewService overviewService;
+
+    @RequestMapping(value = "security", method = RequestMethod.GET)
+    public Authentication credentials() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication;
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public void login(@RequestBody Map map) {
+        System.out.println(map);
+    }
 
     @RequestMapping(value = "/school", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)

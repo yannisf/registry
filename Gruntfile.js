@@ -19,6 +19,7 @@ module.exports = function(grunt) {
   		"application/overview/focusAndSelect.js",
   		"application/components/typeaheads.js",
   		"application/components/navbar.js",
+  		"application/components/login.js",
   		"application/components/breadcrumb.js",
   		"application/components/statistics.js",
   		"application/child/child.js",
