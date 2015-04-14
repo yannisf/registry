@@ -10,13 +10,13 @@
     <packaging>war</packaging>
 
     <properties>
-        <spring.version>4.1.1.RELEASE</spring.version>
-        <hibernate.version>4.3.6.Final</hibernate.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
+        <hibernate.version>4.3.8.Final</hibernate.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.manager.url>http://telesto.fraglab.net:8080/manager/text</tomcat.manager.url>
         <tomcat.manager.user>manager</tomcat.manager.user>
         <tomcat.manager.password>secret</tomcat.manager.password>
-        <postgres.jdbc.version>9.1-901-1.jdbc4</postgres.jdbc.version>
+        <postgres.jdbc.version>9.4-1201-jdbc41</postgres.jdbc.version>
     </properties>
     
     <profiles>
@@ -30,7 +30,7 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>postgresql</groupId>
+                    <groupId>org.postgresql</groupId>
                     <artifactId>postgresql</artifactId>
                     <version>${postgres.jdbc.version}</version>
                 </dependency>
@@ -43,7 +43,7 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>postgresql</groupId>
+                    <groupId>org.postgresql</groupId>
                     <artifactId>postgresql</artifactId>
                     <version>${postgres.jdbc.version}</version>
                     <scope>provided</scope>
@@ -88,7 +88,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.3</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -100,7 +100,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.6</version>
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                 </configuration>
@@ -117,9 +117,9 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>postgresql</groupId>
+                        <groupId>org.postgresql</groupId>
                         <artifactId>postgresql</artifactId>
-                        <version>9.1-901-1.jdbc4</version>
+                        <version>${postgres.jdbc.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
