@@ -9,9 +9,11 @@
 
     <http>
         <csrf disabled="true"/>
+        <intercept-url pattern="/api/context/path" access="permitAll" />
         <intercept-url pattern="/**" access="hasRole('USER')" />
-        <http-basic />
-        <logout invalidate-session="true" logout-url="/logout" />
+        <form-login login-processing-url="/api/login"
+                username-parameter="username" password-parameter="password"/>
+        <logout invalidate-session="true" logout-url="/api/logout" logout-success-url="/"/>
     </http>
 
     <authentication-manager>

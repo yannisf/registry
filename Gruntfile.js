@@ -20,6 +20,7 @@ module.exports = function(grunt) {
   		"application/components/typeaheads.js",
   		"application/components/navbar.js",
   		"application/components/login.js",
+  		"application/components/logout.js",
   		"application/components/breadcrumb.js",
   		"application/components/statistics.js",
   		"application/child/child.js",

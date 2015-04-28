@@ -1,0 +1,8 @@
+<ul class="nav navbar-nav navbar-right" ng-show="credentials.username">
+    <li dropdown>
+        <a href="#" role="button" aria-expanded="false" dropdown-toggle> {{credentials.username}} <span class="caret"></span></a>
+        <div class="dropdown-menu" style="padding: 10px 20px 10px 20px; width: 300px">
+            <button type="button" class="btn btn-sm btn-success" ng-click="logout()">Έξοδος</button>
+        </div>
+    </li>
+</ul>

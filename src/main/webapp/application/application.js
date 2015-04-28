@@ -116,8 +116,8 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     }])
 
-    .run(['$rootScope', '$location', '$window', 'ListService', 'ActiveCache',
-        function ($rootScope, $location, $window, ListService, ActiveCache) {
+    .run(['$rootScope', '$http', '$location', '$window', 'ListService', 'ActiveCache',
+        function ($rootScope, $http, $location, $window, ListService, ActiveCache) {
             angular.extend($rootScope, {
                 go: function (path, $event) {
                     if ($event) {
@@ -126,6 +126,12 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     $location.path(path);
                 },
                 relationshipTypes: []
+            });
+
+            $http.get('api/context/path').success(function(data) {
+                console.log('Application deployed under ', data.contextPath);
+                $rootScope.contextPath = data.contextPath;
+                $rootScope.credentials = {};
             });
 
             ListService.relationshipTypes().then(function (data) {

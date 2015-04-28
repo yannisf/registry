@@ -1,6 +1,6 @@
 'use strict';
 angular.module('schoolApp')
-    .directive('login', ['$http', function ($http) {
+    .directive('login', ['$rootScope', '$http', function ($rootScope, $http) {
         return {
             restrict: 'E',
             replace: true,
@@ -13,15 +13,31 @@ angular.module('schoolApp')
             },
             controller: function($scope) {
                 $scope.login = function() {
-                    $http.post('login', {
+
+                    var _credentials = {
                         username: $scope.data.username,
                         password: $scope.data.password
+                    };
+
+                    $http({
+                        method: 'POST',
+                        url: '/registry/api/login',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        transformRequest: function(parameters) {
+                            var str = [];
+                            for (var p in parameters) {
+                                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(parameters[p]));
+                            }
+                            return str.join("&");
+                        },
+                        data: _credentials
                     }).success(
                         function(data, status, headers, config) {
-                            console.log('data: ', data);
-                            console.log('status: ', status);
-                            console.log('headers: ', headers);
-                    });
+                            console.log('Logged in successfully as ', _credentials.username);
+                            $rootScope.credentials.username = _credentials.username;
+                        }
+                    );
+
                     $scope.data.username = null;
                     $scope.data.password = null;
                     $scope.data.persist = null;
