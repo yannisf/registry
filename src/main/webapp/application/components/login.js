@@ -24,7 +24,7 @@ angular.module('schoolApp')
                             }
                             return str.join("&");
                         },
-                        data: { username: $scope.data.username, password: $scope.data.password }
+                        data: { username: $scope.data.username, password: $scope.data.password, remember: $scope.data.remember }
                     }).success(function(data, status, headers, config) {
 
                         $http.get('api/context/authentication').success(function(data) {
@@ -45,7 +45,7 @@ angular.module('schoolApp')
 
                     $scope.data.username = null;
                     $scope.data.password = null;
-                    $scope.data.persist = null;
+                    $scope.data.remember = null;
                 };
             }
         };

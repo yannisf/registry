@@ -12,6 +12,7 @@
         <intercept-url pattern="/api/context/*" access="permitAll" />
         <intercept-url pattern="/api/types/*" access="permitAll" />
         <intercept-url pattern="/**" access="hasRole('USER')" />
+        <remember-me key="secret" remember-me-parameter="remember" />
         <form-login
                 login-processing-url="/api/login" login-page="/api/context/login"
                 username-parameter="username" password-parameter="password"/>
