@@ -20,7 +20,6 @@ public class TypesController {
         return RelationshipType.values();
     }
 
-
     @RequestMapping(value = "/telephone", method = RequestMethod.GET)
     public Telephone.Type[] getTelephoneTypes() {
         return Telephone.Type.values();
