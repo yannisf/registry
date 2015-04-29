@@ -4,9 +4,13 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         'child', 'guardian', 'typeaheads', 'overview'])
 
     .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.otherwise({
-            redirectTo: '/overview'
-        });
+        $routeProvider
+            .when('/authenticate', {
+                templateUrl: 'application/overview/authenticate.html'
+            })
+            .otherwise({
+                redirectTo: '/overview'
+            });
     }])
 
     .filter('firstNameFilter', [function () {
@@ -131,11 +135,35 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
             $http.get('api/context/path').success(function(data) {
                 console.log('Application deployed under ', data.contextPath);
                 $rootScope.contextPath = data.contextPath;
-                $rootScope.credentials = {};
+            });
+
+            $http.get('api/context/authentication').success(function(data) {
+                $rootScope.credentials = {
+                    authenticated: data.name != 'anonymousUser',
+                    username: data.name,
+                    authorities: data.authorities
+                };
             });
 
             ListService.relationshipTypes().then(function (data) {
                 $rootScope.relationshipTypes = data;
             });
 
+        }])
+
+        .config(['$httpProvider', function ($httpProvider) {
+            $httpProvider.interceptors.push(['$q', '$location', function ($q, $location) {
+                return {
+                    response: function (response) {
+                        return response;
+                    },
+                    responseError: function (response) {
+                        if(response.status === 401) {
+                            console.log('UNAUTHORIZED');
+                            $location.path('/authenticate');
+                        }
+                        return $q.reject(response);
+                    }
+                };
+            }]);
         }]);

@@ -1,6 +1,6 @@
 'use strict';
 angular.module('schoolApp')
-    .directive('login', ['$rootScope', '$http', function ($rootScope, $http) {
+    .directive('login', ['$rootScope', '$http', '$window', '$location', function ($rootScope, $http, $window, $location) {
         return {
             restrict: 'E',
             replace: true,
@@ -13,12 +13,6 @@ angular.module('schoolApp')
             },
             controller: function($scope) {
                 $scope.login = function() {
-
-                    var _credentials = {
-                        username: $scope.data.username,
-                        password: $scope.data.password
-                    };
-
                     $http({
                         method: 'POST',
                         url: '/registry/api/login',
@@ -30,13 +24,24 @@ angular.module('schoolApp')
                             }
                             return str.join("&");
                         },
-                        data: _credentials
-                    }).success(
-                        function(data, status, headers, config) {
-                            console.log('Logged in successfully as ', _credentials.username);
-                            $rootScope.credentials.username = _credentials.username;
-                        }
-                    );
+                        data: { username: $scope.data.username, password: $scope.data.password }
+                    }).success(function(data, status, headers, config) {
+
+                        $http.get('api/context/authentication').success(function(data) {
+                            $rootScope.credentials = {
+                                authenticated: data.name != 'anonymousUser',
+                                invalid: false,
+                                username: data.name,
+                                authorities: data.authorities
+                            };
+
+                            $location.path('/');
+                        });
+
+                    }).error(function(data, status, headers, config) {
+                        console.log('BAD CREDENTIALS');
+                        $rootScope.credentials.invalid = true;
+                    });
 
                     $scope.data.username = null;
                     $scope.data.password = null;

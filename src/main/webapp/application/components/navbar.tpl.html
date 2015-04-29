@@ -13,7 +13,7 @@
         </div>
 
         <div class="collapse navbar-collapse" collapse="navCollapsed">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" ng-if="credentials.authenticated">
                 <li><a href ng-click="toOverview()">Επισκόπιση</a></li>
                 <li ng-if="active.group" dropdown>
                     <a href="#" role="button" aria-expanded="false" dropdown-toggle>Tάξη<span class="caret"></span></a>
