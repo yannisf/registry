@@ -34,12 +34,12 @@ angular.module('overview', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap'
     }])
 
     .service('ActiveCache', [function() {
-    	var school;
-    	var department;
-    	var group;
-    	var child;
-    	var children;
-    	var childIds;
+    	this.school = null;
+    	this.department = null;
+    	this.group = null;
+    	this.child = null;
+    	this.children = null;
+    	this.childIds = null;
     	
     	this.clearChild = function() {
     	    this.child = null;
