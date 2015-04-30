@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/security"
-       xmlns:beans="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-            http://www.springframework.org/schema/beans/spring-beans.xsd
-            http://www.springframework.org/schema/security
-            http://www.springframework.org/schema/security/spring-security.xsd">
+       xmlns="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
     <http>
         <csrf disabled="true"/>
         <intercept-url pattern="/api/context/*" access="permitAll" />
         <intercept-url pattern="/api/types/*" access="permitAll" />
-        <intercept-url pattern="/**" access="hasRole('USER')" />
+        <intercept-url pattern="/**" access="hasAuthority('USER')" />
         <remember-me key="secret" remember-me-parameter="remember" />
-        <form-login
-                login-processing-url="/api/login" login-page="/api/context/login"
+        <form-login login-processing-url="/api/login" login-page="/api/context/login"
                 username-parameter="username" password-parameter="password"/>
         <logout invalidate-session="true" logout-url="/api/logout" logout-success-url="/"/>
     </http>
 
+    <beans:import resource="datasource.xml"/>
     <authentication-manager>
         <authentication-provider>
-            <user-service>
-                <user name="admin" password="admin123" authorities="ROLE_USER, ROLE_ADMIN" />
-                <user name="user" password="user123" authorities="ROLE_USER" />
-            </user-service>
+            <jdbc-user-service data-source-ref="dataSource" role-prefix=""/>
+            <password-encoder hash="bcrypt"/>
         </authentication-provider>
     </authentication-manager>
 
