@@ -3,10 +3,12 @@ angular.module('overview').directive('groupStatistics', ['ActiveCache', 'Group',
     return {
         restrict: 'E',
         replace: true,
-        scope: true,
+        scope: {groupId: '='},
         templateUrl: "application/components/statistics.tpl.html",
-        link: function(scope, element) {
-            scope.statistics = Group.statistics({id: ActiveCache.group.id});
+        bindToController: true,
+        controllerAs: 'ctrl',
+        controller: function() {
+            this.statistics = Group.statistics({id: this.groupId});
         }
     };
 }]);

@@ -27,11 +27,6 @@ public class OverviewController extends BaseRestController {
         return authentication;
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login(@RequestBody Map map) {
-        System.out.println(map);
-    }
-
     @RequestMapping(value = "/school", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdateSchool(@RequestBody School school) {
@@ -94,6 +89,11 @@ public class OverviewController extends BaseRestController {
     @RequestMapping(value = "/group/{id}/statistics", method = RequestMethod.GET)
     public GroupStatistics fetchChildGroupStatistics(@PathVariable String id) {
         return overviewService.fetchChildGroupStatistics(id);
+    }
+
+    @RequestMapping(value = "/group/{id}/info", method = RequestMethod.GET)
+    public Map<String, Object> fetchGroupInfo(@PathVariable String id) throws NotFoundException {
+        return overviewService.fetchGroupInfo(id);
     }
 
 }

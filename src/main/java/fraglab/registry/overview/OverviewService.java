@@ -6,6 +6,7 @@ import fraglab.registry.overview.meta.GroupStatistics;
 import fraglab.web.NotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OverviewService {
 
@@ -42,4 +43,6 @@ public interface OverviewService {
     void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException;
 
     void deleteGroup(String groupId);
+
+    Map<String,Object> fetchGroupInfo(String id) throws NotFoundException;
 }

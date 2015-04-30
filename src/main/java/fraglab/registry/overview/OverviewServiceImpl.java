@@ -182,6 +182,53 @@ public class OverviewServiceImpl implements OverviewService {
         }
     }
 
+    @Override
+    public Map<String, Object> fetchGroupInfo(String groupId) throws NotFoundException {
+        Group group = fetchGroup(groupId);
+        Department department = fetchDepartment(group.getDepartment().getId());
+        School school = fetchSchool(department.getSchool().getId());
+
+        Map<String, Object> groupMap = prepareGroupMap(group);
+        Map<String, Object> departmentMap = prepareDepartmentMap(department);
+        Map<String, Object> schoolMap = prepareSchoolMap(school);
+
+        return  prepareGroupInfoMap(groupMap, departmentMap, schoolMap);
+    }
+
+    private Map<String, Object> prepareGroupMap(Group group) {
+        Map<String, Object> groupMap = new HashMap<>();
+        groupMap.put("id", group.getId());
+        groupMap.put("name", group.getName());
+        groupMap.put("members", group.getMembers());
+        return groupMap;
+    }
+
+    private Map<String, Object> prepareDepartmentMap(Department department) {
+        Map<String, Object> departmentMap = new HashMap<>();
+        departmentMap.put("id", department.getId());
+        departmentMap.put("name", department.getName());
+        departmentMap.put("numberOfGroups", department.getNumberOfGroups());
+        return departmentMap;
+    }
+
+    private Map<String, Object> prepareSchoolMap(School school) {
+        Map<String, Object> schoolMap = new HashMap<>();
+        schoolMap.put("id", school.getId());
+        schoolMap.put("name", school.getName());
+        schoolMap.put("numberOfDepartments", school.getNumberOfDepartments());
+        return schoolMap;
+    }
+
+    private Map<String, Object> prepareGroupInfoMap(Map<String, Object> groupMap,
+                                                    Map<String, Object> departmentMap,
+                                                    Map<String, Object> schoolMap) {
+        Map<String, Object> groupInfo = new HashMap<>();
+        groupInfo.put("school", schoolMap);
+        groupInfo.put("department", departmentMap);
+        groupInfo.put("group", groupMap);
+        return groupInfo;
+    }
+
     private Group fetchGroup(String groupId) throws NotFoundException {
         Group group = dao.fetch(Group.class, groupId);
         if (group == null) {
