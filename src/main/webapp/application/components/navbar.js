@@ -1,6 +1,6 @@
 'use strict';
 angular.module('schoolApp')
-    .directive('navbar', ['$location', 'ActiveCache', function ($location, ActiveCache) {
+    .directive('navbar', ['$location', '$cookieStore', 'ActiveCache', function ($location, $cookieStore, ActiveCache) {
         return {
             restrict: 'E',
             replace: true,
@@ -11,6 +11,7 @@ angular.module('schoolApp')
                 
                 $scope.toOverview = function() {
                     ActiveCache.clearChild();
+                    $cookieStore.remove('group');
                     $location.url('/overview');
                 };
                 

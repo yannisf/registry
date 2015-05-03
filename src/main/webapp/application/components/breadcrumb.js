@@ -1,6 +1,6 @@
 'use strict';
-angular.module('overview').directive('breadcrumb', ['$location', 'ActiveCache', 'School', 'Department', 'Group',
-    function ($location, ActiveCache, School, Department, Group) {
+angular.module('overview').directive('breadcrumb', ['$location', '$cookieStore', 'ActiveCache', 'School', 'Department', 'Group',
+    function ($location, $cookieStore, ActiveCache, School, Department, Group) {
 
 		function formatName (child) {
 			var name = child.firstName ? child.firstName + " " : "";
@@ -30,11 +30,13 @@ angular.module('overview').directive('breadcrumb', ['$location', 'ActiveCache', 
 				
 				$scope.toSchool = function() {
 					ActiveCache.clearDepartment();
+                    $cookieStore.remove('group');
 					$location.url('/overview');
 				};
 
 				$scope.toDepartment = function() {
 					ActiveCache.clearGroup();
+					$cookieStore.remove('group');
 					$location.url('/overview');
 				};
 

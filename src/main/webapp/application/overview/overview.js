@@ -80,8 +80,8 @@ angular.module('overview', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap'
     	
     }])
 
-    .controller('overviewController', ['$scope', 'uuid4', 'School', 'Department', 'Group', 'ActiveCache',
-        function ($scope, uuid4, School, Department, Group, ActiveCache) {
+    .controller('overviewController', ['$scope', '$cookieStore', '$location', 'uuid4', 'School', 'Department', 'Group', 'ActiveCache',
+        function ($scope, $cookieStore, $location, uuid4, School, Department, Group, ActiveCache) {
             angular.extend($scope, {
                 data: {
                     schools: [],
@@ -92,6 +92,11 @@ angular.module('overview', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap'
                     active: ActiveCache
                 }
             });
+            
+            if($cookieStore.get('group')) {
+                var groupId = $cookieStore.get('group');
+                $location.path('/group/' + groupId);
+            }
 
             $scope.$watch('viewData.active.school', function(newval) {
                 if (newval) {
