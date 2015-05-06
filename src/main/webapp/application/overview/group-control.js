@@ -21,7 +21,7 @@ angular.module('overview').directive('groupControl', ['$location', 'Group', 'Act
 					});
 				});
 			},
-			controller: function($scope) {
+			controller: ['$scope', function($scope) {
 				$scope.working = false;
 
 				$scope.toGroup = function() {
@@ -59,7 +59,7 @@ angular.module('overview').directive('groupControl', ['$location', 'Group', 'Act
 						$scope.working = false;
 					});
 				};
-			}
+			}]
 		};
 	}
 ]);

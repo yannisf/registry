@@ -21,7 +21,7 @@ angular.module('overview').directive('schoolControl', ['School', 'ActiveCache',
 					});
 				});
 			},
-			controller: function($scope) {
+			controller: ['$scope', function($scope) {
 				$scope.working = false;
 
 				$scope.remove = function() {
@@ -56,7 +56,7 @@ angular.module('overview').directive('schoolControl', ['School', 'ActiveCache',
 						$scope.working = false;
 					});
 				};
-			}
+			}]
 		};
 	}
 ]);

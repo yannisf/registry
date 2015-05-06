@@ -19,7 +19,7 @@ angular.module('overview').directive('breadcrumb', ['$location', '$cookieStore',
             replace: true,
             scope: true,
             templateUrl: "application/components/breadcrumb.tpl.html",
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
 				$scope.active = ActiveCache;
                 
                 $scope.$watch('active', function(newval) {
@@ -49,7 +49,7 @@ angular.module('overview').directive('breadcrumb', ['$location', '$cookieStore',
 					$location.url('/child/' + ActiveCache.child.id + '/view');
 				};
 
-            }
+            }]
         };
     }
 ]);

@@ -21,7 +21,7 @@ angular.module('overview').directive('departmentControl', ['Department', 'Active
 					});
 				});
 			},
-			controller: function($scope) {
+			controller: ['$scope', function($scope) {
 				$scope.working = false;
 
 				$scope.remove = function() {
@@ -54,7 +54,7 @@ angular.module('overview').directive('departmentControl', ['Department', 'Active
 						$scope.working = false;
 					});
 				};
-			}
+			}]
 		};
 	}
 ]);

@@ -6,7 +6,7 @@ angular.module('schoolApp')
             replace: true,
             scope: true,
             templateUrl: "application/components/navbar.tpl.html",
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.active = ActiveCache;
                 
                 $scope.toOverview = function() {
@@ -18,7 +18,7 @@ angular.module('schoolApp')
                 $scope.toGroup = function() {
                     $location.url('/group/' + ActiveCache.group.id);
                 };
-            }
+            }]
         };
     }])
     

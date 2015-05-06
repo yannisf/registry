@@ -5,7 +5,7 @@ angular.module('overview', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap'
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/overview', {
-                templateUrl: 'application/overview/overview.html',
+                templateUrl: 'application/overview/overview.tpl.html',
                 controller: 'overviewController'
             });
         }

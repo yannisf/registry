@@ -6,7 +6,7 @@ angular.module('overview').directive('schools', ['uuid4', 'School', 'ActiveCache
             restrict: 'E',
             replace: true,
             templateUrl: "application/overview/schools.tpl.html",
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.data.schools = School.query({}, function() {
                 	if (ActiveCache.school) {
                 		$scope.viewData.active.school = ActiveCache.school;
@@ -21,7 +21,7 @@ angular.module('overview').directive('schools', ['uuid4', 'School', 'ActiveCache
                         $scope.data.schools = School.query();
                     });
                 };
-            }
+            }]
         };
     }
 ]);

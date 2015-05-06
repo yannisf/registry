@@ -5,19 +5,19 @@ angular.module('child', ['ngRoute', 'ngResource', 'ui.bootstrap', 'uuid4', 'rela
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/group/:groupId', {
-                templateUrl: 'application/child/list.html',
+                templateUrl: 'application/child/list.tpl.html',
                 controller: 'listGroupController'
             })
             .when('/child/create', {
-                templateUrl: 'application/child/edit.html',
+                templateUrl: 'application/child/edit.tpl.html',
                 controller: 'createChildController'
             })
             .when('/child/:childId/update', {
-                templateUrl: 'application/child/edit.html',
+                templateUrl: 'application/child/edit.tpl.html',
                 controller: 'updateChildController'
             })
             .when('/child/:childId/view', {
-                templateUrl: 'application/child/view.html',
+                templateUrl: 'application/child/view.tpl.html',
                 controller: 'updateChildController'
             });
     }])

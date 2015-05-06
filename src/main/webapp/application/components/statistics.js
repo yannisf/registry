@@ -7,8 +7,8 @@ angular.module('overview').directive('groupStatistics', ['ActiveCache', 'Group',
         templateUrl: "application/components/statistics.tpl.html",
         bindToController: true,
         controllerAs: 'ctrl',
-        controller: function() {
+        controller: ['$scope', function() {
             this.statistics = Group.statistics({id: this.groupId});
-        }
+        }]
     };
 }]);

@@ -6,7 +6,7 @@ angular.module('overview').directive('departments', ['uuid4', 'Department', 'Act
             restrict: 'E',
             replace: true,
             templateUrl: "application/overview/departments.tpl.html",
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
 				if (ActiveCache.department) {
 					$scope.viewData.active.department = ActiveCache.department;
 				}
@@ -23,7 +23,7 @@ angular.module('overview').directive('departments', ['uuid4', 'Department', 'Act
                         );
                     });
                 };
-            }
+            }]
         };
     }
 ]);

@@ -11,7 +11,7 @@ angular.module('schoolApp')
                     event.stopPropagation();
                 });
             },
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.login = function() {
                     $http({
                         method: 'POST',
@@ -47,7 +47,7 @@ angular.module('schoolApp')
                     $scope.data.password = null;
                     $scope.data.remember = null;
                 };
-            }
+            }]
         };
     }])
 

@@ -11,6 +11,7 @@
     "angular-bootstrap": "0.12.1",
     "angular-ui-utils": "0.2.2",
     "angular-uuid4": "0.1.0",
+    "angular-flash-messages": "1.2.0",
     "bootstrap": "3.3.4"
   }
 }

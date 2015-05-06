@@ -7,6 +7,7 @@ module.exports = function(grunt) {
   		"scripts/lib/ui-utils.js",
   		"scripts/lib/angular-uuid4.js",
   		"scripts/lib/ui-bootstrap-tpls.js",
+  		"scripts/lib/angular-flash.js",
   		"application/values.js",
   		"application/application.js",
   		"application/overview/overview.js",
@@ -74,6 +75,19 @@ module.exports = function(grunt) {
 			  		}
 				}
 		  	},
+			compile: {
+				src: 'src/main/webapp/application/index.tpl.html',
+				dest: 'src/main/webapp/index.html',
+				options: {
+			    	process: function (content, srcpath) {
+				  		return grunt.template.process(content, {
+							data: {
+								scripts: ['scripts/registry.js', 'scripts/registry.tpl.js']
+							}
+				  		});
+			  		}
+				}
+		  	},
 		  	lib: {
 		  		files: [
 		  			{expand: true, cwd:'bower_modules/jquery/dist/', src: 'jquery.js', dest: 'src/main/webapp/scripts/lib/'},
@@ -84,14 +98,45 @@ module.exports = function(grunt) {
 		  			{expand: true, cwd:'bower_modules/angular-ui-utils/', src: 'ui-utils.js', dest: 'src/main/webapp/scripts/lib/'},
 		  			{expand: true, cwd:'bower_modules/angular-uuid4/', src: 'angular-uuid4.js', dest: 'src/main/webapp/scripts/lib/'},
 		  			{expand: true, cwd:'bower_modules/angular-bootstrap/', src: 'ui-bootstrap-tpls.js', dest: 'src/main/webapp/scripts/lib/'},
+		  			{expand: true, cwd:'bower_modules/angular-flash-messages', src: 'angular-flash.js', dest: 'src/main/webapp/scripts/lib/'},
 		  			{expand: true, cwd:'bower_modules/bootstrap/', src: 'fonts/**', dest: 'src/main/webapp/scripts/lib/'},
 		  		],
 		  	}
 		},
+		uglify: {
+			target: {
+				files: {
+					'src/main/webapp/scripts/registry.tpl.js': 'src/main/webapp/scripts/registry.tpl.js',
+					'src/main/webapp/scripts/registry.js': scripts.map(function(script) {
+						return 'src/main/webapp/' + script;
+					}),
+				}
+			}
+		},
+		html2js: {
+			options: {
+				htmlmin: {
+					collapseWhitespace: true,
+					removeComments: true,
+				}
+		  },
+            main: {
+              src: ['src/main/webapp/application/**/*.tpl.html'],
+              dest: 'src/main/webapp/scripts/registry.tpl.js'
+            },
+          },
 		less: {
+			options: {
+				paths: ["bower_modules/bootstrap/less"]
+			},
 			development: {
+				files: {
+			  		"src/main/webapp/styles/application.css": "src/main/less/master.less"
+				}
+		  	},
+			compile: {
 				options: {
-			  		paths: ["bower_modules/bootstrap/less"]
+					compress: true
 				},
 				files: {
 			  		"src/main/webapp/styles/application.css": "src/main/less/master.less"
@@ -106,7 +151,8 @@ module.exports = function(grunt) {
 					nospawn: true
 				}
 			}
-    	}
+    	},
+    	clean: ['src/main/webapp/scripts', 'src/main/webapp/styles/application.css']
   	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -114,7 +160,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-less");
 	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-html2js');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
-	grunt.registerTask("default", ["htmlhint", "jshint", "copy", "less"]);
+	grunt.registerTask("default", ["clean", "htmlhint", "jshint", "copy:main", "copy:lib", "less:development"]);
+	grunt.registerTask("compile", ["clean", "copy:lib", "html2js", "uglify", "copy:compile", "less:compile"]);
 
 };

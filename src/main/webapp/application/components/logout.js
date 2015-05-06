@@ -6,7 +6,7 @@ angular.module('schoolApp')
             replace: true,
             scope: true,
             templateUrl: "application/components/logout.tpl.html",
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.logout = function() {
                     $http.post('/registry/api/logout').success(
                         function(data) {
@@ -14,6 +14,6 @@ angular.module('schoolApp')
                         }
                     );
                 };
-            }
+            }]
         };
     }]);

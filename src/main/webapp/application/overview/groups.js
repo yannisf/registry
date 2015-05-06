@@ -6,7 +6,7 @@ angular.module('overview').directive('groups', ['uuid4', 'Group', 'ActiveCache',
             restrict: 'E',
             replace: true,
             templateUrl: "application/overview/groups.tpl.html",
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
 				if (ActiveCache.group) {
 					$scope.viewData.active.group = ActiveCache.group;
 				}
@@ -20,7 +20,7 @@ angular.module('overview').directive('groups', ['uuid4', 'Group', 'ActiveCache',
                         });
                     });
                 };
-            }
+            }]
         };
     }
 ]);

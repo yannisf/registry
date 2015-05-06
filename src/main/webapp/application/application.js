@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'values', 
+angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'flash', 'values',
         'child', 'guardian', 'typeaheads', 'overview'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/authenticate', {
-                templateUrl: 'application/overview/authenticate.html'
+                templateUrl: 'application/overview/authenticate.tpl.html'
             })
             .otherwise({
                 redirectTo: '/overview'
@@ -152,14 +152,15 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         }])
 
         .config(['$httpProvider', function ($httpProvider) {
-            $httpProvider.interceptors.push(['$q', '$location', function ($q, $location) {
+            $httpProvider.interceptors.push(['$q', '$location', 'flash', function ($q, $location, flash) {
                 return {
                     response: function (response) {
                         return response;
                     },
                     responseError: function (response) {
                         if(response.status === 401) {
-                            console.log('UNAUTHORIZED');
+//                            console.log('UNAUTHORIZED');
+//                            flash('UNAUTHORIZED');
                             $location.path('/authenticate');
                         }
                         return $q.reject(response);
