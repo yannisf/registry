@@ -62,6 +62,7 @@ This command will build a production package to deploy on tomcat. Alternatively,
 Notes
 -----
 To add a build dependency in `package.json`, e.g. `less` use the following command:
+
 `npm install grunt-contrib-less --save-dev`
 
 
