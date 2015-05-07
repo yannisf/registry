@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,16 +17,12 @@ import java.util.Map;
 @RequestMapping("/context")
 public class ContextController extends BaseRestController {
 
-    @RequestMapping(value = "/path", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public Map<String, String> getContextPath(HttpServletRequest request) {
-        Map<String, String> map = new HashMap<>();
-        map.put("contextPath", request.getContextPath());
-        return map;
-    }
-
+    /**
+     * Helps the client application to conclude if the user is not logged in or is not authorized.
+     * @return a 401 status code if not authorized, else 200
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity authenticate(HttpServletRequest request) {
+    public ResponseEntity authenticate() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAnonymous = "anonymousUser".equals(auth.getName());
         if (isAnonymous) {
@@ -37,9 +32,13 @@ public class ContextController extends BaseRestController {
         }
     }
 
+    /**
+     * Provides user information for logged in users from the security provider
+     * @return user details
+     */
     @RequestMapping(value = "/authentication", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Map<String, Object> getAuthentication(HttpServletRequest request) {
+    public Map<String, Object> getAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> map = new HashMap<>();
         map.put("name", auth.getName());

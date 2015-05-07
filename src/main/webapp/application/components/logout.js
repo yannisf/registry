@@ -8,9 +8,12 @@ angular.module('schoolApp')
             templateUrl: "application/components/logout.tpl.html",
             controller: ['$scope', function($scope) {
                 $scope.logout = function() {
-                    $http.post('/registry/api/logout').success(
+                    $http.post('api/logout').success(
                         function(data) {
-                            $window.location.replace($rootScope.contextPath);
+                            var location = $window.location.toString();
+                            var hashIndex = location.indexOf('#');
+                            var locationUrl = location.substring(0, hashIndex);
+                            $window.location.replace(locationUrl);
                         }
                     );
                 };

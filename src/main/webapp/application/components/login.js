@@ -15,7 +15,7 @@ angular.module('schoolApp')
                 $scope.login = function() {
                     $http({
                         method: 'POST',
-                        url: '/registry/api/login',
+                        url: 'api/login',
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                         transformRequest: function(parameters) {
                             var str = [];

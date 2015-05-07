@@ -4,11 +4,7 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         'child', 'guardian', 'typeaheads', 'overview'])
 
     .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider
-            .when('/authenticate', {
-                templateUrl: 'application/overview/authenticate.tpl.html'
-            })
-            .otherwise({
+        $routeProvider.otherwise({
                 redirectTo: '/overview'
             });
     }])
@@ -132,11 +128,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                 relationshipTypes: []
             });
 
-            $http.get('api/context/path').success(function(data) {
-                console.log('Application deployed under ', data.contextPath);
-                $rootScope.contextPath = data.contextPath;
-            });
-
             $http.get('api/context/authentication').success(function(data) {
                 $rootScope.credentials = {
                     authenticated: data.name != 'anonymousUser',
@@ -159,9 +150,9 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                     },
                     responseError: function (response) {
                         if(response.status === 401) {
-//                            console.log('UNAUTHORIZED');
-//                            flash('UNAUTHORIZED');
-                            $location.path('/authenticate');
+                            console.log('UNAUTHORIZED');
+                            //flash('UNAUTHORIZED');
+                            $location.path('/');
                         }
                         return $q.reject(response);
                     }
