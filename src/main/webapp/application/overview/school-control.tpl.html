@@ -1,5 +1,7 @@
 <td>
-    <span ng-dblclick="edit()" ng-show="!editMode">{{school.name}}</span>
+    <button type="button" class="btn btn-xs btn-link">
+        <span ng-dblclick="edit()" ng-show="!editMode">{{school.name}}</span>
+    </button>
     <input type="text" ng-model="school.name" ng-show="editMode"/>
 
     <div class="controls">

@@ -1,33 +1,39 @@
-<div class="col-md-4 overview-area">
+<div class="row">
 
-    <h3>Τμήματα
-        <button class="btn btn-xs btn-default" title="Νέο τμήμα"
-                ng-click="addDepartment()" ng-disabled="!viewData.active.school">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
-    </h3>
+    <div class="col-md-6 overview-area">
 
-    <img src="images/loader.png" class="center-block loader-medium"
-            ng-hide="!viewData.active.school || data.departments.$resolved" />
+        <div class="panel panel-primary">
 
-    <div class="overview-msg" ng-if="!viewData.active.school">
-        Επιλέξτε πρώτα σχολείο
+            <div class="panel-heading">Τμήματα
+                <button class="btn btn-xs btn-default" title="Νέο τμήμα" ng-click="addDepartment()" ng-disabled="!viewData.active.school">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+
+            <div class="panel-body" ng-if="!(data.departments.$resolved && viewData.active.school && data.departments.length)">
+                <div class="overview-msg" ng-if="!viewData.active.school">
+                    Επιλέξτε πρώτα σχολείο
+                </div>
+
+                <div class="overview-msg" ng-if="data.departments.$resolved && viewData.active.school && !data.departments.length">
+                    Δεν έχει εισαχθεί κανένα τμήμα
+                </div>
+            </div>
+
+            <img src="images/loader.png" class="center-block loader-medium" ng-hide="!viewData.active.school || data.departments.$resolved" />
+
+            <table class="table" ng-if="data.departments.$resolved && viewData.active.school && data.departments.length">
+            <tbody>
+                <tr class="clickable" ng-repeat="department in data.departments" focus-and-select
+                    department-control="department" departments="data.departments" view-data="viewData"
+                    ng-click="setActiveDepartment(department)"
+                    ng-class="{'active': department.id === viewData.active.department.id}">
+                </tr>
+            </tbody>
+        </table>
+
+        </div>
+
     </div>
-
-    <div class="overview-msg" ng-if="data.departments.$resolved && viewData.active.school && !data.departments.length">
-        Δεν έχει εισαχθεί κανένα τμήμα
-    </div>
-
-    <table class="table" ng-if="data.departments.$resolved && viewData.active.school && data.departments.length">
-
-        <tbody>
-            <tr class="clickable" ng-repeat="department in data.departments" focus-and-select
-                department-control="department" departments="data.departments" view-data="viewData"
-                ng-click="setActiveDepartment(department)"
-                ng-class="{'active': department.id === viewData.active.department.id}">
-            </tr>
-        </tbody>
-        
-    </table>
     
 </div>

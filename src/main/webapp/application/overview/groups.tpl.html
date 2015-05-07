@@ -1,24 +1,28 @@
-<div class="col-md-4 overview-area-last">
+<div class="row">
 
-    <h3>Χρονιές
-        <button class="btn btn-xs btn-default" title="Νέο χρονιά"
-                ng-click="addGroup()" ng-disabled="!viewData.active.department">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
-    </h3>
+    <div class="col-md-6 overview-area">
 
-    <img src="images/loader.png" class="center-block loader-medium"
-         ng-hide="!viewData.active.department || data.groups.$resolved"/>
+        <div class="panel panel-primary">
 
-    <div class="overview-msg" ng-if="!viewData.active.department">
-        Επιλέξτε πρώτα τμήμα
-    </div>
+            <div class="panel-heading">Χρονιές
+                <button class="btn btn-xs btn-default" title="Νέα χρονιά"
+                        ng-click="addGroup()" ng-disabled="!viewData.active.department">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
 
-    <div class="overview-msg" ng-if="data.groups.$resolved && viewData.active.department && !data.groups.length">
-        Δεν έχει εισαχθεί καμιά χρονιά
-    </div>
+            <div class="panel-body" ng-if="!(data.groups.$resolved && viewData.active.department && data.groups.length)">
+                <div class="overview-msg" ng-if="!viewData.active.department">
+                    Επιλέξτε πρώτα τμήμα
+                </div>
 
-    <table class="table" ng-if="data.groups.$resolved && viewData.active.department && data.groups.length">
+                <div class="overview-msg" ng-if="data.groups.$resolved && viewData.active.department && !data.groups.length">
+                    Δεν έχει εισαχθεί καμιά χρονιά
+                </div>
+            </div>
+
+            <img src="images/loader.png" class="center-block loader-medium" ng-hide="!viewData.active.department || data.groups.$resolved"/>
+            <table class="table" ng-if="data.groups.$resolved && viewData.active.department && data.groups.length">
 
         <tbody>
             <tr class="clickable" ng-repeat="group in data.groups" focus-and-select
@@ -29,5 +33,9 @@
         </tbody>
 
     </table>
+
+        </div>
+
+    </div>
 
 </div>
