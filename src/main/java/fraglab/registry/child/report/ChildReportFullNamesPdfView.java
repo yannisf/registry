@@ -1,9 +1,6 @@
 package fraglab.registry.child.report;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Paragraph;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
 import fraglab.registry.child.Child;
@@ -30,9 +27,13 @@ public class ChildReportFullNamesPdfView extends AbstractChildReport {
         Font font = FontFactory.getFont("/fonts/DidactGothic.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, 36.0f, Font.NORMAL);
         @SuppressWarnings(value = "unchecked")
         List<Child> children = (List<Child>) stringObjectMap.get("children");
-        for (Child child : children) {
-            Paragraph paragraph = new Paragraph(child.getSimpleName() + " " + child.getLastName(), font);
-            document.add(paragraph);
+        if (children.isEmpty()) {
+            document.add(new Chunk(""));
+        } else {
+            for (Child child : children) {
+                Paragraph paragraph = new Paragraph(child.getSimpleName() + " " + child.getLastName(), font);
+                document.add(paragraph);
+            }
         }
     }
 

@@ -56,6 +56,7 @@ public class CommunicationReportController {
                       @RequestParam(defaultValue = "a4", value = "format", required = false) String format,
                       HttpServletResponse response) 
             throws IOException, DocumentException, NotFoundException {
+        response.addHeader("Content-Disposition", "attachment; filename=\"" + id + ".pdf\"");
         String content = processTemplate(id, format);
         streamReport(response, content);
     }
