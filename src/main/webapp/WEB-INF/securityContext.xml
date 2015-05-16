@@ -4,15 +4,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
-    <http>
+    <beans:bean id="authEntryPoint" class="fraglab.web.AjaxAwareLoginUrlAuthenticationEntryPoint">
+        <beans:constructor-arg value="/login.html" />
+    </beans:bean>
+
+    <http entry-point-ref="authEntryPoint">
         <csrf disabled="true"/>
-        <intercept-url pattern="/api/context/*" access="permitAll" />
-        <intercept-url pattern="/api/types/*" access="permitAll" />
+        <intercept-url pattern="/login.html" access="permitAll" />
+        <intercept-url pattern="/styles/**" access="permitAll" />
         <intercept-url pattern="/**" access="hasAuthority('USER')" />
         <remember-me key="secret" remember-me-parameter="remember" />
-        <form-login login-processing-url="/api/login" login-page="/api/context/login"
+        <form-login login-processing-url="/login" login-page="/login.html"
                 username-parameter="username" password-parameter="password"/>
-        <logout invalidate-session="true" logout-url="/api/logout" logout-success-url="/"/>
+        <logout invalidate-session="true" logout-url="/logout" logout-success-url="/"/>
     </http>
 
     <beans:import resource="datasource.xml"/>

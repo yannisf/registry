@@ -18,21 +18,6 @@ import java.util.Map;
 public class ContextController extends BaseRestController {
 
     /**
-     * Helps the client application to conclude if the user is not logged in or is not authorized.
-     * @return a 401 status code if not authorized, else 200
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity authenticate() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        boolean isAnonymous = "anonymousUser".equals(auth.getName());
-        if (isAnonymous) {
-            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-        } else {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        }
-    }
-
-    /**
      * Provides user information for logged in users from the security provider
      * @return user details
      */

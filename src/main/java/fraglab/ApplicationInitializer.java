@@ -24,7 +24,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
         FilterRegistration.Dynamic filterRegistration =
                 container.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);
-        filterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/api/*");
+        filterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
     }
 
 }

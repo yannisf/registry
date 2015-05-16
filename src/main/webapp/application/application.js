@@ -143,16 +143,15 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         }])
 
         .config(['$httpProvider', function ($httpProvider) {
-            $httpProvider.interceptors.push(['$q', '$location', 'flash', function ($q, $location, flash) {
+            $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+            $httpProvider.interceptors.push(['$window', '$q', '$location', function ($window, $q, $location) {
                 return {
-                    response: function (response) {
-                        return response;
-                    },
                     responseError: function (response) {
                         if(response.status === 401) {
-                            console.log('UNAUTHORIZED');
-                            //flash('UNAUTHORIZED');
-                            $location.path('/');
+                            var location = $window.location.toString();
+                            var hashIndex = location.indexOf('#');
+                            var locationUrl = location.substring(0, hashIndex);
+                            $window.location.replace(locationUrl);
                         }
                         return $q.reject(response);
                     }

@@ -7,8 +7,14 @@ angular.module('schoolApp')
             scope: true,
             templateUrl: "application/components/logout.tpl.html",
             controller: ['$scope', function($scope) {
+
+                $http.get('api/context/authentication').success(function(data) {
+                    $scope.user = data.name;
+                });
+
                 $scope.logout = function() {
-                    $http.post('api/logout').success(
+                    delete $http.defaults.headers.common["X-Requested-With"];
+                    $http.get('logout').success(
                         function(data) {
                             var location = $window.location.toString();
                             var hashIndex = location.indexOf('#');

@@ -14,7 +14,7 @@
         <spring-security.version>4.0.0.RELEASE</spring-security.version>
         <hibernate.version>4.3.8.Final</hibernate.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tomcat.manager.url>http://telesto.fraglab.net:8080/manager/text</tomcat.manager.url>
+        <tomcat.manager.url>http://telesto:8080/manager/text</tomcat.manager.url>
         <tomcat.manager.user>manager</tomcat.manager.user>
         <tomcat.manager.password>secret</tomcat.manager.password>
         <postgres.jdbc.version>9.4-1201-jdbc41</postgres.jdbc.version>
@@ -40,7 +40,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <spring.profile>dev</spring.profile>
+                <spring.profile>prod</spring.profile>
             </properties>
             <dependencies>
                 <dependency>

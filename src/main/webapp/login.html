@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" type="text/css" href="styles/application.css"/>
+        <title>Είσοδος</title>
+    </head>
+    
+    <body style="margin: 10%">
+    
+        <div class="container">
+            <div class="row">
+    
+                <form class="form-horizontal" action="login" method="post">
+
+                    <div class="form-group">
+                        <label for="username" class="col-md-2 col-md-offset-2 control-label">Χρήστης</label>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="username" placeholder="Χρήστης" name="username"/>
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="password" class="col-md-2 col-md-offset-2 control-label">Συνθηματικό</label>
+                        <div class="col-md-3">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Συνθηματικό"/>
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-3">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="remember"/>Μείνε συνδεδεμένος
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-4">
+                            <button type="submit" class="btn btn-primary">Είσοδος</button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    
+    </body>
+</html>
