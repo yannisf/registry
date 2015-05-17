@@ -16,10 +16,7 @@ angular.module('schoolApp')
                     delete $http.defaults.headers.common["X-Requested-With"];
                     $http.get('logout').success(
                         function() {
-                            var location = $window.location.toString();
-                            var hashIndex = location.indexOf('#');
-                            var locationUrl = location.substring(0, hashIndex);
-                            $window.location.replace(locationUrl);
+                            $window.location.replace($rootScope.applicationUrl);
                         }
                     );
                 };

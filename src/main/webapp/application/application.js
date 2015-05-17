@@ -114,8 +114,8 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     }])
 
-    .run(['$rootScope', '$location', '$window', 'ListService',
-        function ($rootScope, $location, $window, ListService) {
+    .run(['$rootScope', '$http', '$location', '$window', 'ListService',
+        function ($rootScope, $http, $location, $window, ListService) {
             angular.extend($rootScope, {
                 go: function (path, $event) {
                     if ($event) {
@@ -125,25 +125,30 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                 },
                 relationshipTypes: []
             });
+            
+            $rootScope.applicationUrl = $window.location.toString().substring(0, $window.location.toString().indexOf('#'));
+
+            $http.get('api/context/authentication').success(function(data) {
+                $rootScope.credentials = {
+                    authenticated: data.name != 'anonymousUser',
+                    username: data.name,
+                    authorities: data.authorities
+                };
+            });
 
             ListService.relationshipTypes().then(function (data) {
                 $rootScope.relationshipTypes = data;
             });
-            
-            var location = $window.location.toString();
-            var hashIndex = location.indexOf('#');
-            $rootScope.applicationRoot = location.substring(0, hashIndex);
-
 
         }])
 
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-            $httpProvider.interceptors.push(['$window', '$rootScope', '$q', function ($window, $q, $rootScope) {
+            $httpProvider.interceptors.push(['$window', '$rootScope', '$q', function ($window, $rootScope, $q) {
                 return {
                     responseError: function (response) {
                         if(response.status === 401) {
-                            $window.location.replace($rootScope.applicationRoot);
+                            $window.location.replace($rootScope.applicationUrl);
                         }
                         return $q.reject(response);
                     }
