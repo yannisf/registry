@@ -9,7 +9,7 @@ angular.module('schoolApp')
         });
     }])
 
-    .service('AddressService', ['Address', function (Address) {
+    .service('AddressService', [function () {
         return {
             isBlank: function (address) {
                 return !(address && (
@@ -22,7 +22,7 @@ angular.module('schoolApp')
         };
     }])
 
-    .filter('addressFilter', ['AddressService', function (AddressService) {
+    .filter('addressFilter', [function () {
         function formatAddress(address) {
             var formattedAddress = "";
             if (address.streetName) {

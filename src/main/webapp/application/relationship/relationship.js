@@ -10,19 +10,19 @@ angular.module('relationship', ['ngResource'])
         });
     }])
 
-	.service('RelationshipService', ['$rootScope', 'ActiveCache', 'Relationship', 'Guardian', 'Address',
-		function ($rootScope, ActiveCache, Relationship, Guardian, Address) {
+	.service('RelationshipService', ['$rootScope', 'ActiveCache', 'Relationship',
+		function ($rootScope, ActiveCache, Relationship) {
 		
 			var fetchRelationships = function(childId) {
 				return Relationship.fetchRelationships({childId: childId});
 			};
 
-			var saveWithAddress = function (address, guardian, relationship) {
-			};
+//			var saveWithAddress = function (address, guardian, relationship) {
+//			};
 
 			return {
 				fetchRelationships: fetchRelationships,
-				saveWithAddress: saveWithAddress
+//				saveWithAddress: saveWithAddress
 			};
 		}
 	]);

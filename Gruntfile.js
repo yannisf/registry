@@ -7,7 +7,6 @@ module.exports = function(grunt) {
   		"scripts/lib/ui-utils.js",
   		"scripts/lib/angular-uuid4.js",
   		"scripts/lib/ui-bootstrap-tpls.js",
-  		"scripts/lib/angular-flash.js",
   		"application/values.js",
   		"application/application.js",
   		"application/overview/overview.js",
@@ -44,6 +43,7 @@ module.exports = function(grunt) {
     	jshint: {
     		options: {
     			globalstrict: true,
+    			unused: true,
     			globals: {
     				angular: true,
 					alert: true,
@@ -97,7 +97,6 @@ module.exports = function(grunt) {
 		  			{expand: true, cwd:'bower_modules/angular-ui-utils/', src: 'ui-utils.js', dest: 'src/main/webapp/scripts/lib/'},
 		  			{expand: true, cwd:'bower_modules/angular-uuid4/', src: 'angular-uuid4.js', dest: 'src/main/webapp/scripts/lib/'},
 		  			{expand: true, cwd:'bower_modules/angular-bootstrap/', src: 'ui-bootstrap-tpls.js', dest: 'src/main/webapp/scripts/lib/'},
-		  			{expand: true, cwd:'bower_modules/angular-flash-messages', src: 'angular-flash.js', dest: 'src/main/webapp/scripts/lib/'},
 		  			{expand: true, cwd:'bower_modules/bootstrap/', src: 'fonts/**', dest: 'src/main/webapp/scripts/lib/'},
 		  		],
 		  	}

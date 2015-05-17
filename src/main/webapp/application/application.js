@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'flash', 'values',
+angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'values',
         'child', 'guardian', 'typeaheads', 'overview'])
 
     .config(['$routeProvider', function ($routeProvider) {
@@ -58,7 +58,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
 		};
 	})
 
-    //TODO: This can be a filter
     .directive('personName', function () {
         return {
             restrict: 'E',
@@ -87,7 +86,6 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     })
 
-    //TODO: This could be a filter
     .directive('telephone', function () {
         return {
             restrict: 'E',
@@ -116,8 +114,8 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
         };
     }])
 
-    .run(['$rootScope', '$http', '$location', '$window', 'ListService', 'ActiveCache',
-        function ($rootScope, $http, $location, $window, ListService, ActiveCache) {
+    .run(['$rootScope', '$location', '$window', 'ListService',
+        function ($rootScope, $location, $window, ListService) {
             angular.extend($rootScope, {
                 go: function (path, $event) {
                     if ($event) {
@@ -128,30 +126,24 @@ angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils'
                 relationshipTypes: []
             });
 
-            $http.get('api/context/authentication').success(function(data) {
-                $rootScope.credentials = {
-                    authenticated: data.name != 'anonymousUser',
-                    username: data.name,
-                    authorities: data.authorities
-                };
-            });
-
             ListService.relationshipTypes().then(function (data) {
                 $rootScope.relationshipTypes = data;
             });
+            
+            var location = $window.location.toString();
+            var hashIndex = location.indexOf('#');
+            $rootScope.applicationRoot = location.substring(0, hashIndex);
+
 
         }])
 
         .config(['$httpProvider', function ($httpProvider) {
             $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-            $httpProvider.interceptors.push(['$window', '$q', '$location', function ($window, $q, $location) {
+            $httpProvider.interceptors.push(['$window', '$rootScope', '$q', function ($window, $q, $rootScope) {
                 return {
                     responseError: function (response) {
                         if(response.status === 401) {
-                            var location = $window.location.toString();
-                            var hashIndex = location.indexOf('#');
-                            var locationUrl = location.substring(0, hashIndex);
-                            $window.location.replace(locationUrl);
+                            $window.location.replace($rootScope.applicationRoot);
                         }
                         return $q.reject(response);
                     }

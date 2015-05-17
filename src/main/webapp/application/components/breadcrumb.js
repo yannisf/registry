@@ -1,6 +1,6 @@
 'use strict';
-angular.module('overview').directive('breadcrumb', ['$location', '$cookieStore', 'ActiveCache', 'School', 'Department', 'Group',
-    function ($location, $cookieStore, ActiveCache, School, Department, Group) {
+angular.module('overview').directive('breadcrumb', ['$location', '$cookieStore', 'ActiveCache',
+    function ($location, $cookieStore, ActiveCache) {
 
 		function formatName (child) {
 			var name = child.firstName ? child.firstName + " " : "";
