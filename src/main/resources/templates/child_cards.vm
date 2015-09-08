@@ -9,7 +9,28 @@
 </head>
 
 <body>
-    ${name}
+    <table style="border">
+        <tbody>
+            <tr>
+                <td>${child.simpleName}</td>
+            </tr>
+            <tr>
+                <td>${child.informalFullName}</td>
+            </tr>
+            <tr>
+                <td>
+                    ${child.simpleName}<br/>
+                    ${child.lastName}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ${child.simpleName}<br/>
+                    ${child.lastName}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 
 </html>

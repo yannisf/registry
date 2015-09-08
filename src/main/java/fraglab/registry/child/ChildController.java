@@ -75,10 +75,9 @@ public class ChildController extends BaseRestController {
 
     private String processTemplate(String id) throws IOException, NotFoundException {
         Child child = childService.fetch(id);
-        String name = child.getInformalFullName();
         Template template = velocityEngine.getTemplate("/templates/child_cards.vm", "UTF-8");
         VelocityContext context = createContext();
-        context.put("name", name);
+        context.put("child", child);
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();

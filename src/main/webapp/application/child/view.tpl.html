@@ -55,8 +55,10 @@
     </fieldset>
     
     <div style="padding-top: 1em">
-        <button class="btn btn-md btn-primary" ng-click="go('/child/' + data.child.id  + '/update')">
-            <span class="glyphicon glyphicon-print"></span> Εκτύπωση
+
+        <a class="btn btn-md btn-primary" href="api/child/{{data.child.id}}/cards" role="button">
+            <span class="glyphicon glyphicon-print"></span> Καρτέλες
+        </a>
         </button>
         <button class="btn btn-primary btn-md" ng-click="addGuardian()">
             <span class="glyphicon glyphicon-flash"></span> Νέα σχέση
