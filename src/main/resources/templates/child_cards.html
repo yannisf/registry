@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Καρτέλες παιδιού</title>
+    <link rel="stylesheet" type="text/css" href="${css}"/>
+    
+    <style type="text/css">
+        td {
+            border:thin solid black
+        }
+        
+        .simpleName {
+            font-size: 24pt;
+        }
+        
+        .fullName {
+            font-size: 24pt;
+        }
+
+        .splitNameSmall {
+            font-size: 16pt;
+        }
+        
+        .splitNameBig {
+            font-size: 24pt;
+        }
+
+    </style>
+    
+</head>
+
+<body>
+    <table>
+        <tbody>
+
+            <tr>
+                <td class="simpleName">${child.simpleName}</td>
+            </tr>
+
+            <tr>
+                <td class="fullName">${child.informalFullName}</td>
+            </tr>
+
+            <tr>
+                <td class="splitNameSmall">
+                    ${child.simpleName}<br/>
+                    ${child.lastName}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="splitNameBig">
+                    ${child.simpleName}<br/>
+                    ${child.lastName}
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+
+</html>
