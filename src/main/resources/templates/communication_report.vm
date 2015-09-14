@@ -41,7 +41,7 @@
             <tr>
                 <th class="col1">A/A</th>
                 <th class="col2">Ονοματεπώνυμο</th>
-                <th class="col3">Επικοινωνία</th>
+                <th class="col3">Επικοινωνία/Αποχώρηση</th>
                 <th class="col4">Παρατηρήσεις</th>
             </tr>
         </thead>
@@ -64,7 +64,7 @@
                         #end
                     </ul>
                 </td>
-                <td>$!{child.notes}</td>
+                <td class="notes">$!{child.notes}</td>
             </tr>
         #end
         </tbody>

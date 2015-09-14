@@ -17,6 +17,10 @@ td {
     vertical-align: top;
 }
 
+td.notes {
+    font-size: 8pt;
+}
+
 th {
 
     text-align: center;
