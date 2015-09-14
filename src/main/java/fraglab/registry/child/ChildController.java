@@ -9,6 +9,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,9 @@ import java.util.Properties;
 @RestController
 @RequestMapping("/child")
 public class ChildController extends BaseRestController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ChildController.class);
+
 
     //TODO: Initialize this from Spring and inject it wherever needed
     private VelocityEngine velocityEngine;
@@ -78,6 +83,9 @@ public class ChildController extends BaseRestController {
         Template template = velocityEngine.getTemplate("/templates/child_cards.vm", "UTF-8");
         VelocityContext context = createContext();
         context.put("child", child);
+        if (child.getLastName().length() > 18) {
+            context.put("mod", "-lg");
+        }
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();

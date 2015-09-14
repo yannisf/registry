@@ -2,3 +2,42 @@ body {
     font-family: Didact Gothic, sans-serif;
     font-size: 8pt;
 }
+
+table {
+    border: thin solid black;
+    border-collapse: collapse;
+}
+
+td {
+    border: thin solid black;
+    padding: 12pt;
+}
+
+
+.simple {
+    font-size: 48pt;
+}
+
+.full {
+    font-size: 48pt;
+}
+
+.full-lg {
+    font-size: 32pt;
+}
+
+.tablet-small {
+    font-size: 36pt;
+}
+
+.tablet-small-lg {
+    font-size: 22pt;
+}
+
+.tablet-large {
+    font-size: 64pt;
+}
+
+.tablet-large-lg {
+    font-size: 48pt;
+}
