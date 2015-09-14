@@ -47,7 +47,7 @@ public class OverviewServiceImpl implements OverviewService {
 
     @Override
     public List<String> fetchChildrenIdsForGroup(String groupId) {
-        String query = "select c.id from Child c where c.group.id=:groupId";
+        String query = "select c.id from Child c where c.group.id=:groupId order by c.lastName";
         Map<String, Object> params = new HashMap<>();
         params.put("groupId", groupId);
         return  dao.findByQuery(String.class, query, params);
