@@ -29,7 +29,12 @@ import java.util.Properties;
 public class ChildController extends BaseRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChildController.class);
-
+    private static final int NAME_LENGTH_MOD_TRIGGER = 14;
+    private static final String TEMPLATE_STYLE_MOD_PROPERTY = "mod";
+    private static final String STYLE_MOD_VALUE = "-lg";
+    private static final String CHILD_CARDS_TEMPLATE = "/templates/child_cards.vm";
+    private static final String CHILD_CARDS_TEMPLATE_CSS = "/templates/child_cards.css";
+    private static final String FONTS_DIDACT_GOTHIC_PATH = "/fonts/DidactGothic.ttf";
 
     //TODO: Initialize this from Spring and inject it wherever needed
     private VelocityEngine velocityEngine;
@@ -80,15 +85,19 @@ public class ChildController extends BaseRestController {
 
     private String processTemplate(String id) throws IOException, NotFoundException {
         Child child = childService.fetch(id);
-        Template template = velocityEngine.getTemplate("/templates/child_cards.vm", "UTF-8");
+        Template template = velocityEngine.getTemplate(CHILD_CARDS_TEMPLATE, "UTF-8");
         VelocityContext context = createContext();
         context.put("child", child);
-        if (child.getLastName().length() > 18) {
-            context.put("mod", "-lg");
-        }
+        modifyStyleForSize(child.getLastName(), context);
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();
+    }
+
+    private void modifyStyleForSize(String childsLastName, VelocityContext context) {
+        if (childsLastName.length() >= NAME_LENGTH_MOD_TRIGGER) {
+            context.put(TEMPLATE_STYLE_MOD_PROPERTY, STYLE_MOD_VALUE);
+        }
     }
 
     private void streamReport(HttpServletResponse response, String content) throws DocumentException, IOException {
@@ -100,7 +109,7 @@ public class ChildController extends BaseRestController {
 
     private VelocityContext createContext() throws IOException {
         VelocityContext context = new VelocityContext();
-        context.put("css", getClasspathResource("/templates/child_cards.css"));
+        context.put("css", getClasspathResource(CHILD_CARDS_TEMPLATE_CSS));
         return context;
     }
 
@@ -110,7 +119,7 @@ public class ChildController extends BaseRestController {
 
     private ITextRenderer getITextRendered() throws DocumentException, IOException {
         ITextRenderer renderer = new ITextRenderer();
-        renderer.getFontResolver().addFont("/fonts/DidactGothic.ttf", BaseFont.IDENTITY_H, true);
+        renderer.getFontResolver().addFont(FONTS_DIDACT_GOTHIC_PATH, BaseFont.IDENTITY_H, true);
         return renderer;
     }
 

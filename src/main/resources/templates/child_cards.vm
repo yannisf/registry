@@ -3,44 +3,43 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head>
-    <title>Καρτέλες παιδιού</title>
-    <link rel="stylesheet" type="text/css" href="${css}"/>
-</head>
+    <head>
+        <title>Καρτέλες παιδιού</title>
+        <link rel="stylesheet" type="text/css" href="${css}"/>
+    </head>
 
-<body>
-    <table>
-        <tbody>
-            <tr>
-                <td colspan="2" class="simple">${child.simpleName}</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="full$!{mod}">${child.informalFullName}</td>
-            </tr>
-            <tr>
-                <td class="tablet-small$!{mod}">
-                    ${child.simpleName}<br/>
-                    ${child.lastName}
-                </td>
-                <td class="tablet-small$!{mod}">
-                    ${child.simpleName}<br/>
-                    ${child.lastName}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="tablet-large$!{mod}">
-                    ${child.simpleName}<br/>
-                    ${child.lastName}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="tablet-large$!{mod}">
-                    ${child.simpleName}<br/>
-                    ${child.lastName}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+    <body>
+        <table>
+            <tbody>
+
+                <tr>
+                    <td colspan="2" class="simple">${child.simpleName}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" class="full$!{mod}">${child.informalFullName}</td>
+                </tr>
+
+                <tr>
+                    #foreach ($i in [1..2])
+                    <td class="tablet-small$!{mod}">
+                        ${child.simpleName}<br/>
+                        ${child.lastName}
+                    </td>
+                    #end
+                </tr>
+
+                #foreach ($i in [1..2])
+                <tr>
+                    <td colspan="2" class="tablet-large$!{mod}">
+                        ${child.simpleName}<br/>
+                        ${child.lastName}
+                    </td>
+                </tr>
+                #end
+
+            </tbody>
+        </table>
+    </body>
 
 </html>
