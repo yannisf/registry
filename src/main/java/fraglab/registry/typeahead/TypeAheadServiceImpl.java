@@ -11,8 +11,6 @@ import java.util.Map;
 @Service
 public class TypeAheadServiceImpl implements TypeAheadService {
 
-    public static final Integer MAX_RESULTS = 5;
-
     @Autowired
     GenericDao dao;
 

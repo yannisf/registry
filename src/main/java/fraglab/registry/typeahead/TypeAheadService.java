@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface TypeAheadService {
 
+    Integer MAX_RESULTS = 5;
+
     List<String> findMatchingFirstNames(String startsWith);
 
     List<String> findMatchingLastNames(String startsWith);
