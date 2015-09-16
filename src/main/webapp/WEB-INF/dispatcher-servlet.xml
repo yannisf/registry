@@ -13,7 +13,7 @@
     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="fraglab.registry, fraglab.data"/>
+    <context:component-scan base-package="fraglab"/>
     <tx:annotation-driven/>
     <mvc:annotation-driven/>
 
@@ -37,6 +37,8 @@
     </bean>
 
     <bean id="iTextRenderer" class="fraglab.factory.ITextRendererFactoryBean"/>
+
+    <util:properties id="buildInfo" location="classpath:build-info.properties"/>
 
     <util:map id="reportRelationshipTypesGreekMap" key-type="fraglab.registry.relationship.RelationshipType">
         <entry key="FATHER" value="ΠΑΤΕΡΑΣ"/>

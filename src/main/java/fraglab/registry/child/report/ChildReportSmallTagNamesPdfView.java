@@ -17,7 +17,6 @@ public class ChildReportSmallTagNamesPdfView extends AbstractChildReport {
     @Override
     protected Document newDocument() {
         return new Document(PageSize.A4, 100.0f, 80.0f, 80.0f, 80.0f);
-
     }
 
     @Override
