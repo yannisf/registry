@@ -1,14 +1,12 @@
 package fraglab.registry.child;
 
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.BaseFont;
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
 import fraglab.web.NotIdentifiedException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.Properties;
 
 @RestController
 @RequestMapping("/child")
@@ -34,26 +30,18 @@ public class ChildController extends BaseRestController {
     private static final String STYLE_MOD_VALUE = "-lg";
     private static final String CHILD_CARDS_TEMPLATE = "/templates/child_cards.vm";
     private static final String CHILD_CARDS_TEMPLATE_CSS = "/templates/child_cards.css";
-    private static final String FONTS_DIDACT_GOTHIC_PATH = "/fonts/DidactGothic.ttf";
 
-    //TODO: Initialize this from Spring and inject it wherever needed
+    @Autowired
     private VelocityEngine velocityEngine;
+
+    @Autowired
+    private ITextRenderer iTextRenderer;
 
     @Autowired
     private ResourceLoader resourceLoader;
 
     @Autowired
     ChildService childService;
-
-    @PostConstruct
-    private void initialize() {
-        Properties properties = new Properties();
-        properties.setProperty("resource.loader", "classpath");
-        properties.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-        velocityEngine = new VelocityEngine(properties);
-        velocityEngine.init();
-    }
-
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -101,10 +89,9 @@ public class ChildController extends BaseRestController {
     }
 
     private void streamReport(HttpServletResponse response, String content) throws DocumentException, IOException {
-        ITextRenderer renderer = getITextRendered();
-        renderer.setDocumentFromString(content);
-        renderer.layout();
-        renderer.createPDF(response.getOutputStream());
+        iTextRenderer.setDocumentFromString(content);
+        iTextRenderer.layout();
+        iTextRenderer.createPDF(response.getOutputStream());
     }
 
     private VelocityContext createContext() throws IOException {
@@ -115,12 +102,6 @@ public class ChildController extends BaseRestController {
 
     private URL getClasspathResource(String resource) throws IOException {
         return resourceLoader.getResource("classpath:" + resource).getURL();
-    }
-
-    private ITextRenderer getITextRendered() throws DocumentException, IOException {
-        ITextRenderer renderer = new ITextRenderer();
-        renderer.getFontResolver().addFont(FONTS_DIDACT_GOTHIC_PATH, BaseFont.IDENTITY_H, true);
-        return renderer;
     }
 
 }

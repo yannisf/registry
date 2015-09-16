@@ -32,6 +32,12 @@
         <property name="entityManagerFactory" ref="emf"/>
     </bean>
 
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="resourceLoaderPath" value="/WEB-INF/classes/"/>
+    </bean>
+
+    <bean id="iTextRenderer" class="fraglab.factory.ITextRendererFactoryBean"/>
+
     <util:map id="reportRelationshipTypesGreekMap" key-type="fraglab.registry.relationship.RelationshipType">
         <entry key="FATHER" value="ΠΑΤΕΡΑΣ"/>
         <entry key="MOTHER" value="ΜΗΤΕΡΑ"/>

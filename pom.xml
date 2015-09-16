@@ -9,6 +9,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <scm>
+        <url>https://github.com/yannisf/registry</url>
+        <connection>scm:git:https://github.com/yannisf/registry.git</connection>
+    </scm>
+
     <properties>
         <spring.version>4.1.6.RELEASE</spring.version>
         <spring-security.version>4.0.0.RELEASE</spring-security.version>
@@ -18,6 +23,12 @@
         <tomcat.manager.user>manager</tomcat.manager.user>
         <tomcat.manager.password>secret</tomcat.manager.password>
         <postgres.jdbc.version>9.4-1201-jdbc41</postgres.jdbc.version>
+
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <build.java>${java.runtime.name} ${java.runtime.version}, ${java.vendor}</build.java>
+        <build.os>${os.name} ${os.version} ${os.arch}</build.os>
+
     </properties>
     
     <profiles>
@@ -84,6 +95,24 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>build-info.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>build-info.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
 
             <plugin>
@@ -149,6 +178,24 @@
                 </configuration>
             </plugin>
             
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.2</version>
+                <configuration>
+                    <buildNumberPropertyName>build.git_hash</buildNumberPropertyName>
+                    <shortRevisionLength>8</shortRevisionLength>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -174,6 +221,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
