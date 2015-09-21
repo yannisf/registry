@@ -10,16 +10,29 @@
 
     <http entry-point-ref="authEntryPoint">
         <csrf disabled="true"/>
+
+        <intercept-url pattern="/favicon.ico" filters="none" />
+        <intercept-url pattern="/styles/**" filters="none" />
+
         <intercept-url pattern="/login.html" access="permitAll" />
-        <intercept-url pattern="/styles/**" access="permitAll" />
         <intercept-url pattern="/**" access="hasAuthority('USER')" />
-        <remember-me key="secret" remember-me-parameter="remember" />
-        <form-login login-processing-url="/login" login-page="/login.html"
-                username-parameter="username" password-parameter="password"/>
-        <logout invalidate-session="true" logout-url="/logout" logout-success-url="/"/>
+
+        <remember-me key="secret" remember-me-parameter="remember"  />
+
+        <form-login
+                login-processing-url="/login"
+                login-page="/login.html"
+                username-parameter="username"
+                password-parameter="password"/>
+
+        <logout
+                invalidate-session="true"
+                logout-url="/logout"
+                logout-success-url="/"/>
     </http>
 
     <beans:import resource="datasource.xml"/>
+
     <authentication-manager>
         <authentication-provider>
             <jdbc-user-service data-source-ref="dataSource" role-prefix=""/>
