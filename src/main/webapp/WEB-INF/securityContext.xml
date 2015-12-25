@@ -8,11 +8,11 @@
         <beans:constructor-arg value="/login.html" />
     </beans:bean>
 
+    <http pattern="/favicon.ico" security="none"/>
+    <http pattern="/styles/**" security="none"/>
+
     <http entry-point-ref="authEntryPoint">
         <csrf disabled="true"/>
-
-        <intercept-url pattern="/favicon.ico" filters="none" />
-        <intercept-url pattern="/styles/**" filters="none" />
 
         <intercept-url pattern="/login.html" access="permitAll" />
         <intercept-url pattern="/**" access="hasAuthority('USER')" />
