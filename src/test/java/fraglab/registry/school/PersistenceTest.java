@@ -18,13 +18,13 @@ import org.testng.annotations.Test;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
-@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
+//@ContextConfiguration(locations = {"file:///C:/local/workspace/misc/school/src/main/webapp/WEB-INF/dispatcher-servlet.xml"})
 public class PersistenceTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Autowired
     private OverviewService overviewService;
     
-    @Test
+//    @Test
     @Transactional
     @Rollback(false)
     public void testOverviewService() {
