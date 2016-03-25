@@ -1,9 +1,0 @@
-<div>
-    <div ng-if="!active.school" style="line-height: 20px; padding: 8px 15px; margin-bottom: 20px">&nbsp;</div>
-    <ol class="breadcrumb" ng-if="active.school">
-        <li ng-if="active.school"><a href ng-click="toSchool()">{{active.school.name}}</a></li>
-        <li ng-if="active.department"><a href ng-click="toDepartment()">{{active.department.name}}</a></li>
-        <li ng-if="active.group"><a href ng-click="toGroup()">{{active.group.name}}</a></li>
-        <li ng-if="active.child"><a href ng-click="toChild()">{{formattedName}}</a></li>
-    </ol>
-</div>
