@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.utils', 'uuid4', 'values',
+angular.module('schoolApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.mask', 'uuid4', 'values',
         'child', 'guardian', 'typeaheads', 'overview'])
 
     .config(['$routeProvider', function ($routeProvider) {

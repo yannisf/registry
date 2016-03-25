@@ -2,9 +2,9 @@
 
 angular.module('child')
 
-    .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$modal', 'Child',
+    .controller('updateChildController', ['$scope', '$routeParams', '$window', '$location', '$uibModal', 'Child',
                 'Address', 'Relationship', 'ActiveCache',
-        function ($scope, $routeParams, $window, $location, $modal, Child,
+        function ($scope, $routeParams, $window, $location, $uibModal, Child,
                 Address, Relationship, ActiveCache) {
 
             angular.extend($scope, {
@@ -54,7 +54,7 @@ angular.module('child')
             };
 
             $scope.confirmRemoveChild = function () {
-                $modal.open({
+                $uibModal.open({
                     templateUrl: 'application/child/remove-child.tpl.html',
                     controller: 'removeChildModalController',
                     resolve: {
@@ -67,7 +67,7 @@ angular.module('child')
 
             $scope.confirmRemoveRelationship = function (relationship, $event) {
                 $event.stopPropagation();
-                $modal.open({
+                $uibModal.open({
                     templateUrl: 'application/child/remove-relationship.tpl.html',
                     controller: 'removeRelationshipModalController',
                     scope: $scope,
@@ -80,8 +80,8 @@ angular.module('child')
             };
         }])
         
-        .controller('removeChildModalController', ['$location', '$rootScope', '$scope', '$modalInstance', 'child', 'ActiveCache',
-            function ($location, $rootScope, $scope, $modalInstance, child, ActiveCache) {
+        .controller('removeChildModalController', ['$location', '$rootScope', '$scope', '$uibModalInstance', 'child', 'ActiveCache',
+            function ($location, $rootScope, $scope, $uibModalInstance, child, ActiveCache) {
                 $scope.removeChild = function () {
                     child.$remove(function() {
                         ActiveCache.child = null;
@@ -91,13 +91,13 @@ angular.module('child')
                 };
     
                 $scope.dismiss = function () {
-                    $modalInstance.dismiss();
+                    $uibModalInstance.dismiss();
                 };
             }
         ])
     
-        .controller('removeRelationshipModalController', ['$scope', '$modalInstance', 'ActiveCache', 'Relationship', 'relationship',
-            function ($scope, $modalInstance, ActiveCache, Relationship, relationship) {
+        .controller('removeRelationshipModalController', ['$scope', '$uibModalInstance', 'ActiveCache', 'Relationship', 'relationship',
+            function ($scope, $uibModalInstance, ActiveCache, Relationship, relationship) {
                 $scope.removeRelationship = function () {
                     relationship.$remove(function () {
                         $scope.data.relationships = Relationship.query({childId: ActiveCache.child.id}, function() {
@@ -107,7 +107,7 @@ angular.module('child')
                 };
 
                 $scope.dismiss = function () {
-                    $modalInstance.dismiss();
+                    $uibModalInstance.dismiss();
                 };
             }
         ]);
