@@ -140,6 +140,12 @@
                 <version>2.6</version>
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <overlays>
+                        <overlay>
+                            <groupId>fraglab</groupId>
+                            <artifactId>registry-ui</artifactId>
+                        </overlay>
+                    </overlays>
                 </configuration>
             </plugin>
 
@@ -313,6 +319,13 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>fraglab</groupId>
+            <artifactId>registry-ui</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+            <type>war</type>
         </dependency>
     </dependencies>
 
