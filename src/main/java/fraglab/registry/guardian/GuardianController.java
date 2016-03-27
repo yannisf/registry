@@ -18,12 +18,12 @@ public class GuardianController extends BaseRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(@RequestBody Guardian guardian, @RequestParam("addressId") String addressId)
             throws NotIdentifiedException, NotFoundException {
-        guardianService.createOrUpdate(guardian, addressId);
+        guardianService.save(guardian, addressId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Guardian fetch(@PathVariable String id) throws NotFoundException {
-        return guardianService.fetch(id);
+        return guardianService.find(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

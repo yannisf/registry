@@ -1,7 +1,9 @@
-package fraglab.registry.overview;
+package fraglab.registry.department;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.BaseEntity;
+import fraglab.registry.group.Group;
+import fraglab.registry.school.School;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.Entity;

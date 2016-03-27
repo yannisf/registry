@@ -48,12 +48,12 @@ public class ChildController extends BaseRestController {
     public void createOrUpdate(@RequestBody Child child, @RequestParam("addressId") String addressId, 
                                @RequestParam("groupId") String groupId) 
             throws NotIdentifiedException, NotFoundException {
-        childService.createOrUpdate(child, addressId, groupId);
+        childService.save(child, addressId, groupId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Child fetch(@PathVariable String id) throws NotFoundException {
-        return childService.fetch(id);
+        return childService.find(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -72,7 +72,7 @@ public class ChildController extends BaseRestController {
 
 
     private String processTemplate(String id) throws IOException, NotFoundException {
-        Child child = childService.fetch(id);
+        Child child = childService.find(id);
         Template template = velocityEngine.getTemplate(CHILD_CARDS_TEMPLATE, "UTF-8");
         VelocityContext context = createContext();
         context.put("child", child);

@@ -4,11 +4,11 @@ import fraglab.web.NotFoundException;
 
 public interface GuardianService {
 
-    void createOrUpdate(Guardian guardian);
+    void save(Guardian guardian);
 
-    void createOrUpdate(Guardian guardian, String addressId);
+    void save(Guardian guardian, String addressId) throws NotFoundException;
 
-    Guardian fetch(String id) throws NotFoundException;
+    Guardian find(String id) throws NotFoundException;
 
     void delete(String id) throws NotFoundException;
 

@@ -1,8 +1,11 @@
 package fraglab.registry.overview;
 
 import fraglab.registry.child.Child;
+import fraglab.registry.department.Department;
+import fraglab.registry.group.Group;
 import fraglab.registry.overview.meta.GroupDataTransfer;
 import fraglab.registry.overview.meta.GroupStatistics;
+import fraglab.registry.school.School;
 import fraglab.web.NotFoundException;
 
 import java.util.List;

@@ -4,11 +4,11 @@ import fraglab.web.NotFoundException;
 
 public interface AddressService {
 
-    void createOrUpdate(Address address);
+    void save(Address address);
 
-    Address fetch(String id) throws NotFoundException;
+    Address find(String id) throws NotFoundException;
 
     void delete(String id) throws NotFoundException;
 
-    Address fetchForPerson(String childId);
+    Address findForPerson(String childId);
 }

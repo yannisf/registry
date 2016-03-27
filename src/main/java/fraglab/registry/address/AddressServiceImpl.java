@@ -12,16 +12,16 @@ import java.util.Map;
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
-    private GenericDao dao;
+    private AddressJpaRepository addressJpaRepository;
 
     @Override
-    public void createOrUpdate(Address address) {
-        dao.createOrUpdate(address);
+    public void save(Address address) {
+        addressJpaRepository.save(address);
     }
 
     @Override
-    public Address fetch(String id) throws NotFoundException {
-        Address address = dao.fetch(Address.class, id);
+    public Address find(String id) throws NotFoundException {
+        Address address = addressJpaRepository.findOne(id);
         if (address == null) {
             throw new NotFoundException("Address not found");
         }
@@ -30,16 +30,13 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void delete(String id) throws NotFoundException {
-        Address address = fetch(id);
-        dao.delete(address);
+        Address address = find(id);
+        addressJpaRepository.delete(address);
     }
 
     @Override
-    public Address fetchForPerson(String personId) {
-        String query = "select a from Address a where a.id = (select p.address.id from Person p where p.id= :personId)";
-        Map<String, Object> params = new HashMap<>();
-        params.put("personId", personId);
-        return dao.findSingleByQuery(Address.class, query, params);
+    public Address findForPerson(String personId) {
+        return addressJpaRepository.queryByPersonId(personId);
     }
 
 }

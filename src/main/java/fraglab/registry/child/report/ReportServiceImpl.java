@@ -33,7 +33,7 @@ public class ReportServiceImpl implements ReportService {
         List<ReportChild> reportChildren = new ArrayList<>();
         List<String> ids = overviewService.fetchChildrenIdsForGroup(groupId);
         for (String id : ids) {
-            Child child = childService.fetchWithRelationships(id);
+            Child child = childService.findWithRelationships(id);
             reportChildren.add(mapChild(child));
         }
 

@@ -2,8 +2,15 @@ package fraglab.registry.overview;
 
 import fraglab.data.GenericDao;
 import fraglab.registry.child.Child;
+import fraglab.registry.child.ChildJpaRepository;
+import fraglab.registry.department.Department;
+import fraglab.registry.department.DepartmentJpaRepository;
+import fraglab.registry.group.Group;
+import fraglab.registry.group.GroupJpaRepository;
 import fraglab.registry.overview.meta.GroupDataTransfer;
 import fraglab.registry.overview.meta.GroupStatistics;
+import fraglab.registry.school.School;
+import fraglab.registry.school.SchoolJpaRepository;
 import fraglab.web.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +32,18 @@ public class OverviewServiceImpl implements OverviewService {
     @Autowired
     private GenericDao dao;
 
+    @Autowired
+    private ChildJpaRepository childJpaRepository;
+
+    @Autowired
+    private SchoolJpaRepository schoolJpaRepository;
+
+    @Autowired
+    private DepartmentJpaRepository departmentJpaRepository;
+
+    @Autowired
+    private GroupJpaRepository groupJpaRepository;
+
     @Override
     public GroupDataTransfer fetchSchoolData(String groupId) {
         String schoolDataQuery = "select new fraglab.registry.overview.meta.GroupDataTransfer(" +
@@ -39,10 +58,7 @@ public class OverviewServiceImpl implements OverviewService {
 
     @Override
     public List<Child> fetchChildrenForGroup(String groupId) {
-        String query = "select c from Child c where c.group.id=:groupId";
-        Map<String, Object> params = new HashMap<>();
-        params.put("groupId", groupId);
-        return  dao.findByQuery(Child.class, query, params);
+        return  childJpaRepository.queryForGroup(groupId);
     }
 
     @Override
@@ -81,27 +97,27 @@ public class OverviewServiceImpl implements OverviewService {
 
     @Override
     public void createOrUpdateSchool(School school) {
-        dao.createOrUpdate(school);
+        schoolJpaRepository.save(school);
     }
 
     @Override
     public void createOrUpdateDepartment(Department department) {
-        dao.createOrUpdate(department);
+        departmentJpaRepository.save(department);
     }
 
     @Override
     public void createOrUpdateGroup(Group group) {
-        dao.createOrUpdate(group);
+        groupJpaRepository.save(group);
     }
 
     @Override
     public List<School> fetchSchools() {
-        return dao.findByQuery(School.class, "select s from School s order by s.name");
+        return schoolJpaRepository.findAllByOrderByNameAsc();
     }
 
     @Override
     public School fetchSchool(String id) throws NotFoundException {
-        School school = dao.fetch(School.class, id);
+        School school = schoolJpaRepository.findOne(id);
         if (school == null) {
             throw new NotFoundException();
         }
@@ -111,7 +127,7 @@ public class OverviewServiceImpl implements OverviewService {
 
     @Override
     public Department fetchDepartment(String id) throws NotFoundException {
-        Department department = dao.fetch(Department.class, id);
+        Department department = departmentJpaRepository.findOne(id);
         if (department == null) {
             throw new NotFoundException();
         }
@@ -121,10 +137,7 @@ public class OverviewServiceImpl implements OverviewService {
 
     @Override
     public List<Department> fetchDepartmentsForSchool(String schoolId) {
-        String query = "select c from Department c where c.school.id=:schoolId order by c.name";
-        Map<String, Object> params = new HashMap<>();
-        params.put("schoolId", schoolId);
-        return  dao.findByQuery(Department.class, query, params);
+        return  departmentJpaRepository.queryBySchoolId(schoolId);
     }
 
     @Override
@@ -132,7 +145,7 @@ public class OverviewServiceImpl implements OverviewService {
         School school;
         try {
             school = fetchSchool(id);
-            dao.delete(school);
+            schoolJpaRepository.delete(school);
         } catch (NotFoundException e) {
             LOG.info("Record does not exist", e);
         }
@@ -142,7 +155,7 @@ public class OverviewServiceImpl implements OverviewService {
     public void createOrUpdateDepartmentForSchool(String schoolId, Department department) throws NotFoundException {
         School school = fetchSchool(schoolId);
         school.addDepartment(department);
-        dao.createOrUpdate(department);
+        departmentJpaRepository.save(department);
     }
 
     @Override
@@ -154,13 +167,7 @@ public class OverviewServiceImpl implements OverviewService {
 
     @Override
     public void deleteDepartment(String departmentId){
-        Department department = null;
-        try {
-            department = fetchDepartment(departmentId);
-            dao.delete(department);
-        } catch (NotFoundException e) {
-            LOG.info("Department [{}] not found. ", departmentId);
-        }
+        departmentJpaRepository.delete(departmentId);
     }
 
     @Override
@@ -169,14 +176,14 @@ public class OverviewServiceImpl implements OverviewService {
             Department department = fetchDepartment(departmentId);
             group.setDepartment(department);
         }
-        dao.createOrUpdate(group);
+        groupJpaRepository.save(group);
     }
 
     @Override
     public void deleteGroup(String id) {
         try {
             Group group = fetchGroup(id);
-            dao.delete(group);
+            groupJpaRepository.delete(group);
         } catch (NotFoundException e) {
             LOG.info("Group [{}] not found. ", id);
         }
@@ -230,7 +237,7 @@ public class OverviewServiceImpl implements OverviewService {
     }
 
     private Group fetchGroup(String groupId) throws NotFoundException {
-        Group group = dao.fetch(Group.class, groupId);
+        Group group = groupJpaRepository.findOne(groupId);
         if (group == null) {
             throw new NotFoundException("Group " + groupId + " not found. ");
         }

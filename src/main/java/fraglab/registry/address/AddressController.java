@@ -16,17 +16,17 @@ public class AddressController extends BaseRestController {
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdate(@RequestBody Address address) {
-        addressService.createOrUpdate(address);
+        addressService.save(address);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Address fetch(@PathVariable String id) throws NotFoundException {
-        return addressService.fetch(id);
+        return addressService.find(id);
     }
 
     @RequestMapping(value = "person/{personId}", method = RequestMethod.GET)
     public Address fetchForPerson(@PathVariable String personId) throws NotFoundException {
-        return addressService.fetchForPerson(personId);
+        return addressService.findForPerson(personId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

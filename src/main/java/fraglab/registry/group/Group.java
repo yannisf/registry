@@ -1,8 +1,9 @@
-package fraglab.registry.overview;
+package fraglab.registry.group;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.child.Child;
 import fraglab.registry.common.BaseEntity;
+import fraglab.registry.department.Department;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

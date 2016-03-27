@@ -3,7 +3,8 @@ package fraglab.registry.child;
 import fraglab.data.GenericDao;
 import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
-import fraglab.registry.overview.Group;
+import fraglab.registry.group.Group;
+import fraglab.registry.group.GroupJpaRepository;
 import fraglab.web.NotFoundException;
 import fraglab.web.NotIdentifiedException;
 import org.apache.commons.lang3.StringUtils;
@@ -19,41 +20,43 @@ import java.util.Map;
 public class ChildServiceImpl implements ChildService {
 
     @Autowired
-    private GenericDao dao;
+    private ChildJpaRepository childJpaRepository;
+
+    @Autowired
+    private GroupJpaRepository groupJpaRepository;
 
     @Autowired
     private AddressService addressService;
 
     @Override
     public void delete(String id) throws NotFoundException {
-        Child child = fetch(id);
-        dao.delete(child);
+        Child child = find(id);
+        childJpaRepository.delete(child);
         updateGroupMembersNum(child.getGroup());
     }
 
     @Override
-    public void createOrUpdate(Child child) throws NotIdentifiedException {
+    public void save(Child child) throws NotIdentifiedException {
         if (StringUtils.isBlank(child.getId())) {
             throw new NotIdentifiedException();
         }
 
-        dao.createOrUpdate(child);
+        childJpaRepository.save(child);
         updateGroupMembersNum(child.getGroup());
     }
 
     @Override
-    public void createOrUpdate(Child child, String addressId, String groupId) 
-            throws NotIdentifiedException, NotFoundException {
-        Address address = dao.fetch(Address.class, addressId);
-        Group group = dao.fetch(Group.class, groupId);
+    public void save(Child child, String addressId, String groupId) throws NotIdentifiedException, NotFoundException {
+        Address address = addressService.find(addressId);
+        Group group = groupJpaRepository.findOne(groupId);
         child.setAddress(address);
         child.setGroup(group);
-        createOrUpdate(child);
+        save(child);
     }
 
     @Override
-    public Child fetch(String id) throws NotFoundException {
-        Child child = dao.fetch(Child.class, id);
+    public Child find(String id) throws NotFoundException {
+        Child child = childJpaRepository.findOne(id);
         if (child == null) {
             throw new NotFoundException("Child not found");
         }
@@ -62,23 +65,12 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public Group fetchGroup(String id) {
-        return dao.fetch(Group.class, id);
-    }
-
-    @Override
-    public Child fetchWithRelationships(String id) {
-        String query = "select distinct c from Child c left join fetch c.relationships where c.id= :childId";
-        Map<String, Object> params = new HashMap<>();
-        params.put("childId", id);
-        return dao.findSingleByQuery(Child.class, query, params);
+    public Child findWithRelationships(String id) {
+        return childJpaRepository.queryForRelationships(id);
     }
 
     private void updateGroupMembersNum(Group group) {
-        String query = "update Group g set g.members=(select count(c) from Child c where c.group=:group) where g=:group";
-        Map<String, Object> params = new HashMap<>();
-        params.put("group", group);
-        dao.executeUpdate(query, params);
+        groupJpaRepository.queryForUpdateMemberCount(group);
     }
 
 }

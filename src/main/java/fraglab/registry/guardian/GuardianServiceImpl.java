@@ -1,6 +1,5 @@
 package fraglab.registry.guardian;
 
-import fraglab.data.GenericDao;
 import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.web.NotFoundException;
@@ -18,33 +17,33 @@ public class GuardianServiceImpl implements GuardianService {
     private static final Logger LOG = LoggerFactory.getLogger(GuardianServiceImpl.class);
 
     @Autowired
-    GenericDao dao;
+    private  GuardianJpaRepository guardianJpaRepository;
 
     @Autowired
     AddressService addressService;
 
     @Override
     public void delete(String id) throws NotFoundException {
-        Guardian guardian = fetch(id);
-        dao.delete(guardian);
+        Guardian guardian = find(id);
+        guardianJpaRepository.delete(guardian);
         addressService.delete(guardian.getAddress().getId());
     }
 
     @Override
-    public void createOrUpdate(Guardian guardian) {
-        dao.createOrUpdate(guardian);
+    public void save(Guardian guardian) {
+        guardianJpaRepository.save(guardian);
     }
 
     @Override
-    public void createOrUpdate(Guardian guardian, String addressId) {
-        Address address = dao.fetch(Address.class, addressId);
+    public void save(Guardian guardian, String addressId) throws NotFoundException {
+        Address address = addressService.find(addressId);
         guardian.setAddress(address);
-        createOrUpdate(guardian);
+        save(guardian);
     }
 
     @Override
-    public Guardian fetch(String id) throws NotFoundException {
-        Guardian guardian = dao.fetch(Guardian.class, id);
+    public Guardian find(String id) throws NotFoundException {
+        Guardian guardian = guardianJpaRepository.findOne(id);
         if (guardian == null) {
             throw new NotFoundException("Guardian not found");
         }

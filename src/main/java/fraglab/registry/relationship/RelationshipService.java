@@ -6,15 +6,16 @@ import java.util.List;
 
 public interface RelationshipService {
 
-    void createOrUpdate(Relationship relationship);
+    void save(Relationship relationship);
     
-    void createOrUpdate(Relationship relationship, String childId, String guardianId);
+    void save(Relationship relationship, String childId, String guardianId);
     
-    Relationship fetch(String id) throws NotFoundException;
+    Relationship find(String id) throws NotFoundException;
     
     void delete(String id) throws NotFoundException;
 
-    List<Relationship> fetchAllForChild(String childId);
+    List<Relationship> findAllForChild(String childId);
 
-    Relationship fetchForChildAndGuardian(String childId, String guardianId);
+    Relationship findForChildAndGuardian(String childId, String guardianId);
+
 }
