@@ -6,6 +6,8 @@ public interface TypeAheadService {
 
     Integer MAX_RESULTS = 5;
 
+    String QUERY_WILDCARD = "%";
+
     List<String> findMatchingFirstNames(String startsWith);
 
     List<String> findMatchingLastNames(String startsWith);

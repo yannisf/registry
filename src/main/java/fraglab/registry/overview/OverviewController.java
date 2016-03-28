@@ -3,7 +3,7 @@ package fraglab.registry.overview;
 import fraglab.registry.child.Child;
 import fraglab.registry.department.Department;
 import fraglab.registry.group.Group;
-import fraglab.registry.overview.meta.GroupStatistics;
+import fraglab.registry.group.GroupStatistics;
 import fraglab.registry.school.School;
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
@@ -48,14 +48,14 @@ public class OverviewController extends BaseRestController {
 
     @RequestMapping(value = "/department", method = RequestMethod.GET)
     public List<Department> fetchDepartmentsForSchool(@RequestParam(value = "schoolId", required = true) String schoolId) {
-        return overviewService.fetchDepartmentsForSchool(schoolId);
+        return overviewService.findDepartmentsForSchool(schoolId);
     }
 
     @RequestMapping(value = "/department", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdateDepartmentForSchool(@RequestParam(value = "schoolId") String schoolId, @RequestBody Department department)
             throws NotFoundException {
-        overviewService.createOrUpdateDepartmentForSchool(schoolId, department);
+        overviewService.saveDepartmentForSchool(schoolId, department);
     }
 
     @RequestMapping(value = "/department/{id}", method = RequestMethod.DELETE)
@@ -67,14 +67,14 @@ public class OverviewController extends BaseRestController {
     @RequestMapping(value = "/group", method = RequestMethod.GET)
     public List<Group> fetchGroupsForDepartment(@RequestParam(value = "departmentId", required = true) String departmentId)
             throws NotFoundException {
-        return overviewService.fetchGroupsForDepartment(departmentId);
+        return overviewService.findGroupsForDepartment(departmentId);
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createOrUpdateGroup(@RequestBody Group group, @RequestParam(value = "departmentId") String departmentId)
             throws NotFoundException {
-        overviewService.createOrUpdateGroupForDepartment(group, departmentId);
+        overviewService.saveGroupForDepartment(group, departmentId);
     }
 
     @RequestMapping(value = "/group/{id}", method = RequestMethod.DELETE)
@@ -85,12 +85,12 @@ public class OverviewController extends BaseRestController {
 
     @RequestMapping(value = "/group/{id}/child", method = RequestMethod.GET)
     public List<Child> fetchChildrenForGroup(@PathVariable String id) {
-        return overviewService.fetchChildrenForGroup(id);
+        return overviewService.findChildrenForGroup(id);
     }
 
     @RequestMapping(value = "/group/{id}/statistics", method = RequestMethod.GET)
     public GroupStatistics fetchChildGroupStatistics(@PathVariable String id) {
-        return overviewService.fetchChildGroupStatistics(id);
+        return overviewService.findChildGroupStatistics(id);
     }
 
     @RequestMapping(value = "/group/{id}/info", method = RequestMethod.GET)

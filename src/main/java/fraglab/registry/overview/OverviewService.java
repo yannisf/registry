@@ -3,8 +3,8 @@ package fraglab.registry.overview;
 import fraglab.registry.child.Child;
 import fraglab.registry.department.Department;
 import fraglab.registry.group.Group;
-import fraglab.registry.overview.meta.GroupDataTransfer;
-import fraglab.registry.overview.meta.GroupStatistics;
+import fraglab.registry.group.GroupDataTransfer;
+import fraglab.registry.group.GroupStatistics;
 import fraglab.registry.school.School;
 import fraglab.web.NotFoundException;
 
@@ -15,11 +15,11 @@ public interface OverviewService {
 
     GroupDataTransfer fetchSchoolData(String childGroupId);
 
-    List<Child> fetchChildrenForGroup(String groupId);
+    List<Child> findChildrenForGroup(String groupId);
 
-    List<String> fetchChildrenIdsForGroup(String groupId);
+    List<String> findChildrenIdsForGroup(String groupId);
 
-    GroupStatistics fetchChildGroupStatistics(String childGroupId);
+    GroupStatistics findChildGroupStatistics(String childGroupId);
 
     void createOrUpdateSchool(School school);
 
@@ -29,21 +29,21 @@ public interface OverviewService {
 
     List<School> fetchSchools();
 
-    School fetchSchool(String id) throws NotFoundException;
+    School findSchool(String id) throws NotFoundException;
 
-    Department fetchDepartment(String id) throws NotFoundException;
+    Department findDepartment(String id) throws NotFoundException;
 
-    List<Department> fetchDepartmentsForSchool(String schoolId);
+    List<Department> findDepartmentsForSchool(String schoolId);
 
     void deleteSchool(String id);
 
-    void createOrUpdateDepartmentForSchool(String schoolId, Department department) throws NotFoundException;
+    void saveDepartmentForSchool(String schoolId, Department department) throws NotFoundException;
 
-    List<Group> fetchGroupsForDepartment(String departmentId) throws NotFoundException;
+    List<Group> findGroupsForDepartment(String departmentId) throws NotFoundException;
 
     void deleteDepartment(String departmentId);
 
-    void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException;
+    void saveGroupForDepartment(Group group, String departmentId) throws NotFoundException;
 
     void deleteGroup(String groupId);
 

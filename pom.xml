@@ -17,7 +17,9 @@
     <properties>
         <spring.version>4.2.4.RELEASE</spring.version>
         <spring-security.version>4.0.3.RELEASE</spring-security.version>
+        <spring-data-release-train>Gosling-SR4</spring-data-release-train>
         <hibernate.version>4.3.11.Final</hibernate.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.manager.url>http://telesto:8080/manager/text</tomcat.manager.url>
         <tomcat.manager.user>manager</tomcat.manager.user>
@@ -34,7 +36,6 @@
         <sonar.projectName>School Registry</sonar.projectName>
         <sonar.projectVersion>1.0</sonar.projectVersion>
         <sonar.projectDescription>A small time school registry manager</sonar.projectDescription>
-
 
     </properties>
     
@@ -221,6 +222,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-releasetrain</artifactId>
+                <version>${spring-data-release-train}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -243,13 +251,10 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>1.7.1.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>

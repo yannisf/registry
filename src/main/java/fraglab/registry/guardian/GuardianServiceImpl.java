@@ -20,7 +20,7 @@ public class GuardianServiceImpl implements GuardianService {
     private  GuardianJpaRepository guardianJpaRepository;
 
     @Autowired
-    AddressService addressService;
+    private AddressService addressService;
 
     @Override
     public void delete(String id) throws NotFoundException {

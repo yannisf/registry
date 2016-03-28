@@ -5,7 +5,7 @@ import fraglab.registry.child.ChildService;
 import fraglab.registry.relationship.Relationship;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.overview.OverviewService;
-import fraglab.registry.overview.meta.GroupDataTransfer;
+import fraglab.registry.group.GroupDataTransfer;
 import fraglab.registry.guardian.Guardian;
 import fraglab.registry.guardian.GuardianService;
 import fraglab.web.NotFoundException;
@@ -31,7 +31,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<ReportChild> getReportChildrenForChildGroup(String groupId) throws NotFoundException {
         List<ReportChild> reportChildren = new ArrayList<>();
-        List<String> ids = overviewService.fetchChildrenIdsForGroup(groupId);
+        List<String> ids = overviewService.findChildrenIdsForGroup(groupId);
         for (String id : ids) {
             Child child = childService.findWithRelationships(id);
             reportChildren.add(mapChild(child));

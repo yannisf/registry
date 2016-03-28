@@ -1,6 +1,5 @@
 package fraglab.registry.child;
 
-import fraglab.data.GenericDao;
 import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.group.Group;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Transactional

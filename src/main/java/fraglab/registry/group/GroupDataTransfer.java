@@ -1,4 +1,4 @@
-package fraglab.registry.overview.meta;
+package fraglab.registry.group;
 
 import java.io.Serializable;
 
