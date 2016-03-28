@@ -41,8 +41,6 @@
 
     <bean id="iTextRenderer" class="fraglab.factory.ITextRendererFactoryBean"/>
 
-    <util:properties id="buildInfo" location="classpath:build-info.properties"/>
-
     <util:map id="reportRelationshipTypesGreekMap" key-type="fraglab.registry.relationship.RelationshipType">
         <entry key="FATHER" value="ΠΑΤΕΡΑΣ"/>
         <entry key="MOTHER" value="ΜΗΤΕΡΑ"/>
