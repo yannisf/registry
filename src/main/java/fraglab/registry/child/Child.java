@@ -2,7 +2,7 @@ package fraglab.registry.child;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fraglab.registry.common.Person;
-import fraglab.registry.overview.Group;
+import fraglab.registry.group.Group;
 import fraglab.registry.relationship.Relationship;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,6 +1,5 @@
 package fraglab.registry.typeahead;
 
-import fraglab.web.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,8 +12,6 @@ import java.util.List;
 @RequestMapping("/typeahead")
 public class TypeAheadController {
 
-    //String reEncodedStartsWith = Utils.reEncodeString(startsWith);
-    
     @Autowired
     TypeAheadService typeAheadService;
 

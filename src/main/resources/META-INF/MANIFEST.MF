@@ -1,0 +1,2 @@
+git-hash: ${git.hash}
+spring-profile: ${spring.profile}

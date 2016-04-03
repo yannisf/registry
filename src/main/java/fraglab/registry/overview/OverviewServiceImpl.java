@@ -1,12 +1,15 @@
 package fraglab.registry.overview;
 
-import fraglab.data.GenericDao;
 import fraglab.registry.child.Child;
-import fraglab.registry.overview.meta.GroupDataTransfer;
-import fraglab.registry.overview.meta.GroupStatistics;
-import fraglab.web.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import fraglab.registry.child.ChildJpaRepository;
+import fraglab.registry.department.Department;
+import fraglab.registry.department.DepartmentJpaRepository;
+import fraglab.registry.group.Group;
+import fraglab.registry.group.GroupDataTransfer;
+import fraglab.registry.group.GroupJpaRepository;
+import fraglab.registry.group.GroupStatistics;
+import fraglab.registry.school.School;
+import fraglab.registry.school.SchoolJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,63 +18,42 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class OverviewServiceImpl implements OverviewService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OverviewServiceImpl.class);
+    @Autowired
+    private ChildJpaRepository childJpaRepository;
 
     @Autowired
-    private GenericDao dao;
+    private SchoolJpaRepository schoolJpaRepository;
+
+    @Autowired
+    private DepartmentJpaRepository departmentJpaRepository;
+
+    @Autowired
+    private GroupJpaRepository groupJpaRepository;
 
     @Override
-    public GroupDataTransfer fetchSchoolData(String groupId) {
-        String schoolDataQuery = "select new fraglab.registry.overview.meta.GroupDataTransfer(" +
-                "g.id, s.name, cr.name, g.name, g.members) " +
-                "from Group g join g.department cr join g.department.school s " +
-                "where g.id=:groupId order by g.name";
-        Map<String, Object> params = new HashMap<>();
-        params.put("groupId", groupId);
-
-        return dao.findSingleByQuery(GroupDataTransfer.class, schoolDataQuery, params);
+    public GroupDataTransfer findSchoolData(String groupId) {
+        return groupJpaRepository.queryByGroupForMetadata(groupId);
     }
 
     @Override
-    public List<Child> fetchChildrenForGroup(String groupId) {
-        String query = "select c from Child c where c.group.id=:groupId";
-        Map<String, Object> params = new HashMap<>();
-        params.put("groupId", groupId);
-        return  dao.findByQuery(Child.class, query, params);
+    public List<Child> findChildrenForGroup(String groupId) {
+        return childJpaRepository.findByGroupId(groupId);
     }
 
     @Override
-    public List<String> fetchChildrenIdsForGroup(String groupId) {
-        String query = "select c.id from Child c where c.group.id=:groupId order by c.lastName";
-        Map<String, Object> params = new HashMap<>();
-        params.put("groupId", groupId);
-        return  dao.findByQuery(String.class, query, params);
+    public List<String> findChildrenIdsForGroup(String groupId) {
+        return childJpaRepository.queryByGroupForIds(groupId);
     }
 
     @Override
-    public GroupStatistics fetchChildGroupStatistics(String groupId) {
-        String query = "select " +
-                "BOYS.BOYS_NUMBER, " +
-                "GIRLS.GIRLS_NUMBER, " +
-                "PRESCHOOL_LEVEL_A.PRESCHOOL_LEVEL_A_NUMBER, " +
-                "PRESCHOOL_LEVEL_B.PRESCHOOL_LEVEL_B_NUMBER from " +
-                "(select count(*) AS BOYS_NUMBER from Person p " +
-                "where p.group_id = :groupId and p.gender = 'MALE') BOYS, " +
-                "(select count(*) AS GIRLS_NUMBER from Person p " +
-                "where p.group_id = :groupId and p.gender = 'FEMALE') GIRLS, " +
-                "(select count(*) AS PRESCHOOL_LEVEL_A_NUMBER from Person p " +
-                "where p.group_id = :groupId and p.PRESCHOOL_LEVEL = 'PRE_SCHOOL_LEVEL_A') PRESCHOOL_LEVEL_A, " +
-                "(select count(*)AS PRESCHOOL_LEVEL_B_NUMBER from Person p " +
-                "where p.group_id = :groupId and p.PRESCHOOL_LEVEL = 'PRE_SCHOOL_LEVEL_B') PRESCHOOL_LEVEL_B ";
-        Map<String, Object> params = new HashMap<>();
-        params.put("groupId", groupId);
-        Object[] result = dao.findSingleByNativeQuery(query, params);
-
+    public GroupStatistics findChildGroupStatistics(String groupId) {
+        Object[] result = (Object[]) groupJpaRepository.queryByGroupForStatistics(groupId);
         return new GroupStatistics(groupId,
                 ((BigInteger) result[0]).intValue(),
                 ((BigInteger) result[1]).intValue(),
@@ -80,119 +62,97 @@ public class OverviewServiceImpl implements OverviewService {
     }
 
     @Override
-    public void createOrUpdateSchool(School school) {
-        dao.createOrUpdate(school);
+    public School saveSchool(School school) {
+        return schoolJpaRepository.save(school);
     }
 
     @Override
-    public void createOrUpdateDepartment(Department department) {
-        dao.createOrUpdate(department);
+    public Department saveDepartment(Department department) {
+        return departmentJpaRepository.save(department);
     }
 
     @Override
-    public void createOrUpdateGroup(Group group) {
-        dao.createOrUpdate(group);
+    public Group saveGroup(Group group) {
+        return groupJpaRepository.save(group);
     }
 
     @Override
-    public List<School> fetchSchools() {
-        return dao.findByQuery(School.class, "select s from School s order by s.name");
+    public List<School> findSchools() {
+        return schoolJpaRepository.findAllByOrderByNameAsc();
     }
 
     @Override
-    public School fetchSchool(String id) throws NotFoundException {
-        School school = dao.fetch(School.class, id);
-        if (school == null) {
-            throw new NotFoundException();
-        }
-
-        return school;
+    public Optional<School> findSchool(String id) {
+        return Optional.ofNullable(schoolJpaRepository.findOne(id));
     }
 
     @Override
-    public Department fetchDepartment(String id) throws NotFoundException {
-        Department department = dao.fetch(Department.class, id);
-        if (department == null) {
-            throw new NotFoundException();
-        }
-
-        return department;
+    public Optional<Department> findDepartment(String id) {
+        return Optional.ofNullable(departmentJpaRepository.findOne(id));
     }
 
     @Override
-    public List<Department> fetchDepartmentsForSchool(String schoolId) {
-        String query = "select c from Department c where c.school.id=:schoolId order by c.name";
-        Map<String, Object> params = new HashMap<>();
-        params.put("schoolId", schoolId);
-        return  dao.findByQuery(Department.class, query, params);
+    public List<Department> findDepartmentsForSchool(String schoolId) {
+        return departmentJpaRepository.findBySchoolIdOrderByName(schoolId);
     }
 
     @Override
-    public void deleteSchool(String id) {
-        School school;
-        try {
-            school = fetchSchool(id);
-            dao.delete(school);
-        } catch (NotFoundException e) {
-            LOG.info("Record does not exist", e);
-        }
+    public void deleteSchool(String schoolId) {
+        schoolJpaRepository.delete(schoolId);
     }
 
     @Override
-    public void createOrUpdateDepartmentForSchool(String schoolId, Department department) throws NotFoundException {
-        School school = fetchSchool(schoolId);
+    public Department saveDepartmentForSchool(String schoolId, Department department) {
+        School school = findSchool(schoolId).orElseThrow(
+                () -> new IllegalArgumentException("School not found"));
         school.addDepartment(department);
-        dao.createOrUpdate(department);
+        return departmentJpaRepository.save(department);
     }
 
     @Override
-    public List<Group> fetchGroupsForDepartment(String departmentId) throws NotFoundException {
-        Department department = fetchDepartment(departmentId);
+    public List<Group> findGroupsForDepartment(String departmentId) {
+        Department department = findDepartment(departmentId).orElseThrow(
+                () -> new IllegalArgumentException("Department not found"));
         department.getGroups().size();
         return department.getGroups();
     }
 
     @Override
-    public void deleteDepartment(String departmentId){
-        Department department = null;
-        try {
-            department = fetchDepartment(departmentId);
-            dao.delete(department);
-        } catch (NotFoundException e) {
-            LOG.info("Department [{}] not found. ", departmentId);
-        }
+    public void deleteDepartment(String departmentId) {
+        departmentJpaRepository.delete(departmentId);
     }
 
     @Override
-    public void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException {
-        if (departmentId != null) {
-            Department department = fetchDepartment(departmentId);
-            group.setDepartment(department);
-        }
-        dao.createOrUpdate(group);
+    public Group saveGroupForDepartment(Group group, String departmentId) {
+        Department department = findDepartment(departmentId).orElseThrow(
+                () -> new IllegalArgumentException("Department not found"));
+        group.setDepartment(department);
+        return groupJpaRepository.save(group);
     }
 
     @Override
-    public void deleteGroup(String id) {
-        try {
-            Group group = fetchGroup(id);
-            dao.delete(group);
-        } catch (NotFoundException e) {
-            LOG.info("Group [{}] not found. ", id);
-        }
+    public void deleteGroup(String groupId) {
+        groupJpaRepository.delete(groupId);
     }
 
     @Override
-    public Map<String, Object> fetchGroupInfo(String groupId) throws NotFoundException {
-        Group group = fetchGroup(groupId);
-        Department department = fetchDepartment(group.getDepartment().getId());
-        School school = fetchSchool(department.getSchool().getId());
+    public Map<String, Object> findGroupInfo(String groupId) {
+        Group group = findGroup(groupId).orElseThrow(
+                () -> new IllegalArgumentException("Group not found"));
+        Department department = findDepartment(group.getDepartment().getId()).orElseThrow(
+                () -> new IllegalArgumentException("Department not found"));
+        School school = findSchool(department.getSchool().getId()).orElseThrow(
+                () -> new IllegalArgumentException("School not found"));
 
         Map<String, Object> groupMap = prepareGroupMap(group);
         Map<String, Object> departmentMap = prepareDepartmentMap(department);
         Map<String, Object> schoolMap = prepareSchoolMap(school);
 
-        return  prepareGroupInfoMap(groupMap, departmentMap, schoolMap);
+        return prepareGroupInfoMap(groupMap, departmentMap, schoolMap);
+    }
+
+    private Optional<Group> findGroup(String groupId) {
+        return Optional.ofNullable(groupJpaRepository.findOne(groupId));
     }
 
     private Map<String, Object> prepareGroupMap(Group group) {
@@ -227,14 +187,6 @@ public class OverviewServiceImpl implements OverviewService {
         groupInfo.put("department", departmentMap);
         groupInfo.put("group", groupMap);
         return groupInfo;
-    }
-
-    private Group fetchGroup(String groupId) throws NotFoundException {
-        Group group = dao.fetch(Group.class, groupId);
-        if (group == null) {
-            throw new NotFoundException("Group " + groupId + " not found. ");
-        }
-        return group;
     }
 
 }

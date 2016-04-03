@@ -1,6 +1,7 @@
 .idea
 *.iml
 *.log
+*.log-*
 /target
 /database
 /node_modules

@@ -1,14 +1,14 @@
 package fraglab.registry.address;
 
-import fraglab.web.NotFoundException;
+import java.util.Optional;
 
 public interface AddressService {
 
-    void createOrUpdate(Address address);
+    Optional<Address> find(String id);
 
-    Address fetch(String id) throws NotFoundException;
+    Address save(Address address);
 
-    void delete(String id) throws NotFoundException;
+    void delete(String id);
 
-    Address fetchForPerson(String childId);
+    Address findForPerson(String childId);
 }

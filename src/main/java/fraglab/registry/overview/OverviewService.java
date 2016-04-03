@@ -1,48 +1,52 @@
 package fraglab.registry.overview;
 
 import fraglab.registry.child.Child;
-import fraglab.registry.overview.meta.GroupDataTransfer;
-import fraglab.registry.overview.meta.GroupStatistics;
+import fraglab.registry.department.Department;
+import fraglab.registry.group.Group;
+import fraglab.registry.group.GroupDataTransfer;
+import fraglab.registry.group.GroupStatistics;
+import fraglab.registry.school.School;
 import fraglab.web.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface OverviewService {
 
-    GroupDataTransfer fetchSchoolData(String childGroupId);
+    GroupDataTransfer findSchoolData(String childGroupId);
 
-    List<Child> fetchChildrenForGroup(String groupId);
+    List<Child> findChildrenForGroup(String groupId);
 
-    List<String> fetchChildrenIdsForGroup(String groupId);
+    List<String> findChildrenIdsForGroup(String groupId);
 
-    GroupStatistics fetchChildGroupStatistics(String childGroupId);
+    GroupStatistics findChildGroupStatistics(String childGroupId);
 
-    void createOrUpdateSchool(School school);
+    School saveSchool(School school);
 
-    void createOrUpdateDepartment(Department department);
+    Department saveDepartment(Department department);
 
-    void createOrUpdateGroup(Group group);
+    Group saveGroup(Group group);
 
-    List<School> fetchSchools();
+    List<School> findSchools();
 
-    School fetchSchool(String id) throws NotFoundException;
+    Optional<School> findSchool(String id);
 
-    Department fetchDepartment(String id) throws NotFoundException;
+    Optional<Department> findDepartment(String id);
 
-    List<Department> fetchDepartmentsForSchool(String schoolId);
+    List<Department> findDepartmentsForSchool(String schoolId);
 
     void deleteSchool(String id);
 
-    void createOrUpdateDepartmentForSchool(String schoolId, Department department) throws NotFoundException;
+    Department saveDepartmentForSchool(String schoolId, Department department);
 
-    List<Group> fetchGroupsForDepartment(String departmentId) throws NotFoundException;
+    List<Group> findGroupsForDepartment(String departmentId);
 
     void deleteDepartment(String departmentId);
 
-    void createOrUpdateGroupForDepartment(Group group, String departmentId) throws NotFoundException;
+    Group saveGroupForDepartment(Group group, String departmentId);
 
     void deleteGroup(String groupId);
 
-    Map<String,Object> fetchGroupInfo(String id) throws NotFoundException;
+    Map<String,Object> findGroupInfo(String id);
 }

@@ -1,20 +1,23 @@
 package fraglab.registry.child;
 
-import fraglab.registry.overview.Group;
-import fraglab.web.NotFoundException;
 import fraglab.web.NotIdentifiedException;
+
+import java.util.Map;
+import java.util.Optional;
 
 public interface ChildService {
 
-    void createOrUpdate(Child child) throws NotIdentifiedException;
+    Optional<Child> find(String id);
 
-    void createOrUpdate(Child child, String addressId, String groupId) throws NotIdentifiedException, NotFoundException;
-    
-    Child fetch(String id) throws NotFoundException;
+    Child save(Child child) throws NotIdentifiedException;
 
-    void delete(String id) throws NotFoundException;
+    Child save(Child child, String addressId, String groupId) throws NotIdentifiedException;
 
-    Group fetchGroup(String id);
+    void delete(String id);
 
-    Child fetchWithRelationships(String id);
+    Optional<Child> findWithRelationships(String id);
+
+    Map<String, Map<String, String>> findEmailsForGroup(String groupId);
+
+    String emailsForGroup(String groupId);
 }

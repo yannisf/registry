@@ -28,8 +28,6 @@ public class ContextController extends BaseRestController {
         Map<String, Object> map = new HashMap<>();
         map.put("name", auth.getName());
         map.put("authorities", auth.getAuthorities());
-        map.put("principal", auth.getPrincipal());
-        map.put("details", auth.getDetails());
         return map;
     }
 

@@ -17,7 +17,9 @@
     <properties>
         <spring.version>4.2.4.RELEASE</spring.version>
         <spring-security.version>4.0.3.RELEASE</spring-security.version>
+        <spring-data-release-train>Gosling-SR4</spring-data-release-train>
         <hibernate.version>4.3.11.Final</hibernate.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.manager.url>http://telesto:8080/manager/text</tomcat.manager.url>
         <tomcat.manager.user>manager</tomcat.manager.user>
@@ -35,18 +37,32 @@
         <sonar.projectVersion>1.0</sonar.projectVersion>
         <sonar.projectDescription>A small time school registry manager</sonar.projectDescription>
 
-
     </properties>
-    
+
     <profiles>
+        <profile>
+            <id>bundle</id>
+            <dependencies>
+                <dependency>
+                    <groupId>fraglab</groupId>
+                    <artifactId>registry-ui</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                    <scope>runtime</scope>
+                    <type>war</type>
+                </dependency>
+            </dependencies>
+        </profile>
+
         <profile>
             <id>dev</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+
             <properties>
                 <spring.profile>dev</spring.profile>
             </properties>
+
             <dependencies>
                 <dependency>
                     <groupId>org.postgresql</groupId>
@@ -55,6 +71,7 @@
                 </dependency>
             </dependencies>
         </profile>
+
         <profile>
             <id>prod</id>
             <properties>
@@ -69,6 +86,7 @@
                 </dependency>
             </dependencies>
         </profile>
+
         <profile>
             <id>deploy</id>
             <build>
@@ -76,7 +94,6 @@
                     <plugin>
                         <groupId>org.apache.tomcat.maven</groupId>
                         <artifactId>tomcat7-maven-plugin</artifactId>
-                        <version>2.2</version>
                         <configuration>
                             <url>${tomcat.manager.url}</url>
                             <username>${tomcat.manager.user}</username>
@@ -98,6 +115,29 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>jrebel</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.zeroturnaround</groupId>
+                        <artifactId>jrebel-maven-plugin</artifactId>
+                        <version>1.1.5</version>
+                        <executions>
+                            <execution>
+                                <id>generate-rebel-xml</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 
     <build>
@@ -108,19 +148,47 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>build-info.properties</include>
+                    <include>META-INF/MANIFEST.MF</include>
                 </includes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <excludes>
-                    <exclude>build-info.properties</exclude>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
                 </excludes>
             </resource>
         </resources>
 
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.2</version>
+                <configuration>
+                    <buildNumberPropertyName>git.hash</buildNumberPropertyName>
+                    <shortRevisionLength>8</shortRevisionLength>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -140,6 +208,12 @@
                 <version>2.6</version>
                 <configuration>
                     <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <archive>
+                        <manifestEntries>
+                            <git-hash>${git.hash}</git-hash>
+                            <spring-profile>${spring.profile}</spring-profile>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
             </plugin>
 
@@ -160,47 +234,14 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            
-            <plugin>
-                <groupId>org.zeroturnaround</groupId>
-                <artifactId>jrebel-maven-plugin</artifactId>
-                <version>1.1.5</version>
-                <executions>
-                    <execution>
-                        <id>generate-rebel-xml</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
                 <configuration>
                     <port>9090</port>
+                    <uriEncoding>utf-8</uriEncoding>
                 </configuration>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.2</version>
-                <configuration>
-                    <buildNumberPropertyName>build.git_hash</buildNumberPropertyName>
-                    <shortRevisionLength>8</shortRevisionLength>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
@@ -212,6 +253,13 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
                 <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-releasetrain</artifactId>
+                <version>${spring-data-release-train}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -238,13 +286,17 @@
             <artifactId>spring-orm</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-web</artifactId>
+            <artifactId>spring-security-web</artifactId>
             <version>${spring-security.version}</version>
         </dependency>
         <dependency>
@@ -314,6 +366,12 @@
             <artifactId>velocity</artifactId>
             <version>1.7</version>
         </dependency>
+        <dependency>
+            <groupId>com.jcabi</groupId>
+            <artifactId>jcabi-manifests</artifactId>
+            <version>1.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>

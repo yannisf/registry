@@ -1,20 +1,20 @@
 package fraglab.registry.relationship;
 
-import fraglab.web.NotFoundException;
-
 import java.util.List;
+import java.util.Optional;
 
 public interface RelationshipService {
 
-    void createOrUpdate(Relationship relationship);
-    
-    void createOrUpdate(Relationship relationship, String childId, String guardianId);
-    
-    Relationship fetch(String id) throws NotFoundException;
-    
-    void delete(String id) throws NotFoundException;
+    Optional<Relationship> find(String id);
 
-    List<Relationship> fetchAllForChild(String childId);
+    Relationship save(Relationship relationship);
 
-    Relationship fetchForChildAndGuardian(String childId, String guardianId);
+    Relationship save(Relationship relationship, String childId, String guardianId);
+
+    void delete(String id);
+
+    List<Relationship> findAllForChild(String childId);
+
+    Optional<Relationship> findForChildAndGuardian(String childId, String guardianId);
+
 }

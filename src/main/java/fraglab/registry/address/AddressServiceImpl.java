@@ -1,45 +1,34 @@
 package fraglab.registry.address;
 
-import fraglab.data.GenericDao;
-import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class AddressServiceImpl implements AddressService {
 
     @Autowired
-    private GenericDao dao;
+    private AddressJpaRepository addressJpaRepository;
 
     @Override
-    public void createOrUpdate(Address address) {
-        dao.createOrUpdate(address);
+    public Optional<Address> find(String id) {
+        return Optional.ofNullable(addressJpaRepository.findOne(id));
     }
 
     @Override
-    public Address fetch(String id) throws NotFoundException {
-        Address address = dao.fetch(Address.class, id);
-        if (address == null) {
-            throw new NotFoundException("Address not found");
-        }
-        return address;
+    public Address save(Address address) {
+        return addressJpaRepository.save(address);
     }
 
     @Override
-    public void delete(String id) throws NotFoundException {
-        Address address = fetch(id);
-        dao.delete(address);
+    public void delete(String addressId){
+        addressJpaRepository.delete(addressId);
     }
 
     @Override
-    public Address fetchForPerson(String personId) {
-        String query = "select a from Address a where a.id = (select p.address.id from Person p where p.id= :personId)";
-        Map<String, Object> params = new HashMap<>();
-        params.put("personId", personId);
-        return dao.findSingleByQuery(Address.class, query, params);
+    public Address findForPerson(String personId) {
+        return addressJpaRepository.queryByPersonId(personId);
     }
 
 }

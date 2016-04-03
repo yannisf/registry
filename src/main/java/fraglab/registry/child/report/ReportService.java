@@ -1,6 +1,6 @@
 package fraglab.registry.child.report;
 
-import fraglab.registry.overview.meta.GroupDataTransfer;
+import fraglab.registry.group.GroupDataTransfer;
 import fraglab.web.NotFoundException;
 
 import java.util.List;

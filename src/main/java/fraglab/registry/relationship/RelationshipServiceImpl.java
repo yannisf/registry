@@ -1,68 +1,63 @@
 package fraglab.registry.relationship;
 
-import fraglab.data.GenericDao;
-import fraglab.registry.address.Address;
 import fraglab.registry.child.Child;
+import fraglab.registry.child.ChildJpaRepository;
 import fraglab.registry.guardian.Guardian;
-import fraglab.web.NotFoundException;
+import fraglab.registry.guardian.GuardianJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class RelationshipServiceImpl implements RelationshipService {
     
     @Autowired
-    private GenericDao dao;
-    
+    private ChildJpaRepository childJpaRepository;
+
+    @Autowired
+    private GuardianJpaRepository guardianJpaRepository;
+
+    @Autowired
+    private RelationshipJpaRepository relationshipJpaRepository;
+
     @Override
-    public void createOrUpdate(Relationship relationship) {
-        dao.createOrUpdate(relationship);
+    public Relationship save(Relationship relationship) {
+        return relationshipJpaRepository.save(relationship);
     }
 
     @Override
-    public void createOrUpdate(Relationship relationship, String childId, String guardianId) {
-        Child child = dao.fetch(Child.class, childId);
-        Guardian guardian = dao.fetch(Guardian.class, guardianId);
+    public Relationship save(Relationship relationship, String childId, String guardianId) {
+        Child child = childJpaRepository.findOne(childId);
+        Guardian guardian = guardianJpaRepository.findOne(guardianId);
         relationship.setChild(child);
         relationship.setGuardian(guardian);
-        createOrUpdate(relationship);
+        return save(relationship);
     }
 
     @Override
-    public Relationship fetch(String id) throws NotFoundException {
-        Relationship relationship = dao.fetch(Relationship.class, id);
-        if (relationship == null) {
-            throw new NotFoundException("Relationship not found");
-        }
-        return relationship;
+    public Optional<Relationship> find(String id) {
+        return Optional.ofNullable(relationshipJpaRepository.findOne(id));
     }
 
     @Override
-    public void delete(String id) throws NotFoundException {
-        Relationship relationship = fetch(id);
-        dao.delete(relationship);
+    public void delete(String relationshipId) {
+        relationshipJpaRepository.delete(relationshipId);
     }
 
     @Override
-    public List<Relationship> fetchAllForChild(String childId) {
-        Child child = dao.fetch(Child.class, childId);
+    public List<Relationship> findAllForChild(String childId) {
+        Child child = childJpaRepository.findOne(childId);
         child.getRelationships().size();
         return child.getRelationships();
     }
 
     @Override
-    public Relationship fetchForChildAndGuardian(String childId, String guardianId) {
-        String query = "select r from Relationship r where r.child.id = :childId and r.guardian.id = :guardianId";
-        Map<String, Object> params = new HashMap<>();
-        params.put("childId", childId);
-        params.put("guardianId", guardianId);
-        return dao.findSingleByQuery(Relationship.class, query, params);
+    public Optional<Relationship> findForChildAndGuardian(String childId, String guardianId) {
+        return Optional.ofNullable(relationshipJpaRepository.findByChildIdAndGuardianId(childId, guardianId));
 
     }
 

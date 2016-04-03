@@ -7,8 +7,6 @@ import fraglab.web.NotIdentifiedException;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
@@ -24,7 +22,6 @@ import java.net.URL;
 @RequestMapping("/child")
 public class ChildController extends BaseRestController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ChildController.class);
     private static final int NAME_LENGTH_MOD_TRIGGER = 14;
     private static final String TEMPLATE_STYLE_MOD_PROPERTY = "mod";
     private static final String STYLE_MOD_VALUE = "-lg";
@@ -43,25 +40,25 @@ public class ChildController extends BaseRestController {
     @Autowired
     ChildService childService;
 
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@RequestBody Child child, @RequestParam("addressId") String addressId, 
-                               @RequestParam("groupId") String groupId) 
-            throws NotIdentifiedException, NotFoundException {
-        childService.createOrUpdate(child, addressId, groupId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Child find(@PathVariable String id) throws NotFoundException {
+        return childService.find(id).orElseThrow(NotFoundException::new);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Child fetch(@PathVariable String id) throws NotFoundException {
-        return childService.fetch(id);
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void save(@RequestBody Child child, @RequestParam("addressId") String addressId,
+                     @RequestParam("groupId") String groupId)
+            throws NotIdentifiedException {
+        childService.save(child, addressId, groupId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable String id) throws NotFoundException {
+    public void delete(@PathVariable String id) {
         childService.delete(id);
     }
-    
+
     @RequestMapping(value = "/{id}/cards", method = RequestMethod.GET)
     public void printCards(@PathVariable(value = "id") String id, HttpServletResponse response)
             throws IOException, DocumentException, NotFoundException {
@@ -70,9 +67,8 @@ public class ChildController extends BaseRestController {
         streamReport(response, content);
     }
 
-
     private String processTemplate(String id) throws IOException, NotFoundException {
-        Child child = childService.fetch(id);
+        Child child = childService.find(id).orElseThrow(NotFoundException::new);
         Template template = velocityEngine.getTemplate(CHILD_CARDS_TEMPLATE, "UTF-8");
         VelocityContext context = createContext();
         context.put("child", child);

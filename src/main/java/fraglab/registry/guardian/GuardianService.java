@@ -2,14 +2,16 @@ package fraglab.registry.guardian;
 
 import fraglab.web.NotFoundException;
 
+import java.util.Optional;
+
 public interface GuardianService {
 
-    void createOrUpdate(Guardian guardian);
+    Optional<Guardian> find(String id);
 
-    void createOrUpdate(Guardian guardian, String addressId);
+    Guardian save(Guardian guardian);
 
-    Guardian fetch(String id) throws NotFoundException;
+    Guardian save(Guardian guardian, String addressId);
 
-    void delete(String id) throws NotFoundException;
+    void delete(String id);
 
 }
