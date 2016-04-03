@@ -12,11 +12,10 @@ import java.util.List;
 @Repository
 public interface ChildJpaRepository extends JpaRepository<Child, String> {
 
+    List<Child> findByGroupId(@Param("groupId") String groupId);
+
     @Query("select distinct c from Child c left join fetch c.relationships where c.id=:id")
     Child queryForRelationships(@Param("id") String id);
-
-    @Query("select c from Child c where c.group.id=:groupId")
-    List<Child> queryForGroup(@Param("groupId") String groupId);
 
     @Query("select c.id from Child c where c.group.id=:groupId order by c.lastName")
     List<String> queryByGroupForIds(@Param("groupId") String groupId);

@@ -10,9 +10,6 @@ import fraglab.registry.group.GroupJpaRepository;
 import fraglab.registry.group.GroupStatistics;
 import fraglab.registry.school.School;
 import fraglab.registry.school.SchoolJpaRepository;
-import fraglab.web.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +18,11 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class OverviewServiceImpl implements OverviewService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(OverviewServiceImpl.class);
 
     @Autowired
     private ChildJpaRepository childJpaRepository;
@@ -41,13 +37,13 @@ public class OverviewServiceImpl implements OverviewService {
     private GroupJpaRepository groupJpaRepository;
 
     @Override
-    public GroupDataTransfer fetchSchoolData(String groupId) {
+    public GroupDataTransfer findSchoolData(String groupId) {
         return groupJpaRepository.queryByGroupForMetadata(groupId);
     }
 
     @Override
     public List<Child> findChildrenForGroup(String groupId) {
-        return  childJpaRepository.queryForGroup(groupId);
+        return childJpaRepository.findByGroupId(groupId);
     }
 
     @Override
@@ -66,110 +62,97 @@ public class OverviewServiceImpl implements OverviewService {
     }
 
     @Override
-    public void createOrUpdateSchool(School school) {
-        schoolJpaRepository.save(school);
+    public School saveSchool(School school) {
+        return schoolJpaRepository.save(school);
     }
 
     @Override
-    public void createOrUpdateDepartment(Department department) {
-        departmentJpaRepository.save(department);
+    public Department saveDepartment(Department department) {
+        return departmentJpaRepository.save(department);
     }
 
     @Override
-    public void createOrUpdateGroup(Group group) {
-        groupJpaRepository.save(group);
+    public Group saveGroup(Group group) {
+        return groupJpaRepository.save(group);
     }
 
     @Override
-    public List<School> fetchSchools() {
+    public List<School> findSchools() {
         return schoolJpaRepository.findAllByOrderByNameAsc();
     }
 
     @Override
-    public School findSchool(String id) throws NotFoundException {
-        School school = schoolJpaRepository.findOne(id);
-        if (school == null) {
-            throw new NotFoundException();
-        }
-
-        return school;
+    public Optional<School> findSchool(String id) {
+        return Optional.ofNullable(schoolJpaRepository.findOne(id));
     }
 
     @Override
-    public Department findDepartment(String id) throws NotFoundException {
-        Department department = departmentJpaRepository.findOne(id);
-        if (department == null) {
-            throw new NotFoundException();
-        }
-
-        return department;
+    public Optional<Department> findDepartment(String id) {
+        return Optional.ofNullable(departmentJpaRepository.findOne(id));
     }
 
     @Override
     public List<Department> findDepartmentsForSchool(String schoolId) {
-        return  departmentJpaRepository.queryBySchoolId(schoolId);
+        return departmentJpaRepository.findBySchoolIdOrderByName(schoolId);
     }
 
     @Override
-    public void deleteSchool(String id) {
-        School school;
-        try {
-            school = findSchool(id);
-            schoolJpaRepository.delete(school);
-        } catch (NotFoundException e) {
-            LOG.info("Record does not exist", e);
-        }
+    public void deleteSchool(String schoolId) {
+        schoolJpaRepository.delete(schoolId);
     }
 
     @Override
-    public void saveDepartmentForSchool(String schoolId, Department department) throws NotFoundException {
-        School school = findSchool(schoolId);
+    public Department saveDepartmentForSchool(String schoolId, Department department) {
+        School school = findSchool(schoolId).orElseThrow(
+                () -> new IllegalArgumentException("School not found"));
         school.addDepartment(department);
-        departmentJpaRepository.save(department);
+        return departmentJpaRepository.save(department);
     }
 
     @Override
-    public List<Group> findGroupsForDepartment(String departmentId) throws NotFoundException {
-        Department department = findDepartment(departmentId);
+    public List<Group> findGroupsForDepartment(String departmentId) {
+        Department department = findDepartment(departmentId).orElseThrow(
+                () -> new IllegalArgumentException("Department not found"));
         department.getGroups().size();
         return department.getGroups();
     }
 
     @Override
-    public void deleteDepartment(String departmentId){
+    public void deleteDepartment(String departmentId) {
         departmentJpaRepository.delete(departmentId);
     }
 
     @Override
-    public void saveGroupForDepartment(Group group, String departmentId) throws NotFoundException {
-        if (departmentId != null) {
-            Department department = findDepartment(departmentId);
-            group.setDepartment(department);
-        }
-        groupJpaRepository.save(group);
+    public Group saveGroupForDepartment(Group group, String departmentId) {
+        Department department = findDepartment(departmentId).orElseThrow(
+                () -> new IllegalArgumentException("Department not found"));
+        group.setDepartment(department);
+        return groupJpaRepository.save(group);
     }
 
     @Override
-    public void deleteGroup(String id) {
-        try {
-            Group group = fetchGroup(id);
-            groupJpaRepository.delete(group);
-        } catch (NotFoundException e) {
-            LOG.info("Group [{}] not found. ", id);
-        }
+    public void deleteGroup(String groupId) {
+        groupJpaRepository.delete(groupId);
     }
 
     @Override
-    public Map<String, Object> fetchGroupInfo(String groupId) throws NotFoundException {
-        Group group = fetchGroup(groupId);
-        Department department = findDepartment(group.getDepartment().getId());
-        School school = findSchool(department.getSchool().getId());
+    public Map<String, Object> findGroupInfo(String groupId) {
+        Group group = findGroup(groupId).orElseThrow(
+                () -> new IllegalArgumentException("Group not found"));
+        Department department = findDepartment(group.getDepartment().getId()).orElseThrow(
+                () -> new IllegalArgumentException("Department not found"));
+        School school = findSchool(department.getSchool().getId()).orElseThrow(
+                () -> new IllegalArgumentException("School not found"));
 
         Map<String, Object> groupMap = prepareGroupMap(group);
         Map<String, Object> departmentMap = prepareDepartmentMap(department);
         Map<String, Object> schoolMap = prepareSchoolMap(school);
 
-        return  prepareGroupInfoMap(groupMap, departmentMap, schoolMap);
+        return prepareGroupInfoMap(groupMap, departmentMap, schoolMap);
+    }
+
+    private Optional<Group> findGroup(String groupId) {
+        return Optional.ofNullable(groupJpaRepository.findOne(groupId));
     }
 
     private Map<String, Object> prepareGroupMap(Group group) {
@@ -204,14 +187,6 @@ public class OverviewServiceImpl implements OverviewService {
         groupInfo.put("department", departmentMap);
         groupInfo.put("group", groupMap);
         return groupInfo;
-    }
-
-    private Group fetchGroup(String groupId) throws NotFoundException {
-        Group group = groupJpaRepository.findOne(groupId);
-        if (group == null) {
-            throw new NotFoundException("Group " + groupId + " not found. ");
-        }
-        return group;
     }
 
 }

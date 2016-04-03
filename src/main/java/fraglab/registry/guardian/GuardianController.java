@@ -14,21 +14,21 @@ public class GuardianController extends BaseRestController {
     @Autowired
     GuardianService guardianService;
 
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@RequestBody Guardian guardian, @RequestParam("addressId") String addressId)
-            throws NotIdentifiedException, NotFoundException {
-        guardianService.save(guardian, addressId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Guardian find(@PathVariable String id) throws NotFoundException {
+        return guardianService.find(id).orElseThrow(NotFoundException::new);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Guardian fetch(@PathVariable String id) throws NotFoundException {
-        return guardianService.find(id);
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void save(@RequestBody Guardian guardian, @RequestParam("addressId") String addressId)
+            throws NotIdentifiedException {
+        guardianService.save(guardian, addressId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable String id) throws NotFoundException {
+    public void delete(@PathVariable String id){
         guardianService.delete(id);
     }
 

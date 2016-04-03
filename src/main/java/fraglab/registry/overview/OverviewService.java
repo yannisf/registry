@@ -10,10 +10,11 @@ import fraglab.web.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface OverviewService {
 
-    GroupDataTransfer fetchSchoolData(String childGroupId);
+    GroupDataTransfer findSchoolData(String childGroupId);
 
     List<Child> findChildrenForGroup(String groupId);
 
@@ -21,31 +22,31 @@ public interface OverviewService {
 
     GroupStatistics findChildGroupStatistics(String childGroupId);
 
-    void createOrUpdateSchool(School school);
+    School saveSchool(School school);
 
-    void createOrUpdateDepartment(Department department);
+    Department saveDepartment(Department department);
 
-    void createOrUpdateGroup(Group group);
+    Group saveGroup(Group group);
 
-    List<School> fetchSchools();
+    List<School> findSchools();
 
-    School findSchool(String id) throws NotFoundException;
+    Optional<School> findSchool(String id);
 
-    Department findDepartment(String id) throws NotFoundException;
+    Optional<Department> findDepartment(String id);
 
     List<Department> findDepartmentsForSchool(String schoolId);
 
     void deleteSchool(String id);
 
-    void saveDepartmentForSchool(String schoolId, Department department) throws NotFoundException;
+    Department saveDepartmentForSchool(String schoolId, Department department);
 
-    List<Group> findGroupsForDepartment(String departmentId) throws NotFoundException;
+    List<Group> findGroupsForDepartment(String departmentId);
 
     void deleteDepartment(String departmentId);
 
-    void saveGroupForDepartment(Group group, String departmentId) throws NotFoundException;
+    Group saveGroupForDepartment(Group group, String departmentId);
 
     void deleteGroup(String groupId);
 
-    Map<String,Object> fetchGroupInfo(String id) throws NotFoundException;
+    Map<String,Object> findGroupInfo(String id);
 }

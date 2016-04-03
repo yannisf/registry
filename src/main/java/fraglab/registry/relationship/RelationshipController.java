@@ -15,28 +15,28 @@ public class RelationshipController extends BaseRestController {
 
     @Autowired
     private RelationshipService relationshipService;
-    
+
     @RequestMapping(method = RequestMethod.PUT, value = "/child/{childId}/guardian/{guardianId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdate(@RequestBody Relationship relationship, @PathVariable("childId") String childId, 
-            @PathVariable("guardianId") String guardianId) throws NotIdentifiedException, NotFoundException {
+    public void save(@RequestBody Relationship relationship, @PathVariable("childId") String childId,
+                     @PathVariable("guardianId") String guardianId) throws NotIdentifiedException {
         relationshipService.save(relationship, childId, guardianId);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/child/{childId}/guardian/{guardianId}")
-    public Relationship fetchForChildAndGuardian(@PathVariable("childId") String childId,
-                                      @PathVariable("guardianId") String guardianId) throws NotFoundException {
-        return relationshipService.findForChildAndGuardian(childId, guardianId);
+    public Relationship findForChildAndGuardian(@PathVariable("childId") String childId,
+                                                @PathVariable("guardianId") String guardianId) throws NotFoundException {
+        return relationshipService.findForChildAndGuardian(childId, guardianId).orElseThrow(NotFoundException::new);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/child/{childId}")
-    public List<Relationship> fetchAllForChild(@PathVariable("childId") String childId) {
+    public List<Relationship> findAllForChild(@PathVariable("childId") String childId) {
         return relationshipService.findAllForChild(childId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable String id) throws NotFoundException {
+    public void delete(@PathVariable String id) {
         relationshipService.delete(id);
     }
 

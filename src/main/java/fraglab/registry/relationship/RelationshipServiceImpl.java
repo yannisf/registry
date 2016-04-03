@@ -4,12 +4,12 @@ import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildJpaRepository;
 import fraglab.registry.guardian.Guardian;
 import fraglab.registry.guardian.GuardianJpaRepository;
-import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,32 +25,27 @@ public class RelationshipServiceImpl implements RelationshipService {
     private RelationshipJpaRepository relationshipJpaRepository;
 
     @Override
-    public void save(Relationship relationship) {
-        relationshipJpaRepository.save(relationship);
+    public Relationship save(Relationship relationship) {
+        return relationshipJpaRepository.save(relationship);
     }
 
     @Override
-    public void save(Relationship relationship, String childId, String guardianId) {
+    public Relationship save(Relationship relationship, String childId, String guardianId) {
         Child child = childJpaRepository.findOne(childId);
         Guardian guardian = guardianJpaRepository.findOne(guardianId);
         relationship.setChild(child);
         relationship.setGuardian(guardian);
-        save(relationship);
+        return save(relationship);
     }
 
     @Override
-    public Relationship find(String id) throws NotFoundException {
-        Relationship relationship = relationshipJpaRepository.findOne(id);
-        if (relationship == null) {
-            throw new NotFoundException("Relationship not found");
-        }
-        return relationship;
+    public Optional<Relationship> find(String id) {
+        return Optional.ofNullable(relationshipJpaRepository.findOne(id));
     }
 
     @Override
-    public void delete(String id) throws NotFoundException {
-        Relationship relationship = find(id);
-        relationshipJpaRepository.delete(relationship);
+    public void delete(String relationshipId) {
+        relationshipJpaRepository.delete(relationshipId);
     }
 
     @Override
@@ -61,8 +56,8 @@ public class RelationshipServiceImpl implements RelationshipService {
     }
 
     @Override
-    public Relationship findForChildAndGuardian(String childId, String guardianId) {
-        return relationshipJpaRepository.queryByChildAndGuardian(childId, guardianId);
+    public Optional<Relationship> findForChildAndGuardian(String childId, String guardianId) {
+        return Optional.ofNullable(relationshipJpaRepository.findByChildIdAndGuardianId(childId, guardianId));
 
     }
 

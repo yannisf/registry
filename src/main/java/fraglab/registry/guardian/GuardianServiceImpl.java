@@ -1,20 +1,15 @@
 package fraglab.registry.guardian;
 
-import fraglab.registry.address.Address;
 import fraglab.registry.address.AddressService;
-import fraglab.web.NotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class GuardianServiceImpl implements GuardianService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(GuardianServiceImpl.class);
 
     @Autowired
     private  GuardianJpaRepository guardianJpaRepository;
@@ -23,32 +18,24 @@ public class GuardianServiceImpl implements GuardianService {
     private AddressService addressService;
 
     @Override
-    public void delete(String id) throws NotFoundException {
-        Guardian guardian = find(id);
-        guardianJpaRepository.delete(guardian);
-        addressService.delete(guardian.getAddress().getId());
+    public Optional<Guardian> find(String id) {
+        return Optional.ofNullable(guardianJpaRepository.findOne(id));
     }
 
     @Override
-    public void save(Guardian guardian) {
-        guardianJpaRepository.save(guardian);
+    public Guardian save(Guardian guardian) {
+        return guardianJpaRepository.save(guardian);
     }
 
     @Override
-    public void save(Guardian guardian, String addressId) throws NotFoundException {
-        Address address = addressService.find(addressId);
-        guardian.setAddress(address);
-        save(guardian);
+    public Guardian save(Guardian guardian, String addressId) {
+        addressService.find(addressId).ifPresent(guardian::setAddress);
+        return save(guardian);
     }
 
     @Override
-    public Guardian find(String id) throws NotFoundException {
-        Guardian guardian = guardianJpaRepository.findOne(id);
-        if (guardian == null) {
-            throw new NotFoundException("Guardian not found");
-        }
-
-        return guardian;
+    public void delete(String guardianId) {
+        guardianJpaRepository.delete(guardianId);
     }
 
 }

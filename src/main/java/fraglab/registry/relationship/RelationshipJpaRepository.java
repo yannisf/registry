@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RelationshipJpaRepository extends JpaRepository<Relationship, String> {
 
-    @Query("select r from Relationship r where r.child.id=:childId and r.guardian.id=:guardianId")
-    Relationship queryByChildAndGuardian(@Param("childId") String childId, @Param("guardianId") String guardianId);
+    Relationship findByChildIdAndGuardianId(String childId, String guardianId);
 
 }

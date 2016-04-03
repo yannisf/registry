@@ -33,7 +33,7 @@ public class ReportServiceImpl implements ReportService {
         List<ReportChild> reportChildren = new ArrayList<>();
         List<String> ids = overviewService.findChildrenIdsForGroup(groupId);
         for (String id : ids) {
-            Child child = childService.findWithRelationships(id);
+            Child child = childService.findWithRelationships(id).orElseThrow(NotFoundException::new);
             reportChildren.add(mapChild(child));
         }
 
@@ -67,7 +67,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public GroupDataTransfer getSchoolDataForChildGroup(String childGroupId) {
-        return overviewService.fetchSchoolData(childGroupId);
+        return overviewService.findSchoolData(childGroupId);
     }
 
 }

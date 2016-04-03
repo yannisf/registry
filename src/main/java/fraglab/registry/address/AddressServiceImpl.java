@@ -1,8 +1,9 @@
 package fraglab.registry.address;
 
-import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -11,23 +12,18 @@ public class AddressServiceImpl implements AddressService {
     private AddressJpaRepository addressJpaRepository;
 
     @Override
-    public void save(Address address) {
-        addressJpaRepository.save(address);
+    public Optional<Address> find(String id) {
+        return Optional.ofNullable(addressJpaRepository.findOne(id));
     }
 
     @Override
-    public Address find(String id) throws NotFoundException {
-        Address address = addressJpaRepository.findOne(id);
-        if (address == null) {
-            throw new NotFoundException("Address not found");
-        }
-        return address;
+    public Address save(Address address) {
+        return addressJpaRepository.save(address);
     }
 
     @Override
-    public void delete(String id) throws NotFoundException {
-        Address address = find(id);
-        addressJpaRepository.delete(address);
+    public void delete(String addressId){
+        addressJpaRepository.delete(addressId);
     }
 
     @Override

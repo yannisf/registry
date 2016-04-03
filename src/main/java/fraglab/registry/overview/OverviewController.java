@@ -1,6 +1,7 @@
 package fraglab.registry.overview;
 
 import fraglab.registry.child.Child;
+import fraglab.registry.child.ChildService;
 import fraglab.registry.department.Department;
 import fraglab.registry.group.Group;
 import fraglab.registry.group.GroupStatistics;
@@ -13,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,38 +26,40 @@ public class OverviewController extends BaseRestController {
     @Autowired
     private OverviewService overviewService;
 
+    @Autowired
+    private ChildService childService;
+
     @RequestMapping(value = "security", method = RequestMethod.GET)
     public Authentication credentials() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication;
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
     @RequestMapping(value = "/school", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdateSchool(@RequestBody School school) {
-        overviewService.createOrUpdateSchool(school);
+    public void saveSchool(@RequestBody School school) {
+        overviewService.saveSchool(school);
     }
 
     @RequestMapping(value = "/school", method = RequestMethod.GET)
-    public List<School> fetchSchools() {
-        return overviewService.fetchSchools();
+    public List<School> findSchools() {
+        return overviewService.findSchools();
     }
 
     @RequestMapping(value = "/school/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable String id) throws NotFoundException {
+    public void deleteSchool(@PathVariable String id) {
         overviewService.deleteSchool(id);
     }
 
     @RequestMapping(value = "/department", method = RequestMethod.GET)
-    public List<Department> fetchDepartmentsForSchool(@RequestParam(value = "schoolId", required = true) String schoolId) {
+    public List<Department> findDepartmentsForSchool(@RequestParam(value = "schoolId", required = true) String schoolId) {
         return overviewService.findDepartmentsForSchool(schoolId);
     }
 
     @RequestMapping(value = "/department", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdateDepartmentForSchool(@RequestParam(value = "schoolId") String schoolId, @RequestBody Department department)
-            throws NotFoundException {
+    public void saveDepartmentForSchool(@RequestParam(value = "schoolId") String schoolId,
+                                        @RequestBody Department department) {
         overviewService.saveDepartmentForSchool(schoolId, department);
     }
 
@@ -65,15 +70,13 @@ public class OverviewController extends BaseRestController {
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)
-    public List<Group> fetchGroupsForDepartment(@RequestParam(value = "departmentId", required = true) String departmentId)
-            throws NotFoundException {
+    public List<Group> findGroupsForDepartment(@RequestParam(value = "departmentId", required = true) String departmentId) {
         return overviewService.findGroupsForDepartment(departmentId);
     }
 
     @RequestMapping(value = "/group", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createOrUpdateGroup(@RequestBody Group group, @RequestParam(value = "departmentId") String departmentId)
-            throws NotFoundException {
+    public void saveGroup(@RequestBody Group group, @RequestParam(value = "departmentId") String departmentId) {
         overviewService.saveGroupForDepartment(group, departmentId);
     }
 
@@ -84,18 +87,26 @@ public class OverviewController extends BaseRestController {
     }
 
     @RequestMapping(value = "/group/{id}/child", method = RequestMethod.GET)
-    public List<Child> fetchChildrenForGroup(@PathVariable String id) {
+    public List<Child> findChildrenForGroup(@PathVariable String id) {
         return overviewService.findChildrenForGroup(id);
     }
 
     @RequestMapping(value = "/group/{id}/statistics", method = RequestMethod.GET)
-    public GroupStatistics fetchChildGroupStatistics(@PathVariable String id) {
+    public GroupStatistics findChildGroupStatistics(@PathVariable String id) {
         return overviewService.findChildGroupStatistics(id);
     }
 
     @RequestMapping(value = "/group/{id}/info", method = RequestMethod.GET)
-    public Map<String, Object> fetchGroupInfo(@PathVariable String id) throws NotFoundException {
-        return overviewService.fetchGroupInfo(id);
+    public Map<String, Object> findGroupInfo(@PathVariable String id) throws NotFoundException {
+        return overviewService.findGroupInfo(id);
+    }
+
+    @RequestMapping(value = "/group/{groupId}/emails", method = RequestMethod.GET, produces = "text/plain; charset=UTF-8")
+    public void findGroupEmails(@PathVariable String groupId, HttpServletResponse response) throws IOException {
+        byte[] result = childService.emailsForGroup(groupId).getBytes();
+        response.addHeader("Content-Disposition", "attachment; filename=\"" + groupId + ".txt\"");
+        response.addHeader("Content-Length", String.valueOf(result.length));
+        response.getOutputStream().write(result);
     }
 
 }
