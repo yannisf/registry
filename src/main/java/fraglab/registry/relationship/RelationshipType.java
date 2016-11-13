@@ -1,15 +1,15 @@
 package fraglab.registry.relationship;
 
 public enum RelationshipType {
-    FATHER, 
+    FATHER,
     MOTHER,
-    GRANDFATHER, 
+    GRANDFATHER,
     GRANDMOTHER,
-    BROTHER, 
+    BROTHER,
     SISTER,
-    UNCLE, 
+    UNCLE,
     AUNT,
-    GODFATHER, 
+    GODFATHER,
     GODMOTHER,
     OTHER
 }

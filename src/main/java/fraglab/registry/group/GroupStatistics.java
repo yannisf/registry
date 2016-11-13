@@ -10,7 +10,8 @@ public class GroupStatistics implements Serializable {
     private Integer levelaNum;
     private Integer levelbNum;
 
-    public GroupStatistics() { }
+    public GroupStatistics() {
+    }
 
     public GroupStatistics(String groupId, Integer boysNum, Integer girlsNum, Integer levelaNum, Integer levelbNum) {
         this.groupId = groupId;

@@ -17,11 +17,12 @@ public class School extends BaseEntity {
 
     @OneToMany(mappedBy = "school")
     private List<Department> departments;
-    
+
     @Formula(value = "(select count(*) from department d where d.school_id = id)")
     private Long numberOfDepartments;
 
-    public School() { }
+    public School() {
+    }
 
     public School(String name) {
         this.name = name;
@@ -55,5 +56,5 @@ public class School extends BaseEntity {
     public Long getNumberOfDepartments() {
         return numberOfDepartments;
     }
-    
+
 }

@@ -10,7 +10,8 @@ public class GroupDataTransfer implements Serializable {
     private String group;
     private Integer members;
 
-    public GroupDataTransfer() { }
+    public GroupDataTransfer() {
+    }
 
     public GroupDataTransfer(String id, String school, String department, String group, Integer members) {
         this.id = id;

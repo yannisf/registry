@@ -23,28 +23,23 @@ import java.util.Map;
 @RequestMapping("/communication")
 public class CommunicationReportController {
 
-    @Autowired
-    private VelocityEngine velocityEngine;
-
-    @Autowired
-    private ITextRenderer iTextRenderer;
-
-    @Autowired
-    private ReportService reportService;
-
-    @Autowired
-    private ResourceLoader resourceLoader;
-    
     @Resource(name = "reportRelationshipTypesGreekMap")
     Map<RelationshipType, String> reportRelationshipTypesGreekMap;
-
     @Resource(name = "reportTelephoneTypeGreekMap")
     Map<Telephone.Type, String> reportTelephoneTypeGreekMap;
+    @Autowired
+    private VelocityEngine velocityEngine;
+    @Autowired
+    private ITextRenderer iTextRenderer;
+    @Autowired
+    private ReportService reportService;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/pdf")
     public void table(@PathVariable(value = "id") String id,
                       @RequestParam(defaultValue = "a4", value = "format", required = false) String format,
-                      HttpServletResponse response) 
+                      HttpServletResponse response)
             throws IOException, DocumentException, NotFoundException {
         response.addHeader("Content-Disposition", "attachment; filename=\"" + id + ".pdf\"");
         String content = processTemplate(id, format);

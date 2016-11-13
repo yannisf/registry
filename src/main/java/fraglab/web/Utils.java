@@ -7,7 +7,8 @@ import java.io.UnsupportedEncodingException;
 
 public final class Utils {
 
-    private Utils() { }
+    private Utils() {
+    }
 
     public static final String reEncodeString(String input) {
         String output = StringUtils.EMPTY;

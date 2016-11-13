@@ -22,7 +22,7 @@ public class AjaxAwareLoginUrlAuthenticationEntryPoint extends LoginUrlAuthentic
         } else {
             super.commence(request, response, authException);
         }
-        
+
     }
-    
+
 }

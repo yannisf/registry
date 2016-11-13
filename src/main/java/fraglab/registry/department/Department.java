@@ -28,7 +28,8 @@ public class Department extends BaseEntity {
     @Formula(value = "(select count(*) from CGROUP g where g.department_id = id)")
     private Long numberOfGroups;
 
-    public Department() { }
+    public Department() {
+    }
 
     public Department(String name) {
         this.name = name;
@@ -71,5 +72,5 @@ public class Department extends BaseEntity {
     public Long getNumberOfGroups() {
         return numberOfGroups;
     }
-    
+
 }

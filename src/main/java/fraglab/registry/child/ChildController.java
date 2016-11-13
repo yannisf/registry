@@ -29,16 +29,13 @@ public class ChildController extends BaseRestController {
     private static final String CHILD_CARDS_TEMPLATE_CSS = "/templates/child_cards.css";
 
     @Autowired
+    ChildService childService;
+    @Autowired
     private VelocityEngine velocityEngine;
-
     @Autowired
     private ITextRenderer iTextRenderer;
-
     @Autowired
     private ResourceLoader resourceLoader;
-
-    @Autowired
-    ChildService childService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Child find(@PathVariable String id) throws NotFoundException {

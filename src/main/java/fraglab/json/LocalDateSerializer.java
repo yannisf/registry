@@ -1,9 +1,9 @@
 package fraglab.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -19,7 +19,7 @@ public class LocalDateSerializer extends JsonSerializer<Date> {
             String formattedDate = formatter.format(date);
             jsonGenerator.writeString(formattedDate);
         } else {
-            jsonGenerator.writeString("");
+            jsonGenerator.writeString(StringUtils.EMPTY);
         }
     }
 }

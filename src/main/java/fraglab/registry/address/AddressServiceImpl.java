@@ -22,7 +22,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void delete(String addressId){
+    public void delete(String addressId) {
         addressJpaRepository.delete(addressId);
     }
 

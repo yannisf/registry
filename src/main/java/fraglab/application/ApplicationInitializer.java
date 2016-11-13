@@ -13,6 +13,8 @@ import java.util.EnumSet;
 
 public class ApplicationInitializer implements WebApplicationInitializer {
 
+    public static final String API_CONTEXT = "/api/*";
+
     @Override
     public void onStartup(ServletContext container) {
         container.setInitParameter("contextConfigLocation", "/WEB-INF/securityContext.xml");
@@ -20,7 +22,7 @@ public class ApplicationInitializer implements WebApplicationInitializer {
 
         ServletRegistration.Dynamic registration = container.addServlet("dispatcher", new DispatcherServlet());
         registration.setLoadOnStartup(1);
-        registration.addMapping("/api/*");
+        registration.addMapping(API_CONTEXT);
 
         FilterRegistration.Dynamic filterRegistration =
                 container.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);

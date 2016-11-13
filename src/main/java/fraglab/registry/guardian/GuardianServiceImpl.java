@@ -12,7 +12,7 @@ import java.util.Optional;
 public class GuardianServiceImpl implements GuardianService {
 
     @Autowired
-    private  GuardianJpaRepository guardianJpaRepository;
+    private GuardianJpaRepository guardianJpaRepository;
 
     @Autowired
     private AddressService addressService;

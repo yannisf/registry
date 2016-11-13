@@ -1,4 +1,3 @@
-
 package fraglab.registry.relationship;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,7 +19,8 @@ public class Relationship extends BaseEntity implements Comparable<Relationship>
     @OneToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
     private Guardian guardian;
 
-    public Relationship() { }
+    public Relationship() {
+    }
 
     public RelationshipMetadata getMetadata() {
         return metadata;

@@ -2,12 +2,12 @@ package fraglab.registry.child.report;
 
 import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildService;
-import fraglab.registry.relationship.Relationship;
 import fraglab.registry.common.Telephone;
-import fraglab.registry.overview.OverviewService;
 import fraglab.registry.group.GroupDataTransfer;
 import fraglab.registry.guardian.Guardian;
 import fraglab.registry.guardian.GuardianService;
+import fraglab.registry.overview.OverviewService;
+import fraglab.registry.relationship.Relationship;
 import fraglab.web.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

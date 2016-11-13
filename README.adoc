@@ -1,0 +1,76 @@
+= Registry
+
+Registry is a web application to help school teachers tackle the administrative tasks of a school class. Although it is a fairly small application it implements all best practices as far as security, stability and scalability is concerned. Features are constantly added and feature requests are kindly encouraged. Currently, the application uses Greek localization, with English planned next.
+
+== Login
+Default user credentials are: *user:user123*
+
+== Database
+The application requires a Postgrs database.
+
+=== Create a PostgreSQL schema and user
+
+Before deploying the application a Postgres database schema must created. Just for reference, to create a postgres schema follow these steps:
+
+. Connect to postgres using `psql`
+[source,sh]
+# psql --host=localhost --port=5432 --username=postgres
+. Create the application user
+[source,sql]
+CREATE USER registry PASSWORD 'registry' createdb;
+. Create the application database
+[source,sql]
+CREATE DATABASE registry OWNER = registry;
+. Edit the `pom.xml` with the connection information provided in the end (update them accordingly for your environment if required).
+. Initialize the database using flyway
+[source]
+# mvn clean compile flyway:migrate
+
+.Connection information
+[horizontal]
+host:: localhost
+port:: 5432
+user:: registry
+password:: registry
+database:: registry
+
+== Production datasource
+When deploying a *production* build a _JNDI datasource_ is required. For tomcat installations make sure to satisfy the following:
+
+. Add the PostgreSQL JDBC driver into Tomcat lib.
+. Edit Tomcat `server.xml` to include the following in the `GlobalNamingResources` section:
++
+[source,xml]
+----
+<Resource name="RegistryDatasource"
+    auth="Container"
+    type="javax.sql.DataSource"
+    driverClassName="org.postgresql.Driver"
+    url="jdbc:postgresql://localhost:5432/registry"
+    username="registry"
+    password="registry"
+    maxActive="10" maxIdle="4" maxWait="10000"
+    testOnBorrow="true"
+    validationQuery="select 1"
+    validationInterval="360000"/>
+----
+. In the previous fragment the `Resource` element has an attribute `name`. The value of this attribute should be the same with the `global` attribute of the `ResourceLink` element of `context.xml` found in `src/main/webapp/META-INF/context.xml`
+
+== Build
+To build the application the user interface (client) and server must be built individually. The client exists in a seperate repository.
+
+=== Server
+For the server build, maven is used. The build uses two profiles *dev* and *prod*, the first one being the default. During development the maven command to execute is:
+----
+mvn clean tomcat7:run-war -Dmaven.test.skip
+----
+This will launch the application within an embedded tomcat. It uses a local datasource. It is required that the user has already built the user interface.
+
+When preparing a production release the command to use is:
+
+`mvn clean package -Dmaven.test.skip -Pprod`
+
+This command will build a production package to deploy on tomcat. Alternatively, after parametrise accordingly certain system variables and have configured tomcat manage, using the **deploy** profile as well the application may be deployed during the build. This build requires a JNDI datasource.
+
+=== User interface
+Check out the client code from https://github.com/yannisf/registry-ui[registry-ui] and follow the instructions in `README.adoc`. In priciple, the user interface must be built first and installed into a maven repository. Then the server application will pull the user interface as a depedency.

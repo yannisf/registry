@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class RelationshipServiceImpl implements RelationshipService {
-    
+
     @Autowired
     private ChildJpaRepository childJpaRepository;
 

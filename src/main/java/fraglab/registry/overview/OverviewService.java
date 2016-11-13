@@ -6,7 +6,6 @@ import fraglab.registry.group.Group;
 import fraglab.registry.group.GroupDataTransfer;
 import fraglab.registry.group.GroupStatistics;
 import fraglab.registry.school.School;
-import fraglab.web.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -48,5 +47,5 @@ public interface OverviewService {
 
     void deleteGroup(String groupId);
 
-    Map<String,Object> findGroupInfo(String id);
+    Map<String, Object> findGroupInfo(String id);
 }
