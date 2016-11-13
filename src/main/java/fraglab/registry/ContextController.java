@@ -2,7 +2,6 @@ package fraglab.registry;
 
 import fraglab.web.BaseRestController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,7 @@ public class ContextController extends BaseRestController {
 
     /**
      * Provides user information for logged in users from the security provider
+     *
      * @return user details
      */
     @RequestMapping(value = "/authentication", method = RequestMethod.GET)
@@ -26,8 +26,15 @@ public class ContextController extends BaseRestController {
     public Map<String, Object> getAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> map = new HashMap<>();
-        map.put("name", auth.getName());
-        map.put("authorities", auth.getAuthorities());
+
+//DEV
+        map.put("name", "user");
+        map.put("authorities", "[{\"authority\":\"USER\"}]");
+
+//PROD
+//        map.put("name", auth.getName());
+//        map.put("authorities", auth.getAuthorities());
+
         return map;
     }
 

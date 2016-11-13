@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
     <beans:bean id="authEntryPoint" class="fraglab.web.AjaxAwareLoginUrlAuthenticationEntryPoint">
-        <beans:constructor-arg value="/login.html" />
+        <beans:constructor-arg value="/login.html"/>
     </beans:bean>
 
     <http pattern="/favicon.ico" security="none"/>
@@ -16,10 +17,15 @@
     <http entry-point-ref="authEntryPoint">
         <csrf disabled="true"/>
 
-        <intercept-url pattern="/login.html" access="permitAll" />
-        <intercept-url pattern="/**" access="hasAuthority('USER')" />
+        <intercept-url pattern="/login.html" access="permitAll"/>
 
-        <remember-me key="secret" remember-me-parameter="remember"  />
+        <!--dev-->
+        <intercept-url pattern="/**" access="permitAll"/>
+
+        <!--prod-->
+        <!--<intercept-url pattern="/**" access="hasAuthority('USER')" />-->
+
+        <remember-me key="secret" remember-me-parameter="remember"/>
 
         <form-login
                 login-processing-url="/login"
