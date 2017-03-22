@@ -24,7 +24,6 @@
         <tomcat.manager.url>http://telesto:8080/manager/text</tomcat.manager.url>
         <tomcat.manager.user>manager</tomcat.manager.user>
         <tomcat.manager.password>secret</tomcat.manager.password>
-        <postgres.jdbc.version>9.4-1201-jdbc41</postgres.jdbc.version>
 
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
@@ -65,9 +64,9 @@
 
             <dependencies>
                 <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>${postgres.jdbc.version}</version>
+                    <groupId>org.hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                    <version>2.3.4</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -79,10 +78,9 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>org.postgresql</groupId>
-                    <artifactId>postgresql</artifactId>
-                    <version>${postgres.jdbc.version}</version>
-                    <scope>provided</scope>
+                    <groupId>org.hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                    <version>2.3.4</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -222,15 +220,15 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/registry_dev</url>
-                    <user>registry</user>
-                    <password>registry</password>
+                    <url>jdbc:hsqldb:http://localhost/xdb</url>
+                    <user>SA</user>
+                    <password></password>
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>org.postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>${postgres.jdbc.version}</version>
+                        <groupId>org.hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                        <version>2.3.4</version>
                     </dependency>
                 </dependencies>
             </plugin>
