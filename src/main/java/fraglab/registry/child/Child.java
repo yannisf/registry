@@ -25,6 +25,8 @@ public class Child extends Person {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Group group;
 
+    private ChildPhoto photo;
+
     public String getCallName() {
         return callName;
     }

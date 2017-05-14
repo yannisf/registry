@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URL;
 
 @RestController
@@ -62,6 +62,25 @@ public class ChildController extends BaseRestController {
         response.addHeader("Content-Disposition", "attachment; filename=\"" + id + ".pdf\"");
         String content = processTemplate(id);
         streamReport(response, content);
+    }
+
+    @RequestMapping(value="/photo", method=RequestMethod.POST)
+    public String handleFileUpload(@RequestParam("fileToUpload") MultipartFile file){
+
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("c:/local/file")));
+                stream.write(bytes);
+                stream.close();
+                return "ok";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return e.getMessage();
+            }
+        } else {
+            return "empty";
+        }
     }
 
     private String processTemplate(String id) throws IOException, NotFoundException {
