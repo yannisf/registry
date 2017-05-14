@@ -11,6 +11,7 @@
 
     <http pattern="/favicon.ico" security="none"/>
     <http pattern="/styles/**" security="none"/>
+    <http pattern="/**/*.css" security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/fonts/**" security="none"/>
 
