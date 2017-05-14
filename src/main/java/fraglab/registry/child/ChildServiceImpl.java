@@ -85,12 +85,14 @@ public class ChildServiceImpl implements ChildService {
         Predicate<Relationship> hasEmail = (r -> r.getGuardian().getEmail() != null);
 
         childrenInGroup.forEach(c -> {
-            c.getRelationships().stream().filter(isFather.or(isMother)).filter(hasEmail).forEach(r -> {
-                childEmailContacts.putIfAbsent(c.getReportName(), new HashMap<>());
-                Guardian g = r.getGuardian();
-                childEmailContacts.get(c.getReportName()).put(g.getFullName(), g.getEmail());
-
-            });
+            c.getRelationships().stream()
+                    .filter(isFather.or(isMother))
+                    .filter(hasEmail)
+                    .forEach(r -> {
+                        childEmailContacts.putIfAbsent(c.getReportName(), new HashMap<>());
+                        Guardian g = r.getGuardian();
+                        childEmailContacts.get(c.getReportName()).put(g.getFullName(), g.getEmail());
+                    });
         });
 
         return childEmailContacts;

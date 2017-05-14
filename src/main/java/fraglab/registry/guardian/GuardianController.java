@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class GuardianController extends BaseRestController {
 
     @Autowired
-    GuardianService guardianService;
+    private GuardianService guardianService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Guardian find(@PathVariable String id) throws NotFoundException {
