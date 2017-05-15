@@ -10,13 +10,18 @@ import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/child")
@@ -30,10 +35,13 @@ public class ChildController extends BaseRestController {
 
     @Autowired
     ChildService childService;
+
     @Autowired
     private VelocityEngine velocityEngine;
+
     @Autowired
     private ITextRenderer iTextRenderer;
+
     @Autowired
     private ResourceLoader resourceLoader;
 
@@ -65,22 +73,28 @@ public class ChildController extends BaseRestController {
     }
 
     @RequestMapping(value="/photo", method=RequestMethod.POST)
-    public String handleFileUpload(@RequestParam("fileToUpload") MultipartFile file){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void uploadPhoto(@RequestParam("photo") MultipartFile file, @RequestParam("id")String id)
+            throws IOException, NoSuchAlgorithmException, NotIdentifiedException {
 
-        if (!file.isEmpty()) {
-            try {
-                byte[] bytes = file.getBytes();
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File("c:/local/file")));
-                stream.write(bytes);
-                stream.close();
-                return "ok";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return e.getMessage();
-            }
-        } else {
-            return "empty";
-        }
+        Child child = childService.find(id).get();
+        ChildPhoto childPhoto = new ChildPhoto();
+        child.setPhoto(childPhoto);
+
+        childPhoto.setId(UUID.randomUUID().toString());
+        childPhoto.setChild(child);
+        byte[] bytes = file.getBytes();
+        childPhoto.setContent(bytes);
+        String hex = DigestUtils.md5DigestAsHex(bytes);
+        childPhoto.setMd5(hex);
+
+        childService.save(child);
+    }
+
+    @RequestMapping(value = "{id}/photo", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] downloadPhoto(@PathVariable(value = "id") String id) throws IOException {
+        Child child = childService.find(id).get();
+        return child.getPhoto().getContent();
     }
 
     private String processTemplate(String id) throws IOException, NotFoundException {
