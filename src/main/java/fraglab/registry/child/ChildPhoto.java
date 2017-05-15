@@ -12,8 +12,20 @@ public class ChildPhoto extends BaseEntity{
     @Column(name = "CONTENT")
     private byte[] content;
 
+    @Column(name="MD5")
+    private String md5;
+
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CHILD")
     private Child child;
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
 
     public byte[] getContent() {
         return content;
