@@ -25,7 +25,7 @@ public class Child extends Person {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Group group;
 
-    @OneToOne(mappedBy = "child", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "child", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private ChildPhoto photo;
 
     public String getCallName() {

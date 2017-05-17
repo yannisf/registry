@@ -1,8 +1,9 @@
-CREATE TABLE CHILD_PHOTO (
-    id character varying(255) NOT NULL primary key,
-    datecreated timestamp without time zone,
-    datemodified timestamp without time zone,
-    child character varying(255) NOT NULL REFERENCES person (id),
-    MD5 character varying(32) NOT NULL,
-    CONTENT oid not null
-);
+CREATE TABLE public.child_photo (
+	datecreated timestamp NOT NULL,
+	datemodified timestamp NULL,
+	content oid NOT NULL,
+	md5 varchar(255) NOT NULL,
+	child_id varchar(255) NOT NULL,
+	CONSTRAINT child_photo_pkey PRIMARY KEY (child_id),
+	CONSTRAINT fk_799347t3j6k4kn0oyaa8o4fpo FOREIGN KEY (child_id) REFERENCES person(id)
+)

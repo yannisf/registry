@@ -2,7 +2,6 @@ package fraglab.registry.relationship;
 
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
-import fraglab.web.NotIdentifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class RelationshipController extends BaseRestController {
     @RequestMapping(method = RequestMethod.PUT, value = "/child/{childId}/guardian/{guardianId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void save(@RequestBody Relationship relationship, @PathVariable("childId") String childId,
-                     @PathVariable("guardianId") String guardianId) throws NotIdentifiedException {
+                     @PathVariable("guardianId") String guardianId) {
         relationshipService.save(relationship, childId, guardianId);
     }
 

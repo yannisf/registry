@@ -15,8 +15,8 @@ public class ChildPhoto extends BaseEntity{
     @Column(name="MD5")
     private String md5;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CHILD")
+    @OneToOne
+    @MapsId
     private Child child;
 
     public String getMd5() {
