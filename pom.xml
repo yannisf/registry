@@ -15,16 +15,16 @@
     </scm>
 
     <properties>
-        <spring.version>4.2.4.RELEASE</spring.version>
-        <spring-security.version>4.0.3.RELEASE</spring-security.version>
-        <spring-data-release-train>Gosling-SR4</spring-data-release-train>
-        <hibernate.version>4.3.11.Final</hibernate.version>
+        <spring.version>4.3.8.RELEASE</spring.version>
+        <spring-security.version>4.2.2.RELEASE</spring-security.version>
+        <spring-data-jpa.version>1.11.3.RELEASE</spring-data-jpa.version>
+        <postgres.jdbc.version>9.4-1201-jdbc41</postgres.jdbc.version>
+        <jackson-databind.version>2.8.7</jackson-databind.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.manager.url>http://telesto:8080/manager/text</tomcat.manager.url>
         <tomcat.manager.user>manager</tomcat.manager.user>
         <tomcat.manager.password>secret</tomcat.manager.password>
-        <postgres.jdbc.version>9.4-1201-jdbc41</postgres.jdbc.version>
 
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
@@ -160,6 +160,12 @@
             </resource>
         </resources>
 
+        <testResources>
+            <testResource>
+                <directory>src/main/webapp/WEB-INF</directory>
+            </testResource>
+        </testResources>
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -256,13 +262,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-releasetrain</artifactId>
-                <version>${spring-data-release-train}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -288,6 +287,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -306,8 +306,8 @@
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.2.7.Final</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -322,7 +322,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.4.2</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -335,10 +335,9 @@
             <version>1.7.6</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.8.8</version>
-            <scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

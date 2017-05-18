@@ -34,6 +34,33 @@ user:: registry
 password:: registry
 database:: registry
 
+=== Backup database
+
+=== Restore database
+
+.Clean the database
+After removing the existing database, recreate using the SQL command shown previously or using the following command:
+[source,bash]
+$ createdb -U <user> -W -h <host> -O <owner> <new_database>
+
+* -U <user>: the user to connect with
+* -W: ask for password
+* -h <host>: the database host to connect to
+* -O <owner>: the owner of the new database
+* <new_database>: the new database name
+
+.Restore
+[source, bash]
+$ pg_restore -U <user> -W -h <host> -v -d <database> <backup_file>
+
+* -U <user>: the user to connect with
+* -W: ask for password
+* -h <host>: the database host to connect to
+* -v: be verbose
+* -d <database>: the database name to restore to (must exist)
+* -O <owner>: the owner of the new database
+* <backup_file>: the backup file
+
 == Production datasource
 When deploying a *production* build a _JNDI datasource_ is required. For tomcat installations make sure to satisfy the following:
 
