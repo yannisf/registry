@@ -1,6 +1,6 @@
 package fraglab.web;
 
-public class NotIdentifiedException extends Exception {
+public class NotIdentifiedException extends RuntimeException {
 
     private String message;
 

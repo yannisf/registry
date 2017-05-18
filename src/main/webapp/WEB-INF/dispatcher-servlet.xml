@@ -38,6 +38,8 @@
         <property name="resourceLoaderPath" value="/WEB-INF/classes/"/>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
     <bean id="iTextRenderer" class="fraglab.factory.ITextRendererFactoryBean"/>
 
     <util:map id="reportRelationshipTypesGreekMap" key-type="fraglab.registry.relationship.RelationshipType">
