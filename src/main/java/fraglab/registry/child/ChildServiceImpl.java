@@ -14,19 +14,16 @@ import org.apache.velocity.app.VelocityEngine;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import javax.imageio.ImageIO;
-import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 
 @Service
@@ -116,7 +113,7 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public Optional<ChildPhoto> findChildPhoto(String id) {
-        Child child = childJpaRepository.findOne(id);
+        Child child = childJpaRepository.getById(id);
         if (child != null) {
             return Optional.ofNullable(child.getPhoto());
         } else {
@@ -144,9 +141,9 @@ public class ChildServiceImpl implements ChildService {
             byte[] resizedBytes = getResizedBytes(bytes);
             String hex = DigestUtils.md5DigestAsHex(resizedBytes);
             ChildPhoto childPhoto = new ChildPhoto();
+            childPhoto.setId(UUID.randomUUID().toString());
             childPhoto.setContent(resizedBytes);
             childPhoto.setMd5(hex);
-            childPhoto.setChild(child.get());
             child.get().setPhoto(childPhoto);
             save(child.get());
         }

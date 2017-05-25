@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @DiscriminatorValue("CHILD")
+@NamedEntityGraph(name = "Child.photo", attributeNodes = @NamedAttributeNode("photo"))
 public class Child extends Person {
 
     private String callName;
@@ -25,7 +26,8 @@ public class Child extends Person {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Group group;
 
-    @OneToOne(mappedBy = "child", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "child_photo")
     private ChildPhoto photo;
 
     public String getCallName() {
