@@ -7,6 +7,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <property name="hibernate.default_schema" value="public"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="true"/>

@@ -14,6 +14,8 @@ public class Guardian extends Person {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @OrderBy("type")
+    @JoinTable(joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "telephones_id", referencedColumnName = "id"))
     private List<Telephone> telephones;
 
     private String email;

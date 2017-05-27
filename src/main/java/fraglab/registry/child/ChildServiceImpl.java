@@ -52,10 +52,23 @@ public class ChildServiceImpl implements ChildService {
         if (StringUtils.isBlank(child.getId())) {
             throw new NotIdentifiedException();
         }
-        Child savedChild = childJpaRepository.save(child);
+
+        Child childToSave = null;
+        Child foundChild = childJpaRepository.findOne(child.getId());
+        if (foundChild != null) {
+            bindSubmittedToFound(child, foundChild);
+            childToSave = foundChild;
+        } else {
+            childToSave = child;
+        }
+
+        Child savedChild = childJpaRepository.save(childToSave);
         updateGroupMembersNum(child.getGroup());
 
         return savedChild;
+    }
+
+    private void bindSubmittedToFound(Child submitted, Child persisted) {
     }
 
     @Override
