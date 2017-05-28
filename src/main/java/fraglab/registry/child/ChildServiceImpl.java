@@ -34,6 +34,9 @@ public class ChildServiceImpl implements ChildService {
     private ChildJpaRepository childJpaRepository;
 
     @Autowired
+    private ChildPhotoJpaRepository childPhotoJpaRepository;
+
+    @Autowired
     private GroupJpaRepository groupJpaRepository;
 
     @Autowired
@@ -53,32 +56,31 @@ public class ChildServiceImpl implements ChildService {
             throw new NotIdentifiedException();
         }
 
-//        Child childToSave = null;
-//        Child foundChild = childJpaRepository.findOne(child.getId());
-//        if (foundChild != null) {
-//            bindSubmittedToFound(child, foundChild);
-//            childToSave = foundChild;
-//        } else {
-//            childToSave = child;
-//        }
-//
-//        Child savedChild = childJpaRepository.save(childToSave);
-        Child savedChild = childJpaRepository.save(child);
-        updateGroupMembersNum(child.getGroup());
+        Child childToSave = null;
+        Child foundChild = childJpaRepository.findOne(child.getId());
+        if (foundChild != null) {
+            bindSubmittedToFound(child, foundChild);
+            childToSave = foundChild;
+        } else {
+            childToSave = child;
+        }
+
+        Child savedChild = childJpaRepository.save(childToSave);
+        updateGroupMembersNum(savedChild.getGroup());
 
         return savedChild;
     }
 
-//    private void bindSubmittedToFound(Child submitted, Child persisted) {
-//        persisted.setFirstName(submitted.getFirstName());
-//        persisted.setLastName(submitted.getLastName());
-//        persisted.setCallName(submitted.getCallName());
-//        persisted.setDateOfBirth(submitted.getDateOfBirth());
-//        persisted.setLevel(submitted.getLevel());
-//        persisted.setGender(submitted.getGender());
-//        persisted.setNationality(submitted.getNationality());
-//        persisted.setNotes(submitted.getNotes());
-//    }
+    private void bindSubmittedToFound(Child submitted, Child persisted) {
+        persisted.setFirstName(submitted.getFirstName());
+        persisted.setLastName(submitted.getLastName());
+        persisted.setCallName(submitted.getCallName());
+        persisted.setDateOfBirth(submitted.getDateOfBirth());
+        persisted.setLevel(submitted.getLevel());
+        persisted.setGender(submitted.getGender());
+        persisted.setNationality(submitted.getNationality());
+        persisted.setNotes(submitted.getNotes());
+    }
 
     @Override
     public Child save(Child child, String addressId, String groupId) {
@@ -135,9 +137,9 @@ public class ChildServiceImpl implements ChildService {
 
     @Override
     public Optional<ChildPhoto> findChildPhoto(String id) {
-        Child child = childJpaRepository.getById(id);
-        if (child != null) {
-            return Optional.ofNullable(child.getPhoto());
+        ChildPhoto childPhoto = childPhotoJpaRepository.findOne(id);
+        if (childPhoto != null) {
+            return Optional.ofNullable(childPhoto);
         } else {
             return Optional.empty();
         }

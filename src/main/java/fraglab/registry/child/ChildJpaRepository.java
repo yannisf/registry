@@ -19,7 +19,4 @@ public interface ChildJpaRepository extends JpaRepository<Child, String> {
     @Query("select c.id from Child c where c.group.id=:groupId order by c.lastName")
     List<String> queryByGroupForIds(@Param("groupId") String groupId);
 
-    @EntityGraph(value = "Child.photo", type = EntityGraph.EntityGraphType.LOAD)
-    Child getById(String id);
-
 }
