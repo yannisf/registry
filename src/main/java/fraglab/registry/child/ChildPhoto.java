@@ -15,6 +15,10 @@ public class ChildPhoto extends BaseEntity {
     @Column(name="MD5")
     private String md5;
 
+    @OneToOne
+    @MapsId
+    private Child child;
+
     public String getMd5() {
         return md5;
     }
@@ -31,4 +35,11 @@ public class ChildPhoto extends BaseEntity {
         this.content = content;
     }
 
+    public Child getChild() {
+        return child;
+    }
+
+    public void setChild(Child child) {
+        this.child = child;
+    }
 }

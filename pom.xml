@@ -37,6 +37,7 @@
         <sonar.projectVersion>1.0</sonar.projectVersion>
         <sonar.projectDescription>A small time school registry manager</sonar.projectDescription>
 
+        <hibernate.version>5.2.10.Final</hibernate.version>
     </properties>
 
     <profiles>
@@ -228,7 +229,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <url>jdbc:postgresql://localhost:5432/registry_dev</url>
+                    <url>jdbc:postgresql://vm3:5432/registry_dev</url>
                     <user>registry</user>
                     <password>registry</password>
                 </configuration>
@@ -307,7 +308,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.2.7.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -317,7 +318,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.3.2</version>
+            <version>3.5</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -332,7 +333,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.6</version>
+            <version>1.7.25</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
