@@ -23,5 +23,5 @@ public interface ChildService {
 
     void deleteChildPhoto(String id);
 
-    void saveChildPhoto(String childId, byte[] bytes);
+    String saveChildPhoto(String childId, byte[] bytes);
 }

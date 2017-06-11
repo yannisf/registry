@@ -8,11 +8,14 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.servlet.http.HttpServletResponse;
@@ -71,16 +74,20 @@ public class ChildController extends BaseRestController {
         streamReport(response, content);
     }
 
-    @RequestMapping(value = "{id}/photo", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void uploadPhoto(@RequestParam("photo") MultipartFile file, @PathVariable("id") String id)
+    @PostMapping(value = "{id}/photo")
+    public ResponseEntity<Void> uploadPhoto(@RequestParam("photo") MultipartFile file, @PathVariable("id") String id,
+                                            UriComponentsBuilder uriComponentsBuilder)
             throws IOException, NoSuchAlgorithmException, NotFoundException {
-        childService.saveChildPhoto(id, file.getBytes());
+        String photoId = childService.saveChildPhoto(id, file.getBytes());
+        UriComponents uriComponents = uriComponentsBuilder.path("/child/photo/{photoId}").buildAndExpand(photoId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriComponents.toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "{id}/photo", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> downloadPhoto(@PathVariable(value = "id") String id) {
-        return childService.findChildPhoto(id)
+    @RequestMapping(value = "/photo/{photoId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> downloadPhoto(@PathVariable(value = "photoId") String photoId) {
+        return childService.findChildPhoto(photoId)
                 .map(childPhoto -> ResponseEntity.ok().body(childPhoto.getContent()))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

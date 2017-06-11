@@ -151,7 +151,6 @@ public class ChildServiceImpl implements ChildService {
         if (child != null) {
             child.setPhoto(null);
         }
-        //childJpaRepository.save(child);
     }
 
     private void updateGroupMembersNum(Group group) {
@@ -159,18 +158,21 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public void saveChildPhoto(String childId, byte[] bytes) {
+    public String saveChildPhoto(String childId, byte[] bytes) {
         Optional<Child> child = find(childId);
+        String hex = null;
 
         if (child.isPresent()) {
             byte[] resizedBytes = getResizedBytes(bytes);
-            String hex = DigestUtils.md5DigestAsHex(resizedBytes);
+            hex = DigestUtils.md5DigestAsHex(resizedBytes);
             ChildPhoto childPhoto = new ChildPhoto();
             childPhoto.setId(hex);
             childPhoto.setContent(resizedBytes);
             child.get().setPhoto(childPhoto);
             save(child.get());
         }
+
+        return hex;
     }
 
     private byte[] getResizedBytes(byte[] bytes) throws RuntimeException {
