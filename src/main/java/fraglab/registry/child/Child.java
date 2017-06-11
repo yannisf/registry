@@ -44,14 +44,6 @@ public class Child extends Person {
         this.level = level;
     }
 
-    public String getPhotoId() {
-        if (getPhoto() != null) {
-            return getPhoto().getId();
-        } else {
-            return null;
-        }
-    }
-
     @JsonIgnore
     public ChildPhoto getPhoto() {
         return photo;

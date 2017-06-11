@@ -1,13 +1,10 @@
 package fraglab.registry;
 
+import fraglab.application.WebappSecureMode;
 import fraglab.web.BaseRestController;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,24 +13,26 @@ import java.util.Map;
 @RequestMapping("/context")
 public class ContextController extends BaseRestController {
 
+    private static final String NAME_KEY = "name";
+    private static final String AUTHORITIES_KEY = "authorities";
+
     /**
-     * Provides user information for logged in users from the security provider
+     * Provides user information for logged in users from the security provider.
      *
      * @return user details
      */
-    @RequestMapping(value = "/authentication", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/authentication")
     public Map<String, Object> getAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Map<String, Object> map = new HashMap<>();
 
-//DEV
-        map.put("name", "user");
-        map.put("authorities", "[{\"authority\":\"USER\"}]");
-
-//PROD
-//        map.put("name", auth.getName());
-//        map.put("authorities", auth.getAuthorities());
+        if (WebappSecureMode.isSecure()) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            map.put(NAME_KEY, auth.getName());
+            map.put(AUTHORITIES_KEY, auth.getAuthorities());
+        } else {
+            map.put(NAME_KEY, "user");
+            map.put(AUTHORITIES_KEY, "[{\"authority\":\"USER\"}]");
+        }
 
         return map;
     }

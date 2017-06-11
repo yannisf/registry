@@ -12,6 +12,7 @@
     <http pattern="/favicon.ico" security="none"/>
     <http pattern="/styles/**" security="none"/>
     <http pattern="/**/*.css" security="none"/>
+    <http pattern="/**/*.map" security="none"/>
     <http pattern="/images/**" security="none"/>
     <http pattern="/fonts/**" security="none"/>
 
@@ -19,12 +20,7 @@
         <csrf disabled="true"/>
 
         <intercept-url pattern="/login.html" access="permitAll"/>
-
-        <!--dev-->
-        <intercept-url pattern="/**" access="permitAll"/>
-
-        <!--prod-->
-        <!--<intercept-url pattern="/**" access="hasAuthority('USER')" />-->
+        <intercept-url pattern="/**" access="hasAuthority('USER')" />
 
         <remember-me key="secret" remember-me-parameter="remember"/>
 

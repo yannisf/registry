@@ -24,9 +24,11 @@ public class ApplicationInitializer implements WebApplicationInitializer {
         registration.setLoadOnStartup(1);
         registration.addMapping(API_CONTEXT);
 
-        FilterRegistration.Dynamic filterRegistration =
-                container.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);
-        filterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+        if ( WebappSecureMode.isSecure() ) {
+            FilterRegistration.Dynamic filterRegistration =
+                    container.addFilter("springSecurityFilterChain", DelegatingFilterProxy.class);
+            filterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+        }
     }
 
 }

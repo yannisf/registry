@@ -26,6 +26,10 @@
         <tomcat.manager.user>manager</tomcat.manager.user>
         <tomcat.manager.password>secret</tomcat.manager.password>
 
+        <dev.jdbc.user>registry</dev.jdbc.user>
+        <dev.jdbc.password>registry</dev.jdbc.password>
+        <dev.jdbc.url>jdbc:postgresql://localhost:5432/registry_dev</dev.jdbc.url>
+
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <build.java>${java.runtime.name} ${java.runtime.version}, ${java.vendor}</build.java>
@@ -38,6 +42,7 @@
         <sonar.projectDescription>A small time school registry manager</sonar.projectDescription>
 
         <hibernate.version>5.2.10.Final</hibernate.version>
+        <registry-ui.version>2.0-SNAPSHOT</registry-ui.version>
     </properties>
 
     <profiles>
@@ -47,7 +52,7 @@
                 <dependency>
                     <groupId>fraglab</groupId>
                     <artifactId>registry-ui</artifactId>
-                    <version>2.0-SNAPSHOT</version>
+                    <version>${registry-ui.version}</version>
                     <scope>runtime</scope>
                     <type>war</type>
                 </dependency>
@@ -55,13 +60,15 @@
         </profile>
 
         <profile>
-            <id>dev</id>
+            <id>local_ds</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
 
             <properties>
-                <spring.profile>dev</spring.profile>
+                <jdbc.user>${dev.jdbc.user}</jdbc.user>
+                <jdbc.password>${dev.jdbc.password}</jdbc.password>
+                <jdbc.url>${dev.jdbc.url}</jdbc.url>
             </properties>
 
             <dependencies>
@@ -74,10 +81,7 @@
         </profile>
 
         <profile>
-            <id>prod</id>
-            <properties>
-                <spring.profile>prod</spring.profile>
-            </properties>
+            <id>jndi_ds</id>
             <dependencies>
                 <dependency>
                     <groupId>org.postgresql</groupId>
@@ -150,6 +154,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>META-INF/MANIFEST.MF</include>
+                    <include>config/database.properties</include>
                 </includes>
             </resource>
             <resource>
@@ -157,6 +162,7 @@
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>META-INF/MANIFEST.MF</exclude>
+                    <exclude>config/database.properties</exclude>
                 </excludes>
             </resource>
         </resources>
@@ -200,7 +206,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.6.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -212,9 +218,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.1.0</version>
                 <configuration>
-                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     <archive>
                         <manifestEntries>
                             <git-hash>${git.hash}</git-hash>
@@ -227,11 +232,11 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>3.1</version>
+                <version>4.2.0</version>
                 <configuration>
-                    <url>jdbc:postgresql://vm3:5432/registry_dev</url>
-                    <user>registry</user>
-                    <password>registry</password>
+                    <user>${jdbc.user}</user>
+                    <password>${jdbc.password}</password>
+                    <url>${jdbc.url}</url>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -308,7 +313,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
+            <version>5.2.7.Final</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

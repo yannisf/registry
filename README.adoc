@@ -6,7 +6,7 @@ Registry is a web application to help school teachers tackle the administrative 
 Default user credentials are: *user:user123*
 
 == Database
-The application requires a Postgrs database.
+The application requires a Postgres database.
 
 === Create a PostgreSQL schema and user
 
@@ -87,17 +87,45 @@ When deploying a *production* build a _JNDI datasource_ is required. For tomcat 
 To build the application the user interface (client) and server must be built individually. The client exists in a seperate repository.
 
 === Server
-For the server build, maven is used. The build uses two profiles *dev* and *prod*, the first one being the default. During development the maven command to execute is:
+For the server build, maven is used. The build is profile based with profiles: *local_ds*, *jndi_ds*, *bundle*, *deploy* and *jrebel*.
+
+==== local_ds vs jndi_jd
+The *local_ds* profile uses a Spring configured datasource, while the *jndi_ds* profile, expects a JNDI datasource to be in place when deploying. These two profiles should be considered as mutually exclusive.
+
+The local datasource is configured in `pom.xml` through the `dev.jdbc.user`, `dev.jdbc.password` and `dev.jdbc.url` properties.
+
+==== bundle
+This profile instructs the build to include an already built and installed in the maven local repository user interface. When this profile is  not enabled, the user should provide the user interface, typically preferred when developing user interface features
+
+==== deploy
+Deploys the application during the _package_ phase to a configured Tomcat instance, using the tomcat _manager_ application, as configured in _pom.xml_.
+
+==== jrebel
+Enables the _jrebel_ plugin for fast redeployments
+
+===  System properties
+The application accepts two system properties:
+
+==== spring.profiles.active
+This can be either *dev* or *prod* and selects between local or JNDI  datasource. Note that this should be aligned with the profile built and no default is provided.
+
+==== secure
+When this has the value `false` all application security is disabled. Typically preferred during development mode.
+
+=== Build
+During development the maven command to execute is:
 ----
-mvn clean tomcat7:run-war -Dmaven.test.skip
+mvn clean tomcat7:run-war -Pdev -Dmaven.test.skip -Dspring.profiles.active=dev -Dsecure=false
 ----
-This will launch the application within an embedded tomcat. It uses a local datasource. It is required that the user has already built the user interface.
+This will launch the application within an embedded tomcat. It uses a local datasource. It is required that the user provides the user interface.
 
 When preparing a production release the command to use is:
 
-`mvn clean package -Dmaven.test.skip -Pprod`
+----
+mvn clean package -Dmaven.test.skip -Pprod,bundle,deploy
+----
 
-This command will build a production package to deploy on tomcat. Alternatively, after parametrise accordingly certain system variables and have configured tomcat manage, using the **deploy** profile as well the application may be deployed during the build. This build requires a JNDI datasource.
+This command will build a production package to deploy on tomcat. This build requires a JNDI datasource and the user interface to be available as a maven artifact.
 
 === User interface
 Check out the client code from https://github.com/yannisf/registry-ui[registry-ui] and follow the instructions in `README.adoc`. In priciple, the user interface must be built first and installed into a maven repository. Then the server application will pull the user interface as a depedency.
