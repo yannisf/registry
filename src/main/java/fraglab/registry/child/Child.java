@@ -25,7 +25,7 @@ public class Child extends Person {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private Group group;
 
-    @OneToOne(mappedBy = "child", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private ChildPhoto photo;
 
     public String getCallName() {
@@ -42,6 +42,14 @@ public class Child extends Person {
 
     public void setLevel(PreschoolLevel level) {
         this.level = level;
+    }
+
+    public String getPhotoId() {
+        if (getPhoto() != null) {
+            return getPhoto().getId();
+        } else {
+            return null;
+        }
     }
 
     @JsonIgnore

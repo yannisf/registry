@@ -166,11 +166,9 @@ public class ChildServiceImpl implements ChildService {
             byte[] resizedBytes = getResizedBytes(bytes);
             String hex = DigestUtils.md5DigestAsHex(resizedBytes);
             ChildPhoto childPhoto = new ChildPhoto();
-            childPhoto.setId(UUID.randomUUID().toString());
+            childPhoto.setId(hex);
             childPhoto.setContent(resizedBytes);
-            childPhoto.setMd5(hex);
             child.get().setPhoto(childPhoto);
-            childPhoto.setChild(child.get());
             save(child.get());
         }
     }

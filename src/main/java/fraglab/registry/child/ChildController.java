@@ -80,22 +80,9 @@ public class ChildController extends BaseRestController {
 
     @RequestMapping(value = "{id}/photo", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> downloadPhoto(@PathVariable(value = "id") String id) {
-        Optional<ChildPhoto> photo = childService.findChildPhoto(id);
-
-        return photo
+        return childService.findChildPhoto(id)
                 .map(childPhoto -> ResponseEntity.ok().body(childPhoto.getContent()))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-
-    }
-
-    @RequestMapping(value = "{id}/photo", method = RequestMethod.HEAD, produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<Void> downloadPhotoCheck(@PathVariable(value = "id") String id) {
-        Optional<ChildPhoto> photo = childService.findChildPhoto(id);
-        if (photo.isPresent()) {
-            return ResponseEntity.ok().body(null);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     @RequestMapping(value = "{id}/photo", method = RequestMethod.DELETE)
