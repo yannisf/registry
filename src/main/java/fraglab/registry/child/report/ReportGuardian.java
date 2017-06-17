@@ -11,16 +11,14 @@ public class ReportGuardian implements Serializable {
 
     private String name;
     private RelationshipType relationship;
-    private boolean pickup;
     private List<Telephone> telephones;
 
     public ReportGuardian() {
     }
 
-    public ReportGuardian(String name, RelationshipType relationship, boolean pickup) {
+    public ReportGuardian(String name, RelationshipType relationship) {
         this.name = name;
         this.relationship = relationship;
-        this.pickup = pickup;
     }
 
     public String getName() {
@@ -37,14 +35,6 @@ public class ReportGuardian implements Serializable {
 
     public void setRelationship(RelationshipType relationship) {
         this.relationship = relationship;
-    }
-
-    public boolean isPickup() {
-        return pickup;
-    }
-
-    public void setPickup(boolean pickup) {
-        this.pickup = pickup;
     }
 
     public List<Telephone> getTelephones() {

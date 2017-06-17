@@ -1,0 +1,1 @@
+ALTER TABLE relationship DROP COLUMN pickup RESTRICT;

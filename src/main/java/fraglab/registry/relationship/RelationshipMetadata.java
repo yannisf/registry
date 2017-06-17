@@ -13,22 +13,12 @@ public class RelationshipMetadata implements Serializable {
 
     private String notes;
 
-    private boolean pickup;
-
     public RelationshipType getType() {
         return type;
     }
 
     public void setType(RelationshipType type) {
         this.type = type;
-    }
-
-    public boolean getPickup() {
-        return pickup;
-    }
-
-    public void setPickup(boolean pickup) {
-        this.pickup = pickup;
     }
 
     public String getNotes() {

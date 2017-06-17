@@ -54,7 +54,7 @@ public class ReportServiceImpl implements ReportService {
     private void mapRelationship(ReportChild reportChild, Relationship relationship) throws NotFoundException {
         Guardian guardian = relationship.getGuardian();
         ReportGuardian reportGuardian = new ReportGuardian(guardian.getFullName(),
-                relationship.getMetadata().getType(), relationship.getMetadata().getPickup());
+                relationship.getMetadata().getType());
         mapTelephones(guardian, reportGuardian);
         reportChild.addGuardian(reportGuardian);
     }

@@ -66,7 +66,6 @@ public class CommunicationReportController {
     private VelocityContext createContext() throws IOException {
         VelocityContext context = new VelocityContext();
         context.put("css", getClasspathResource("/templates/communication_report.css"));
-        context.put("school", getClasspathResource("/templates/school.png"));
         context.put("relationshipTypeMap", reportRelationshipTypesGreekMap);
         context.put("phoneTypeMap", reportTelephoneTypeGreekMap);
         return context;
