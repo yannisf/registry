@@ -80,6 +80,7 @@ public class ChildServiceImpl implements ChildService {
         persisted.setGender(submitted.getGender());
         persisted.setNationality(submitted.getNationality());
         persisted.setNotes(submitted.getNotes());
+        persisted.setPrivateNotes(submitted.getPrivateNotes());
     }
 
     @Override

@@ -1,10 +1,6 @@
 package fraglab.registry.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import fraglab.json.LocalDateDeserializer;
-import fraglab.json.LocalDateSerializer;
 import fraglab.registry.address.Address;
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,12 +50,10 @@ public class Person extends BaseEntity {
         return StringUtils.stripToEmpty(firstName + StringUtils.SPACE + lastName);
     }
 
-    @JsonSerialize(using = LocalDateSerializer.class)
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    @JsonDeserialize(using = LocalDateDeserializer.class)
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }

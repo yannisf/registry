@@ -1,0 +1,1 @@
+ALTER TABLE person ADD COLUMN private_notes character varying(255);

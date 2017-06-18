@@ -15,6 +15,8 @@ public class Child extends Person {
 
     private String callName;
 
+    private String privateNotes;
+
     @Column(name = "PRESCHOOL_LEVEL")
     @Enumerated(EnumType.STRING)
     private PreschoolLevel level;
@@ -34,6 +36,14 @@ public class Child extends Person {
 
     public void setCallName(String callName) {
         this.callName = callName;
+    }
+
+    public String getPrivateNotes() {
+        return privateNotes;
+    }
+
+    public void setPrivateNotes(String privateNotes) {
+        this.privateNotes = privateNotes;
     }
 
     public PreschoolLevel getLevel() {
