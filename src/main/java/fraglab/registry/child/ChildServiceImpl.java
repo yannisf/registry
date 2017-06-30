@@ -3,7 +3,6 @@ package fraglab.registry.child;
 import fraglab.registry.address.AddressService;
 import fraglab.registry.group.Group;
 import fraglab.registry.group.GroupJpaRepository;
-import fraglab.registry.guardian.Guardian;
 import fraglab.registry.relationship.Relationship;
 import fraglab.registry.relationship.RelationshipType;
 import fraglab.web.NotIdentifiedException;
@@ -23,8 +22,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
+
+import static java.util.stream.Collectors.*;
 
 @Service
 @Transactional
@@ -104,25 +107,17 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public Map<String, Map<String, String>> findEmailsForGroup(String groupId) {
-        Map<String, Map<String, String>> childEmailContacts = new HashMap<>();
-
-        List<Child> childrenInGroup = childJpaRepository.findByGroupId(groupId);
-
+    public Map<String, List<String>> findEmailsForGroup(String groupId) {
         Predicate<Relationship> isFather = (r -> r.getMetadata().getType() == RelationshipType.FATHER);
         Predicate<Relationship> isMother = (r -> r.getMetadata().getType() == RelationshipType.MOTHER);
         Predicate<Relationship> hasEmail = (r -> r.getGuardian().getEmail() != null);
 
-        childrenInGroup.forEach(c -> c.getRelationships().stream()
-                .filter(isFather.or(isMother))
-                .filter(hasEmail)
-                .forEach(r -> {
-                    childEmailContacts.putIfAbsent(c.getReportName(), new HashMap<>());
-                    Guardian g = r.getGuardian();
-                    childEmailContacts.get(c.getReportName()).put(g.getFullName(), g.getEmail());
-                }));
-
-        return childEmailContacts;
+        return childJpaRepository.findByGroupId(groupId).stream()
+                .flatMap(c -> c.getRelationships().stream())
+                .filter(isFather.or(isMother).and(hasEmail))
+                .collect(groupingBy(r -> r.getChild().getReportName(),
+                        mapping(r -> String.format("%s: %s",
+                                r.getGuardian().getFullName(), r.getGuardian().getEmail()), toList())));
     }
 
     @Override

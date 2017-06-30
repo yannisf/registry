@@ -1,7 +1,10 @@
 package fraglab.registry;
 
+import com.jcabi.manifests.Manifests;
 import fraglab.application.WebappSecureMode;
 import fraglab.web.BaseRestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/context")
 public class ContextController extends BaseRestController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ContextController.class);
 
     private static final String NAME_KEY = "name";
     private static final String AUTHORITIES_KEY = "authorities";
@@ -36,5 +41,20 @@ public class ContextController extends BaseRestController {
 
         return map;
     }
+
+    @GetMapping(value = "/info")
+    public Map<String, String> getBuildInfo() {
+        String gitHash = Manifests.read("git-hash");
+        String springProfile = System.getProperty("spring.profiles.active");
+        String secureMode = System.getProperty("secure");
+
+        Map<String, String> infoMap = new HashMap<>();
+        infoMap.put("git-hash", gitHash);
+        infoMap.put("spring-profile", springProfile);
+        infoMap.put("secure", secureMode);
+
+        return infoMap;
+    }
+
 
 }

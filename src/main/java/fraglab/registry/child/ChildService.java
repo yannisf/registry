@@ -1,5 +1,6 @@
 package fraglab.registry.child;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ public interface ChildService {
 
     Optional<Child> findWithRelationships(String id);
 
-    Map<String, Map<String, String>> findEmailsForGroup(String groupId);
+    Map<String, List<String>> findEmailsForGroup(String groupId);
 
     String emailsForGroup(String groupId);
 
