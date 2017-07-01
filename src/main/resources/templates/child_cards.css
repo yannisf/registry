@@ -28,10 +28,18 @@ td {
 }
 
 .tablet-small {
-    font-size: 36pt;
+    font-size: 32pt;
 }
 
 .tablet-small-lg {
+    font-size: 22pt;
+}
+
+.tablet-medium {
+    font-size: 36pt;
+}
+
+.tablet-medium-lg {
     font-size: 24pt;
 }
 

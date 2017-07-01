@@ -29,14 +29,21 @@
                     #end
                 </tr>
 
-                #foreach ($i in [1..2])
+                <tr>
+                    #foreach ($i in [1..2])
+                    <td class="tablet-medium$!{mod}">
+                        ${child.simpleName}<br/>
+                        ${child.lastName}
+                    </td>
+                    #end
+                </tr>
+
                 <tr>
                     <td colspan="2" class="tablet-large$!{mod}">
                         ${child.simpleName}<br/>
                         ${child.lastName}
                     </td>
                 </tr>
-                #end
 
             </tbody>
         </table>
