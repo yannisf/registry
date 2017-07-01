@@ -3,9 +3,6 @@
 *.log
 *.log-*
 /target
-/database
-/node_modules
-/bower_modules
-/src/main/webapp/index.html
-/src/main/webapp/scripts/lib
-/src/main/webapp/styles/application.css
+/src/main/webapp
+!/src/main/webapp/META-INF
+!/src/main/webapp/WEB-INF

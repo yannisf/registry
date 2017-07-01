@@ -252,6 +252,7 @@
                 <configuration>
                     <port>9090</port>
                     <uriEncoding>utf-8</uriEncoding>
+                    <contextReloadable>true</contextReloadable>
                 </configuration>
             </plugin>
 
