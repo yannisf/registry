@@ -1,13 +1,15 @@
 package fraglab.registry;
 
-import com.jcabi.manifests.Manifests;
 import fraglab.application.WebappSecureMode;
 import fraglab.web.BaseRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +22,13 @@ public class ContextController extends BaseRestController {
 
     private static final String NAME_KEY = "name";
     private static final String AUTHORITIES_KEY = "authorities";
+
     public static final String GIT_REV = "Git-Rev";
     public static final String BUILD_TIME = "Build-Time";
+
+
+    @Autowired
+    private ManifestHelper manifestHelper;
 
     /**
      * Provides user information for logged in users from the security provider.
@@ -46,16 +53,11 @@ public class ContextController extends BaseRestController {
 
     @GetMapping(value = "/info")
     public Map<String, String> getBuildInfo() {
-        String gitRevision = Manifests.read(GIT_REV);
-        String buildTimeStamp = Manifests.read(BUILD_TIME);
-        String springProfile = System.getProperty("spring.profiles.active");
-        String secureMode = System.getProperty("secure");
-
         Map<String, String> infoMap = new HashMap<>();
-        infoMap.put(GIT_REV, gitRevision);
-        infoMap.put(BUILD_TIME, buildTimeStamp);
-        infoMap.put("spring-profile", springProfile);
-        infoMap.put("secure", secureMode);
+        infoMap.put(GIT_REV, manifestHelper.getValue(GIT_REV));
+        infoMap.put(BUILD_TIME, manifestHelper.getValue(BUILD_TIME));
+        infoMap.put("spring-profile", System.getProperty("spring.profiles.active"));
+        infoMap.put("secure", System.getProperty("secure"));
 
         return infoMap;
     }

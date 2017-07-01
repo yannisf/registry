@@ -30,7 +30,6 @@
         <dev.jdbc.password>registry</dev.jdbc.password>
         <dev.jdbc.url>jdbc:postgresql://localhost:5432/registry_dev</dev.jdbc.url>
 
-        <git-hash>N/A</git-hash>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
 
@@ -152,7 +151,6 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>META-INF/MANIFEST.MF</include>
                     <include>config/database.properties</include>
                 </includes>
             </resource>
@@ -160,13 +158,15 @@
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <excludes>
-                    <exclude>META-INF/MANIFEST.MF</exclude>
                     <exclude>config/database.properties</exclude>
                 </excludes>
             </resource>
         </resources>
 
         <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
             <testResource>
                 <directory>src/main/webapp/WEB-INF</directory>
             </testResource>
@@ -376,11 +376,6 @@
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
             <version>1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jcabi</groupId>
-            <artifactId>jcabi-manifests</artifactId>
-            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>

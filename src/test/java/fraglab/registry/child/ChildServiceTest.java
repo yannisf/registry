@@ -1,4 +1,4 @@
-package fraglab.registry.fraglab.registry.child;
+package fraglab.registry.child;
 
 import fraglab.registry.child.Child;
 import fraglab.registry.child.ChildJpaRepository;

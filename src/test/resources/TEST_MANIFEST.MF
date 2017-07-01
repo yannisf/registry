@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Built-By:   user
+Build-Time: 201707011657
+Created-By: Apache Maven 3.3.9
+Build-Jdk: 1.8.0_121
+Git-Rev: 9e6c55dc
+
