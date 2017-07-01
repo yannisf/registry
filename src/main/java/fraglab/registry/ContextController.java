@@ -20,6 +20,8 @@ public class ContextController extends BaseRestController {
 
     private static final String NAME_KEY = "name";
     private static final String AUTHORITIES_KEY = "authorities";
+    public static final String GIT_REV = "Git-Rev";
+    public static final String BUILD_TIME = "Build-Time";
 
     /**
      * Provides user information for logged in users from the security provider.
@@ -44,17 +46,18 @@ public class ContextController extends BaseRestController {
 
     @GetMapping(value = "/info")
     public Map<String, String> getBuildInfo() {
-        String gitHash = Manifests.read("git-hash");
+        String gitRevision = Manifests.read(GIT_REV);
+        String buildTimeStamp = Manifests.read(BUILD_TIME);
         String springProfile = System.getProperty("spring.profiles.active");
         String secureMode = System.getProperty("secure");
 
         Map<String, String> infoMap = new HashMap<>();
-        infoMap.put("git-hash", gitHash);
+        infoMap.put(GIT_REV, gitRevision);
+        infoMap.put(BUILD_TIME, buildTimeStamp);
         infoMap.put("spring-profile", springProfile);
         infoMap.put("secure", secureMode);
 
         return infoMap;
     }
-
 
 }

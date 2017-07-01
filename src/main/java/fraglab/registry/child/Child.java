@@ -7,6 +7,7 @@ import fraglab.registry.relationship.Relationship;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -83,6 +84,14 @@ public class Child extends Person {
 
     public void setRelationships(List<Relationship> relationships) {
         this.relationships = relationships;
+    }
+
+    public void addRelationship(Relationship relationship) {
+        if (this.relationships == null) {
+            this.relationships = new ArrayList<>();
+        }
+        relationships.add(relationship);
+        relationship.setChild(this);
     }
 
     @JsonIgnore

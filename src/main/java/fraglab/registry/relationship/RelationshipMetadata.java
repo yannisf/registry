@@ -13,6 +13,13 @@ public class RelationshipMetadata implements Serializable {
 
     private String notes;
 
+    public RelationshipMetadata() {
+    }
+
+    public RelationshipMetadata(RelationshipType type) {
+        this.type = type;
+    }
+
     public RelationshipType getType() {
         return type;
     }
