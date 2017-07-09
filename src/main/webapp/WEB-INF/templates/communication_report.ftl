@@ -53,22 +53,18 @@
                 <td class="name">${child.name}</td>
                 <td>
                     <ul>
-                        <#if (child.guardians)??>
-                            <#list child.guardians as guardian>
-                                <li>
-                                    ${guardian.name}
-                                    <strong style="font-size:5pt">${relationshipTypeMap[guardian.relationship]}</strong>
-                                    <#if (guardian.telephones)??>
-                                        <#list guardian.telephones as telephone>
-                                            |${telephone.number} <strong style="font-size:5pt">${phoneTypeMap[telephone.type]}</strong>
-                                        </#list>
-                                    </#if>
-                                </li>
-                            </#list>
-                        </#if>
+                        <#list child.guardians! as guardian>
+                            <li>
+                                ${guardian.name}
+                                <strong style="font-size:5pt">${relationshipTypeMap[guardian.relationship]}</strong>
+                                <#list guardian.telephones! as telephone>
+                                    |${telephone.number} <strong style="font-size:5pt">${phoneTypeMap[telephone.type]}</strong>
+                                </#list>
+                            </li>
+                        </#list>
                     </ul>
                 </td>
-                <td class="notes">${child.notes!''}</td>
+                <td class="notes">${child.notes!}</td>
             </tr>
             </#list>
         </tbody>

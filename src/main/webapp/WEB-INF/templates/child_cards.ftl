@@ -31,7 +31,7 @@
 
                 <tr>
                     <#list 0..1 as i>
-                    <td class="tablet-medium${mod!''}">
+                    <td class="tablet-medium${mod!}">
                         ${child.simpleName}<br/>
                         ${child.lastName}
                     </td>
@@ -39,7 +39,7 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2" class="tablet-large${mod!''}">
+                    <td colspan="2" class="tablet-large${mod!}">
                         ${child.simpleName}<br/>
                         ${child.lastName}
                     </td>
