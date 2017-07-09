@@ -6,13 +6,13 @@
 <head>
     <title>Πίνακας Επικοινωνίας</title>
     <link rel="stylesheet" type="text/css" href="${css}"/>
-    #if(${format}=="a3")
-    <style type="text/css">
-        @page {
-            size: A3;
-        }
-    </style>
-    #end
+    <#if format=="a3">
+        <style type="text/css">
+            @page {
+                size: A3;
+            }
+        </style>
+    </#if>
 </head>
 
 <body>
@@ -47,25 +47,30 @@
         </thead>
 
         <tbody>
-        #foreach ($child in $children)
+            <#list children as child>
             <tr>
-                <th>$foreach.count</th>
+                <th>${child?counter}</th>
                 <td class="name">${child.name}</td>
                 <td>
                     <ul>
-                        #foreach ($guardian in $child.guardians)
-                        <li>
-                            ${guardian.name} <strong style="font-size:5pt">${relationshipTypeMap[${guardian.relationship}]}</strong>
-                            #foreach ($telephone in $guardian.telephones)
-                            |$telephone.number <strong style="font-size:5pt">${phoneTypeMap[${telephone.type}]}</strong>
-                            #end
-                        </li>
-                        #end
+                        <#if (child.guardians)??>
+                            <#list child.guardians as guardian>
+                                <li>
+                                    ${guardian.name}
+                                    <strong style="font-size:5pt">${relationshipTypeMap[guardian.relationship]}</strong>
+                                    <#if (guardian.telephones)??>
+                                        <#list guardian.telephones as telephone>
+                                            |${telephone.number} <strong style="font-size:5pt">${phoneTypeMap[telephone.type]}</strong>
+                                        </#list>
+                                    </#if>
+                                </li>
+                            </#list>
+                        </#if>
                     </ul>
                 </td>
-                <td class="notes">$!{child.notes}</td>
+                <td class="notes">${child.notes!''}</td>
             </tr>
-        #end
+            </#list>
         </tbody>
     </table>
 </body>

@@ -1,9 +1,0 @@
-#foreach ($childKey in $childEmailContacts.keySet())
-$childKey
-------------------------------------------------------------
-#foreach ($contactKey    in $childEmailContacts[$childKey])
-$contactKey
-#end
-
-#end
-

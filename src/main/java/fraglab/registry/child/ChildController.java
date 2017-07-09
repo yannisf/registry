@@ -3,9 +3,9 @@ package fraglab.registry.child;
 import com.lowagie.text.DocumentException;
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +23,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/child")
@@ -32,7 +33,7 @@ public class ChildController extends BaseRestController {
     private static final int NAME_LENGTH_MOD_TRIGGER = 14;
     private static final String TEMPLATE_STYLE_MOD_PROPERTY = "mod";
     private static final String STYLE_MOD_VALUE = "-lg";
-    private static final String CHILD_CARDS_TEMPLATE = "/templates/child_cards.vm";
+    private static final String CHILD_CARDS_TEMPLATE = "child_cards.ftl";
     private static final String CHILD_CARDS_TEMPLATE_CSS = "/templates/child_cards.css";
 
     @Autowired
@@ -40,7 +41,7 @@ public class ChildController extends BaseRestController {
     ChildService childService;
 
     @Autowired
-    private VelocityEngine velocityEngine;
+    private Configuration freemarkerConfiguration;
 
     @Autowired
     private ITextRenderer iTextRenderer;
@@ -68,7 +69,7 @@ public class ChildController extends BaseRestController {
 
     @RequestMapping(value = "/{id}/cards", method = RequestMethod.GET)
     public void printCards(@PathVariable(value = "id") String id, HttpServletResponse response)
-            throws IOException, DocumentException, NotFoundException {
+            throws IOException, DocumentException, NotFoundException, TemplateException {
         response.addHeader("Content-Disposition", "attachment; filename=\"" + id + ".pdf\"");
         String content = processTemplate(id);
         streamReport(response, content);
@@ -82,7 +83,7 @@ public class ChildController extends BaseRestController {
         UriComponents uriComponents = uriComponentsBuilder.path("/child/photo/{photoId}").buildAndExpand(photoId);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriComponents.toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/photo/{photoId}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
@@ -98,18 +99,19 @@ public class ChildController extends BaseRestController {
         childService.deleteChildPhoto(id);
     }
 
-    private String processTemplate(String id) throws IOException, NotFoundException {
+    private String processTemplate(String id) throws IOException, NotFoundException, TemplateException {
         Child child = childService.find(id).orElseThrow(NotFoundException::new);
-        Template template = velocityEngine.getTemplate(CHILD_CARDS_TEMPLATE, "UTF-8");
-        VelocityContext context = createContext();
+        Template template = freemarkerConfiguration.getTemplate(CHILD_CARDS_TEMPLATE, "UTF-8");
+        Map<String, Object> context = createContext();
         context.put("child", child);
         modifyStyleForSize(child.getLastName(), context);
         StringWriter writer = new StringWriter();
-        template.merge(context, writer);
+        template.process(context, writer);
+        System.out.println(writer.toString());
         return writer.toString();
     }
 
-    private void modifyStyleForSize(String childLastName, VelocityContext context) {
+    private void modifyStyleForSize(String childLastName, Map<String, Object> context) {
         if (childLastName.length() >= NAME_LENGTH_MOD_TRIGGER) {
             context.put(TEMPLATE_STYLE_MOD_PROPERTY, STYLE_MOD_VALUE);
         }
@@ -121,8 +123,8 @@ public class ChildController extends BaseRestController {
         iTextRenderer.createPDF(response.getOutputStream());
     }
 
-    private VelocityContext createContext() throws IOException {
-        VelocityContext context = new VelocityContext();
+    private Map<String, Object> createContext() throws IOException {
+        Map<String, Object> context = new HashMap<>();
         context.put("css", getClasspathResource(CHILD_CARDS_TEMPLATE_CSS));
         return context;
     }

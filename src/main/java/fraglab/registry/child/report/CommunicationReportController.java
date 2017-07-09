@@ -4,9 +4,9 @@ import com.lowagie.text.DocumentException;
 import fraglab.registry.common.Telephone;
 import fraglab.registry.relationship.RelationshipType;
 import fraglab.web.NotFoundException;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController()
 @RequestMapping("/communication")
@@ -25,14 +27,19 @@ public class CommunicationReportController {
 
     @Resource(name = "reportRelationshipTypesGreekMap")
     Map<RelationshipType, String> reportRelationshipTypesGreekMap;
+
     @Resource(name = "reportTelephoneTypeGreekMap")
     Map<Telephone.Type, String> reportTelephoneTypeGreekMap;
+
     @Autowired
-    private VelocityEngine velocityEngine;
+    private Configuration freemarkerConfiguration;
+
     @Autowired
     private ITextRenderer iTextRenderer;
+
     @Autowired
     private ReportService reportService;
+
     @Autowired
     private ResourceLoader resourceLoader;
 
@@ -40,20 +47,20 @@ public class CommunicationReportController {
     public void table(@PathVariable(value = "id") String id,
                       @RequestParam(defaultValue = "a4", value = "format", required = false) String format,
                       HttpServletResponse response)
-            throws IOException, DocumentException, NotFoundException {
+            throws IOException, DocumentException, NotFoundException, TemplateException {
         response.addHeader("Content-Disposition", "attachment; filename=\"" + id + ".pdf\"");
         String content = processTemplate(id, format);
         streamReport(response, content);
     }
 
-    private String processTemplate(String id, String format) throws IOException, NotFoundException {
-        Template template = velocityEngine.getTemplate("/templates/communication_report.vm", "UTF-8");
-        VelocityContext context = createContext();
+    private String processTemplate(String id, String format) throws IOException, NotFoundException, TemplateException {
+        Template template = freemarkerConfiguration.getTemplate("communication_report.ftl");
+        Map<String, Object> context = createContext();
         context.put("format", format);
         context.put("schoolData", reportService.getSchoolDataForChildGroup(id));
         context.put("children", reportService.getReportChildrenForChildGroup(id));
         StringWriter writer = new StringWriter();
-        template.merge(context, writer);
+        template.process(context, writer);
         return writer.toString();
     }
 
@@ -63,11 +70,18 @@ public class CommunicationReportController {
         iTextRenderer.createPDF(response.getOutputStream());
     }
 
-    private VelocityContext createContext() throws IOException {
-        VelocityContext context = new VelocityContext();
+    private Map<String, Object> createContext() throws IOException {
+        Map<String, Object> context = new HashMap<>();
         context.put("css", getClasspathResource("/templates/communication_report.css"));
-        context.put("relationshipTypeMap", reportRelationshipTypesGreekMap);
-        context.put("phoneTypeMap", reportTelephoneTypeGreekMap);
+
+        //TODO: make freemarker understand enums
+        context.put("relationshipTypeMap", reportRelationshipTypesGreekMap.entrySet().stream()
+                .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue)));
+
+        //TODO: make freemarker understand enums
+        context.put("phoneTypeMap", reportTelephoneTypeGreekMap.entrySet().stream()
+                .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue)));
+
         return context;
     }
 

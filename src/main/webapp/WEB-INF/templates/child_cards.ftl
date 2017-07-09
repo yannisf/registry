@@ -17,29 +17,29 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2" class="full$!{mod}">${child.informalFullName}</td>
+                    <td colspan="2" class="full${mod!''}">${child.informalFullName}</td>
                 </tr>
 
                 <tr>
-                    #foreach ($i in [1..2])
-                    <td class="tablet-small$!{mod}">
+                    <#list 0..1 as i>
+                    <td class="tablet-small${mod!''}">
                         ${child.simpleName}<br/>
                         ${child.lastName}
                     </td>
-                    #end
+                    </#list>
                 </tr>
 
                 <tr>
-                    #foreach ($i in [1..2])
-                    <td class="tablet-medium$!{mod}">
+                    <#list 0..1 as i>
+                    <td class="tablet-medium${mod!''}">
                         ${child.simpleName}<br/>
                         ${child.lastName}
                     </td>
-                    #end
+                    </#list>
                 </tr>
 
                 <tr>
-                    <td colspan="2" class="tablet-large$!{mod}">
+                    <td colspan="2" class="tablet-large${mod!''}">
                         ${child.simpleName}<br/>
                         ${child.lastName}
                     </td>

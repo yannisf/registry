@@ -3,6 +3,6 @@
 *.log
 *.log-*
 /target
-/src/main/webapp
+/src/main/webapp/*
 !/src/main/webapp/META-INF
 !/src/main/webapp/WEB-INF

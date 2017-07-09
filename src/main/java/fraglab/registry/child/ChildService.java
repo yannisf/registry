@@ -1,5 +1,8 @@
 package fraglab.registry.child;
 
+import freemarker.template.TemplateException;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,7 +21,7 @@ public interface ChildService {
 
     Map<String, List<String>> findEmailsForGroup(String groupId);
 
-    String emailsForGroup(String groupId);
+    String emailsForGroup(String groupId) throws IOException, TemplateException;
 
     Optional<ChildPhoto> findChildPhoto(String id);
 

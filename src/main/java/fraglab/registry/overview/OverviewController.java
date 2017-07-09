@@ -8,6 +8,7 @@ import fraglab.registry.group.GroupStatistics;
 import fraglab.registry.school.School;
 import fraglab.web.BaseRestController;
 import fraglab.web.NotFoundException;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -102,7 +103,7 @@ public class OverviewController extends BaseRestController {
     }
 
     @GetMapping(value = "/group/{groupId}/emails", produces = "text/plain; charset=UTF-8")
-    public void findGroupEmails(@PathVariable String groupId, HttpServletResponse response) throws IOException {
+    public void findGroupEmails(@PathVariable String groupId, HttpServletResponse response) throws IOException, TemplateException {
         byte[] result = childService.emailsForGroup(groupId).getBytes();
         response.addHeader("Content-Disposition", "attachment; filename=\"" + groupId + ".txt\"");
         response.addHeader("Content-Length", String.valueOf(result.length));

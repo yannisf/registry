@@ -6,10 +6,10 @@ import fraglab.registry.group.GroupJpaRepository;
 import fraglab.registry.relationship.Relationship;
 import fraglab.registry.relationship.RelationshipType;
 import fraglab.web.NotIdentifiedException;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,7 +47,7 @@ public class ChildServiceImpl implements ChildService {
     private AddressService addressService;
 
     @Autowired
-    private VelocityEngine velocityEngine;
+    private Configuration freemarkerConfiguration;
 
     @Override
     public Optional<Child> find(String id) {
@@ -59,7 +60,7 @@ public class ChildServiceImpl implements ChildService {
             throw new NotIdentifiedException();
         }
 
-        Child childToSave = null;
+        Child childToSave;
         Child foundChild = childJpaRepository.findOne(child.getId());
         if (foundChild != null) {
             bindSubmittedToFound(child, foundChild);
@@ -121,12 +122,12 @@ public class ChildServiceImpl implements ChildService {
     }
 
     @Override
-    public String emailsForGroup(String groupId) {
-        Template template = velocityEngine.getTemplate("/templates/group_contacts.vm", "UTF-8");
-        VelocityContext context = new VelocityContext();
+    public String emailsForGroup(String groupId) throws IOException, TemplateException {
+        Template template = freemarkerConfiguration.getTemplate("group_contacts.ftl");
+        Map<String, Object> context = new HashMap<>();
         context.put("childEmailContacts", findEmailsForGroup(groupId));
         StringWriter writer = new StringWriter();
-        template.merge(context, writer);
+        template.process(context, writer);
         return writer.toString();
 
     }
@@ -135,7 +136,7 @@ public class ChildServiceImpl implements ChildService {
     public Optional<ChildPhoto> findChildPhoto(String id) {
         ChildPhoto childPhoto = childPhotoJpaRepository.findOne(id);
         if (childPhoto != null) {
-            return Optional.ofNullable(childPhoto);
+            return Optional.of(childPhoto);
         } else {
             return Optional.empty();
         }
