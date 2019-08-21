@@ -14,7 +14,7 @@ Before deploying the application a Postgres database schema must created. Just f
 
 . Connect to postgres using `psql`
 [source,sh]
-# psql --host=localhost --port=5432 --username=postgres
+$ psql --host=localhost --port=5432 --username=postgres
 . Create the application user
 [source,sql]
 CREATE USER registry PASSWORD 'registry' createdb;
@@ -87,7 +87,7 @@ When deploying a *production* build a _JNDI datasource_ is required. For tomcat 
 To build the application the user interface (client) and server must be built individually. The client exists in a seperate repository.
 
 === Server
-For the server build, maven is used. The build is profile based with profiles: *local_ds*, *jndi_ds*, *bundle*, *deploy* and *jrebel*.
+For the server build, maven is used. The build is profile based with profiles: *local_ds*, *jndi_ds*, *bundle* and *deploy*.
 
 ==== local_ds vs jndi_jd
 The *local_ds* profile uses a Spring configured datasource, while the *jndi_ds* profile, expects a JNDI datasource to be in place when deploying. These two profiles should be considered as mutually exclusive.
@@ -99,9 +99,6 @@ This profile instructs the build to include an already built and installed in th
 
 ==== deploy
 Deploys the application during the _package_ phase to a configured Tomcat instance, using the tomcat _manager_ application, as configured in _pom.xml_.
-
-==== jrebel
-Enables the _jrebel_ plugin for fast redeployments
 
 ===  System properties
 The application accepts two system properties:
