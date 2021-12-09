@@ -19,7 +19,7 @@
         <spring-security.version>4.2.13.RELEASE</spring-security.version>
         <spring-data-jpa.version>1.11.21.RELEASE</spring-data-jpa.version>
         <postgres.jdbc.version>42.2.6</postgres.jdbc.version>
-        <jackson-databind.version>2.8.11.4</jackson-databind.version>
+        <jackson-databind.version>2.9.10.8</jackson-databind.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.manager.url>http://telesto:8080/manager/text</tomcat.manager.url>
